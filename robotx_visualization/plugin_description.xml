@@ -1,0 +1,7 @@
+<library path="lib/librobotx_visualization">
+  <class name="robotx_visualization/OverlayGpsDisplay" type="robotx_visualization::OverlayGpsDisplay" base_class_type="rviz::Display">
+    <description>
+      display sensor_msgs/NavSatFix message
+    </description>
+  </class>
+</library>

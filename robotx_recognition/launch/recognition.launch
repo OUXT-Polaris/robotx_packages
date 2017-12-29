@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <rosparam command="load" file="$(find robotx_recognition)/config/robotx_recognition.yaml" ns="object_recognition_node"/>
+
+  <node name="object_recognition_node" pkg="robotx_recognition" type="object_recognition_node" args="" output="screen" respawn="true">
+  </node>
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro --check-order $(find robotx_description)/robots/wam-v.urdf.xacro"/>
+  <include file="$(find robotx_control)/launch/wam-v_control.launch"/>
+</launch>

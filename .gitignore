@@ -1,0 +1,5 @@
+*.blend1
+*.pyc
+/robotx_visualization/data
+/robotx_visualization/config/google_statc_map_api_key.yaml
+/robotx_control/data
