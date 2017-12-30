@@ -12,6 +12,7 @@ heartbeat_publisher::heartbeat_publisher()
   nh_.param<double>(ros::this_node::getName()+"/publish_rate", publish_rate_, 1);
   client_ = new tcp_client(io_service_,ip_address_,port_);
   io_service_.run();
+  connection_status_pub_ = nh_.advertise<robotx_msgs::TechnicalDirectorNetworkStatus>(ros::this_node::getName()+"/connection_status", 1);
   tcp_thread = boost::thread(&heartbeat_publisher::publish_heartbeat_message, this);
   heartbeat_sub_ = nh_.subscribe(ros::this_node::getName()+"/heartbeat", 1, &heartbeat_publisher::heartbeat_callback, this);
 }
@@ -26,6 +27,7 @@ void heartbeat_publisher::publish_heartbeat_message()
   ros::Rate loop_rate(publish_rate_);
   while(ros::ok())
   {
+    publish_connection_status_message();
     mtx_.lock();
     if(message_recieved_ == true)
     {
@@ -87,4 +89,21 @@ void heartbeat_publisher::update_heartbeat_message()
   tcp_send_msg_ = tcp_send_msg_ + std::to_string(heartbeat_msg_.vehicle_mode) + ",";
   tcp_send_msg_ = tcp_send_msg_ + std::to_string(heartbeat_msg_.current_task_number);
   tcp_send_msg_ = "$" + tcp_send_msg_ + "*" + generate_checksum(tcp_send_msg_.c_str());
+}
+
+void heartbeat_publisher::publish_connection_status_message()
+{
+  bool connection_status = client_->get_connection_status();
+  robotx_msgs::TechnicalDirectorNetworkStatus connection_status_msg;
+  if(connection_status == true)
+  {
+    connection_status_msg.status = connection_status_msg.CONNECTED;
+  }
+  else
+  {
+    connection_status_msg.status = connection_status_msg.CONNECTION_LOST;
+  }
+  connection_status_msg.port = port_;
+  connection_status_msg.ip_address = ip_address_;
+  connection_status_pub_.publish(connection_status_msg);
 }

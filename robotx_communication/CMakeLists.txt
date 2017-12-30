@@ -133,7 +133,7 @@ include_directories(
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-set(heartbeat_publisher_node_src src/heartbeat_publisher.cpp src/heartbeat_publisher_node.cpp src/tcp_client.cpp)
+set(heartbeat_publisher_node_src src/heartbeat_publisher_node.cpp src/heartbeat_publisher.cpp src/tcp_client.cpp)
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context

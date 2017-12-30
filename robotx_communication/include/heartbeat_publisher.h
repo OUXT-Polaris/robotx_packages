@@ -4,6 +4,7 @@
 //headers in this package
 #include <tcp_client.h>
 #include <robotx_msgs/Heartbeat.h>
+#include <robotx_msgs/TechnicalDirectorNetworkStatus.h>
 
 //headers in ros
 #include <ros/ros.h>
@@ -24,6 +25,7 @@ public:
 private:
   boost::thread tcp_thread;
   void heartbeat_callback(const robotx_msgs::Heartbeat::ConstPtr& msg);
+  void publish_connection_status_message();
   void publish_heartbeat_message();
   void update_heartbeat_message();
   std::string generate_checksum(const char *data);
@@ -33,6 +35,8 @@ private:
   robotx_msgs::Heartbeat heartbeat_msg_;
   std::string tcp_send_msg_;
   std::mutex mtx_;
+  //members for publish connection status
+  ros::Publisher connection_status_pub_;
   //parametes for heartbeat connection
   tcp_client* client_;
   boost::asio::io_service io_service_;

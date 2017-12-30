@@ -6,6 +6,7 @@
 
 tcp_client::tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port):io_service_(io_service),socket_(io_service)
 {
+  connection_status_ = false;
   ip_address_ = ip_address;
   port_ = port;
   connect();
@@ -28,10 +29,12 @@ void tcp_client::on_connect(const boost::system::error_code& error)
 {
   if(error)
   {
+    connection_status_ = false;
     ROS_ERROR_STREAM("connect failed : " << error.message());
   }
   else
   {
+    connection_status_ = true;
     ROS_INFO_STREAM("connected");
   }
 }

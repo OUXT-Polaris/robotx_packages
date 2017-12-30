@@ -55,6 +55,7 @@ add_message_files(
   Object.msg
   Objects.msg
   Heartbeat.msg
+  TechnicalDirectorNetworkStatus.msg
 )
 
 ## Generate services in the 'srv' folder
