@@ -18,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
   robotx_visualization
   nmea_msgs
   hector_gazebo_plugins
+  gazebo_ros
+  gazebo_ros_control
 )
 
 ## System dependencies are found with CMake's conventions
