@@ -1,5 +1,6 @@
 //headers in this package
 #include <euclidean_clustering.h>
+#include <robotx_msgs/EuclideanClusters.h>
 
 //headers in boost
 #include <boost/function.hpp>
@@ -7,6 +8,7 @@
 
 euclidean_clustering::euclidean_clustering()
 {
+  pointcloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(ros::this_node::getName()+"/clusters/pointcloud", 1);
   ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
   ros::param::param<int>(ros::this_node::getName()+"/max_cluster_size", max_cluster_size_, 1000);
   ros::param::param<double>(ros::this_node::getName()+"/cluster_tolerance", cluster_tolerance_, 1);
@@ -101,5 +103,8 @@ void euclidean_clustering::make_cluster()
       pcl_pointcloud->points[(*clusters)[i].indices[j]].intensity = label;
     }
   }
+  sensor_msgs::PointCloud2 pointcloud_msg;
+  pcl::toROSMsg(*pcl_pointcloud, pointcloud_msg);
+  pointcloud_pub_.publish(pointcloud_msg);
   ROS_INFO_STREAM(clusters->size() << " clusters are found!!");
 }

@@ -1,7 +1,7 @@
 #ifndef EUCLIDEAN_CLUSTERING_H_INCLUDED
 #define EUCLIDEAN_CLUSTERING_H_INCLUDED
 
-//headers for ros
+//headers in ros
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
 
@@ -22,6 +22,7 @@ public:
 private:
   void poincloud_callback(sensor_msgs::PointCloud2 msg);
   void make_cluster();
+  ros::Publisher pointcloud_pub_;
   ros::Subscriber pointcloud_sub_;
   ros::NodeHandle nh_;
   sensor_msgs::PointCloud2 pointcloud_;
