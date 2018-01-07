@@ -8,6 +8,7 @@
 
 euclidean_clustering::euclidean_clustering()
 {
+  clusters_pub_ = nh_.advertise<robotx_msgs::EuclideanClusters>(ros::this_node::getName()+"/clusters", 1);
   pointcloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(ros::this_node::getName()+"/clusters/pointcloud", 1);
   ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
   ros::param::param<int>(ros::this_node::getName()+"/max_cluster_size", max_cluster_size_, 1000);
@@ -95,16 +96,23 @@ void euclidean_clustering::make_cluster()
       pcl_pointcloud->points[(*large_clusters)[i].indices[j]].intensity = +10.0;
     }
   }
+  robotx_msgs::EuclideanClusters clusters_msg;
   for (int i = 0; i < clusters->size(); ++i)
   {
+    pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_pointcloud_clusterd(new pcl::PointCloud<pcl::PointXYZI>);
     int label = rand () % 8;
     for (int j = 0; j < (*clusters)[i].indices.size(); ++j)
     {
       pcl_pointcloud->points[(*clusters)[i].indices[j]].intensity = label;
     }
+    pcl_pointcloud_clusterd->points = pcl_pointcloud->points;
+    sensor_msgs::PointCloud2 pointcloud_clusterd_msg;
+    pcl::toROSMsg(*pcl_pointcloud_clusterd, pointcloud_clusterd_msg);
+    clusters_msg.clusters.push_back(pointcloud_clusterd_msg);
   }
   sensor_msgs::PointCloud2 pointcloud_msg;
   pcl::toROSMsg(*pcl_pointcloud, pointcloud_msg);
   pointcloud_pub_.publish(pointcloud_msg);
+  clusters_pub_.publish(clusters_msg);
   ROS_INFO_STREAM(clusters->size() << " clusters are found!!");
 }

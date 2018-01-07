@@ -22,7 +22,7 @@ public:
 private:
   void poincloud_callback(sensor_msgs::PointCloud2 msg);
   void make_cluster();
-  ros::Publisher pointcloud_pub_;
+  ros::Publisher pointcloud_pub_,clusters_pub_;
   ros::Subscriber pointcloud_sub_;
   ros::NodeHandle nh_;
   sensor_msgs::PointCloud2 pointcloud_;
