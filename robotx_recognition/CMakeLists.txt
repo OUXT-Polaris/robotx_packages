@@ -138,8 +138,14 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(object_recognition_node src/object_recognition_node.cpp src/pcl_object_recognition src/object_model.cpp)
+
+set(object_recognition_src src/object_recognition_node.cpp src/pcl_object_recognition.cpp src/object_model.cpp)
+add_executable(object_recognition_node ${object_recognition_src})
 add_dependencies(object_recognition_node robotx_msgs_generate_messages_cpp)
+
+set(euclidean_clustering_src src/euclidean_clustering_node.cpp src/euclidean_clustering.cpp)
+add_executable(euclidean_clustering_node ${euclidean_clustering_src})
+add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,6 +159,7 @@ add_dependencies(object_recognition_node robotx_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
+target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##

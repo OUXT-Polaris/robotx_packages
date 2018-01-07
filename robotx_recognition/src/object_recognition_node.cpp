@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-  ros::init(argc, argv, "robotx_map_server_node");
+  ros::init(argc, argv, "robotx_object_recognition_node");
   pcl_object_recognition object_recognition;
   ros::spin();
   return 0;

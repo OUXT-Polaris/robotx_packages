@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-
+<!--
   <rosparam command="load" file="$(find robotx_recognition)/config/robotx_recognition.yaml" ns="object_recognition_node"/>
 
   <node name="object_recognition_node" pkg="robotx_recognition" type="object_recognition_node" args="" output="screen" respawn="true">
+  </node>
+-->
+  <rosparam command="load" file="$(find robotx_recognition)/config/euclidean_clustering.yaml" ns="euclidean_clustering_node"/>
+
+  <node name="euclidean_clustering_node" pkg="robotx_recognition" type="euclidean_clustering_node" args="" output="screen" respawn="true">
   </node>
 </launch>
