@@ -140,6 +140,7 @@ set(heartbeat_publisher_node_src src/heartbeat_publisher_node.cpp src/heartbeat_
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/robotx_communication_node.cpp)
 add_executable(heartbeat_publisher_node ${heartbeat_publisher_node_src})
+add_dependencies(heartbeat_publisher_node robotx_msgs_generate_messages_cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
