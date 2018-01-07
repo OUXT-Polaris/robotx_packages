@@ -64,6 +64,7 @@
   <exec_depend>hector_gazebo_plugins</exec_depend>
   <exec_depend>velodyne_description</exec_depend>
   <exec_depend>velodyne_gazebo_plugins</exec_depend>
+  <exec_depend>gazebo_ros_control</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

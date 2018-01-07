@@ -13,40 +13,40 @@ wam_v:
     joint: left_motor_joint
     pid: {p: 100.0, i: 0.01, d: 10.0}
   # driving force controllers ----------------------------------
-  right_driving_force_controller:
-    type: driving_force_controller/DrivingForceController
-    twist_topic: /wam_v/twist
-    motor_command_topic: /wam_v/right_motor_controller/command
-    driving_force_command_topic: /wam_v/ship_controller/right_driving_force
-    characteristic_curve_file_name: right_motor
-    max_rotational_speed: 10
-    min_rotational_speed: -10
-    gradient_descent:
-      tolerance: 0.0001
-      alpha: 0.1
-    propeller:
-      turning_radius: 0.2
-      k2: 1
-      k1: 1
-      k0: 1
-      fluid_density: 998.233
-  left_driving_force_controller:
-    type: driving_force_controller/DrivingForceController
-    twist_topic: /wam_v/twist
-    motor_command_topic:  /wam_v/left_motor_controller/command
-    driving_force_command_topic: /wam_v/ship_controller/left_driving_force
-    characteristic_curve_file_name: left_motor
-    max_rotational_speed: 10
-    min_rotational_speed: -10
-    gradient_descent:
-      tolerance: 0.0001
-      alpha: 0.1
-    propeller:
-      turning_radius: 0.2
-      k2: 1
-      k1: 1
-      k0: 1
-      fluid_density: 998.233
+  #right_driving_force_controller:
+    #type: driving_force_controller/DrivingForceController
+    #twist_topic: /wam_v/twist
+    #motor_command_topic: /wam_v/right_motor_controller/command
+    #driving_force_command_topic: /wam_v/ship_controller/right_driving_force
+    #characteristic_curve_file_name: right_motor
+    #max_rotational_speed: 10
+    #min_rotational_speed: -10
+    #gradient_descent:
+      #tolerance: 0.0001
+      #alpha: 0.1
+    #propeller:
+      #turning_radius: 0.2
+      #k2: 1
+      #k1: 1
+      #k0: 1
+      #fluid_density: 998.233
+  #left_driving_force_controller:
+    #type: driving_force_controller/DrivingForceController
+    #twist_topic: /wam_v/twist
+    #motor_command_topic:  /wam_v/left_motor_controller/command
+    #driving_force_command_topic: /wam_v/ship_controller/left_driving_force
+    #characteristic_curve_file_name: left_motor
+    #max_rotational_speed: 10
+    #min_rotational_speed: -10
+    #gradient_descent:
+      #tolerance: 0.0001
+      #alpha: 0.1
+    #propeller:
+      #turning_radius: 0.2
+      #k2: 1
+      #k1: 1
+      #k0: 1
+      #fluid_density: 998.233
   # ship controllers -------------------------------------------
   #ship_controller:
     #type: ship_controller/ShipController
