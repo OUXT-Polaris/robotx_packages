@@ -14,7 +14,13 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/console/time.h>
 #include <pcl/filters/voxel_grid.h>
+#include <pcl/filters/passthrough.h>
 #include <pcl/features/moment_of_inertia_estimation.h>
+
+//headers for openMP
+#ifdef _OEPNMP
+#include <omp.h>
+#endif
 
 class voxelchain_input_generator
 {
@@ -28,5 +34,7 @@ private:
   std::array<pcl::PointXYZ,2> get_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr clusterd_pointcloud);
   ros::Subscriber euclidean_clusters_sub_;
   ros::NodeHandle nh_;
+  //paremters
+  int threshold_;
 };
 #endif  //VOXELCHAIN_INPUT_GENERATOR_H_INCLUDED
