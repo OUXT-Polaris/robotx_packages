@@ -57,6 +57,7 @@ add_message_files(
   Heartbeat.msg
   TechnicalDirectorNetworkStatus.msg
   EuclideanClusters.msg
+  VoxelChainInput.msg
 )
 
 ## Generate services in the 'srv' folder
