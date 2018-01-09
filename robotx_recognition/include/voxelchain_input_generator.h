@@ -14,6 +14,7 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/console/time.h>
 #include <pcl/filters/voxel_grid.h>
+#include <pcl/features/moment_of_inertia_estimation.h>
 
 class voxelchain_input_generator
 {
@@ -24,6 +25,7 @@ public:
 private:
   robotx_msgs::VoxelChainInput generate_voxel_chain_input(sensor_msgs::PointCloud2 cluster_pointcloud);
   pcl::PointCloud<pcl::PointXYZ>::Ptr get_pcl_pointcloud(sensor_msgs::PointCloud2 pointcloud_msg);
+  std::array<pcl::PointXYZ,2> get_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr clusterd_pointcloud);
   ros::Subscriber euclidean_clusters_sub_;
   ros::NodeHandle nh_;
 };
