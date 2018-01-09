@@ -58,6 +58,7 @@ add_message_files(
   TechnicalDirectorNetworkStatus.msg
   EuclideanClusters.msg
   VoxelChainInput.msg
+  VoxelChainInputs.msg
 )
 
 ## Generate services in the 'srv' folder
