@@ -30,9 +30,9 @@ robotx_msgs::VoxelChainInput voxelchain_input_generator::generate_voxel_chain_in
   robotx_msgs::VoxelChainInput voxel_chain_input;
   pcl::PointCloud<pcl::PointXYZ>::Ptr target_pointcloud = get_pcl_pointcloud(cluster_pointcloud);
   std::array<pcl::PointXYZ,2> bounding_box = get_bounding_box(target_pointcloud);
-  double x_resolution = (bounding_box[0].x-bounding_box[1].x)/voxel_chain_input.NUMBER_OF_PARTITIONS;
-  double y_resolution = (bounding_box[0].y-bounding_box[1].y)/voxel_chain_input.NUMBER_OF_PARTITIONS;
-  double z_resolution = (bounding_box[0].z-bounding_box[1].z)/voxel_chain_input.NUMBER_OF_PARTITIONS;
+  double x_resolution = (bounding_box[1].x-bounding_box[0].x)/voxel_chain_input.NUMBER_OF_PARTITIONS;
+  double y_resolution = (bounding_box[1].y-bounding_box[0].y)/voxel_chain_input.NUMBER_OF_PARTITIONS;
+  double z_resolution = (bounding_box[1].z-bounding_box[0].z)/voxel_chain_input.NUMBER_OF_PARTITIONS;
   voxel_chain_input.bounding_box.min_point.x = bounding_box[0].x;
   voxel_chain_input.bounding_box.min_point.y = bounding_box[0].y;
   voxel_chain_input.bounding_box.min_point.z = bounding_box[0].z;
