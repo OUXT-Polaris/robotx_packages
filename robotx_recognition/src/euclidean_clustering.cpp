@@ -108,6 +108,7 @@ void euclidean_clustering::make_cluster()
     pcl_pointcloud_clusterd->points = pcl_pointcloud->points;
     sensor_msgs::PointCloud2 pointcloud_clusterd_msg;
     pcl::toROSMsg(*pcl_pointcloud_clusterd, pointcloud_clusterd_msg);
+    pointcloud_clusterd_msg.header = pointcloud_.header;
     clusters_msg.clusters.push_back(pointcloud_clusterd_msg);
   }
   sensor_msgs::PointCloud2 pointcloud_msg;

@@ -89,6 +89,7 @@ std::array<pcl::PointXYZ,2> voxelchain_input_generator::get_bounding_box(pcl::Po
   std::array<pcl::PointXYZ,2> bounding_box;
   pcl::MomentOfInertiaEstimation <pcl::PointXYZ> feature_extractor;
   feature_extractor.setInputCloud(clusterd_pointcloud);
+  feature_extractor.compute();
   pcl::PointXYZ min_point,max_point;
   feature_extractor.getAABB(min_point, max_point);
   bounding_box[0] = min_point;
