@@ -5,6 +5,7 @@
 voxelchain_input_generator::voxelchain_input_generator()
 {
   nh_.param<int>(ros::this_node::getName()+"/threshold", threshold_, 1);
+  voxel_chain_input_pub_ = nh_.advertise<robotx_msgs::VoxelChainInputs>(ros::this_node::getName()+"/voxelchain_input", 1);
   euclidean_clusters_sub_ = nh_.subscribe(ros::this_node::getName()+"/clusters", 1,
     &voxelchain_input_generator::euclidean_clusters_callback, this);
 }
@@ -21,6 +22,7 @@ void voxelchain_input_generator::euclidean_clusters_callback(robotx_msgs::Euclid
   {
     voxel_chain_inputs.inputs.push_back(generate_voxel_chain_input(*clusterd_pointcloud_ptr));
   }
+  voxel_chain_input_pub_.publish(voxel_chain_inputs);
 }
 
 robotx_msgs::VoxelChainInput voxelchain_input_generator::generate_voxel_chain_input(sensor_msgs::PointCloud2 cluster_pointcloud)

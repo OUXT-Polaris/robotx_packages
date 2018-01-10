@@ -33,6 +33,7 @@ private:
   pcl::PointCloud<pcl::PointXYZ>::Ptr get_pcl_pointcloud(sensor_msgs::PointCloud2 pointcloud_msg);
   std::array<pcl::PointXYZ,2> get_bounding_box(pcl::PointCloud<pcl::PointXYZ>::Ptr clusterd_pointcloud);
   ros::Subscriber euclidean_clusters_sub_;
+  ros::Publisher voxel_chain_input_pub_;
   ros::NodeHandle nh_;
   //paremters
   int threshold_;
