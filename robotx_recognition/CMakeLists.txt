@@ -18,6 +18,12 @@ find_package(catkin REQUIRED COMPONENTS
   robotx_msgs
 )
 
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -147,6 +153,10 @@ set(euclidean_clustering_src src/euclidean_clustering_node.cpp src/euclidean_clu
 add_executable(euclidean_clustering_node ${euclidean_clustering_src})
 add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
 
+set(voxelchain_input_generator_src src/voxelchain_input_generator_node.cpp src/voxelchain_input_generator.cpp)
+add_executable(voxelchain_input_generator_node ${voxelchain_input_generator_src})
+add_dependencies(voxelchain_input_generator_node robotx_msgs_generate_messages_cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -160,6 +170,7 @@ add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
+target_link_libraries(voxelchain_input_generator_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##

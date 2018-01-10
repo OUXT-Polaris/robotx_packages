@@ -10,4 +10,8 @@
 
   <node name="euclidean_clustering_node" pkg="robotx_recognition" type="euclidean_clustering_node" args="" output="screen" respawn="true">
   </node>
+
+  <node name="voxelchain_input_generator_node" pkg="robotx_recognition" type="voxelchain_input_generator_node" args="" output="screen" respawn="true">
+    <remap from="/voxelchain_input_generator_node/clusters" to="/euclidean_clustering_node/clusters"/>
+  </node>
 </launch>
