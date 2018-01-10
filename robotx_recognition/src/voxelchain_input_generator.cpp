@@ -31,6 +31,13 @@ robotx_msgs::VoxelChainInput voxelchain_input_generator::generate_voxel_chain_in
   double x_resolution = (bounding_box[0].x-bounding_box[1].x)/voxel_chain_input.NUMBER_OF_PARTITIONS;
   double y_resolution = (bounding_box[0].y-bounding_box[1].y)/voxel_chain_input.NUMBER_OF_PARTITIONS;
   double z_resolution = (bounding_box[0].z-bounding_box[1].z)/voxel_chain_input.NUMBER_OF_PARTITIONS;
+  voxel_chain_input.bounding_box.min_point.x = bounding_box[0].x;
+  voxel_chain_input.bounding_box.min_point.y = bounding_box[0].y;
+  voxel_chain_input.bounding_box.min_point.z = bounding_box[0].z;
+  voxel_chain_input.bounding_box.max_point.x = bounding_box[1].x;
+  voxel_chain_input.bounding_box.max_point.y = bounding_box[1].y;
+  voxel_chain_input.bounding_box.max_point.z = bounding_box[1].z;
+  voxel_chain_input.bounding_box.header = cluster_pointcloud.header;
   #pragma omp parallel for
   for(int x_index = 0; x_index < voxel_chain_input.NUMBER_OF_PARTITIONS; x_index++)
   {
