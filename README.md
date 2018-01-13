@@ -20,5 +20,4 @@ branch for developing each feature
 #### /devel/fix/(bug_name)
 branch for fixing each bug
 
-/devel/feature/(feature_name) and /devel/fix/(bug_name) feature branch merged to /devel branch fast.
-Then, merge /devel branch to /master branc
+/devel/feature/(feature_name) and /devel/fix/(bug_name) feature branch merged to /master branch
