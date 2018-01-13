@@ -4,4 +4,21 @@ This packages include Simulation,Remote Viewer, Control System, etc...
 
 # how to launch
 ## Simulation
-roslaunch robotx_gazebo_plugins wam-v_gazebo.launch  
+roslaunch robotx_gazebo_plugins wam-v_gazebo.launch
+
+# branch model
+
+#### /master
+branch for competitions (all nodes should be work completely)
+
+#### /devel
+branch for development (include under developing nodes)
+
+#### /devel/feature/(feature_name)
+branch for developing each feature
+
+#### /devel/fix/(bug_name)
+branch for fixing each bug
+
+/devel/feature/(feature_name) and /devel/fix/(bug_name) feature branch merged to /devel branch fast.
+Then, merge /devel branch to /master branc
