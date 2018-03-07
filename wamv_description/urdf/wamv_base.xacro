@@ -286,4 +286,11 @@
     <child link="gps"/>
   </joint>
 
+  <link name="imu"/>
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="-0.3 0 1.5"/>
+    <parent link="base_link"/>
+    <child link="imu"/>
+  </joint>
+
 </robot>
