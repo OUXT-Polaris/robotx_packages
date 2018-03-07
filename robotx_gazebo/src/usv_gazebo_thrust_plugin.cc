@@ -255,7 +255,7 @@ void UsvThrust::UpdateChild()
   link_->AddForceAtRelativePosition(inputforce3,relpos);
 }
 
-void UsvThrust::OnCmdDrive( const robotx_gazebo::UsvDriveConstPtr &msg)
+void UsvThrust::OnCmdDrive( const robotx_msgs::UsvDriveConstPtr &msg)
 {
     last_cmd_drive_time_ = this->world_->GetSimTime();
     last_cmd_drive_left_ = msg->left;
@@ -269,4 +269,3 @@ void UsvThrust::spin()
 }
 
 GZ_REGISTER_MODEL_PLUGIN(UsvThrust);
-

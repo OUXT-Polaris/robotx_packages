@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   wamv_description
+  robotx_msgs
 )
 
 ## Gazebo
@@ -36,18 +37,18 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS} -std=c++11 -Wall -We
 ########################
 
 # Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  UsvDrive.msg
-)
+#add_message_files(
+#  FILES
+#  UsvDrive.msg
+#)
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  geometry_msgs
-  nav_msgs
-  std_msgs
-)
+#generate_messages(
+#  DEPENDENCIES
+#  geometry_msgs
+#  nav_msgs
+#  std_msgs
+#)
 
 ###################################
 ## catkin specific configuration ##
@@ -107,6 +108,8 @@ install(TARGETS usv_gazebo_dynamics_plugin
 add_library(usv_gazebo_thrust_plugin
   src/usv_gazebo_thrust_plugin.cc
 )
+add_dependencies(usv_gazebo_thrust_plugin robotx_msgs)
+add_dependencies(usv_gazebo_thrust_plugin robotx_msgs_generate_messages_cpp)
 target_link_libraries(usv_gazebo_thrust_plugin
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}

@@ -60,6 +60,7 @@ add_message_files(
   EuclideanClusters.msg
   VoxelChainInput.msg
   VoxelChainInputs.msg
+  UsvDrive.msg
 )
 
 ## Generate services in the 'srv' folder
