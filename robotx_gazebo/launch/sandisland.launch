@@ -57,5 +57,8 @@
       <param name="input_msg_type" value="ModelStates" />
       <param name="modelstates_index" value="6" type="int" />
   </node>
-
+  
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" ns="/wam_v">
+  </node>
 </launch>
