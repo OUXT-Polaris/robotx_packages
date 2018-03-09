@@ -34,4 +34,10 @@
       <pose>0 0 0 0 0 0</pose>
     </sensor>
   </gazebo>
+  <gazebo>
+    <plugin name="usv_twist_sensor_plugin" filename="libusv_twist_sensor_plugin.so">
+      <targetLink>base_footprint</targetLink>
+      <publishRate>50</publishRate>
+    </plugin>
+  </gazebo>
 </robot>
