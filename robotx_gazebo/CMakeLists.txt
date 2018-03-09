@@ -136,6 +136,21 @@ install(TARGETS usv_gazebo_wind_plugin
   RUNTIME DESTINATION bin
 )
 
+## Declare a C++ library
+add_library(usv_twist_sensor_plugin
+  src/usv_twist_sensor_plugin.cc
+)
+target_link_libraries(usv_twist_sensor_plugin
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+  ${Eigen_LIBRARIES}
+)
+install(TARGETS usv_twist_sensor_plugin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
 #############
 ## Install ##
 #############
