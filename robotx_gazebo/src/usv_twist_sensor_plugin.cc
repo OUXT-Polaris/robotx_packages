@@ -1,5 +1,6 @@
 //headers for stl
 #include <sstream>
+#include <random>
 //headers for gazebo
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/Model.hh>
@@ -46,9 +47,9 @@ class twist_sensor_plugin : public ModelPlugin
     while(ros::ok())
     {
       geometry_msgs::Twist twist_msg;
-      twist_msg.linear.x = linear_vel.x;
-      twist_msg.linear.y = linear_vel.y;
-      twist_msg.angular.z = angular_vel.z;
+      twist_msg.linear.x = linear_vel.x + distribution(generator);
+      twist_msg.linear.y = linear_vel.y + distribution(generator);
+      twist_msg.angular.z = angular_vel.z + distribution(generator);
       twist_pub.publish(twist_msg);
       loop_rate.sleep();
     }
@@ -113,6 +114,8 @@ class twist_sensor_plugin : public ModelPlugin
   private: math::Vector3 angular_vel;
   private: math::Vector3 linear_vel;
   private: event::ConnectionPtr update_connection;
+  private: std::default_random_engine generator;
+  private: std::normal_distribution<double> distribution;
 };
 
 GZ_REGISTER_MODEL_PLUGIN(twist_sensor_plugin)
