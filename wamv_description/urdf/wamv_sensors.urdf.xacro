@@ -38,6 +38,7 @@
     <plugin name="usv_twist_sensor_plugin" filename="libusv_twist_sensor_plugin.so">
       <targetLink>base_footprint</targetLink>
       <publishRate>50</publishRate>
+      <sensorNoiseVariance>0.1</sensorNoiseVariance>
     </plugin>
   </gazebo>
 </robot>

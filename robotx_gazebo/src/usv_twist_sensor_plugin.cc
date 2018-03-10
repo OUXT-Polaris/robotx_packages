@@ -27,7 +27,7 @@ class twist_sensor_plugin : public ModelPlugin
   {
     this->model = _parent;
     this->LoadParams(sdf,"targetLink",this->target_link,std::string("base_link"));
-    this->LoadParams(sdf,"targetLink",this->sensor_noise_variance,0.1);
+    this->LoadParams(sdf,"sensorNoiseVariance",this->sensor_noise_variance,0.1);
     this->LoadParams(sdf,"publishRate",this->publish_rate,50.0);
     this->link = this->model->GetLink(target_link);
     twist_pub = nh.advertise<geometry_msgs::Twist>("/vel", 1);
@@ -44,6 +44,8 @@ class twist_sensor_plugin : public ModelPlugin
   public: void publish_twist()
   {
     ros::Rate loop_rate(this->publish_rate);
+    std::default_random_engine generator;
+    std::normal_distribution<double> distribution(0,this->sensor_noise_variance);
     while(ros::ok())
     {
       geometry_msgs::Twist twist_msg;
@@ -114,8 +116,6 @@ class twist_sensor_plugin : public ModelPlugin
   private: math::Vector3 angular_vel;
   private: math::Vector3 linear_vel;
   private: event::ConnectionPtr update_connection;
-  private: std::default_random_engine generator;
-  private: std::normal_distribution<double> distribution;
 };
 
 GZ_REGISTER_MODEL_PLUGIN(twist_sensor_plugin)
