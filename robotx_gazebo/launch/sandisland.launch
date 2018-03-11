@@ -20,12 +20,12 @@
   <arg name="microstrain" default="false" />
 
   <!-- Initial USV location and attitude-->
-  <arg name="x" default="0" />
-  <arg name="y" default="0" />
+  <arg name="x" default="-45" />
+  <arg name="y" default="-10" />
   <arg name="z" default="0.1" />
   <arg name="P" default="0" />
   <arg name="R" default="0" />
-  <arg name="Y" default="0" />
+  <arg name="Y" default="1.57079632679" />
 
 
   <param name="use_sim_time" value="true" />
@@ -57,7 +57,7 @@
       <param name="input_msg_type" value="ModelStates" />
       <param name="modelstates_index" value="6" type="int" />
   </node>
-  
+
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" ns="/wam_v">
   </node>
