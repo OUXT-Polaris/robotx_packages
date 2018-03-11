@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <rosparam command="load" file="$(find robotx_recognition)/config/hsv_bouy_detector_config.yaml" ns="hsv_buoy_detector_node"/>
+
+  <node name="hsv_buoy_detector_node" pkg="robotx_recognition" type="hsv_buoy_detector_node" args="" output="screen" respawn="true">
+  </node>
+</launch>

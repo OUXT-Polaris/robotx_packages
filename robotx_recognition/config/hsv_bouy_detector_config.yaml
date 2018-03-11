@@ -1,0 +1,14 @@
+red_buoy:
+  min_h: 177.3
+  max_h: 2.34
+  min_s: 98.43
+  max_s: 255.0
+  min_v: 120.615
+  max_v: 255.0
+green_buoy:
+  min_h: 32.76
+  max_h: 75.78
+  min_s: 102.255
+  max_s: 255.0
+  min_v: 77.265
+  max_v: 255.0
