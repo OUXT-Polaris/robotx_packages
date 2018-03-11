@@ -21,6 +21,9 @@
   <node name="motor_command_sender" pkg="robotx_navigation" type="motor_command_sender.py" args="" output="screen" respawn="true">
   </node>
 
+  <node name="test_cmd_vel_publisher" pkg="robotx_navigation" type="test_cmd_vel_publisher.py" args="" output="screen" respawn="true">
+  </node>
+
   <node name="robotx_control_node" pkg="robotx_control" type="robotx_control_node" args="" output="screen" respawn="true">
   </node>
 
