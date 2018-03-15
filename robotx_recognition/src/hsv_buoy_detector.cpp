@@ -7,6 +7,7 @@
 
 hsv_buoy_detector::hsv_buoy_detector():it_(nh_)
 {
+  objects2d_pub_ = nh_.advertise<robotx_msgs::Objects2D>(ros::this_node::getName()+"/result", 1000);
   XmlRpc::XmlRpcValue parameters;
   nh_.getParam(ros::this_node::getName(), parameters);
   for(auto threshold_param_itr = parameters.begin(); threshold_param_itr != parameters.end(); ++threshold_param_itr)
@@ -18,7 +19,7 @@ hsv_buoy_detector::hsv_buoy_detector():it_(nh_)
       threshold_param_itr->second["min_area"],threshold_param_itr->second["max_area"]);
     threashold_params.push_back(threashold_param);
   }
-  image_sub_ = it_.subscribe("/wam_v/front_camera/image_raw", 1, &hsv_buoy_detector::image_callback, this);
+  image_sub_ = it_.subscribe(ros::this_node::getName()+"/image_raw", 1, &hsv_buoy_detector::image_callback, this);
 }
 
 hsv_buoy_detector::~hsv_buoy_detector()
@@ -42,12 +43,25 @@ void hsv_buoy_detector::image_callback(const sensor_msgs::ImageConstPtr& msg)
   cv::Mat hsv_image;
   cv::cvtColor(src_image, hsv_image, CV_RGB2HSV, 3);
   masked_images_ = std::vector<cv::Mat>(threashold_params.size());
+  robotx_msgs::Objects2D objects2d_msg;
   //generate masked images for all objects and calculate contours
   for(int i = 0;i < masked_images_.size();i++)
   {
     double min_h,max_h,min_s,max_s,min_v,max_v;
     threashold_params[i].get_threshold(min_h,max_h,min_s,max_s,min_v,max_v);
-    cv::inRange(hsv_image, cv::Scalar(min_h, min_s, min_v, 0) , cv::Scalar(max_h, max_s, max_v, 0), masked_images_[i]);
+    //cv::inRange(hsv_image, cv::Scalar(min_h, min_s, min_v, 0) , cv::Scalar(max_h, max_s, max_v, 0), masked_images_[i]);
+    if(min_h < max_h)
+    {
+      cv::inRange(hsv_image, cv::Scalar(min_h, min_s, min_v, 0) , cv::Scalar(max_h, max_s, max_v, 0), masked_images_[i]);
+    }
+    else
+    {
+      cv::Mat lower_image;
+      cv::inRange(hsv_image, cv::Scalar(min_h, min_s, min_v, 0) , cv::Scalar(255, max_s, max_v, 0), lower_image);
+      cv::Mat upper_image;
+      cv::inRange(hsv_image, cv::Scalar(0, min_s, min_v, 0) , cv::Scalar(max_h, max_s, max_v, 0), upper_image);
+      cv::bitwise_or(lower_image, upper_image, masked_images_[i]);
+    }
     std::vector<std::vector<cv::Point> > contours;
     cv::findContours(masked_images_[i],contours,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE);
     double min_area,max_area;
@@ -58,20 +72,19 @@ void hsv_buoy_detector::image_callback(const sensor_msgs::ImageConstPtr& msg)
       std::vector<cv::Point> approx;
       approxPolyDP(*itr, approx, 5, true);
       double area = contourArea(approx);
-      if(max_area != 0)
+      if(max_area >= area && area >= min_area)
       {
-        if(max_area >= area && area >= min_area)
-        {
-          cv::boundingRect(approx);
-        }
-      }
-      else
-      {
-        if(area >= min_area)
-        {
-          cv::boundingRect(approx);
-        }
+        cv::Rect bbox_rect = cv::boundingRect(approx);
+        robotx_msgs::Object2D object2d_msg;
+        object2d_msg.type = threashold_params[i].target_buoy_name;
+        object2d_msg.boundingbox.header = msg->header;
+        object2d_msg.boundingbox.corner_point_0[0] = bbox_rect.x;
+        object2d_msg.boundingbox.corner_point_0[1] = bbox_rect.y;
+        object2d_msg.boundingbox.corner_point_1[0] = bbox_rect.x + bbox_rect.width;
+        object2d_msg.boundingbox.corner_point_1[1] = bbox_rect.y + bbox_rect.height;
+        objects2d_msg.objects.push_back(object2d_msg);
       }
     }
   }
+  objects2d_pub_.publish(objects2d_msg);
 }

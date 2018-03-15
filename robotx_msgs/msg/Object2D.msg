@@ -1,2 +1,2 @@
 string type
-robotx_msgs/BoundingBox2D boudingbox
+robotx_msgs/BoundingBox2D boundingbox

@@ -15,6 +15,8 @@ public:
     this->max_s = max_s;
     this->min_v = min_v;
     this->max_v = max_v;
+    this->min_area = min_area;
+    this->max_area = max_area;
   }
   void get_threshold(double& min_h,double& max_h,double& min_s,double& max_s,double& min_v,double& max_v)
   {
