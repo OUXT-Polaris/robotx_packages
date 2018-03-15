@@ -1,3 +1,5 @@
+input_topic: /wam_v/front_camera/image_raw
+#if max_area set 0 it equals as INF
 red_buoy:
   min_h: 177.3
   max_h: 2.34
@@ -5,6 +7,8 @@ red_buoy:
   max_s: 255.0
   min_v: 120.615
   max_v: 255.0
+  min_area: 500
+  max_area: 0
 green_buoy:
   min_h: 32.76
   max_h: 75.78
@@ -12,3 +16,5 @@ green_buoy:
   max_s: 255.0
   min_v: 77.265
   max_v: 255.0
+  min_area: 500
+  max_area: 0

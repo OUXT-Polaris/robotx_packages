@@ -7,6 +7,7 @@
 int main(int argc, char *argv[])
 {
   ros::init(argc, argv, "hsv_buoy_detector_node");
+  hsv_buoy_detector detector;
   ros::spin();
   return 0;
 }

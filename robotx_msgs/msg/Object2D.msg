@@ -1,0 +1,2 @@
+string type
+robotx_msgs/BoundingBox2D boudingbox

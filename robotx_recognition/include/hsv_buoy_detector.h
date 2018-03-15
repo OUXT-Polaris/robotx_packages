@@ -3,6 +3,7 @@
 
 //headers in this package
 #include <hsv_threshold.h>
+#include <robotx_msgs/Objects2D.h>
 
 //headers in ROS
 #include <ros/ros.h>
@@ -19,9 +20,11 @@ public:
   ~hsv_buoy_detector();
 private:
   void image_callback(const sensor_msgs::ImageConstPtr& msg);
+  std::vector<cv::Mat> masked_images_;
   ros::NodeHandle nh_;
   std::vector<hsv_threshold> threashold_params;
   image_transport::ImageTransport it_;
   image_transport::Subscriber image_sub_;
+  ros::Publisher objects2d_pub_;
 };
 #endif

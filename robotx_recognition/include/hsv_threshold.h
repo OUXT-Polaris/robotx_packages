@@ -6,7 +6,8 @@
 class hsv_threshold
 {
 public:
-  hsv_threshold(std::string name,double min_h,double max_h,double min_s,double max_s,double min_v,double max_v):target_buoy_name(name)
+  hsv_threshold(std::string name,double min_h,double max_h,double min_s,double max_s,double min_v,double max_v,double min_area,double max_area)
+    :target_buoy_name(name)
   {
     this->min_h = min_h;
     this->max_h = max_h;
@@ -24,6 +25,11 @@ public:
     min_v = this->min_v;
     max_v = this->max_v;
   }
+  void get_area_threshold(double& min_area,double& max_area)
+  {
+    min_area = this->min_area;
+    max_area = this->max_area;
+  }
   const std::string target_buoy_name;
 private:
   double min_h;
@@ -32,6 +38,8 @@ private:
   double max_s;
   double min_v;
   double max_v;
+  double min_area;
+  double max_area;
 };
 
 #endif
