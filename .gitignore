@@ -4,3 +4,4 @@
 /robotx_visualization/config/google_statc_map_api_key.yaml
 *.bag
 matlab_gen
+.vscode
