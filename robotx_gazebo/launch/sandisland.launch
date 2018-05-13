@@ -51,12 +51,14 @@
   <!--<include file="$(find robotx_gazebo)/launch/usv_diffdrive.launch"/>-->
 
   <!-- Utility for publishing rpy for plotting -->
+  <!--
   <node pkg="robotx_gazebo" type="quat2rpy.py" name="quat2rpy" output="screen">
       <remap from="in_topic" to="/gazebo/model_states" />
       <remap from="out_topic" to="wamv_rpy" />
       <param name="input_msg_type" value="ModelStates" />
       <param name="modelstates_index" value="6" type="int" />
   </node>
+  -->
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" ns="/wam_v">
