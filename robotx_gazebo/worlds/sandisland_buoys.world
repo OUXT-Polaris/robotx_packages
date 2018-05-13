@@ -26,14 +26,12 @@
     </gui>
 
      
-    <!-- The models below should be included in kingfisher_gazebo package -->
+    <!--
     <include>
-      <!-- Note - the pose tag doesn't seem to work for heightmaps, so you need
-      to go into the model file to change the altitutde/height!-->
       <pose> 50 50 10 0 0 0 </pose>
       <uri>model://models/sandisland</uri>
-      <!--<uri>model://models/lake</uri>-->
     </include>
+    -->
 
     <!-- Should be at the same height as the water level in USV and buoyancy 
     plugin configurations -->
