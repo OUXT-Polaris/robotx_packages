@@ -61,7 +61,7 @@
   <run_depend>robotx_msgs</run_depend>
   <run_depend>image_transport</run_depend>
   <run_depend>cv_bridge</run_depend>
-
+  <run_depend>jsk_rviz_plugins</run_depend>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
