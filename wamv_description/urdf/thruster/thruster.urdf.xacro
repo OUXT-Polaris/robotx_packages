@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find wamv_description)/urdf/data/common.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/thruster/thruster.transmission.xacro"/>
+  
+  <xacro:macro name="thruster_v0" params="prefix prefix_factor">
+    <link name="${prefix}_thruster_link">
+      <!-- Visual -->
+      <visual>
+        <origin xyz="-2.5045 1.02714 -0.14563" rpy="0 0 ${pi}"/>
+        <geometry>
+          <mesh filename="package://wamv_description/mesh/base/WAMV-Thruster.dae"/>
+        </geometry>
+      </visual>
+      <!-- Collision -->
+      <collision name="${prefix}_thruster_vertical_axis">
+        <origin xyz="0.045 ${prefix_factor*-0.003} -0.240"/>
+        <geometry>
+          <box size="0.2 0.15 0.46"/>
+        </geometry>
+      </collision>
+      <collision name="${prefix}_thruster_propeller">
+        <origin xyz="0.235 ${prefix_factor*-0.003} -0.345" rpy="0 ${pi/2} 0"/>
+        <geometry>
+          <cylinder length="0.18" radius="0.24"/>
+        </geometry>
+      </collision>
+      <!-- Inertial -->
+      <inertial name="${prefix}_thruster_vertical_axis">
+        <origin xyz="0.045 ${prefix_factor*-0.003} -0.240"/>
+        <xacro:box_inertial mass="2.5" height="0.2" width="0.15" depth="0.46"/>
+      </inertial>
+      <inertial name="${prefix}_thruster_propeller">
+        <origin xyz="0.235 ${prefix_factor*-0.003} -0.345" rpy="0 ${pi/2} 0"/>
+        <xacro:cylinder_inertial mass="0.5" length="0.18" radius="0.24"/>
+      </inertial>
+    </link>
+    <joint name="${prefix}_thruster_joint" type="revolute">
+      <origin xyz="-2.5045 ${prefix_factor*1.02714} 0.14563" rpy="0 0 ${pi}"/>"
+      <parent link="base_link"/>
+      <child link="${prefix}_thruster_link"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7" friction="0.7"/>
+      <limit effort="10.0" lower="${-3*pi/4}" upper="${3*pi/4}" velocity="${pi/2}"/>
+    </joint>
+
+    <!-- Transmission -->
+    <xacro:thruster_transmission_v0 prefix="${prefix}"/>
+  </xacro:macro>
+
+</robot>

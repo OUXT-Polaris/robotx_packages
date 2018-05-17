@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+
+  <xacro:macro name="thruster_transmission_v0" params="prefix">
+    <transmission name="${prefix}_thruster__transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_thruster_joint">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="$[prefix]_thruster_actuator">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>30</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+  
+</robot>
+
