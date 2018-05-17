@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/camera/camera.urdf.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/gps/gps.urdf.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/imu/imu.urdf.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/twist/twist.urdf.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/velodyne/velodyne.urdf.xacro"/>
+
+  <!-- Camera -->
+  <xacro:camera_v0 prefix="front">
+    <origin xyz="0.5 0 1.5"/>
+  </xacro:camera_v0>
+  <xacro:camera_v0 prefix="left">
+    <origin xyz="0 0.5 1.5" rpy="0 0 ${pi/2}"/>
+  </xacro:camera_v0>
+  <xacro:camera_v0 prefix="right">
+    <origin xyz="0 -0.5 1.5" rpy="0 0 ${-pi/2}"/>h
+  </xacro:camera_v0>
+  <xacro:camera_v0 prefix="rear">
+    <origin xyz="-0.5 0 1.5" rpy="0 0 ${pi}"/>
+  </xacro:camera_v0>
+  <!-- GPS -->
+  <xacro:gps_v0/>
+  <!-- IMU -->
+  <xacro:imu_v0/>
+  <!-- Twist -->
+  <xacro:twist_v0/>
+  <!-- Velodyne -->
+  <xacro:velodyne_v0/>
+  
+</robot>
