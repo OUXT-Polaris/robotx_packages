@@ -1,20 +1,8 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro"
-       name="WAM-V">
-  <!-- Defines the base vehicle -->
-  <xacro:include filename="$(find wamv_description)/urdf/wamv_base.xacro" />
-  <xacro:include filename="$(find wamv_description)/urdf/wamv_sensors.urdf.xacro" />
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="WAM-V">
+  <!-- Defines the basic WAM-V -->
+  <xacro:include filename="$(find wamv_description)/urdf/wamv_basic.xacro"/>
 
-  <!-- Attach hydrodynamics plugin -->
-  <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_dynamics_plugin.xacro" />
-  <xacro:usv_dynamics_gazebo name="wamv_dynamics_plugin"/>
-
-  <!-- Attach wind plugin -->
-  <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_wind_plugin.xacro" />
-  <xacro:usv_wind_gazebo name="wamv_wind_plugin"/>
-
-  <!-- Attach thrust plugin -->
-  <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_thrust_plugin.xacro" />
-  <xacro:usv_thrust_gazebo name="wamv_thrust_plugin"/>
-
+  <!-- Defines Sensors -->
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/sensors.urdf.xacro"/>
 </robot>
