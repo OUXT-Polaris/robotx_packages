@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/camera/camera.gazebo.xacro"/>
+
+  <xacro:macro name="camera_v0" params="prefix *origin">
+    <!-- Link & Joint -->
+    <link name="${prefix}_camera_link"/>
+    <joint name="${prefix}_camera_joint" type="fixed">
+      <insert_block name="origin"/>
+      <parent link="base_link"/>
+      <child link="${prefix}_camera_link"/>
+    </joint>
+    <!-- Gazebo -->
+    <xacro:camera_gazebo_v0 prefix="${prefix}"/>
+  </xacro:macro>
+  
+</robot>
