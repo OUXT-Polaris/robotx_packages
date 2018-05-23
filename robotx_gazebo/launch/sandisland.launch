@@ -61,6 +61,16 @@
   -->
 
   <!-- convert joint states to TF transforms for rviz, etc -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" ns="/wam_v">
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
   </node>
+
+  <!-- Joint Controller -->
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find robotx_gazebo)/config/joint_control.yaml" command="load"/>
+  <!-- load the controllers -->
+  <node name="wamv_controller_spawner" pkg="controller_manager"
+		type="spawner" output="screen"
+		args="joint_state_controller
+			  left_thruster_position_controller
+              right_thruster_position_controller"/>    
 </launch>

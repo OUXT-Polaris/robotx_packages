@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/gps/gps.gazebo.xacro"/>
+
+  <xacro:macro name="gps_v0">
+    <!-- Link & Joint -->
+    <link name="gps"/>
+    <joint name="gps_joint" type="fixed">
+      <origin xyz="0 0 1.5"/>
+      <parent link="base_link"/>
+      <child link="gps"/>
+    </joint>
+    <!-- Gazebo -->
+    <xacro:gps_gazebo_v0/>  
+  </xacro:macro>
+
+</robot>

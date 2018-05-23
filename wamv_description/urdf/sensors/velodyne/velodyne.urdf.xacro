@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+
+  <xacro:macro name="velodyne_v0">
+    <!-- Velodyne Link+Joint+Plugin -->
+    <xacro:VLP-16 parent="base_link" name="velodyne"
+                  topic="/velodyne_points"
+                  hz="10" samples="440">
+      <origin xyz="0.5 0 1.8" rpy="0 0 0" />
+    </xacro:VLP-16>
+    <!-- Scan Link & Joint -->
+    <link name="scan"/>
+    <joint name="scan_joint" type="fixed">
+      <origin xyz="1.5 0 -1" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="scan"/>
+    </joint>    
+  </xacro:macro>
+  
+</robot>
