@@ -143,11 +143,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 set(PYTHON_SCRPTS scripts/twist2drive_diff scripts/twist2drive_keyboard src/quat2rpy)
 foreach(scripts ${PYTHON_SCRIPTS})
   catkin_install_python(PROGRAMS ${scripts}
-    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})wamv_glf_annote.png
-  -rw-rw-r--  1 ryodo ryodo 152697  5月  2 06:34 wamv_glf.png
-  -rw-rw-r--  1 ryodo ryodo    221  5月  2 06:34 wamv_tcurve_nohead.csv
-
-  )
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 endforeach(scripts)
 
 # Install all files
