@@ -14,9 +14,8 @@ notifications:
   slack: ouxt-polaris-2018:NclavkPPXCVkysAoOTr47aUg
 env:		
   global:		
-    - CATKIN_PARALLEL_TEST_JOBS=-p1		
-    - ROS_PARALLEL_TEST_JOBS=-j`nproc`		
-    - UPSTREAM_WORKSPACE=file
+    - CATKIN_PARALLEL_TEST_JOBS=-p1
+    - ROS_PARALLEL_TEST_JOBS=-j`nproc`
     
   matrix:		
     - ROS_DISTRO=kinetic ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu
