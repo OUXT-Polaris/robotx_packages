@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robotx_gazebo)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   gazebo_plugins
@@ -32,28 +29,6 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS} -std=c++11 -Wall -Wextra")
 
-########################
-## Message generation ##
-########################
-
-# Generate messages in the 'msg' folder
-#add_message_files(
-#  FILES
-#  UsvDrive.msg
-#)
-
-## Generate added messages and services with any dependencies listed here
-#generate_messages(
-#  DEPENDENCIES
-#  geometry_msgs
-#  nav_msgs
-#  std_msgs
-#)
-
-###################################
-## catkin specific configuration ##
-###################################
-
 catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS roscpp message_runtime std_msgs geometry_msgs nav_msgs
@@ -63,7 +38,6 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-
 include_directories( include
   ${catkin_INCLUDE_DIRS}
   ${GAZEBO_INCLUDE_DIRS}
