@@ -39,6 +39,29 @@ target_link_libraries(geographic_map_server_node ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############
+# CPP codes
+set(NODE_FILES twist_from_fix_velocity_node robotx_map_server_node geographic_map_server_node)
+foreach(nodes ${NODE_FILES})
+  install(TARGETS ${nodes}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    )
+endforeach(nodes)
+install(DIRECTORY include/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  )
+
+# Python scripts
+set(PYTHON_SCRPTS scripts/joy_to_cmd scripts/motor_command_sender scripts/test_cmd_vel_publisher scripts/world_frame_publisher)
+foreach(scripts ${PYTHON_SCRIPTS})
+  catkin_install_python(PROGRAMS ${scripts}
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+endforeach(scripts)
+
+# Install all files
+foreach(dir launch)
+  install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)
 
 #############
 ## Testing ##
