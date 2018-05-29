@@ -20,6 +20,8 @@
   <exec_depend>gazebo_plugins</exec_depend>
   <exec_depend>velodyne_description</exec_depend>
   <exec_depend>velodyne_gazebo_plugins</exec_depend>
+  <exec_depend>gazebo_ros</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
   
   <export>
     <build_depend>hector_gazebo_plugins</build_depend>
