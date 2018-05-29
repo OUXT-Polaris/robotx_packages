@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   robotx_msgs
   tf
   tf2_ros
+  tf2_geometry_msgs
   pcl_ros
 )
 

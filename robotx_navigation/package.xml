@@ -19,6 +19,7 @@
   <build_depend>tf</build_depend>
   <build_depend>tf2_ros</build_depend>
   <build_depend>tf2_sensor_msgs</build_depend>
+  <build_depend>tf2_geometry_msgs</build_depend>
   <build_depend>pcl_ros</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>robotx_msgs</build_depend>
@@ -31,6 +32,7 @@
   <run_depend>tf</run_depend>
   <run_depend>tf2_ros</run_depend>
   <run_depend>tf2_sensor_msgs</run_depend>
+  <run_depend>tf2_geometry_msgs</run_depend>
   <run_depend>pcl_ros</run_depend>
   <run_depend>visualization_msgs</run_depend>
   <run_depend>robotx_msgs</run_depend>
