@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
   <include file="$(find robotx_gazebo)/launch/sandisland.launch"/>
-  <include file="$(find robotx_recognition)/launch/hsv_bouy_detector.launch"/>
+  <include file="$(find robotx_recognition)/launch/hsv_buoy_detector.launch"/>
   <include file="$(find robotx_visualization)/launch/visualization.launch"/>
 </launch>
