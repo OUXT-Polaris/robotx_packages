@@ -24,8 +24,8 @@
   <node name="test_cmd_vel_publisher" pkg="robotx_navigation" type="test_cmd_vel_publisher.py" args="" output="screen" respawn="true">
   </node>
 
-  <node name="robotx_control_node" pkg="robotx_control" type="robotx_control_node" args="" output="screen" respawn="true">
-  </node>
+  <!-- <node name="robotx_control_node" pkg="robotx_control" type="robotx_control_node" args="" output="screen" respawn="true"> -->
+  <!-- </node> -->
 
 <!--
   <node name="world_frame_publisher" pkg="robotx_navigation" type="world_frame_publisher.py" args="" output="screen" respawn="true">
