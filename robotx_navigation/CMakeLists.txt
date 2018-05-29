@@ -52,7 +52,7 @@ install(DIRECTORY include/
   )
 
 # Python scripts
-set(PYTHON_SCRPTS scripts/joy_to_cmd scripts/motor_command_sender scripts/test_cmd_vel_publisher scripts/world_frame_publisher)
+set(PYTHON_SCRPTS scripts/joy_to_cmd.py scripts/motor_command_sender.py scripts/test_cmd_vel_publisher.py scripts/world_frame_publisher.py)
 foreach(scripts ${PYTHON_SCRIPTS})
   catkin_install_python(PROGRAMS ${scripts}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

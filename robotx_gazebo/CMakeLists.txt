@@ -140,7 +140,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 )
 
 # Python scripts
-set(PYTHON_SCRPTS scripts/twist2drive_diff scripts/twist2drive_keyboard src/quat2rpy)
+set(PYTHON_SCRPTS scripts/twist2drive_diff.py scripts/twist2drive_keyboard.py src/quat2rpy.py)
 foreach(scripts ${PYTHON_SCRIPTS})
   catkin_install_python(PROGRAMS ${scripts}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
