@@ -63,8 +63,30 @@ target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 #############
 ## Install ##
 #############
+# CPP Execution programs
+set(CPP_EXEC_NAMES object_recognition_node euclidean_clustering_node voxelchain_input_generator_node hsv_bouy_detector_node)
+foreach(cpp_exec_names ${CPP_EXEC_NAMES})
+  install(TARGETS ${cpp_exec_names}
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+    )
+endforeach(cpp_exec_names)
+# include header files
+install(DIRECTORY include/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
 
+# Install all files
+foreach(dir config data launch)
+  install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+endforeach(dir)
 
 #############
 ## Testing ##
 #############
+if (CATKIN_ENABLE_TESTING)
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch)
+endif()
