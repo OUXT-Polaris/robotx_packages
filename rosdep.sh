@@ -6,3 +6,4 @@ rosdep install robotx_recognition --rosdistro kinetic -y
 rosdep install robotx_visualization --rosdistro kinetic -y
 rosdep install robotx_communication --rosdistro kinetic -y
 sudo apt install ros-kinetic-tf2-sensor-msgs
+sudo apt install ros-kinetic-gazebo-ros*
