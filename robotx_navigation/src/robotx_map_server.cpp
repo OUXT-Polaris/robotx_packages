@@ -53,7 +53,7 @@ void robotx_map_server::pointcloud_callback(sensor_msgs::PointCloud2 input_cloud
   pcl::fromROSMsg(input_cloud, *pcl_input_cloud);
   coefficients_buoy_.clear();
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_buoy(new pcl::PointCloud<pcl::PointXYZ> ());
-  //detect and segment bouys
+  //detect and segment buoys
   /*
   do
   {

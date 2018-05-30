@@ -17,25 +17,32 @@
   <depend>cmake_modules</depend>
   <depend>gazebo_plugins</depend>
   <depend>gazebo_ros</depend>
+  <depend>gazebo_ros_control</depend>
   <depend>geometry_msgs</depend>
   <depend>hector_gazebo_plugins</depend>
-  <depend>message_generation</depend>
-  <depend>nav_msgs</depend>
-  <depend>roscpp</depend>
-  <depend>std_msgs</depend>
-  <depend>wamv_description</depend>
+  
   <depend>controller_manager</depend>
   <depend>controller_interface</depend>
   <depend>robot_state_publisher</depend>
   <depend>ros_controllers</depend>
   <depend>ros_control</depend>
-  <depend>gazebo_ros_control</depend>
   <depend>joint_state_controller</depend>
   <depend>diff_drive_controller</depend>
   <depend>position_controllers</depend>
-
+  
+  <depend>message_generation</depend>
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>nav_msgs</depend>
+  
+  <depend>wamv_description</depend>
+  <depend>robotx_recognition</depend>
+  <depend>robotx_visualization</depend>
 
   <exec_depend>message_runtime</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>joy_teleop</exec_depend>
+  <exec_depend>teleop_twist_keyboard</exec_depend>
 
   <export>
     <!-- This tells gazebo to look in the catkin_package path for resources
