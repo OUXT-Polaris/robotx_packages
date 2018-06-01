@@ -23,6 +23,7 @@ private:
     image_transport::ImageTransport _it;
     image_transport::Subscriber _image_sub;
     ros::Publisher _bbox_pub;
+    int _max_num_bbox;
 };
 
 #endif  //BING_OBJECT_DETECTION_H_INCLUDED
