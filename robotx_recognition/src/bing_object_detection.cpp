@@ -66,4 +66,16 @@ void bing_object_detection::_image_callback(const sensor_msgs::ImageConstPtr& ms
         }
     }
     _bbox_pub.publish(bbox_msg);
+
+    //visualize bbox
+    /*
+    for(int i= 0; i<bbox_msg.bounding_boxes.size(); i++)
+    {
+        cv::rectangle(image, 
+            cv::Point(bbox_msg.bounding_boxes[i].corner_point_0[0],bbox_msg.bounding_boxes[i].corner_point_0[1]),
+            cv::Point(bbox_msg.bounding_boxes[i].corner_point_1[0],bbox_msg.bounding_boxes[i].corner_point_1[1]), cv::Scalar(0,0,200), 1, 4);
+    }
+    cv::imshow("test",image);
+    cv::waitKey(3);
+    */
 }
