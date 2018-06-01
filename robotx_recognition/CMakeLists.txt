@@ -54,11 +54,16 @@ set(hsv_buoy_detector_src src/hsv_buoy_detector_node.cpp src/hsv_buoy_detector.c
 add_executable(hsv_buoy_detector_node ${hsv_buoy_detector_src})
 add_dependencies(hsv_buoy_detector_node robotx_msgs_generate_messages_cpp)
 
+set(bing_object_detection_node_src src/bing_object_detection_node.cpp src/bing_object_detection.cpp)
+add_executable(bing_object_detection_node ${bing_object_detection_node_src})
+add_dependencies(bing_object_detection_node robotx_msgs_generate_messages_cpp)
+
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
 target_link_libraries(voxelchain_input_generator_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 #############
 ## Install ##
