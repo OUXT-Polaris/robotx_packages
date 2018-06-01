@@ -69,7 +69,7 @@ target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LI
 ## Install ##
 #############
 # CPP Execution programs
-set(CPP_EXEC_NAMES object_recognition_node euclidean_clustering_node voxelchain_input_generator_node hsv_buoy_detector_node)
+set(CPP_EXEC_NAMES object_recognition_node euclidean_clustering_node voxelchain_input_generator_node hsv_buoy_detector_node bing_object_detection_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
