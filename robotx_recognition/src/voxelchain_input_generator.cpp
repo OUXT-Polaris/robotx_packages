@@ -39,7 +39,7 @@ robotx_msgs::VoxelChainInput voxelchain_input_generator::generate_voxel_chain_in
   voxel_chain_input.bounding_box.max_point.x = bounding_box[1].x;
   voxel_chain_input.bounding_box.max_point.y = bounding_box[1].y;
   voxel_chain_input.bounding_box.max_point.z = bounding_box[1].z;
-  voxel_chain_input.bounding_box.header = cluster_pointcloud.header;
+  //voxel_chain_input.bounding_box.header = cluster_pointcloud.header;
   #pragma omp parallel for
   for(int x_index = 0; x_index < voxel_chain_input.NUMBER_OF_PARTITIONS; x_index++)
   {

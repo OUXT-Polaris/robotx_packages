@@ -13,7 +13,7 @@ euclidean_clustering::euclidean_clustering()
   ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
   ros::param::param<int>(ros::this_node::getName()+"/max_cluster_size", max_cluster_size_, 1000);
   ros::param::param<double>(ros::this_node::getName()+"/cluster_tolerance", cluster_tolerance_, 1);
-  ros::param::param<double>(ros::this_node::getName()+"/cluster_tolerance", radius_search_, 0.5);
+  ros::param::param<double>(ros::this_node::getName()+"/radius_search", radius_search_, 50);
   ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/x", leaf_size_x, 0.01);
   ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/y", leaf_size_y, 0.01);
   ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/z", leaf_size_z, 0.01);

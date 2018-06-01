@@ -25,6 +25,8 @@ add_message_files(
   Heartbeat.msg
   TechnicalDirectorNetworkStatus.msg
   BoundingBox2D.msg
+  BoundingBox2DArray.msg
+  BoundingBox2DArrayStamped.msg
   BoundingBox3D.msg
   EuclideanClusters.msg
   VoxelChainInput.msg

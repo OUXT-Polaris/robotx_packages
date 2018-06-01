@@ -6,8 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /OverlayImage1
-        - /PointCloud21
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -85,6 +83,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_thruster_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         rear_camera_link:
           Alpha: 1
           Show Axes: false
@@ -93,6 +96,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        right_thruster_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         scan:
           Alpha: 1
           Show Axes: false
@@ -114,16 +122,16 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: jsk_rviz_plugin/OverlayImage
-      Enabled: false
+      Enabled: true
       Name: OverlayImage
-      Topic: /objects_2d_viewer/detected_image
-      Value: false
+      Topic: /wam_v/front_camera/front_image_raw
+      Value: true
       alpha: 0.800000012
       height: 128
       keep aspect ratio: true
       left: 32
       top: 32
-      width: 640
+      width: 320
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -139,9 +147,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 999999
+      Max Intensity: 7
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: -2
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -149,7 +157,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0500000007
       Style: Flat Squares
-      Topic: /velodyne_points
+      Topic: /euclidean_clustering_node/clusters/pointcloud
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -194,10 +202,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.53539896
+      Pitch: 0.255399197
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.12540162
+      Yaw: 3.14039731
     Saved: ~
 Window Geometry:
   Displays:
