@@ -6,8 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /OverlayImage1
-        - /PointCloud21
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -69,10 +67,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        front_camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         gps:
           Alpha: 1
           Show Axes: false
@@ -85,14 +79,20 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        rear_camera_link:
+        left_thruster_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         right_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        right_thruster_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         scan:
           Alpha: 1
           Show Axes: false
@@ -114,16 +114,16 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: jsk_rviz_plugin/OverlayImage
-      Enabled: false
+      Enabled: true
       Name: OverlayImage
-      Topic: /objects_2d_viewer/detected_image
-      Value: false
+      Topic: /wam_v/left_camera/left_image_raw
+      Value: true
       alpha: 0.800000012
       height: 128
       keep aspect ratio: true
       left: 32
       top: 32
-      width: 640
+      width: 320
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -141,7 +141,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 1.05097385e-43
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -153,6 +153,60 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        base_footprint:
+          Value: true
+        base_link:
+          Value: true
+        gps:
+          Value: true
+        imu:
+          Value: true
+        left_camera_link:
+          Value: true
+        left_thruster_link:
+          Value: true
+        right_camera_link:
+          Value: true
+        right_thruster_link:
+          Value: true
+        scan:
+          Value: true
+        velodyne:
+          Value: true
+        velodyne_base_link:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        base_footprint:
+          base_link:
+            gps:
+              {}
+            imu:
+              {}
+            left_camera_link:
+              {}
+            left_thruster_link:
+              {}
+            right_camera_link:
+              {}
+            right_thruster_link:
+              {}
+            scan:
+              {}
+            velodyne_base_link:
+              velodyne:
+                {}
+      Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
@@ -194,10 +248,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.53539896
+      Pitch: 0.595398724
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.12540162
+      Yaw: 1.89040363
     Saved: ~
 Window Geometry:
   Displays:
