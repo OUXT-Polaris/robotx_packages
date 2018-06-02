@@ -77,7 +77,7 @@ void hsv_buoy_detector::image_callback(const sensor_msgs::ImageConstPtr& msg)
         cv::Rect bbox_rect = cv::boundingRect(approx);
         robotx_msgs::Object2D object2d_msg;
         object2d_msg.type = threashold_params[i].target_buoy_name;
-        object2d_msg.boundingbox.header = msg->header;
+        //object2d_msg.boundingbox.header = msg->header;
         object2d_msg.boundingbox.corner_point_0[0] = bbox_rect.x;
         object2d_msg.boundingbox.corner_point_0[1] = bbox_rect.y;
         object2d_msg.boundingbox.corner_point_1[0] = bbox_rect.x + bbox_rect.width;
