@@ -9,26 +9,42 @@
 
 class disparity_image
 {
+public:
     struct parameters
     {
-        int window_size = 3;
-        int minDisparity = 0;
-        int numDisparities = 32;
-        int blockSize = 3;
-        int P1 = 8 * 3 * window_size * window_size;
-        int P2 =  32 * 3 * window_size * window_size;
-        int disp12MaxDiff = 1;
-        int preFilterCap = 0;
-        int uniquenessRatio = 10;
-        int speckleWindowSize = 100;
-        int speckleRange = 32;
+        int window_size;
+        int minDisparity;
+        int numDisparities;
+        int blockSize;
+        int P1;
+        int P2;
+        int disp12MaxDiff;
+        int preFilterCap;
+        int uniquenessRatio;
+        int speckleWindowSize;
+        int speckleRange;
+        parameters()
+        {
+            window_size = 3;
+            minDisparity = 0;
+            numDisparities = 32;
+            blockSize = 3;
+            P1 = 8 * 3 * window_size * window_size;
+            P2 =  32 * 3 * window_size * window_size;
+            disp12MaxDiff = 1;
+            preFilterCap = 0;
+            uniquenessRatio = 10;
+            speckleWindowSize = 100;
+            speckleRange = 32;
+        }
     };
-public:
     disparity_image(parameters paras);
+    disparity_image();
     ~disparity_image();
     void set_left_image(cv::Mat left_image);
     void set_right_image(cv::Mat right_image);
     bool get_disparity_image(cv::Mat& disparity);
+    void set_parameters(parameters params){params_ = params;};
 private:
     parameters params_;
     std::mutex mtx_;

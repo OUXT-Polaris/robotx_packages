@@ -58,8 +58,8 @@ set(bing_object_detection_node_src src/bing_object_detection_node.cpp src/bing_o
 add_executable(bing_object_detection_node ${bing_object_detection_node_src})
 add_dependencies(bing_object_detection_node robotx_msgs_generate_messages_cpp)
 
-set(stereo_image_object_bbox_extractor_node_src src/stereo_image_object_bbox_extractor_node.cpp src/disparity_image.cpp)
-add_executable(stereo_image_object_bbox_extractor_node ${stereo_image_object_bbox_extractor_node_src})
+set(stereo_image_object_bbox_extractor_src src/disparity_image.cpp src/stereo_image_object_bbox_extractor.cpp)
+add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
 add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against

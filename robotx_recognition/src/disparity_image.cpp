@@ -1,5 +1,7 @@
 #include <disparity_image.h>
 
+#include <ros/ros.h>
+
 disparity_image::disparity_image(parameters params)
 {
     recieved_right_image_ = false;
@@ -7,9 +9,21 @@ disparity_image::disparity_image(parameters params)
     params_ = params;
 
     ssgbm_ = cv::StereoSGBM::create(
-    params.minDisparity, params.numDisparities, params.blockSize, params.P1, params.P2, 
-    params.disp12MaxDiff, params.preFilterCap, params.uniquenessRatio, params.speckleWindowSize , 
-    params.speckleRange, cv::StereoSGBM::MODE_SGBM);
+    params_.minDisparity, params_.numDisparities, params_.blockSize, params_.P1, params_.P2, 
+    params_.disp12MaxDiff, params_.preFilterCap, params_.uniquenessRatio, params_.speckleWindowSize , 
+    params_.speckleRange, cv::StereoSGBM::MODE_SGBM);
+}
+
+disparity_image::disparity_image()
+{
+    recieved_right_image_ = false;
+    recieved_left_image_ = false;
+    params_ = parameters();
+
+    ssgbm_ = cv::StereoSGBM::create(
+    params_.minDisparity, params_.numDisparities, params_.blockSize, params_.P1, params_.P2, 
+    params_.disp12MaxDiff, params_.preFilterCap, params_.uniquenessRatio, params_.speckleWindowSize , 
+    params_.speckleRange, cv::StereoSGBM::MODE_SGBM);
 }
 
 disparity_image::~disparity_image()
