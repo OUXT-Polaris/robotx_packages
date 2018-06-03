@@ -4,6 +4,7 @@
 stereo_image_object_bbox_extractor::stereo_image_object_bbox_extractor() : it_(nh_)
 {
     disparity_image::parameters params;
+    params.blockSize = 1;
     params.numDisparities = 16;
     params.P1 = 0;
     params.P2 = 0;
