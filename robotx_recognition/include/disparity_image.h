@@ -23,6 +23,7 @@ public:
         int uniquenessRatio;
         int speckleWindowSize;
         int speckleRange;
+        int mode;
         parameters()
         {
             window_size = 3;
@@ -36,6 +37,7 @@ public:
             uniquenessRatio = 10;
             speckleWindowSize = 0;
             speckleRange = 0;
+            mode = cv::StereoSGBM::MODE_SGBM;
         }
     };
     disparity_image(parameters paras);

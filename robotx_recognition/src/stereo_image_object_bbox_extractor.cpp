@@ -8,7 +8,8 @@ stereo_image_object_bbox_extractor::stereo_image_object_bbox_extractor() : it_(n
     params.P1 = 0;
     params.P2 = 0;
     params.speckleWindowSize = 100;
-    params.speckleRange = 32,
+    params.speckleRange = 32;
+    params.mode = cv::StereoSGBM::MODE_HH4;
     disparity_image_.set_parameters(params);
 
     config conf;
