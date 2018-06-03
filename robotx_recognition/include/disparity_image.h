@@ -31,11 +31,11 @@ public:
             blockSize = 3;
             P1 = 8 * 3 * window_size * window_size;
             P2 =  32 * 3 * window_size * window_size;
-            disp12MaxDiff = 1;
+            disp12MaxDiff = 0;
             preFilterCap = 0;
             uniquenessRatio = 10;
-            speckleWindowSize = 100;
-            speckleRange = 32;
+            speckleWindowSize = 0;
+            speckleRange = 0;
         }
     };
     disparity_image(parameters paras);
@@ -43,8 +43,8 @@ public:
     ~disparity_image();
     void set_left_image(cv::Mat left_image);
     void set_right_image(cv::Mat right_image);
+    void set_parameters(parameters params);
     bool get_disparity_image(cv::Mat& disparity);
-    void set_parameters(parameters params){params_ = params;};
 private:
     parameters params_;
     std::mutex mtx_;

@@ -140,7 +140,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: -2
+      Max Intensity: 4
       Min Color: 0; 0; 0
       Min Intensity: -2
       Name: PointCloud2
@@ -249,10 +249,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.190398678
+      Pitch: 0.130398706
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.14540386
+      Yaw: 3.11540437
     Saved: ~
 Window Geometry:
   Displays:

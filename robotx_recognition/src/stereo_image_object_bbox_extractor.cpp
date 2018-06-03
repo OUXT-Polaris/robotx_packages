@@ -4,7 +4,13 @@
 stereo_image_object_bbox_extractor::stereo_image_object_bbox_extractor() : it_(nh_)
 {
     disparity_image::parameters params;
+    params.numDisparities = 16;
+    params.P1 = 0;
+    params.P2 = 0;
+    params.speckleWindowSize = 100;
+    params.speckleRange = 32,
     disparity_image_.set_parameters(params);
+
     config conf;
     nh_.getParam(ros::this_node::getName()+"/publish_disparity",conf.publish_disparity);
     nh_.param<std::string>(ros::this_node::getName()+"/left_image_topic",  conf.left_image_topic,  ros::this_node::getName()+"/left_image_raw");

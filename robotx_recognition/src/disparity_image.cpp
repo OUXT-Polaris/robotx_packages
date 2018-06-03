@@ -9,9 +9,9 @@ disparity_image::disparity_image(parameters params)
     params_ = params;
 
     ssgbm_ = cv::StereoSGBM::create(
-    params_.minDisparity, params_.numDisparities, params_.blockSize, params_.P1, params_.P2, 
-    params_.disp12MaxDiff, params_.preFilterCap, params_.uniquenessRatio, params_.speckleWindowSize , 
-    params_.speckleRange, cv::StereoSGBM::MODE_SGBM);
+        params_.minDisparity, params_.numDisparities, params_.blockSize, params_.P1, params_.P2, 
+        params_.disp12MaxDiff, params_.preFilterCap, params_.uniquenessRatio, params_.speckleWindowSize , 
+        params_.speckleRange, cv::StereoSGBM::MODE_SGBM);
 }
 
 disparity_image::disparity_image()
@@ -21,14 +21,23 @@ disparity_image::disparity_image()
     params_ = parameters();
 
     ssgbm_ = cv::StereoSGBM::create(
-    params_.minDisparity, params_.numDisparities, params_.blockSize, params_.P1, params_.P2, 
-    params_.disp12MaxDiff, params_.preFilterCap, params_.uniquenessRatio, params_.speckleWindowSize , 
-    params_.speckleRange, cv::StereoSGBM::MODE_SGBM);
+        params_.minDisparity, params_.numDisparities, params_.blockSize, params_.P1, params_.P2, 
+        params_.disp12MaxDiff, params_.preFilterCap, params_.uniquenessRatio, params_.speckleWindowSize , 
+        params_.speckleRange, cv::StereoSGBM::MODE_SGBM);
 }
 
 disparity_image::~disparity_image()
 {
 
+}
+
+void disparity_image::set_parameters(parameters params)
+{
+    params_ = params;
+    ssgbm_ = cv::StereoSGBM::create(
+        params_.minDisparity, params_.numDisparities, params_.blockSize, params_.P1, params_.P2, 
+        params_.disp12MaxDiff, params_.preFilterCap, params_.uniquenessRatio, params_.speckleWindowSize , 
+        params_.speckleRange, cv::StereoSGBM::MODE_SGBM);
 }
 
 void disparity_image::set_left_image(cv::Mat left_image)
