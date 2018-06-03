@@ -74,7 +74,9 @@ target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES
 ## Install ##
 #############
 # CPP Execution programs
-set(CPP_EXEC_NAMES object_recognition_node euclidean_clustering_node voxelchain_input_generator_node hsv_buoy_detector_node bing_object_detection_node)
+set(CPP_EXEC_NAMES 
+  object_recognition_node euclidean_clustering_node voxelchain_input_generator_node 
+  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
