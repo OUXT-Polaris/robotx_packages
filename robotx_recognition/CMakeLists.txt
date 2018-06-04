@@ -58,18 +58,25 @@ set(bing_object_detection_node_src src/bing_object_detection_node.cpp src/bing_o
 add_executable(bing_object_detection_node ${bing_object_detection_node_src})
 add_dependencies(bing_object_detection_node robotx_msgs_generate_messages_cpp)
 
+set(stereo_image_object_bbox_extractor_src src/disparity_image.cpp src/stereo_image_object_bbox_extractor.cpp src/random_sampling.cpp)
+add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
+add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
+
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
 target_link_libraries(voxelchain_input_generator_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 #############
 ## Install ##
 #############
 # CPP Execution programs
-set(CPP_EXEC_NAMES object_recognition_node euclidean_clustering_node voxelchain_input_generator_node hsv_buoy_detector_node bing_object_detection_node)
+set(CPP_EXEC_NAMES 
+  object_recognition_node euclidean_clustering_node voxelchain_input_generator_node 
+  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
