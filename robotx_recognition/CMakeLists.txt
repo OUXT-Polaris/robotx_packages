@@ -17,24 +17,30 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
 )
 
+find_package(Boost REQUIRED COMPONENTS system thread)
+
 find_package(OpenMP)
 if (OPENMP_FOUND)
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
+
 find_package(OpenCV REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
 ###################################
-catkin_package()
+catkin_package(
+  DEPENDS Eigen
+)
 
 ###########
 ## Build ##
 ###########
 include_directories(
   include
+  ${Eigen_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
@@ -62,6 +68,11 @@ set(stereo_image_object_bbox_extractor_src src/disparity_image.cpp src/stereo_im
 add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
 add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 
+
+set(euclidean_cluster_tracker_node src/euclidean_cluster_tracker_node.cpp src/particle_filter.cpp src/euclidean_cluster_tracker.cpp)
+add_executable(euclidean_cluster_tracker_node ${euclidean_cluster_tracker_node})
+add_dependencies(euclidean_cluster_tracker_node robotx_msgs_generate_messages_cpp)
+
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
@@ -69,6 +80,7 @@ target_link_libraries(voxelchain_input_generator_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
