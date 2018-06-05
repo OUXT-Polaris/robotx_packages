@@ -7,12 +7,12 @@
 
 #include <vector>
 
-particle_filter::particle_filter(int dimensions, int num_partcles,Eigen::VectorXd init_value)
+particle_filter::particle_filter(int dimensions, int num_particles,Eigen::VectorXd init_value)
 {
   using namespace Eigen;
   std::srand((unsigned int) time(0));
   dimensions_ = dimensions;
-  num_partcles_ = num_partcles;
+  num_partcles_ = num_particles;
   Eigen::MatrixXd random_values = (MatrixXd::Random(dimensions_,num_partcles_).cwiseAbs()-MatrixXd::Ones(dimensions_,num_partcles_)*0.5)*0.1;
   states_ = MatrixXd::Ones(dimensions_,num_partcles_);
   for(int i = 0; i < num_partcles_ ;i++)
@@ -20,17 +20,17 @@ particle_filter::particle_filter(int dimensions, int num_partcles,Eigen::VectorX
     states_.block(0,i,dimensions_,1)= init_value;
   }
   states_ = states_ + random_values;
-  weights_ = VectorXd::Ones(num_partcles)/num_partcles;
+  weights_ = VectorXd::Ones(num_particles)/num_particles;
 }
 
-particle_filter::particle_filter(int dimensions, int num_partcles)
+particle_filter::particle_filter(int dimensions, int num_particles)
 {
   using namespace Eigen;
   std::srand((unsigned int) time(0));
   dimensions_ = dimensions;
-  num_partcles_ = num_partcles;
+  num_partcles_ = num_particles;
   states_ = MatrixXd::Random(dimensions_,num_partcles_).cwiseAbs();
-  weights_ = VectorXd::Ones(num_partcles)/num_partcles;
+  weights_ = VectorXd::Ones(num_particles)/num_particles;
 }
 
 particle_filter::~particle_filter()
@@ -104,30 +104,33 @@ void particle_filter::add_system_noise(Eigen::VectorXd& control_input, double va
   clamp(states_,1,0);
 }
 
-void particle_filter::resample()
+void particle_filter::resample(double threshold)
 {
-  using namespace Eigen;
-  MatrixXd updated_state = MatrixXd::Zero(dimensions_,num_partcles_);
-  VectorXd random_values = VectorXd::Zero(num_partcles_);
-  get_normal_distribution_random_numbers(random_values,0,1);
-  std::vector<int> indexes(num_partcles_);
-  for(int i = 0; i<num_partcles_; i++)
+  if(get_ess() <= threshold)
   {
-    double total_weights = 0;
-    for(int j = 0; j<weights_.size(); j++)
+    using namespace Eigen;
+    MatrixXd updated_state = MatrixXd::Zero(dimensions_,num_partcles_);
+    VectorXd random_values = VectorXd::Zero(num_partcles_);
+    get_normal_distribution_random_numbers(random_values,0,1);
+    std::vector<int> indexes(num_partcles_);
+    for(int i = 0; i<num_partcles_; i++)
     {
-      total_weights += weights_(j);
-      if(total_weights >= random_values[i])
-      {
-        indexes[i] = i;
-      }
+        double total_weights = 0;
+        for(int j = 0; j<weights_.size(); j++)
+        {
+        total_weights += weights_(j);
+        if(total_weights >= random_values[i])
+        {
+            indexes[i] = i;
+        }
+        }
     }
+    for(int i = 0; i<num_partcles_; i++)
+    {
+        updated_state.block(0,i,dimensions_,1) = states_.block(0,indexes[i],dimensions_,1);
+    }
+    states_ = updated_state;
   }
-  for(int i = 0; i<num_partcles_; i++)
-  {
-    updated_state.block(0,i,dimensions_,1) = states_.block(0,indexes[i],dimensions_,1);
-  }
-  states_ = updated_state;
 }
 
 void particle_filter::get_normal_distribution_random_numbers(Eigen::MatrixXd& target, double average, double variance)

@@ -9,7 +9,7 @@ public:
     euclidean_cluster_tracker();
     ~euclidean_cluster_tracker();
 private:
-    particle_filter* pfilter_;
+    //particle_filter* pfilter_;
 };
 
 #endif  //EUCLIDIAN_CLUSTER_TRACKER_H_INCLUDED
