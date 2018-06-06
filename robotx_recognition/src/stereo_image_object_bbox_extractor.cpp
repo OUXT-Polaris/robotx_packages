@@ -40,8 +40,8 @@ void stereo_image_object_bbox_extractor::left_image_callback(const sensor_msgs::
 {
     try
     {
-		cv::Mat image = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8)->image;
-        disparity_image_.set_left_image(image);
+		left_image_ = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8)->image;
+        disparity_image_.set_left_image(left_image_);
         cv::Mat disparity;
         if(config_.publish_disparity && disparity_image_.get_disparity_image(disparity))
         {
@@ -50,6 +50,8 @@ void stereo_image_object_bbox_extractor::left_image_callback(const sensor_msgs::
             disparity.convertTo(disparity, CV_8UC1, 255.0 / (max - min), -255.0 * min / (max - min));
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", disparity).toImageMsg();
             disparity_image_pub_.publish(msg);
+            std::vector<cv::Rect> rois = sampler_.get_rois();
+            evaluator_.evaluate(disparity,left_image_,right_image_,rois);
         }
 	}
 	catch (cv_bridge::Exception& e)
@@ -62,8 +64,8 @@ void stereo_image_object_bbox_extractor::right_image_callback(const sensor_msgs:
 {
     try
     {
-		cv::Mat image = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8)->image;
-        disparity_image_.set_right_image(image);
+	    right_image_ = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8)->image;
+        disparity_image_.set_right_image(right_image_);
 	}
 	catch (cv_bridge::Exception& e)
     {

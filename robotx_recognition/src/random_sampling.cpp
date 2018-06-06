@@ -29,21 +29,17 @@ std::vector<cv::Rect> random_sampling::get_rois()
     std::uniform_int_distribution<int> h_rand;
     w_rand = std::uniform_int_distribution<int>(params_.roi_width.min,params_.roi_width.max);
     h_rand = std::uniform_int_distribution<int>(params_.roi_height.min,params_.roi_height.max);
-    for(int i=0; i< rects.size(); i++)
+    for(int i=0; i< params_.num_roi; i++)
     {
         int x,y,w,h;
-        do
-        {
-            x = x_rand(mt);
-            y = y_rand(mt);
-            w = w_rand(mt);
-            h = h_rand(mt);
-            if(x+w>params_.image_width)
-                w = params_.image_width - x;
-            if(y+h>params_.image_width)
-                h = params_.image_height - y;
-        }
-        while((double)h/(double)w < params_.roi_aspect_ratio.max && (double)h/(double)w > params_.roi_aspect_ratio.min);
+        x = x_rand(mt);
+        y = y_rand(mt);
+        w = w_rand(mt);
+        h = h_rand(mt);
+        if(x+w>params_.image_width)
+            w = params_.image_width - x;
+        if(y+h>params_.image_height)
+            h = params_.image_height - y;
         cv::Rect rect{x,y,w,h};
         rects.push_back(rect);
     }
