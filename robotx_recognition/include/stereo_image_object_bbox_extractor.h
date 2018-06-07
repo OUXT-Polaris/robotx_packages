@@ -8,8 +8,6 @@
 
 //headers in this package
 #include <disparity_image.h>
-#include <random_sampling.h>
-#include <objectness_evaluator.h>
 
 class stereo_image_object_bbox_extractor
 {
@@ -37,8 +35,6 @@ private:
     image_transport::ImageTransport it_;
     disparity_image disparity_image_;
     config config_;
-    random_sampling sampler_;
-    objectness_evaluator evaluator_;
     cv::Mat left_image_;
     cv::Mat right_image_;
 };

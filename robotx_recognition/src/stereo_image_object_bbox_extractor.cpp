@@ -50,8 +50,6 @@ void stereo_image_object_bbox_extractor::left_image_callback(const sensor_msgs::
             disparity.convertTo(disparity, CV_8UC1, 255.0 / (max - min), -255.0 * min / (max - min));
             sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", disparity).toImageMsg();
             disparity_image_pub_.publish(msg);
-            std::vector<cv::Rect> rois = sampler_.get_rois();
-            evaluator_.evaluate(disparity,left_image_,right_image_,rois);
         }
 	}
 	catch (cv_bridge::Exception& e)

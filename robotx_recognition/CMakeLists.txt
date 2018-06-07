@@ -60,9 +60,7 @@ add_dependencies(bing_object_detection_node robotx_msgs_generate_messages_cpp)
 
 set(stereo_image_object_bbox_extractor_src 
   src/disparity_image.cpp 
-  src/stereo_image_object_bbox_extractor.cpp 
-  src/random_sampling.cpp
-  src/objectness_evaluator.cpp)
+  src/stereo_image_object_bbox_extractor.cpp)
 add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
 add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 
