@@ -10,8 +10,8 @@ public:
   particle_filter(int dimensions, int num_particles, Eigen::VectorXd init_value);
   particle_filter(int dimensions, int num_particles);
   ~particle_filter();
-  Eigen::VectorXd get_normalized_state();
-  Eigen::MatrixXd get_states();
+  Eigen::VectorXd get_state();
+  Eigen::MatrixXd get_states(){return states_;};
   void set_weights(Eigen::VectorXd weights);
   void add_system_noise(Eigen::VectorXd& control_input, double variance);
   void add_system_noise(double variance);

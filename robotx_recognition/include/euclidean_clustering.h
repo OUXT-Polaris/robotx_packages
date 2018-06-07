@@ -4,6 +4,7 @@
 //headers in ros
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
+#include <visualization_msgs/MarkerArray.h>
 
 //headers in pcl
 #include <pcl_conversions/pcl_conversions.h>
@@ -12,6 +13,7 @@
 #include <pcl/console/time.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/features/normal_3d.h>
+#include <pcl/features/moment_of_inertia_estimation.h>
 #include <pcl/segmentation/conditional_euclidean_clustering.h>
 
 class euclidean_clustering
@@ -23,6 +25,7 @@ private:
   void poincloud_callback(sensor_msgs::PointCloud2 msg);
   void make_cluster();
   ros::Publisher pointcloud_pub_,clusters_pub_;
+  ros::Publisher marker_pub_;
   ros::Subscriber pointcloud_sub_;
   ros::NodeHandle nh_;
   sensor_msgs::PointCloud2 pointcloud_;

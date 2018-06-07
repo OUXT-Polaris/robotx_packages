@@ -6,10 +6,14 @@
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 
+//headers in tf2
+//#include <tf2/LinearMath/Quaternion.h>
+
 euclidean_clustering::euclidean_clustering()
 {
   clusters_pub_ = nh_.advertise<robotx_msgs::EuclideanClusters>(ros::this_node::getName()+"/clusters", 1);
   pointcloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(ros::this_node::getName()+"/clusters/pointcloud", 1);
+  marker_pub_= nh_.advertise<visualization_msgs::MarkerArray>(ros::this_node::getName()+"/marker", 1);
   ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
   ros::param::param<int>(ros::this_node::getName()+"/max_cluster_size", max_cluster_size_, 1000);
   ros::param::param<double>(ros::this_node::getName()+"/cluster_tolerance", cluster_tolerance_, 1);
@@ -97,6 +101,7 @@ void euclidean_clustering::make_cluster()
     }
   }
   robotx_msgs::EuclideanClusters clusters_msg;
+  visualization_msgs::MarkerArray markers;
   for (int i = 0; i < clusters->size(); ++i)
   {
     pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_pointcloud_clusterd(new pcl::PointCloud<pcl::PointXYZI>);
@@ -110,7 +115,38 @@ void euclidean_clustering::make_cluster()
     pcl::toROSMsg(*pcl_pointcloud_clusterd, pointcloud_clusterd_msg);
     pointcloud_clusterd_msg.header = pointcloud_.header;
     clusters_msg.clusters.push_back(pointcloud_clusterd_msg);
+    //calculating bounding box
+    std::vector<float> moment_of_inertia;
+    std::vector<float> eccentricity;
+    pcl::PointXYZI min_point,max_point;
+    pcl::MomentOfInertiaEstimation<pcl::PointXYZI> feature_extractor;
+    feature_extractor.setInputCloud(pcl_pointcloud_clusterd);
+    feature_extractor.compute ();
+    feature_extractor.getMomentOfInertia(moment_of_inertia);
+    feature_extractor.getEccentricity(eccentricity);
+    feature_extractor.getAABB(min_point,max_point);
+    visualization_msgs::Marker marker;
+    marker.header = pointcloud_.header;
+    marker.type = marker.CUBE;
+    marker.action = marker.ADD;
+    marker.scale.x = std::fabs(max_point.x - min_point.x);
+    marker.scale.y = std::fabs(max_point.y - min_point.y);
+    marker.scale.z = std::fabs(max_point.z - min_point.z);
+    marker.pose.position.x = (max_point.x + min_point.x)/2;
+    marker.pose.position.y = (max_point.y + min_point.y)/2;
+    marker.pose.position.z = (max_point.z + min_point.z)/2;
+    marker.pose.orientation.x = 0;
+    marker.pose.orientation.y = 0;
+    marker.pose.orientation.z = 0;
+    marker.pose.orientation.w = 1;
+    marker.color.r = 0;
+    marker.color.g = 1;
+    marker.color.b = 0;
+    marker.color.a = 0.3;
+    marker.frame_locked = true;
+    markers.markers.push_back(marker);
   }
+  marker_pub_.publish(markers);
   sensor_msgs::PointCloud2 pointcloud_msg;
   pcl::toROSMsg(*pcl_pointcloud, pointcloud_msg);
   pointcloud_pub_.publish(pointcloud_msg);

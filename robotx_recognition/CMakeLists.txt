@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   robotx_msgs
   image_transport
   cv_bridge
+  visualization_msgs
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)

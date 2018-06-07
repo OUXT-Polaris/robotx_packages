@@ -43,7 +43,7 @@ void particle_filter::set_weights(Eigen::VectorXd weights)
   weights_ = weights/weights.sum();
 }
 
-Eigen::VectorXd particle_filter::get_normalized_state()
+Eigen::VectorXd particle_filter::get_state()
 {
   using namespace Eigen;
   VectorXd normalized_state = VectorXd::Zero(dimensions_);
@@ -54,12 +54,6 @@ Eigen::VectorXd particle_filter::get_normalized_state()
   }
   clamp(states_,1,0);
   return normalized_state;
-}
-
-Eigen::MatrixXd particle_filter::get_states()
-{
-  Eigen::MatrixXd ret = states_;
-  return states_;
 }
 
 void particle_filter::clamp(Eigen::VectorXd& target, double max, double min)
