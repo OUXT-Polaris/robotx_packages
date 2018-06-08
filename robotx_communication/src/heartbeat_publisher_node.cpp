@@ -1,6 +1,6 @@
 /**
- * @mainpage メインタイトル
- * いろいろな説明
+ * @mainpage heartbeat_publisher_node
+ * ROS node for publish robotx heartbeat protocol in TCP/IP
  */
 
 //headers in this package

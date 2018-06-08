@@ -1,5 +1,7 @@
 find_package(Doxygen)
 
+option(WITH_DOCUMENT OFF)
+
 function(add_document target)
     if(${DOXYGEN_FOUND})
         set(doxydir ${PROJECT_SOURCE_DIR}/../Doxygen)
@@ -54,10 +56,13 @@ function(add_document target)
             WORKING_DIRECTORY
                     ${outputdir}/${target}
             COMMENT "Creating HTML documentation for ${target}")
-        add_custom_target(doxygen-${target}
+        if(WITH_DOCUMENT)
+            add_custom_target("doxygen-${PROJECT_NAME}-${target}" ALL
+                DEPENDS ${outputdir}/${target}/index.html)
+        else()
+            add_custom_target("doxygen-${PROJECT_NAME}-${target}"
             DEPENDS ${outputdir}/${target}/index.html)
-        add_dependencies(doxygen
-            doxygen-${targetname})
+        endif()
     else()
         message("doxygen not found")
     endif()
