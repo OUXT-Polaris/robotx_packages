@@ -9,7 +9,7 @@ function(add_document target)
             TARGET ${target}
             PROPERTY SOURCES)
         foreach (source ${sourcefiles})
-            set(source_spaces "${source_spaces} ${source}")
+            set(source_spaces "${source_spaces} ${PROJECT_SOURCE_DIR}/${source}")
         endforeach ()
         get_property(includedirs
             TARGET ${target}

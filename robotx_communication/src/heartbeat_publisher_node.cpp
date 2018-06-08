@@ -1,3 +1,8 @@
+/**
+ * @mainpage メインタイトル
+ * いろいろな説明
+ */
+
 //headers in this package
 #include <heartbeat_publisher.h>
 
