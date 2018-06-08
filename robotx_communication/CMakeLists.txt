@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robotx_communication)
-
 add_compile_options(-std=c++11)
+
+include(../Doxygen/doxygen.cmake)
 
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
@@ -31,6 +32,7 @@ set(heartbeat_publisher_node_src src/heartbeat_publisher_node.cpp src/heartbeat_
 
 add_executable(heartbeat_publisher_node ${heartbeat_publisher_node_src})
 add_dependencies(heartbeat_publisher_node robotx_msgs_generate_messages_cpp)
+add_document(heartbeat_publisher_node)
 
 target_link_libraries(heartbeat_publisher_node ${catkin_LIBRARIES} ${boost_LIBRARIES})
 
