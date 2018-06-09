@@ -15,6 +15,19 @@
  *
 */
 
+/**
+ * @mainpage gazebo plugin for buoyancy simulation
+ * @image html images/vmrc.jpg
+ */
+
+/**
+ * @brief gazebo plugin class for buoyancy simulation
+ * 
+ * @file buoyancy_gazebo_plugin.hh
+ * @author Open Source Robotics Foundation
+ * @date 2015
+ */
+
 #ifndef GAZEBO_PLUGINS_BUOYANCYPLUGIN_HH_
 #define GAZEBO_PLUGINS_BUOYANCYPLUGIN_HH_
 
