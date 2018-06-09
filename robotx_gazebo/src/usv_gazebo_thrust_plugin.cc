@@ -23,7 +23,7 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 #include <boost/thread.hpp>
 #include <ros/time.h>
 
-#include <robotx_gazebo/usv_gazebo_thrust_plugin.hh>
+#include <usv_gazebo_thrust_plugin.hh>
 
 using namespace gazebo;
 

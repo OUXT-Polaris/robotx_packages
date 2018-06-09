@@ -64,6 +64,10 @@ namespace gazebo
   /// computation will not be accurate if the object is not composed of simple
   /// collision shapes.
   //  class GAZEBO_VISIBLE BuoyancyPlugin : public ModelPlugin
+  /**
+   * @brief Class for gazebo BuoyancyPlugin
+   * 
+   */
   class BuoyancyPlugin : public ModelPlugin
   {
     /// \brief Constructor.
