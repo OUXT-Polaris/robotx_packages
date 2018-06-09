@@ -139,7 +139,7 @@ install(TARGETS usv_twist_sensor_plugin
 )
 
 # include header files
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
