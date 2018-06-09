@@ -16,11 +16,6 @@
 */
 
 /**
- * @mainpage gazebo plugin for buoyancy simulation
- * @image html images/vmrc.jpg
- */
-
-/**
  * @brief gazebo plugin class for buoyancy simulation
  * 
  * @file buoyancy_gazebo_plugin.hh
@@ -104,7 +99,7 @@ namespace gazebo
 
     /// \brief Pointer to the plugin SDF.
     protected: sdf::ElementPtr sdf;
-    
+
     /**
      * @brief The density of the fluid in which the object is submerged in
      * kg/m^3. Defaults to 1000, the fluid density of water.

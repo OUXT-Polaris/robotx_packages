@@ -20,6 +20,13 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+/**
+ * @mainpage geazebo plugin for usv dynamics.
+ * @image html images/vmrc.jpg
+ * @author Brian Bingham
+ * @date 2017
+ */
+
 #include <functional>
 #include <thread>
 
