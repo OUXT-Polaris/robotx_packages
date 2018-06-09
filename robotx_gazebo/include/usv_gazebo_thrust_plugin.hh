@@ -20,6 +20,14 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+/**
+ * @brief gazebo plugin for USV thrust simulation
+ * 
+ * @file usv_gazebo_thrust_plugin.hh
+ * @author Brian Bingham
+ * @date 2017
+ */
+
 #ifndef USV_GAZEBO_THRUST_H
 #define USV_GAZEBO_THRUST_H
 

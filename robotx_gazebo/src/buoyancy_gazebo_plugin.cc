@@ -15,6 +15,13 @@
  *
 */
 
+/**
+ * @mainpage gazebo plugin for buoyancy simulation
+ * @image html images/vmrc.jpg
+ * @author Open Source Robotics Foundation
+ * @date 2015
+ */
+
 #include <functional>
 #include "gazebo/common/Assert.hh"
 #include "gazebo/common/Events.hh"

@@ -83,6 +83,7 @@ target_link_libraries(usv_gazebo_thrust_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_gazebo_thrust_plugin)
 
 ## usv_gazebo_wind_plugin
 add_library(usv_gazebo_wind_plugin
@@ -93,6 +94,7 @@ target_link_libraries(usv_gazebo_wind_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_gazebo_wind_plugin)
 
 # usv_twist_sensor_plugin
 add_library(usv_twist_sensor_plugin
@@ -103,6 +105,7 @@ target_link_libraries(usv_twist_sensor_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_twist_sensor_plugin)
 
 #############
 ## Install ##
@@ -139,7 +142,7 @@ install(TARGETS usv_twist_sensor_plugin
 )
 
 # include header files
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 

@@ -1,3 +1,10 @@
+/**
+ * @mainpage gazebo plugin for twist sensor simulation
+ * @image html images/vmrc.jpg
+ * @author Masaya Kataoka
+ * @date 2018-06-09
+ */
+
 //headers for stl
 #include <sstream>
 #include <random>
@@ -21,8 +28,16 @@
 
 using namespace gazebo;
 
+/**
+ * @brief gazebo twist sensor plugin class
+ * 
+ */
 class twist_sensor_plugin : public ModelPlugin
 {
+  /**
+   * @brief get target link(default: base_link) pointer amd connect to gazebo
+   * 
+   */
   public: void Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
   {
     this->model = _parent;
@@ -35,12 +50,20 @@ class twist_sensor_plugin : public ModelPlugin
     boost::thread publisher_thread(boost::bind(&twist_sensor_plugin::publish_twist,this));
   }
 
+  /**
+   * @brief callback function which was called when the simulation updates.
+   * 
+   */
   public: void OnUpdate(const common::UpdateInfo & /*_info*/)
   {
     angular_vel = this->link->GetRelativeAngularVel();
     linear_vel = this->link->GetRelativeLinearVel();
   }
 
+  /**
+   * @brief publish geometry_msgs/Twist type to /vel topic
+   * 
+   */
   public: void publish_twist()
   {
     ros::Rate loop_rate(this->publish_rate);
@@ -57,6 +80,16 @@ class twist_sensor_plugin : public ModelPlugin
     }
   }
 
+  /** 
+   * @brief Load parameters from sdf element.
+   * 
+   * @tparam T 
+   * @param sdf sdf model.
+   * @param key query key.
+   * @param param loaded parameters.
+   * @return true : success to find target.
+   * @return false : fail to find target.
+   */
   template <typename T>
   bool LoadParams(sdf::ElementPtr sdf,std::string key,T& param)
   {
@@ -81,6 +114,17 @@ class twist_sensor_plugin : public ModelPlugin
     return true;
   }
 
+  /**
+   * @brief Load parameters from sdf element.
+   * 
+   * @tparam T 
+   * @param sdf sdf model.
+   * @param key query key.
+   * @param param loaded parameters.
+   * @param default_param default parameters.
+   * @return true : success to find target.
+   * @return false : failed to find target. (param = default_param)
+   */
   template <typename T>
   bool LoadParams(sdf::ElementPtr sdf,std::string key,T& param, T default_param)
   {
@@ -106,15 +150,56 @@ class twist_sensor_plugin : public ModelPlugin
     }
     return true;
   }
+  /**
+   * @brief name of target link
+   * 
+   */
   private: std::string target_link;
+  /**
+   * @brief pointer of target link
+   * 
+   */
   private: physics::LinkPtr link;
+  /**
+   * @brief pointer of target model
+   * 
+   */
   private: physics::ModelPtr model;
+  /**
+   * @brief parameter for noise variance.
+   * sensor noise modeled as a normal distribution.
+   * 
+   */
   private: double sensor_noise_variance;
+  /**
+   * @brief parameter for sensor publish rate.
+   * 
+   */
   private: double publish_rate;
+  /**
+   * @brief ROS nodehandle.
+   * 
+   */
   private: ros::NodeHandle nh;
+  /**
+   * @brief ROS publisher for /vel topic (geometry_msgs/Twist)
+   * 
+   */
   private: ros::Publisher twist_pub;
+  /**
+   * @brief parameter for angular velocity
+   * 
+   */
   private: math::Vector3 angular_vel;
+  /**
+   * @brief parameter for linear velocity
+   * 
+   */
   private: math::Vector3 linear_vel;
+  /**
+   * @brief update_connection with gazebo
+   * 
+   */
   private: event::ConnectionPtr update_connection;
 };
 
