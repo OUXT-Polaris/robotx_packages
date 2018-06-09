@@ -1,3 +1,11 @@
+/**
+ * @mainpage heartbeat_publisher_node
+ * ROS node for publish robotx heartbeat protocol in TCP/IP
+ * @author Masaya Kataoka
+ * @date 2018.06.09
+ * @image html images/logo.jpg
+ */
+
 //headers in this package
 #include <heartbeat_publisher.h>
 
