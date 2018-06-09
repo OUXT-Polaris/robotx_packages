@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robotx_gazebo)
 
+include(../Doxygen/doxygen.cmake)
+
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   gazebo_plugins
@@ -57,6 +59,7 @@ target_link_libraries(buoyancy_gazebo_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
   )
+add_document(buoyancy_gazebo_plugin)
 
 # usv_gazebo_dynamics_plugin
 add_library(usv_gazebo_dynamics_plugin
