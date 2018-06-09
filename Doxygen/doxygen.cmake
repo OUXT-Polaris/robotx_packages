@@ -62,7 +62,7 @@ function(add_document target)
         message("include directory : ${includedirs}")
         file(MAKE_DIRECTORY ${outputdir})
         add_custom_command(
-            OUTPUT  ${outputdir}/Doxyfile
+            OUTPUT  ${outputdir}/${target}/Doxyfile
             COMMAND ${CMAKE_COMMAND}
                     -D "DOXYGEN_TEMPLATE=${doxydir}/Doxyfile.in"
                     -D "DOXY_PROJECT_INPUT=${source_spaces} ${header_spaces}"
@@ -80,7 +80,7 @@ function(add_document target)
         add_custom_command(
             OUTPUT  ${outputdir}/${target}/index.html
             COMMAND ${DOXYGEN_EXECUTABLE}
-            DEPENDS ${outputdir}/Doxyfile
+            DEPENDS ${outputdir}/${target}/Doxyfile
             WORKING_DIRECTORY
                     ${outputdir}/${target}
             COMMENT "Creating HTML documentation for ${target}")

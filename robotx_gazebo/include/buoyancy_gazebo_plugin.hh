@@ -104,16 +104,25 @@ namespace gazebo
 
     /// \brief Pointer to the plugin SDF.
     protected: sdf::ElementPtr sdf;
-
-    /// \brief The density of the fluid in which the object is submerged in
-    /// kg/m^3. Defaults to 1000, the fluid density of water.
+    
+    /**
+     * @brief The density of the fluid in which the object is submerged in
+     * kg/m^3. Defaults to 1000, the fluid density of water.
+     * 
+     */
     protected: double fluidDensity;
 
-    // \brief The height of the fluid/air interface [m].  Defaults to 0
-  protected: double fluidLevel;
+    /**
+     * @brief The height of the fluid/air interface [m].  Defaults to 0
+     * 
+     */
+    protected: double fluidLevel;
 
-    // \brief Quadratic drag generally applied to Z velocity
-  protected: double fluidDrag;
+    /**
+     * @brief Quadratic drag generally applied to Z velocity
+     * 
+     */
+    protected: double fluidDrag;
     
 
     /// \brief Map of <link ID, point> pairs mapping link IDs to the CoV (center
