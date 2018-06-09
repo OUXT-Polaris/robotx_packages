@@ -70,6 +70,7 @@ target_link_libraries(usv_gazebo_dynamics_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_gazebo_dynamics_plugin)
 
 # usv_gazebo_thrust_plugin
 add_library(usv_gazebo_thrust_plugin
@@ -138,7 +139,7 @@ install(TARGETS usv_twist_sensor_plugin
 )
 
 # include header files
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 

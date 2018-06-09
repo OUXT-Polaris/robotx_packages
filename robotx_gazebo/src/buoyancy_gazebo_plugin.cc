@@ -19,13 +19,16 @@
 #include "gazebo/common/Assert.hh"
 #include "gazebo/common/Events.hh"
 //#include "plugins/BuoyancyPlugin.hh"
-#include <robotx_gazebo/buoyancy_gazebo_plugin.hh>
+#include <buoyancy_gazebo_plugin.hh>
 
 using namespace gazebo;
 
 GZ_REGISTER_MODEL_PLUGIN(BuoyancyPlugin)
 
-/////////////////////////////////////////////////
+/**
+ * @brief Construct a new Buoyancy Plugin:: Buoyancy Plugin object
+ * 
+ */
 BuoyancyPlugin::BuoyancyPlugin()
   // Density of liquid water at 1 atm pressure and 15 degrees Celsius.
   : fluidDensity(999.1026),
@@ -35,7 +38,12 @@ BuoyancyPlugin::BuoyancyPlugin()
   // pass
 }
 
-/////////////////////////////////////////////////
+/**
+ * @brief Gazebo plugin function which was called when the plugin was loaded.
+ * 
+ * @param _model target model pointer
+ * @param _sdf target element pointer
+ */
 void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 {
   GZ_ASSERT(_model != NULL, "Received NULL model pointer");
@@ -228,14 +236,21 @@ void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
 
 }
 
-/////////////////////////////////////////////////
+
+/**
+ * @brief Gazebo plugin function which was called when the plugin was Initialized.
+ * 
+ */
 void BuoyancyPlugin::Init()
 {
   this->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&BuoyancyPlugin::OnUpdate, this));
 }
 
-/////////////////////////////////////////////////
+/**
+ * @brief Gazebo plugin function when the simulation updates.
+ * 
+ */
 void BuoyancyPlugin::OnUpdate()
 {
 

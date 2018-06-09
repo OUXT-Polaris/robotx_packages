@@ -13,6 +13,7 @@ function(add_document target)
         file(GLOB images_png ${image_source_dir}/*.png)
         file(GLOB images_jpg ${image_source_dir}/*.jpg)
         file(GLOB images_jpeg ${image_source_dir}/*.jpeg)
+        message("images : ${images_png} ${images_jpg} ${images_jpeg}")
         foreach (img ${images_png})
             file(COPY ${img} DESTINATION ${image_dir})
             set(image_spaces "${image_spaces} ${img}")
@@ -42,6 +43,10 @@ function(add_document target)
         foreach (h ${headers})
             set(header_spaces "${header_spaces} ${h}")
         endforeach ()
+        file(GLOB headers_hh ${includedirs}/*.hh)
+        foreach (h ${headers_hh})
+            set(header_spaces "${header_spaces} ${h}")
+        endforeach ()
         foreach (dir ${includedirs})
             set(dir_spaces "${dir_spaces} ${dir}")
         endforeach ()
@@ -54,9 +59,10 @@ function(add_document target)
         message("found source codes : ${source_spaces}")
         message("output directory : ${outputdir}")
         message("doxygen directory : ${doxydir}")
+        message("include directory : ${includedirs}")
         file(MAKE_DIRECTORY ${outputdir})
         add_custom_command(
-            OUTPUT  ${outputdir}/Doxyfile
+            OUTPUT  ${outputdir}/${target}/Doxyfile
             COMMAND ${CMAKE_COMMAND}
                     -D "DOXYGEN_TEMPLATE=${doxydir}/Doxyfile.in"
                     -D "DOXY_PROJECT_INPUT=${source_spaces} ${header_spaces}"
@@ -74,7 +80,7 @@ function(add_document target)
         add_custom_command(
             OUTPUT  ${outputdir}/${target}/index.html
             COMMAND ${DOXYGEN_EXECUTABLE}
-            DEPENDS ${outputdir}/Doxyfile
+            DEPENDS ${outputdir}/${target}/Doxyfile
             WORKING_DIRECTORY
                     ${outputdir}/${target}
             COMMENT "Creating HTML documentation for ${target}")
