@@ -6,7 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /OverlayImage1
+        - /PointCloud21
+        - /PointCloud21/Status1
         - /MarkerArray1
       Splitter Ratio: 0.5
     Tree Height: 775
@@ -28,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -161,7 +162,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0500000007
       Style: Flat Squares
-      Topic: /velodyne2_points
+      Topic: /velodyne2_points/filterd
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -275,10 +276,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.540398955
+      Pitch: 0.165398836
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.4154036
+      Yaw: 3.18541193
     Saved: ~
 Window Geometry:
   Displays:
