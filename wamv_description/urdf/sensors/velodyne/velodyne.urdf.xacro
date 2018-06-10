@@ -15,7 +15,13 @@
       <origin xyz="1.5 0 -1" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="scan"/>
-    </joint>    
+    </joint> 
+    <!-- Velodyne Link+Joint+Plugin -->
+    <xacro:VLP-16 parent="base_link" name="velodyne2"
+                  topic="/velodyne2_points"
+                  hz="10" samples="440">
+      <origin xyz="1.5 0 0.8" rpy="0 0 0" />
+    </xacro:VLP-16>
   </xacro:macro>
   
 </robot>

@@ -104,6 +104,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        velodyne2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        velodyne2_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         velodyne_base_link:
           Alpha: 1
           Show Axes: false
@@ -143,7 +153,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: -999999
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -151,7 +161,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0500000007
       Style: Flat Squares
-      Topic: /velodyne_points
+      Topic: /velodyne2_points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -181,6 +191,10 @@ Visualization Manager:
           Value: true
         velodyne:
           Value: true
+        velodyne2:
+          Value: true
+        velodyne2_base_link:
+          Value: true
         velodyne_base_link:
           Value: true
       Marker Scale: 1
@@ -205,6 +219,9 @@ Visualization Manager:
               {}
             scan:
               {}
+            velodyne2_base_link:
+              velodyne2:
+                {}
             velodyne_base_link:
               velodyne:
                 {}
@@ -243,7 +260,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 17.1359711
+      Distance: 7.95801449
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -258,10 +275,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.400399208
+      Pitch: 0.540398955
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.20040393
+      Yaw: 2.4154036
     Saved: ~
 Window Geometry:
   Displays:

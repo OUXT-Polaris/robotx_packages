@@ -69,9 +69,12 @@ set(stereo_image_object_bbox_extractor_src src/disparity_image.cpp src/stereo_im
 add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
 add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 
+set(passthrough_filter_node_src src/passthrough_filter.cpp)
+add_executable(passthrough_filter_node src/passthrough_filter_node.cpp ${passthrough_filter_node_src})
+add_dependencies(passthrough_filter_node robotx_msgs_generate_messages_cpp)
 
-set(euclidean_cluster_tracker_node src/euclidean_cluster_tracker_node.cpp src/particle_filter.cpp src/euclidean_cluster_tracker.cpp)
-add_executable(euclidean_cluster_tracker_node ${euclidean_cluster_tracker_node})
+set(euclidean_cluster_tracker_node_src src/euclidean_cluster_tracker_node.cpp src/particle_filter.cpp src/euclidean_cluster_tracker.cpp)
+add_executable(euclidean_cluster_tracker_node ${euclidean_cluster_tracker_node_src})
 add_dependencies(euclidean_cluster_tracker_node robotx_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
@@ -81,6 +84,7 @@ target_link_libraries(voxelchain_input_generator_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(passthrough_filter_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 
 #############
@@ -89,7 +93,8 @@ target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 # CPP Execution programs
 set(CPP_EXEC_NAMES 
   object_recognition_node euclidean_clustering_node voxelchain_input_generator_node 
-  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
+  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node
+  passthrough_filter_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
