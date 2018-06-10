@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robotx_gazebo)
 
+include(../Doxygen/doxygen.cmake)
+
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
   gazebo_plugins
@@ -57,6 +59,7 @@ target_link_libraries(buoyancy_gazebo_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
   )
+add_document(buoyancy_gazebo_plugin)
 
 # usv_gazebo_dynamics_plugin
 add_library(usv_gazebo_dynamics_plugin
@@ -67,6 +70,7 @@ target_link_libraries(usv_gazebo_dynamics_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_gazebo_dynamics_plugin)
 
 # usv_gazebo_thrust_plugin
 add_library(usv_gazebo_thrust_plugin
@@ -79,6 +83,7 @@ target_link_libraries(usv_gazebo_thrust_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_gazebo_thrust_plugin)
 
 ## usv_gazebo_wind_plugin
 add_library(usv_gazebo_wind_plugin
@@ -89,6 +94,7 @@ target_link_libraries(usv_gazebo_wind_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_gazebo_wind_plugin)
 
 # usv_twist_sensor_plugin
 add_library(usv_twist_sensor_plugin
@@ -99,6 +105,7 @@ target_link_libraries(usv_twist_sensor_plugin
   ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
 )
+add_document(usv_twist_sensor_plugin)
 
 #############
 ## Install ##
@@ -135,7 +142,7 @@ install(TARGETS usv_twist_sensor_plugin
 )
 
 # include header files
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 

@@ -15,6 +15,14 @@
  *
 */
 
+/**
+ * @brief gazebo plugin class for buoyancy simulation
+ * 
+ * @file buoyancy_gazebo_plugin.hh
+ * @author Open Source Robotics Foundation
+ * @date 2015
+ */
+
 #ifndef GAZEBO_PLUGINS_BUOYANCYPLUGIN_HH_
 #define GAZEBO_PLUGINS_BUOYANCYPLUGIN_HH_
 
@@ -64,6 +72,10 @@ namespace gazebo
   /// computation will not be accurate if the object is not composed of simple
   /// collision shapes.
   //  class GAZEBO_VISIBLE BuoyancyPlugin : public ModelPlugin
+  /**
+   * @brief Class for gazebo BuoyancyPlugin
+   * 
+   */
   class BuoyancyPlugin : public ModelPlugin
   {
     /// \brief Constructor.
@@ -88,15 +100,24 @@ namespace gazebo
     /// \brief Pointer to the plugin SDF.
     protected: sdf::ElementPtr sdf;
 
-    /// \brief The density of the fluid in which the object is submerged in
-    /// kg/m^3. Defaults to 1000, the fluid density of water.
+    /**
+     * @brief The density of the fluid in which the object is submerged in
+     * kg/m^3. Defaults to 1000, the fluid density of water.
+     * 
+     */
     protected: double fluidDensity;
 
-    // \brief The height of the fluid/air interface [m].  Defaults to 0
-  protected: double fluidLevel;
+    /**
+     * @brief The height of the fluid/air interface [m].  Defaults to 0
+     * 
+     */
+    protected: double fluidLevel;
 
-    // \brief Quadratic drag generally applied to Z velocity
-  protected: double fluidDrag;
+    /**
+     * @brief Quadratic drag generally applied to Z velocity
+     * 
+     */
+    protected: double fluidDrag;
     
 
     /// \brief Map of <link ID, point> pairs mapping link IDs to the CoV (center

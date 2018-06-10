@@ -20,6 +20,14 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+/**
+ * @brief 
+ * 
+ * @file usv_gazebo_dynamics_plugin.hh
+ * @author Brian Bingham
+ * @date 2017
+ */
+
 #ifndef USV_GAZEBO_DYNAMICS_H
 #define USV_GAZEBO_DYNAMICS_H
 
@@ -51,51 +59,76 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace gazebo
 {
+  /**
+   * @brief USV plugin for gazebo
+   * 
+   */
   class UsvPlugin : public ModelPlugin
   {
   public:
+    /**
+     * @brief Construct a new Usv Plugin object
+     * 
+     */
     UsvPlugin();
+    /**
+     * @brief Destroy the Usv Plugin object
+     * 
+     */
     virtual ~UsvPlugin();
-    /*! Loads the model in gets dynamic parameters from SDF. */
+    /** 
+     * @brief Loads the model in gets dynamic parameters from SDF. 
+     */
     virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
   protected:
-    /*! Callback for Gazebo simulation engine */
+    /* @brief Callback for Gazebo simulation engine */
     virtual void UpdateChild();
     virtual void FiniChild();
   private:
-    /*! Presumably this would get called when there is a collision,
+    /* @brief Presumably this would get called when there is a collision,
       but not implemented! */
     void OnContact(const std::string &name, const physics::Contact &contact);
 
-    /*! ROS spin once */
+    /** @brief ROS spin once */
     void spin();
 
-    /*! Convenience function for getting SDF parameters
-
-     */
+    /** @brief Convenience function for getting SDF parameters */
     double getSdfParamDouble(sdf::ElementPtr sdfPtr,const std::string &param_name,double default_val);
 
     /// Parameters
+    /**
+    * @brief parameter for node namespace
+    */
     std::string node_namespace_;
+    /**
+    * @brief parameter for target link name
+    */
     std::string link_name_;
-
+    /**
+    * @brief parameter for ROS NodeHandle
+    */
     ros::NodeHandle *rosnode_;
 
-    ros::Publisher sensor_state_pub_;
-    ros::Publisher odom_pub_;
-    ros::Publisher joint_state_pub_;
+    //ros::Publisher sensor_state_pub_;
+    //ros::Publisher odom_pub_;
+    //ros::Publisher joint_state_pub_;
 
     //GazeboRosPtr gazebo_ros_;
     //physics::ModelPtr parent;
+    /**
+    * @brief parameter for update connection(necessary for gazebo)
+    */
     event::ConnectionPtr update_connection_;
 
-    /*! Pointer to the Gazebo world, retrieved when the model is loaded */
+    /** @brief Pointer to the Gazebo world, retrieved when the model is loaded */
     physics::WorldPtr world_;
-    /*! Pointer to Gazebo parent model, retrieved when the model is loaded */
+    /** @brief Pointer to Gazebo parent model, retrieved when the model is loaded */
     physics::ModelPtr model_;
-    /*! Pointer to model link in gazebo,
-      optionally specified by the bodyName parameter,
-      The states are taken from this link and forces applied to this link.*/
+    /**
+    *  @brief Pointer to model link in gazebo,
+    *  optionally specified by the bodyName parameter,
+    *  The states are taken from this link and forces applied to this link.
+    */
     physics::LinkPtr link_;
 
 
@@ -125,50 +158,50 @@ namespace gazebo
     std::vector<int> II_;
 
     // Values to set via Plugin Parameters
-    /*! Plugin Parameter: Added mass in surge, X_\dot{u} */
+    /** @brief Plugin Parameter: Added mass in surge, X_\dot{u} */
     double param_X_dot_u_;
-    /*! Plugin Parameter: Added mass in sway, Y_\dot{v} */
+    /** @brief Plugin Parameter: Added mass in sway, Y_\dot{v} */
     double param_Y_dot_v_;
-    /*! Plugin Parameter: Added mass in yaw, N_\dot{r}*/
+    /** @brief Plugin Parameter: Added mass in yaw, N_\dot{r}*/
     double param_N_dot_r_;
 
-    /*! Plugin Parameter: Linear drag in surge */
+    /** @brief Plugin Parameter: Linear drag in surge */
     double param_X_u_;
-    /*! Plugin Parameter: Quadratic drag in surge */
+    /** @brief Plugin Parameter: Quadratic drag in surge */
     double param_X_uu_;
-    /*! Plugin Parameter: Linear drag in sway */
+    /** @brief Plugin Parameter: Linear drag in sway */
     double param_Y_v_;
-    /*! Plugin Parameter: Quadratic drag in sway */
+    /** @brief Plugin Parameter: Quadratic drag in sway */
     double param_Y_vv_;
 
     double param_Z_w_;
     double param_K_p_;
     double param_M_q_;
 
-    /*! Plugin Parameter: Linear drag in yaw */
+    /** @brief Plugin Parameter: Linear drag in yaw */
     double param_N_r_;
-    /*! Plugin Parameter: Quadratic drag in yaw*/
+    /** @brief Plugin Parameter: Quadratic drag in yaw*/
     double param_N_rr_;
-    /*! Plugin Parameter: Boat width [m] */
+    /** @brief Plugin Parameter: Boat width [m] */
     double param_boat_width_;
-    /*! Plugin Parameter: Boat length [m] */
+    /** @brief Plugin Parameter: Boat length [m] */
     double param_boat_length_;
-    /*! Plugin Parameter: Horizontal surface area [m^2] */
+    /** @brief Plugin Parameter: Horizontal surface area [m^2] */
     double param_boat_area_ ;
-    /*! Plugin Parameter: Metacentric length [m] */
+    /** @brief Plugin Parameter: Metacentric length [m] */
     double param_metacentric_length_;
-    /*! Plugin Parameter: Metacentric width[m] */
+    /** @brief Plugin Parameter: Metacentric width[m] */
     double param_metacentric_width_;
 
 
     double xyz_damping_;
     double yaw_damping_;
     double rp_damping_;
-    /* Water height [m]*/
+    /** @brief Water height [m]*/
     double water_level_;
-    /* Water density [kg/m^3] */
+    /** @brief Water density [kg/m^3] */
     double water_density_;
-    /*! Added mass matrix, 6x6 */
+    /** @brief Added mass matrix, 6x6 */
     Eigen::MatrixXd Ma_;
 
     /* Wave parameters */
