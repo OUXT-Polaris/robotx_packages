@@ -15,7 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
   robotx_msgs
   image_transport
   cv_bridge
+  visualization_msgs
 )
+
+find_package(Boost REQUIRED COMPONENTS system thread)
 
 find_package(OpenMP)
 if (OPENMP_FOUND)
@@ -23,18 +26,22 @@ if (OPENMP_FOUND)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
+
 find_package(OpenCV REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
 ###################################
-catkin_package()
+catkin_package(
+  DEPENDS Eigen
+)
 
 ###########
 ## Build ##
 ###########
 include_directories(
   include
+  ${Eigen_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
@@ -45,10 +52,6 @@ add_dependencies(object_recognition_node robotx_msgs_generate_messages_cpp)
 set(euclidean_clustering_src src/euclidean_clustering_node.cpp src/euclidean_clustering.cpp)
 add_executable(euclidean_clustering_node ${euclidean_clustering_src})
 add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
-
-set(voxelchain_input_generator_src src/voxelchain_input_generator_node.cpp src/voxelchain_input_generator.cpp)
-add_executable(voxelchain_input_generator_node ${voxelchain_input_generator_src})
-add_dependencies(voxelchain_input_generator_node robotx_msgs_generate_messages_cpp)
 
 set(hsv_buoy_detector_src src/hsv_buoy_detector_node.cpp src/hsv_buoy_detector.cpp)
 add_executable(hsv_buoy_detector_node ${hsv_buoy_detector_src})
@@ -62,20 +65,29 @@ set(stereo_image_object_bbox_extractor_src src/disparity_image.cpp src/stereo_im
 add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
 add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 
+set(passthrough_filter_node_src src/passthrough_filter.cpp)
+add_executable(passthrough_filter_node src/passthrough_filter_node.cpp ${passthrough_filter_node_src})
+add_dependencies(passthrough_filter_node robotx_msgs_generate_messages_cpp)
+
+set(euclidean_cluster_tracker_node_src src/euclidean_cluster_tracker_node.cpp src/particle_filter.cpp src/euclidean_cluster_tracker.cpp)
+add_executable(euclidean_cluster_tracker_node ${euclidean_cluster_tracker_node_src})
+add_dependencies(euclidean_cluster_tracker_node robotx_msgs_generate_messages_cpp)
+
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
-target_link_libraries(voxelchain_input_generator_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(passthrough_filter_node ${catkin_LIBRARIES})
+target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
 #############
 # CPP Execution programs
 set(CPP_EXEC_NAMES 
-  object_recognition_node euclidean_clustering_node voxelchain_input_generator_node 
+  object_recognition_node euclidean_clustering_node passthrough_filter_node
   hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}

@@ -28,7 +28,6 @@ add_message_files(
   BoundingBox2DArray.msg
   BoundingBox2DArrayStamped.msg
   BoundingBox3D.msg
-  EuclideanClusters.msg
   VoxelChainInput.msg
   VoxelChainInputs.msg
   UsvDrive.msg

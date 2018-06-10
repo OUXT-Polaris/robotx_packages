@@ -1,0 +1,10 @@
+input_cloud: /velodyne2_points
+output_cloud: /velodyne2_points/filterd
+#if you want to remove pointcloud you should set mode 1
+mode: 1
+min_x: -5
+max_x: 1
+min_y: -2
+max_y: 2
+min_z: 0
+max_z: 0
