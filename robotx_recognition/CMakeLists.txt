@@ -53,10 +53,6 @@ set(euclidean_clustering_src src/euclidean_clustering_node.cpp src/euclidean_clu
 add_executable(euclidean_clustering_node ${euclidean_clustering_src})
 add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
 
-set(voxelchain_input_generator_src src/voxelchain_input_generator_node.cpp src/voxelchain_input_generator.cpp)
-add_executable(voxelchain_input_generator_node ${voxelchain_input_generator_src})
-add_dependencies(voxelchain_input_generator_node robotx_msgs_generate_messages_cpp)
-
 set(hsv_buoy_detector_src src/hsv_buoy_detector_node.cpp src/hsv_buoy_detector.cpp)
 add_executable(hsv_buoy_detector_node ${hsv_buoy_detector_src})
 add_dependencies(hsv_buoy_detector_node robotx_msgs_generate_messages_cpp)
@@ -80,7 +76,6 @@ add_dependencies(euclidean_cluster_tracker_node robotx_msgs_generate_messages_cp
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
-target_link_libraries(voxelchain_input_generator_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
@@ -92,9 +87,8 @@ target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 #############
 # CPP Execution programs
 set(CPP_EXEC_NAMES 
-  object_recognition_node euclidean_clustering_node voxelchain_input_generator_node 
-  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node
-  passthrough_filter_node)
+  object_recognition_node euclidean_clustering_node passthrough_filter_node
+  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
