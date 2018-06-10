@@ -10,7 +10,9 @@ euclidean_cluster_tracker::~euclidean_cluster_tracker()
 
 }
 
+/*
 void euclidean_cluster_tracker::euclidean_cluster_callback_(const robotx_msgs::EuclideanClustersConstPtr& msg)
 {
 
 }
+*/

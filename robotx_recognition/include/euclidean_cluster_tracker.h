@@ -4,7 +4,7 @@
 #include <ros/ros.h>
 
 #include "particle_filter.h"
-#include <robotx_msgs/EuclideanClusters.h>
+//#include <robotx_msgs/EuclideanClusters.h>
 
 class euclidean_cluster_tracker
 {
@@ -12,7 +12,7 @@ public:
     euclidean_cluster_tracker();
     ~euclidean_cluster_tracker();
 private:
-    void euclidean_cluster_callback_(const robotx_msgs::EuclideanClustersConstPtr& msg);
+    //void euclidean_cluster_callback_(const robotx_msgs::EuclideanClustersConstPtr& msg);
     ros::NodeHandle nh_;
     //particle_filter* pfilter_;
 };
