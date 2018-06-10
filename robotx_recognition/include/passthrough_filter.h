@@ -9,6 +9,10 @@
  * @date 2018-06-10
  */
 
+//headers for ros
+#include <ros/ros.h>
+
+//headers in PCL
 #include <pcl/point_types.h>
 #include <pcl/filters/passthrough.h>
 
@@ -26,19 +30,28 @@ public:
     struct parameters
     {
         int mode;
-        double x_size;
-        double y_size;
-        double z_size;
+        double min_x;
+        double max_x;
+        double min_y;
+        double max_y;
+        double min_z;
+        double max_z;
+        std::string input_cloud;
         /**
          * @brief default parameters
          * 
          */
         parameters()
         {
-            mode = remain;
-            x_size = 0;
-            y_size = 0;
-            z_size = 0;
+            //if you want run as remove mode, set mode = 1
+            ros::param::param<int>(ros::this_node::getName()+"/mode", mode, remain);
+            ros::param::param<double>(ros::this_node::getName()+"/min_x", min_x, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/min_y", min_y, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/min_z", min_z, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/max_x", max_x, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/max_y", max_y, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/max_z", max_z, 0.0);
+            ros::param::param<std::string>(ros::this_node::getName()+"/input_cloud", input_cloud, "/velodyne_points");
         }
     };
     /**
@@ -46,13 +59,6 @@ public:
      * 
      */
     passthough_filter();
-    /**
-     * @brief Construct a new passthough filter object
-     * 
-     * @param param
-     * @sa passthough_filter::parameters
-     */
-    passthough_filter(passthough_filter::parameters& param);
     /**
      * @brief Destroy the passthough filter object
      * 
@@ -66,7 +72,9 @@ private:
      * remain : remain pointclouds in the box
      * remove : remove pointclouds in the box
      */
-    enum modes{remain,remove};
+    enum modes{remain=0,remove=1};
+    ros::NodeHandle nh_;
+    ros::Subscriber pointcloud_sub_;
 };
 
 #endif  //PASSTHROUGH_FILTER_H_INCLUDED
