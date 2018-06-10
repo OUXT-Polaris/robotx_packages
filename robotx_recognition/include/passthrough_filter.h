@@ -11,10 +11,7 @@
 
 //headers for ros
 #include <ros/ros.h>
-
-//headers in PCL
-#include <pcl/point_types.h>
-#include <pcl/filters/passthrough.h>
+#include <sensor_msgs/PointCloud2.h>
 
 /**
  * @brief passthrought filter class
@@ -75,6 +72,7 @@ private:
     enum modes{remain=0,remove=1};
     ros::NodeHandle nh_;
     ros::Subscriber pointcloud_sub_;
+    void pointcloud_callback_(sensor_msgs::PointCloud2 msg);
 };
 
 #endif  //PASSTHROUGH_FILTER_H_INCLUDED

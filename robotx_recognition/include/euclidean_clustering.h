@@ -10,7 +10,6 @@
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
-#include <pcl/console/time.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/features/moment_of_inertia_estimation.h>
