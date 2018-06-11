@@ -1,6 +1,7 @@
 //headers in this package
 #include <robotx_hardware_interface.h>
 #include <robotx_msgs/UsvDrive.h>
+#include <robotx_msgs/Heartbeat.h>
 
 robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware_interface::parameters())
 {
@@ -15,12 +16,22 @@ robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware
         last_motor_cmd_msg_.data[2] = 0;
         last_motor_cmd_msg_.data[3] = 0;
     }
+    heartbeat_pub_ = nh_.advertise<robotx_msgs::Heartbeat>("/heartbeat",1);
+    fix_sub_ = nh_.subscribe("/fix", 1, &robotx_hardware_interface::fix_callback_, this);
+    motor_command_sub_ = nh_.subscribe("/wam_v/motor_command", 1, &robotx_hardware_interface::motor_command_callback_, this);
     boost::thread send_command_thread(boost::bind(&robotx_hardware_interface::send_command_, this));
+    send_command_thread.join();
 }
 
 robotx_hardware_interface::~robotx_hardware_interface()
 {
 
+}
+
+void robotx_hardware_interface::fix_callback_(sensor_msgs::NavSatFix msg)
+{
+    last_fix_msg_ = msg;
+    return;
 }
 
 void robotx_hardware_interface::joy_callback_(sensor_msgs::Joy msg)
@@ -57,6 +68,15 @@ void robotx_hardware_interface::send_command_()
             left_thrust_joint_pub_.publish(left_thrust_joint_cmd_);
             right_thrust_joint_pub_.publish(right_thrust_joint_cmd_);
         }
+        rate.sleep();
+    }
+}
+
+void robotx_hardware_interface::publish_heartbeat_()
+{
+    ros::Rate rate(1);
+    while (ros::ok())
+    {
         rate.sleep();
     }
 }
