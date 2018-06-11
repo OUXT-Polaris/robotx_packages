@@ -15,6 +15,7 @@ robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware
         last_motor_cmd_msg_.data[2] = 0;
         last_motor_cmd_msg_.data[3] = 0;
     }
+    boost::thread send_command_thread(boost::bind(&robotx_hardware_interface::send_command_, this));
 }
 
 robotx_hardware_interface::~robotx_hardware_interface()
@@ -40,17 +41,22 @@ void robotx_hardware_interface::motor_command_callback_(std_msgs::Float64MultiAr
 
 void robotx_hardware_interface::send_command_()
 {
-    if(params_.target == ALL || params_.target == SIMULATION)
+    ros::Rate rate(params_.frequency);
+    while (ros::ok())
     {
-        robotx_msgs::UsvDrive usv_drive_msg;
-        usv_drive_msg.left = last_motor_cmd_msg_.data[0];
-        usv_drive_msg.right = last_motor_cmd_msg_.data[2];
-        std_msgs::Float64 left_thrust_joint_cmd_;
-        left_thrust_joint_cmd_.data = last_motor_cmd_msg_.data[1];
-        std_msgs::Float64 right_thrust_joint_cmd_;
-        right_thrust_joint_cmd_.data = last_motor_cmd_msg_.data[3];
-        usv_drive_cmd_pub_.publish(usv_drive_msg);
-        left_thrust_joint_pub_.publish(left_thrust_joint_cmd_);
-        right_thrust_joint_pub_.publish(right_thrust_joint_cmd_);
+        if(params_.target == ALL || params_.target == SIMULATION)
+        {
+            robotx_msgs::UsvDrive usv_drive_msg;
+            usv_drive_msg.left = last_motor_cmd_msg_.data[0];
+            usv_drive_msg.right = last_motor_cmd_msg_.data[2];
+            std_msgs::Float64 left_thrust_joint_cmd_;
+            left_thrust_joint_cmd_.data = last_motor_cmd_msg_.data[1];
+            std_msgs::Float64 right_thrust_joint_cmd_;
+            right_thrust_joint_cmd_.data = last_motor_cmd_msg_.data[3];
+            usv_drive_cmd_pub_.publish(usv_drive_msg);
+            left_thrust_joint_pub_.publish(left_thrust_joint_cmd_);
+            right_thrust_joint_pub_.publish(right_thrust_joint_cmd_);
+        }
+        rate.sleep();
     }
 }
