@@ -10,6 +10,9 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/Float64.h>
 
+//headers in boost
+#include <boost/thread.hpp>
+
 class robotx_hardware_interface
 {
 public:
@@ -65,8 +68,17 @@ private:
      * @brief ROS callback function for motor command
      * 
      * @param msg [left_thruster_cmd left_thruster_joint_angle right_thruster_cmd right_thruster_joint_angle]
+     * 
+     * -1 < left_thruster_cmd < 1
+     * 
+     *  -1 < right_thruster_cmd < 1
      */
     void motor_command_callback_(std_msgs::Float64MultiArray msg);
+    /**
+     * @brief send command to motor_driver or simulation.
+     * 
+     */
+    void send_command_();
     ros::NodeHandle nh_;
     ros::Subscriber motor_command_sub_;
     ros::Publisher usv_drive_cmd_pub_;
