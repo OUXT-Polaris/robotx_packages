@@ -4,7 +4,7 @@
 
 robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware_interface::parameters())
 {
-    if(params_.target == all || params_.target == simulation )
+    if(params_.target == ALL || params_.target == SIMULATION)
     {
         usv_drive_cmd_pub_ = nh_.advertise<robotx_msgs::UsvDrive>("/cmd_drive", 1);
         left_thrust_joint_pub_ = nh_.advertise<std_msgs::Float64>("/left_thruster_position_controller/command",1);
@@ -40,7 +40,7 @@ void robotx_hardware_interface::motor_command_callback_(std_msgs::Float64MultiAr
 
 void robotx_hardware_interface::send_command_()
 {
-    if(params_.target == all || params_.target == simulation )
+    if(params_.target == ALL || params_.target == SIMULATION)
     {
         robotx_msgs::UsvDrive usv_drive_msg;
         usv_drive_msg.left = last_motor_cmd_msg_.data[0];
@@ -49,5 +49,8 @@ void robotx_hardware_interface::send_command_()
         left_thrust_joint_cmd_.data = last_motor_cmd_msg_.data[1];
         std_msgs::Float64 right_thrust_joint_cmd_;
         right_thrust_joint_cmd_.data = last_motor_cmd_msg_.data[3];
+        usv_drive_cmd_pub_.publish(usv_drive_msg);
+        left_thrust_joint_pub_.publish(left_thrust_joint_cmd_);
+        right_thrust_joint_pub_.publish(right_thrust_joint_cmd_);
     }
 }

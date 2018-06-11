@@ -49,8 +49,8 @@ public:
          */
         parameters()
         {
-            ros::param::param<int>(ros::this_node::getName()+"/mode", target, all);
-            ros::param::param<int>(ros::this_node::getName()+"/mode", mode, manual);
+            ros::param::param<int>(ros::this_node::getName()+"/mode", target, ALL);
+            ros::param::param<int>(ros::this_node::getName()+"/mode", mode, REMOTE_OPERATED);
             ros::param::param<int>(ros::this_node::getName()+"/timeout", timeout, 30);
             ros::param::param<int>(ros::this_node::getName()+"/frequency", frequency, 30);
         };
@@ -87,8 +87,8 @@ private:
     sensor_msgs::Joy last_joy_cmd_;
     std_msgs::Float64MultiArray last_motor_cmd_msg_;
     const parameters params_;
-    enum targets_{all=0,simulation=1,hardware=2};
-    enum modes_{emergency=-1,manual=0,autopilot=1};
+    enum targets_{ALL=0,SIMULATION=1,HARDWARE=2};
+    enum modes_{REMOTE_OPERATED=0,AUTONOMOUS=1,EMERGENCY=2};
     enum controllers_{dualshock4=0};
 };
 
