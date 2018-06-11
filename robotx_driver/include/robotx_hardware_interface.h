@@ -1,9 +1,14 @@
 #ifndef ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE
 #define ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE
 
+//headers in this package
+#include <tcp_client.h>
+
+//headers in ROS
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
-#include <std_msgs/Float32MultiArray.h>
+#include <std_msgs/Float64MultiArray.h>
+#include <std_msgs/Float64.h>
 
 class robotx_hardware_interface
 {
@@ -26,11 +31,6 @@ public:
          */
         int timeout;
         /**
-         * @brief connection timeout [sec] with joystick controller
-         * 
-         */
-        int controller_timeout;
-        /**
          * @brief controller type
          * @sa robotx_hardware_interface::controllers_
          */
@@ -49,7 +49,6 @@ public:
             ros::param::param<int>(ros::this_node::getName()+"/mode", target, all);
             ros::param::param<int>(ros::this_node::getName()+"/mode", mode, manual);
             ros::param::param<int>(ros::this_node::getName()+"/timeout", timeout, 30);
-            ros::param::param<int>(ros::this_node::getName()+"/controller_timeout", controller_timeout, 30);
             ros::param::param<int>(ros::this_node::getName()+"/frequency", frequency, 30);
         };
     };
@@ -67,15 +66,14 @@ private:
      * 
      * @param msg [left_thruster_cmd left_thruster_joint_angle right_thruster_cmd right_thruster_joint_angle]
      */
-    void motor_command_callback_(std_msgs::Float32MultiArray msg);
+    void motor_command_callback_(std_msgs::Float64MultiArray msg);
     ros::NodeHandle nh_;
     ros::Subscriber motor_command_sub_;
     ros::Publisher usv_drive_cmd_pub_;
     ros::Publisher left_thrust_joint_pub_;
     ros::Publisher right_thrust_joint_pub_;
-    ros::Duration last_connection_left_motor_;
-    ros::Duration last_connection_right_motor_;
-    ros::Duration last_connection_controller_;
+    sensor_msgs::Joy last_joy_cmd_;
+    std_msgs::Float64MultiArray last_motor_cmd_msg_;
     const parameters params_;
     enum targets_{all=0,simulation=1,hardware=2};
     enum modes_{emergency=-1,manual=0,autopilot=1};
