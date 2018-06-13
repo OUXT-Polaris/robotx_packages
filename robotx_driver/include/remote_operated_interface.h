@@ -4,6 +4,7 @@
 //headers in ROS
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
+#include <std_msgs/Float64MultiArray.h>
 
 //headers in STL
 #include <functional>
@@ -60,7 +61,16 @@ private:
      * 
      */
     std::function<void(int)> set_action_mode_function_;
-    boost::signals2::signal<void (int)> signal_;
+    /**
+     * @brief singal for set_action_mode function
+     * @sa robotx_hardware_interface::set_action_mode
+     */
+    boost::signals2::signal<void (int)> action_mode_signal_;
+    /**
+     * @brief callback function for sending motor command
+     * @sa robotx_hardware_interface::recieve_remote_oprated_motor_command
+     */
+    std::function<void(std_msgs::Float64MultiArray motor_command)> send_motor_command_;
     /**
      * @brief ROS callback function for joystick
      * 

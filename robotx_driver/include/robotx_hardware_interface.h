@@ -106,6 +106,12 @@ public:
      * @param mode target action mode
      */
     void set_action_mode(int mode);
+    /**
+     * @brief callback function for remote_operated_interface::send_motor_command function
+     * @sa remote_operated_interface::send_motor_command_
+     * @param msg 
+     */
+    void recieve_remote_oprated_motor_command(std_msgs::Float64MultiArray msg);
 private:
     /**
      * @brief ROS callback function for motor command
