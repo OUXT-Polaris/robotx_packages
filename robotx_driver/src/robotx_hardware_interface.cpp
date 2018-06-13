@@ -24,6 +24,7 @@ robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware
     {
         left_motor_cmd_client_ptr_ = new tcp_client(io_service_,params_.left_motor_ip,params_.left_motor_port,params_.timeout);
         right_motor_cmd_client_ptr_ = new tcp_client(io_service_,params_.right_motor_ip,params_.right_motor_port,params_.timeout);
+        io_service_.run();
     }
     driving_mode_ = params_.init_mode;
     current_task_number_ = 0;
