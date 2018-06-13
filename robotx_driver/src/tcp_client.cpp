@@ -4,11 +4,23 @@
 //headers in ROS
 #include <ros/ros.h>
 
-tcp_client::tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port):io_service_(io_service),socket_(io_service)
+tcp_client::tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port)
+  : io_service_(io_service),socket_(io_service),timer_(io_service),is_canceled_(false)
 {
   connection_status_ = false;
   ip_address_ = ip_address;
   port_ = port;
+  timeout_ = boost::chrono::seconds(30);
+  connect();
+}
+
+tcp_client::tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port, int timeout)
+  : io_service_(io_service),socket_(io_service),timer_(io_service),is_canceled_(false)
+{
+  connection_status_ = false;
+  ip_address_ = ip_address;
+  port_ = port;
+  timeout_ = boost::chrono::seconds(timeout);
   connect();
 }
 
@@ -22,6 +34,14 @@ void tcp_client::connect()
   socket_.async_connect(
     boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip_address_), port_),
     boost::bind(&tcp_client::on_connect, this, boost::asio::placeholders::error));
+}
+
+void tcp_client::on_timer(const boost::system::error_code& error)
+{
+  if (!error && !is_canceled_) 
+  {
+      socket_.cancel();
+  }
 }
 
 //callback function on connect

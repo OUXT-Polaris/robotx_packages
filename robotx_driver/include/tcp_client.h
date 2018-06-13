@@ -4,7 +4,8 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
-
+#include <boost/asio/steady_timer.hpp>
+#include <boost/chrono/chrono.hpp>
 /**
 *  @brief async TCP/IP client class using boost/asio
 *  @details https://boostjp.github.io/tips/network/tcp.html
@@ -22,8 +23,19 @@ public:
   * @param ip_address ip_address of target tcp/ip server. ex. "127.0.0.1"
   * 
   * @param port of target tcp/ip server. ex. 8000
+  * 
+  * timeout [sec] = 30 [sec]
   */
   tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port);
+  /**
+   * @brief Construct a new tcp client object
+   * 
+   * @param io_service io_service for TCP/IP clienet.
+   * @param ip_address ip_address of target tcp/ip server. ex. "127.0.0.1"
+   * @param port tcp/ip server. ex. 8000
+   * @param timeout timeout [sec]
+   */
+  tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port,int timeout);
   /**
   * @brief destructor
   */
@@ -61,6 +73,12 @@ private:
    */
   void on_send(const boost::system::error_code& error, size_t bytes_transferred);
   /**
+   * @brief callback function when you recieve timer event
+   * 
+   * @param error error code.
+   */
+  void on_timer(const boost::system::error_code& error);
+  /**
    * @brief io_service for the connection.
    * 
    */
@@ -87,5 +105,20 @@ private:
    * 
    */
   volatile bool connection_status_;
+  /**
+   * @brief connection timer
+   * 
+   */
+  boost::asio::steady_timer timer_;
+  /**
+   * @brief timeout [sec]
+   * 
+   */
+  boost::chrono::seconds timeout_;
+  /**
+   * @brief flag for timeout.
+   * 
+   */
+  bool is_canceled_;
 };
 #endif  //TCP_CLIENT_H_INCLUDED
