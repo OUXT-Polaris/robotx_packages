@@ -4,7 +4,8 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
-
+#include <boost/asio/steady_timer.hpp>
+#include <boost/chrono.hpp>
 /**
 *  @brief async TCP/IP client class using boost/asio
 *  @details https://boostjp.github.io/tips/network/tcp.html
@@ -22,8 +23,19 @@ public:
   * @param ip_address ip_address of target tcp/ip server. ex. "127.0.0.1"
   * 
   * @param port of target tcp/ip server. ex. 8000
+  * 
+  * timeout [sec] = 30 [sec]
   */
   tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port);
+  /**
+   * @brief Construct a new tcp client object
+   * 
+   * @param io_service io_service for TCP/IP clienet.
+   * @param ip_address ip_address of target tcp/ip server. ex. "127.0.0.1"
+   * @param port tcp/ip server. ex. 8000
+   * @param timeout timeout [sec]
+   */
+  tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port,int timeout);
   /**
   * @brief destructor
   */
@@ -34,6 +46,12 @@ public:
   * @param data content for sending
   */
   void send(std::string data);
+  /**
+   * @brief send double data
+   * 
+   * @param data 
+   */
+  void send(double data);
   /**
    * @brief Get the connection status object
    * 
@@ -61,6 +79,20 @@ private:
    */
   void on_send(const boost::system::error_code& error, size_t bytes_transferred);
   /**
+   * @brief callback function which was called when the server read message.
+   * 
+   * @param error error code for data transfer.
+   * @param bytes_transferred number of bytes transferrd.
+   */
+  void on_receive(const boost::system::error_code& error, size_t bytes_transferred);
+  void start_receive();
+  /**
+   * @brief callback function when you recieve timer event
+   * 
+   * @param error error code.
+   */
+  void on_timer(const boost::system::error_code& error);
+  /**
    * @brief io_service for the connection.
    * 
    */
@@ -87,5 +119,25 @@ private:
    * 
    */
   volatile bool connection_status_;
+  /**
+   * @brief connection timer
+   * 
+   */
+  boost::asio::steady_timer timer_;
+  /**
+   * @brief timeout [sec]
+   * 
+   */
+  int timeout_;
+  /**
+   * @brief flag for timeout.
+   * 
+   */
+  bool is_canceled_;
+  /**
+   * @brief recieve buffer
+   * 
+   */
+  boost::asio::streambuf receive_buff_;
 };
 #endif  //TCP_CLIENT_H_INCLUDED

@@ -66,7 +66,7 @@ std::string heartbeat_publisher::generate_checksum(const char *data)
 void heartbeat_publisher::update_heartbeat_message()
 {
   tcp_send_msg_ = "RXHRT,";
-  tcp_send_msg_ = tcp_send_msg_ + std::to_string(heartbeat_msg_.utc_time) + ",";
+  tcp_send_msg_ = tcp_send_msg_ + heartbeat_msg_.utc_time_hh + heartbeat_msg_.utc_time_mm + heartbeat_msg_.utc_time_ss + ",";
   tcp_send_msg_ = tcp_send_msg_ + std::to_string(heartbeat_msg_.latitude) + ",";
   if(heartbeat_msg_.north_or_south == heartbeat_msg_.NORTH)
   {

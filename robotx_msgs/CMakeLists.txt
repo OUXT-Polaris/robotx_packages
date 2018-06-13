@@ -28,8 +28,6 @@ add_message_files(
   BoundingBox2DArray.msg
   BoundingBox2DArrayStamped.msg
   BoundingBox3D.msg
-  VoxelChainInput.msg
-  VoxelChainInputs.msg
   UsvDrive.msg
 )
 ## Generate added messages and services with any dependencies listed here

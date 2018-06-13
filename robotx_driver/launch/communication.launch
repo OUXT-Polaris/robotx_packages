@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <node name="heartbeat_publisher_node" pkg="robotx_communication" type="heartbeat_publisher_node" args="" output="screen" respawn="true">
+  <node name="heartbeat_publisher_node" pkg="robotx_driver" type="heartbeat_publisher_node" args="" output="screen" respawn="true">
     <param name="ip_address" value="127.0.0.1" type="str"/>
     <param name="port" value="10000" type="int"/>
     <param name="publish_rate" value="1.0" type="double"/>
