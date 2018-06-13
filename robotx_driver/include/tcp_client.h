@@ -5,7 +5,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio/steady_timer.hpp>
-#include <boost/chrono/chrono.hpp>
+#include <boost/chrono.hpp>
 /**
 *  @brief async TCP/IP client class using boost/asio
 *  @details https://boostjp.github.io/tips/network/tcp.html
@@ -73,6 +73,14 @@ private:
    */
   void on_send(const boost::system::error_code& error, size_t bytes_transferred);
   /**
+   * @brief callback function which was called when the server read message.
+   * 
+   * @param error error code for data transfer.
+   * @param bytes_transferred number of bytes transferrd.
+   */
+  void on_receive(const boost::system::error_code& error, size_t bytes_transferred);
+  void start_receive();
+  /**
    * @brief callback function when you recieve timer event
    * 
    * @param error error code.
@@ -114,11 +122,16 @@ private:
    * @brief timeout [sec]
    * 
    */
-  boost::chrono::seconds timeout_;
+  int timeout_;
   /**
    * @brief flag for timeout.
    * 
    */
   bool is_canceled_;
+  /**
+   * @brief recieve buffer
+   * 
+   */
+  boost::asio::streambuf receive_buff_;
 };
 #endif  //TCP_CLIENT_H_INCLUDED

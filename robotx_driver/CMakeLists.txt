@@ -17,6 +17,8 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
 )
 
+find_package(Boost REQUIRED COMPONENTS thread system chrono)
+
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -47,13 +49,13 @@ include_directories(
 set(heartbeat_publisher_node_src src/heartbeat_publisher_node.cpp src/heartbeat_publisher.cpp src/tcp_client.cpp)
 add_executable(heartbeat_publisher_node ${heartbeat_publisher_node_src})
 add_dependencies(heartbeat_publisher_node robotx_msgs_generate_messages_cpp)
-target_link_libraries(heartbeat_publisher_node ${catkin_LIBRARIES} ${boost_LIBRARIES})
+target_link_libraries(heartbeat_publisher_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_document(heartbeat_publisher_node)
 
 set(robotx_hardware_interface_src src/robotx_hardware_interface_node.cpp src/robotx_hardware_interface.cpp src/tcp_client.cpp)
 add_executable(robotx_hardware_interface_node ${robotx_hardware_interface_src} src/robotx_hardware_interface_node.cpp)
 add_dependencies(robotx_hardware_interface_node robotx_msgs_generate_messages_cpp)
-target_link_libraries(robotx_hardware_interface_node ${catkin_LIBRARIES})
+target_link_libraries(robotx_hardware_interface_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_document(robotx_hardware_interface_node)
 
 #############

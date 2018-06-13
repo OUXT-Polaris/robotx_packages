@@ -4,13 +4,16 @@
 //headers in ROS
 #include <ros/ros.h>
 
+//headers in STL
+#include <chrono>
+
 tcp_client::tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port)
   : io_service_(io_service),socket_(io_service),timer_(io_service),is_canceled_(false)
 {
   connection_status_ = false;
   ip_address_ = ip_address;
   port_ = port;
-  timeout_ = boost::chrono::seconds(30);
+  timeout_ = 30;
   connect();
 }
 
@@ -20,7 +23,7 @@ tcp_client::tcp_client(boost::asio::io_service& io_service,std::string ip_addres
   connection_status_ = false;
   ip_address_ = ip_address;
   port_ = port;
-  timeout_ = boost::chrono::seconds(timeout);
+  timeout_ = timeout;
   connect();
 }
 
@@ -57,6 +60,24 @@ void tcp_client::on_connect(const boost::system::error_code& error)
     connection_status_ = true;
     ROS_INFO_STREAM("connected");
   }
+  start_receive();
+}
+
+void tcp_client::on_receive(const boost::system::error_code& error, size_t bytes_transferred)
+{
+  if(error == boost::asio::error::operation_aborted)
+  {
+     ROS_ERROR_STREAM("timeout");
+  }
+  else
+  {
+    timer_.cancel();
+    is_canceled_ = true;
+    if(error)
+    {
+      ROS_ERROR_STREAM(error.message());
+    }
+  }
 }
 
 void tcp_client::send(std::string data)
@@ -81,4 +102,16 @@ void tcp_client::on_send(const boost::system::error_code& error, size_t bytes_tr
   {
     std::cout << "send correct!" << std::endl;
   }
+}
+
+void tcp_client::start_receive()
+{
+  boost::asio::async_read(
+      socket_,
+      receive_buff_,
+      boost::asio::transfer_all(),
+      boost::bind(&tcp_client::on_receive, this,
+                  boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+  timer_.expires_from_now(std::chrono::seconds(timeout_));
+  timer_.async_wait(boost::bind(&tcp_client::on_timer, this, _1));
 }
