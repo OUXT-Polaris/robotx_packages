@@ -15,6 +15,9 @@
 //headers in boost
 #include <boost/thread.hpp>
 
+//headers in STL
+#include <mutex>
+
 class robotx_hardware_interface
 {
 public:
@@ -215,6 +218,11 @@ private:
      * 
      */
     volatile int current_task_number_;
+    /**
+     * @brief mutex
+     * 
+     */
+    std::mutex mtx_;
 };
 
 #endif //ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE

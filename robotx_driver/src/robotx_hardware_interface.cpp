@@ -84,6 +84,7 @@ void robotx_hardware_interface::send_command_()
     ros::Rate rate(params_.frequency);
     while (ros::ok())
     {
+        mtx_.lock();
         if(params_.target == params_.ALL || params_.target == params_.SIMULATION)
         {
             robotx_msgs::UsvDrive usv_drive_msg;
@@ -102,6 +103,7 @@ void robotx_hardware_interface::send_command_()
             left_motor_cmd_client_ptr_->send(last_motor_cmd_msg_.data[0]);
             right_motor_cmd_client_ptr_->send(last_motor_cmd_msg_.data[2]);
         }
+        mtx_.unlock();
         rate.sleep();
     }
 }
