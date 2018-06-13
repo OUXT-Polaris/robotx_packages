@@ -51,8 +51,7 @@ public:
    * 
    * @param data 
    */
-  template<typename T,size_t SIZE>
-  void send(std::array<T, SIZE> data);
+  void send(double data);
   /**
    * @brief Get the connection status object
    * 

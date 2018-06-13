@@ -81,13 +81,14 @@ void tcp_client::on_receive(const boost::system::error_code& error, size_t bytes
   }
 }
 
-template<typename T,size_t SIZE>
-void tcp_client::send(std::array<T, SIZE> data)
+void tcp_client::send(double data)
 {
   //send data by using tcp/ip protocol
+  std::array<double,1> data_arr;
+  data_arr[0] = data;
   boost::asio::async_write(
     socket_,
-    boost::asio::buffer(data),
+    boost::asio::buffer(data_arr),
     boost::bind(&tcp_client::on_send, this,
       boost::asio::placeholders::error,
       boost::asio::placeholders::bytes_transferred));

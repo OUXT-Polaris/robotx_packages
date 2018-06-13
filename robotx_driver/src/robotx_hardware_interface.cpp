@@ -75,7 +75,8 @@ void robotx_hardware_interface::send_command_()
         }
         if(params_.target == ALL || params_.target == HARDWARE)
         {
-
+            left_motor_cmd_client_ptr_->send(last_motor_cmd_msg_.data[0]);
+            right_motor_cmd_client_ptr_->send(last_motor_cmd_msg_.data[2]);
         }
         rate.sleep();
     }
