@@ -21,6 +21,21 @@ public:
     struct parameters
     {
         /**
+         * @brief enum parameters describe joystick controller type.
+         * 
+         */
+        enum controllers_{dualshock4=0};
+        /**
+         * @brief enum parameters describe driving mode.
+         * 
+         */
+        enum modes_{REMOTE_OPERATED=0,AUTONOMOUS=1,EMERGENCY=2};
+        /**
+         * @brief enum parameters describe target.
+         * 
+         */
+        enum targets_{ALL=0,SIMULATION=1,HARDWARE=2};
+        /**
          * @brief hardware target
          * @sa robotx_hardware_interface::targets_
          */
@@ -199,21 +214,6 @@ private:
      * 
      */
     volatile int current_task_number_;
-    /**
-     * @brief enum parameters describe target.
-     * 
-     */
-    enum targets_{ALL=0,SIMULATION=1,HARDWARE=2};
-    /**
-     * @brief enum parameters describe driving mode.
-     * 
-     */
-    enum modes_{REMOTE_OPERATED=0,AUTONOMOUS=1,EMERGENCY=2};
-    /**
-     * @brief enum parameters describe joystick controller type.
-     * 
-     */
-    enum controllers_{dualshock4=0};
 };
 
 #endif //ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE

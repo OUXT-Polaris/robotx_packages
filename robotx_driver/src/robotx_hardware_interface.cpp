@@ -9,7 +9,7 @@
 robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware_interface::parameters())
 {
     heartbeat_pub_ = nh_.advertise<robotx_msgs::Heartbeat>("/heartbeat",1);
-    if(params_.target == ALL || params_.target == SIMULATION)
+    if(params_.target == params_.ALL || params_.target == params_.SIMULATION)
     {
         usv_drive_cmd_pub_ = nh_.advertise<robotx_msgs::UsvDrive>("/cmd_drive", 1);
         left_thrust_joint_pub_ = nh_.advertise<std_msgs::Float64>("/left_thruster_position_controller/command",1);
@@ -20,7 +20,7 @@ robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware
         last_motor_cmd_msg_.data[2] = 0;
         last_motor_cmd_msg_.data[3] = 0;
     }
-    if(params_.target == ALL || params_.target == HARDWARE)
+    if(params_.target == params_.ALL || params_.target == params_.HARDWARE)
     {
         left_motor_cmd_client_ptr_ = new tcp_client(io_service_,params_.left_motor_ip,params_.left_motor_port,params_.timeout);
         right_motor_cmd_client_ptr_ = new tcp_client(io_service_,params_.right_motor_ip,params_.right_motor_port,params_.timeout);
@@ -73,7 +73,7 @@ void robotx_hardware_interface::send_command_()
     ros::Rate rate(params_.frequency);
     while (ros::ok())
     {
-        if(params_.target == ALL || params_.target == SIMULATION)
+        if(params_.target == params_.ALL || params_.target == params_.SIMULATION)
         {
             robotx_msgs::UsvDrive usv_drive_msg;
             usv_drive_msg.left = last_motor_cmd_msg_.data[0];
@@ -86,7 +86,7 @@ void robotx_hardware_interface::send_command_()
             left_thrust_joint_pub_.publish(left_thrust_joint_cmd_);
             right_thrust_joint_pub_.publish(right_thrust_joint_cmd_);
         }
-        if(params_.target == ALL || params_.target == HARDWARE)
+        if(params_.target == params_.ALL || params_.target == params_.HARDWARE)
         {
             left_motor_cmd_client_ptr_->send(last_motor_cmd_msg_.data[0]);
             right_motor_cmd_client_ptr_->send(last_motor_cmd_msg_.data[2]);
@@ -127,11 +127,11 @@ void robotx_hardware_interface::publish_heartbeat_()
             heartbeat_msg.east_or_west = heartbeat_msg.WEST;
         heartbeat_msg.longitude = std::fabs(last_fix_msg_.longitude);
         heartbeat_msg.team_id = params_.team_id;
-        if(driving_mode_ == REMOTE_OPERATED)
+        if(driving_mode_ == params_.REMOTE_OPERATED)
             heartbeat_msg.vehicle_mode = heartbeat_msg.REMOTE_OPERATED;
-        if(driving_mode_ == AUTONOMOUS)
+        if(driving_mode_ == params_.AUTONOMOUS)
             heartbeat_msg.vehicle_mode = heartbeat_msg.AUTONOMOUS;
-        if(driving_mode_ == EMERGENCY)
+        if(driving_mode_ == params_.EMERGENCY)
             heartbeat_msg.vehicle_mode = heartbeat_msg.EMERGENCY;
         heartbeat_msg.current_task_number = current_task_number_;
         heartbeat_pub_.publish(heartbeat_msg);

@@ -52,7 +52,8 @@ add_dependencies(heartbeat_publisher_node robotx_msgs_generate_messages_cpp)
 target_link_libraries(heartbeat_publisher_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_document(heartbeat_publisher_node)
 
-set(robotx_hardware_interface_src src/robotx_hardware_interface_node.cpp src/robotx_hardware_interface.cpp src/tcp_client.cpp)
+set(robotx_hardware_interface_src 
+  src/robotx_hardware_interface_node.cpp src/robotx_hardware_interface.cpp src/tcp_client.cpp src/remote_operated_interface.cpp)
 add_executable(robotx_hardware_interface_node ${robotx_hardware_interface_src} src/robotx_hardware_interface_node.cpp)
 add_dependencies(robotx_hardware_interface_node robotx_msgs_generate_messages_cpp)
 target_link_libraries(robotx_hardware_interface_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
