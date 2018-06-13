@@ -3,7 +3,7 @@ project(robotx_driver)
 include(../Doxygen/doxygen.cmake)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -44,6 +44,12 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+set(heartbeat_publisher_node_src src/heartbeat_publisher_node.cpp src/heartbeat_publisher.cpp src/tcp_client.cpp)
+add_executable(heartbeat_publisher_node ${heartbeat_publisher_node_src})
+add_dependencies(heartbeat_publisher_node robotx_msgs_generate_messages_cpp)
+target_link_libraries(heartbeat_publisher_node ${catkin_LIBRARIES} ${boost_LIBRARIES})
+add_document(heartbeat_publisher_node)
+
 set(robotx_hardware_interface_src src/robotx_hardware_interface_node.cpp src/robotx_hardware_interface.cpp src/tcp_client.cpp)
 add_executable(robotx_hardware_interface_node ${robotx_hardware_interface_src} src/robotx_hardware_interface_node.cpp)
 add_dependencies(robotx_hardware_interface_node robotx_msgs_generate_messages_cpp)
@@ -53,7 +59,7 @@ add_document(robotx_hardware_interface_node)
 #############
 ## Install ##
 #############
-install(TARGETS robotx_hardware_interface_node
+install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY include
