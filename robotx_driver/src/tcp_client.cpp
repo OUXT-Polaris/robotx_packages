@@ -6,6 +6,7 @@
 
 //headers in STL
 #include <chrono>
+#include <array>
 
 tcp_client::tcp_client(boost::asio::io_service& io_service,std::string ip_address,int port)
   : io_service_(io_service),socket_(io_service),timer_(io_service),is_canceled_(false)
@@ -78,6 +79,18 @@ void tcp_client::on_receive(const boost::system::error_code& error, size_t bytes
       ROS_ERROR_STREAM(error.message());
     }
   }
+}
+
+template<typename T,size_t SIZE>
+void tcp_client::send(std::array<T, SIZE> data)
+{
+  //send data by using tcp/ip protocol
+  boost::asio::async_write(
+    socket_,
+    boost::asio::buffer(data),
+    boost::bind(&tcp_client::on_send, this,
+      boost::asio::placeholders::error,
+      boost::asio::placeholders::bytes_transferred));
 }
 
 void tcp_client::send(std::string data)
