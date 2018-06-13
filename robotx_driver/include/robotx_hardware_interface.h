@@ -21,11 +21,6 @@ public:
     struct parameters
     {
         /**
-         * @brief enum parameters describe joystick controller type.
-         * 
-         */
-        enum controllers_{dualshock4=0};
-        /**
          * @brief enum parameters describe driving mode.
          * 
          */
@@ -102,6 +97,12 @@ public:
     };
     robotx_hardware_interface();
     ~robotx_hardware_interface();
+    /**
+     * @brief function for setting action mode.
+     * 
+     * @param mode target action mode
+     */
+    void set_action_mode(int mode);
 private:
     /**
      * @brief ROS callback function for joystick

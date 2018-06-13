@@ -40,6 +40,17 @@ robotx_hardware_interface::~robotx_hardware_interface()
 
 }
 
+void robotx_hardware_interface::set_action_mode(int mode)
+{
+    if(mode == params_.REMOTE_OPERATED)
+        driving_mode_ = params_.REMOTE_OPERATED;
+    if(mode == params_.AUTONOMOUS)
+        driving_mode_ = params_.AUTONOMOUS;
+    if(mode == params_.EMERGENCY)
+        driving_mode_ = params_.EMERGENCY;
+    return;
+}
+
 void robotx_hardware_interface::current_task_number_callback_(std_msgs::UInt8 msg)
 {
     current_task_number_ = msg.data;
