@@ -3,6 +3,9 @@
 #include <robotx_msgs/UsvDrive.h>
 #include <robotx_msgs/Heartbeat.h>
 
+//headers in STL
+#include <time.h>
+
 robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware_interface::parameters())
 {
     heartbeat_pub_ = nh_.advertise<robotx_msgs::Heartbeat>("/heartbeat",1);
@@ -98,6 +101,8 @@ void robotx_hardware_interface::publish_heartbeat_()
     while (ros::ok())
     {
         robotx_msgs::Heartbeat heartbeat_msg;
+        time_t t = time(NULL);
+        gmtime(&t);
         if(last_fix_msg_.latitude > 0)
             heartbeat_msg.north_or_south = heartbeat_msg.NORTH;
         else
