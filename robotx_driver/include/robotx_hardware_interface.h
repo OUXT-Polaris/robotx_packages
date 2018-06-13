@@ -45,6 +45,26 @@ public:
          */
         int frequency;
         /**
+         * @brief right motor driver IP address
+         * 
+         */
+        std::string right_motor_ip;
+        /**
+         * @brief left motor driver IP address
+         * 
+         */
+        std::string left_motor_ip;
+        /**
+         * @brief right motor driver TCP/IP port
+         * 
+         */
+        int right_motor_port;
+        /**
+         * @brief left motor driver TCP/IP port
+         * 
+         */
+        int left_motor_port;
+        /**
          * @brief set parameters
          * 
          */
@@ -54,6 +74,8 @@ public:
             ros::param::param<int>(ros::this_node::getName()+"/mode", mode, REMOTE_OPERATED);
             ros::param::param<int>(ros::this_node::getName()+"/timeout", timeout, 30);
             ros::param::param<int>(ros::this_node::getName()+"/frequency", frequency, 30);
+            ros::param::param<std::string>(ros::this_node::getName()+"/left_motor_ip",left_motor_ip, "127.0.0.1");
+            ros::param::param<std::string>(ros::this_node::getName()+"/right_motor_ip",right_motor_ip, "127.0.0.1");
         };
     };
     robotx_hardware_interface();
@@ -101,6 +123,10 @@ private:
     sensor_msgs::Joy last_joy_cmd_;
     std_msgs::Float64MultiArray last_motor_cmd_msg_;
     sensor_msgs::NavSatFix last_fix_msg_;
+
+    tcp_client* left_motor_cmd_client_ptr_;
+    tcp_client* right_motor_cmd_client_ptr_;
+    boost::asio::io_service io_service_;
     const parameters params_;
     enum targets_{ALL=0,SIMULATION=1,HARDWARE=2};
     enum modes_{REMOTE_OPERATED=0,AUTONOMOUS=1,EMERGENCY=2};

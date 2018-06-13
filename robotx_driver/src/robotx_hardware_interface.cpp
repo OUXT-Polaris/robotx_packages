@@ -16,6 +16,11 @@ robotx_hardware_interface::robotx_hardware_interface() : params_(robotx_hardware
         last_motor_cmd_msg_.data[2] = 0;
         last_motor_cmd_msg_.data[3] = 0;
     }
+    if(params_.target == ALL || params_.target == HARDWARE)
+    {
+        left_motor_cmd_client_ptr_ = new tcp_client(io_service_,params_.left_motor_ip,params_.left_motor_port,params_.timeout);
+        right_motor_cmd_client_ptr_ = new tcp_client(io_service_,params_.right_motor_ip,params_.right_motor_port,params_.timeout);
+    }
     heartbeat_pub_ = nh_.advertise<robotx_msgs::Heartbeat>("/heartbeat",1);
     fix_sub_ = nh_.subscribe("/fix", 1, &robotx_hardware_interface::fix_callback_, this);
     motor_command_sub_ = nh_.subscribe("/wam_v/motor_command", 1, &robotx_hardware_interface::motor_command_callback_, this);
@@ -67,6 +72,10 @@ void robotx_hardware_interface::send_command_()
             usv_drive_cmd_pub_.publish(usv_drive_msg);
             left_thrust_joint_pub_.publish(left_thrust_joint_cmd_);
             right_thrust_joint_pub_.publish(right_thrust_joint_cmd_);
+        }
+        if(params_.target == ALL || params_.target == HARDWARE)
+        {
+
         }
         rate.sleep();
     }
