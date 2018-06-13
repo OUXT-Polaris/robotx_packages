@@ -108,12 +108,6 @@ public:
     void set_action_mode(int mode);
 private:
     /**
-     * @brief ROS callback function for joystick
-     * 
-     * @param msg joystick command.
-     */
-    void joy_callback_(sensor_msgs::Joy msg);
-    /**
      * @brief ROS callback function for motor command
      * 
      * @param msg [left_thruster_cmd left_thruster_joint_angle right_thruster_cmd right_thruster_joint_angle]
@@ -185,7 +179,6 @@ private:
      * 
      */
     ros::Publisher heartbeat_pub_;
-    sensor_msgs::Joy last_joy_cmd_;
     std_msgs::Float64MultiArray last_motor_cmd_msg_;
     sensor_msgs::NavSatFix last_fix_msg_;
     /**

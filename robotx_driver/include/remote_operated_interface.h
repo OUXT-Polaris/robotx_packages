@@ -3,6 +3,7 @@
 
 //headers in ROS
 #include <ros/ros.h>
+#include <sensor_msgs/Joy.h>
 
 //headers in STL
 #include <functional>
@@ -60,6 +61,17 @@ private:
      */
     std::function<void(int)> set_action_mode_function_;
     boost::signals2::signal<void (int)> signal_;
+    /**
+     * @brief ROS callback function for joystick
+     * 
+     * @param msg joystick command.
+     */
+    void joy_callback_(sensor_msgs::Joy msg);
+    /**
+     * @brief parameters for last joysick command.
+     * 
+     */
+    sensor_msgs::Joy last_joy_cmd_;
 };
 
 #endif  //REMOTE_OPERATED_INTERFACE_H_INCLUDED

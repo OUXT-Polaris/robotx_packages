@@ -12,3 +12,9 @@ remote_operated_interface::~remote_operated_interface()
 {
 
 }
+
+void remote_operated_interface::joy_callback_(sensor_msgs::Joy msg)
+{
+    last_joy_cmd_ = msg;
+    return;
+}

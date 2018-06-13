@@ -64,12 +64,6 @@ void robotx_hardware_interface::fix_callback_(sensor_msgs::NavSatFix msg)
     return;
 }
 
-void robotx_hardware_interface::joy_callback_(sensor_msgs::Joy msg)
-{
-    last_joy_cmd_ = msg;
-    return;
-}
-
 //msg = [left_thruster_cmd left_thruster_joint_angle right_thruster_cmd right_thruster_joint_angle]
 void robotx_hardware_interface::motor_command_callback_(std_msgs::Float64MultiArray msg)
 {
