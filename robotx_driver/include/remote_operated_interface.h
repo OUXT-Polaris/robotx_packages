@@ -44,13 +44,25 @@ public:
      * 
      * @param set_action_mode_function callback function for set_action_mode
      */
-    remote_operated_interface(std::function<void(int)> set_action_mode_function);
+    remote_operated_interface
+        (std::function<void(int)> set_action_mode_function,
+        std::function<void(std_msgs::Float64MultiArray motor_command)> send_motor_command);
     /**
      * @brief Destroy the remote operated interface object
      * 
      */
     ~remote_operated_interface();
 private:
+    /**
+     * @brief ROS nodehandle
+     * 
+     */
+    ros::NodeHandle nh_;
+    /**
+     * @brief ROS Subscriber for /joy(message type: sensor_msgs/Joy)
+     * 
+     */
+    ros::Subscriber joy_sub_;
     /**
      * @brief parameters for remote_operated_interface class
      * 
@@ -71,6 +83,11 @@ private:
      * @sa robotx_hardware_interface::recieve_remote_oprated_motor_command
      */
     std::function<void(std_msgs::Float64MultiArray motor_command)> send_motor_command_;
+    /**
+     * @brief signal for send_motor_command function
+     * @sa robotx_hardware_interface::send_motor_command_
+     */
+    boost::signals2::signal<void(std_msgs::Float64MultiArray motor_command)> send_motor_command_signal_;
     /**
      * @brief ROS callback function for joystick
      * 

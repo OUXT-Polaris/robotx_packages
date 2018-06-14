@@ -6,7 +6,6 @@
 
 //headers in ROS
 #include <ros/ros.h>
-#include <sensor_msgs/Joy.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/Float64.h>
