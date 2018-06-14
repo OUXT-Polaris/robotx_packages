@@ -3,6 +3,7 @@
 
 //headers in this package
 #include <tcp_client.h>
+#include <remote_operated_interface.h>
 
 //headers in ROS
 #include <ros/ros.h>
@@ -221,6 +222,11 @@ private:
      * 
      */
     std::mutex mtx_;
+    /**
+     * @brief remote_operated_interface class
+     * 
+     */
+    remote_operated_interface* remote_operated_ifnterface_ptr_;
 };
 
 #endif //ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE

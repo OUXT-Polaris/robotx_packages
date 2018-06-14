@@ -4,7 +4,7 @@
 remote_operated_interface::remote_operated_interface
     (std::function<void(int)> set_action_mode_function, 
     std::function<void(std_msgs::Float64MultiArray motor_command)> send_motor_command) 
-    : params_(remote_operated_interface::parameters())
+    : params_()
 {
     set_action_mode_function_ = set_action_mode_function;
     send_motor_command_ = send_motor_command;
@@ -21,5 +21,8 @@ remote_operated_interface::~remote_operated_interface()
 void remote_operated_interface::joy_callback_(sensor_msgs::Joy msg)
 {
     last_joy_cmd_ = msg;
+    if(params_.controller_type == params_.DUALSHOCK4)
+    {
+    }
     return;
 }
