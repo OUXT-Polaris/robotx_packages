@@ -9,11 +9,9 @@
 robotx_hardware_interface::robotx_hardware_interface() 
     : params_(robotx_hardware_interface::parameters())
 {
-    /*
     remote_operated_ifnterface_ptr_ = 
         new remote_operated_interface(boost::bind(&robotx_hardware_interface::set_action_mode,this,_1),
             boost::bind(&robotx_hardware_interface::recieve_remote_oprated_motor_command,this,_1));
-    */
     heartbeat_pub_ = nh_.advertise<robotx_msgs::Heartbeat>("/heartbeat",1);
     if(params_.target == params_.ALL || params_.target == params_.SIMULATION)
     {
@@ -107,6 +105,11 @@ void robotx_hardware_interface::send_command_()
         mtx_.unlock();
         rate.sleep();
     }
+}
+
+void robotx_hardware_interface::recieve_remote_oprated_motor_command(std_msgs::Float64MultiArray msg)
+{
+    return;
 }
 
 void robotx_hardware_interface::publish_heartbeat_()

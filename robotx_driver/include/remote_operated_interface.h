@@ -46,7 +46,7 @@ public:
      */
     remote_operated_interface
         (std::function<void(int)> set_action_mode_function,
-        std::function<void(std_msgs::Float64MultiArray motor_command)> send_motor_command);
+        std::function<void(std_msgs::Float64MultiArray)> send_motor_command);
     /**
      * @brief Destroy the remote operated interface object
      * 
