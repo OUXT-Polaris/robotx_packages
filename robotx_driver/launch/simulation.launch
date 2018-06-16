@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <launch>
     <node pkg="joy" type="joy_node" name="joy_node" args="" output="screen" respawn="true">
-
     </node>
 
     <rosparam command="load" file="$(find robotx_driver)/config/simulation.yaml" ns="robotx_hardware_interface_node"/>

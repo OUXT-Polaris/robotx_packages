@@ -68,7 +68,7 @@ install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node
 install(DIRECTORY include
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
-foreach(dir launch)
+foreach(dir launch config)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)
