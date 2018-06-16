@@ -95,7 +95,7 @@ target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 #############
 # CPP Execution programs
 set(CPP_EXEC_NAMES 
-  object_recognition_node euclidean_clustering_node passthrough_filter_node
+  object_recognition_node euclidean_clustering_node passthrough_filter_node pointcloud_merger_node
   hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}
