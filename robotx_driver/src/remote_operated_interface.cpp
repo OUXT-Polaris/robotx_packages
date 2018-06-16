@@ -1,5 +1,6 @@
 //headers in this package
 #include <remote_operated_interface.h>
+#include <robotx_hardware_interface.h>
 
 remote_operated_interface::remote_operated_interface
     (std::function<void(int)> set_action_mode_function, 
@@ -21,9 +22,13 @@ remote_operated_interface::~remote_operated_interface()
 void remote_operated_interface::joy_callback_(sensor_msgs::Joy msg)
 {
     last_joy_cmd_ = msg;
+    std_msgs::Float64MultiArray motor_command_msg;
     if(params_.controller_type == params_.DUALSHOCK4)
     {
-        //ROS_WARN_STREAM(msg);
+        if(last_joy_cmd_.buttons[12] == 1)
+            action_mode_signal_(robotx_hardware_interface::parameters::REMOTE_OPERATED);
+        if(last_joy_cmd_.buttons[13] == 1)
+            action_mode_signal_(robotx_hardware_interface::parameters::AUTONOMOUS);
     }
     return;
 }
