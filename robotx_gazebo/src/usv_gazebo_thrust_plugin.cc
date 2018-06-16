@@ -199,17 +199,21 @@ double UsvThrust::glfThrustCmd(double cmd)
 {
   double val = 0.0;
   if (cmd > 0.01){
-    val = glf(cmd,0.01,59.82,5.0,0.38,0.56,0.28);
+    //original model
+    //val = glf(cmd,0.01,59.82,5.0,0.38,0.56,0.28);
+    val = glf(cmd,0.01,59.82,5.0,0.38,0.56,0.28)*10;
     val = std::min(val,param_max_force_fwd_);
   }
   else if (cmd < 0.01){
-    val = glf(cmd,-199.13,-0.09,8.84,5.34,0.99,-0.57);
+    //originl model
+    //val = glf(cmd,0.01,59.82,5.0,0.38,0.56,0.28);
+    val = glf(cmd,-199.13,-0.09,8.84,5.34,0.99,-0.57)*10;
     val = std::max(val,param_max_force_rev_);
   }
   else{
     val = 0.0;
   }
-  ROS_INFO_STREAM_THROTTLE(0.5,cmd << ": " << val << " / " << val/param_max_force_fwd_);
+  //ROS_INFO_STREAM_THROTTLE(0.5,cmd << ": " << val << " / " << val/param_max_force_fwd_);
   return val;
 
 }

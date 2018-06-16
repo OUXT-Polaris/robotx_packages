@@ -18,8 +18,8 @@
 				<thrustOffsetZ>-0.04</thrustOffsetZ>
 				<!-- Thrust specification -->
 				<maxCmd>1.0</maxCmd>
-				<maxForceFwd>250.0</maxForceFwd>
-				<maxForceRev>-100.0</maxForceRev>
+				<maxForceFwd>2500.0</maxForceFwd>
+				<maxForceRev>-1000.0</maxForceRev>
 				<cmdTimeout>1.0</cmdTimeout>
     	</plugin>
     </gazebo>
