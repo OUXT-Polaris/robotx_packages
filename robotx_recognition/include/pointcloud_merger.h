@@ -45,6 +45,11 @@ private:
      */
     tf2_ros::TransformListener tf_listener_;
     /**
+     * @brief ROS publisher for ~/merged_points (message type : sensor_msgs/PointCloud2) 
+     * 
+     */
+    ros::Publisher output_pointcloud_pub_;
+    /**
      * @brief ROS subscriber for (pointcloud1_topic) topic
      * @sa pointcloud_merger::params_
      */
