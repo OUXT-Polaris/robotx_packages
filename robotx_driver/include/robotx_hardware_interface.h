@@ -185,7 +185,20 @@ private:
      * 
      */
     ros::Publisher heartbeat_pub_;
+    /**
+     * @brief ROS message for last motor command from robotx_control
+     * 
+     */
     std_msgs::Float64MultiArray last_motor_cmd_msg_;
+    /**
+     * @brief message for last manual motor command.
+     * 
+     */
+    std_msgs::Float64MultiArray last_manual_motor_cmd_msg_;
+    /**
+     * @brief ROS message for last /fix (message type : sensor_msgs/NavSatFix) message
+     * 
+     */
     sensor_msgs::NavSatFix last_fix_msg_;
     /**
      * @brief TCP/IP client for the left motor.
