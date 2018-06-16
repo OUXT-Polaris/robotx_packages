@@ -112,6 +112,26 @@ namespace gazebo
       optionally specified by the bodyName parameter,
       The states are taken from this link and forces applied to this link.*/
     physics::LinkPtr link_;
+    /**
+     * @brief parameter for left thruster joint
+     * 
+     */
+    physics::JointPtr left_thruster_joint_;
+    /**
+     * @brief parameter for left thruster joint name
+     * 
+     */
+    std::string left_thruster_joint_name_;
+    /**
+     * @brief parameter for right thruster joint
+     * 
+     */
+    physics::JointPtr right_thruster_joint_;
+    /**
+     * @brief parameter for right thruster joint name
+     * 
+     */
+    std::string right_thruster_joint_name_;
     math::Pose pose_;
     /*! Timeout for recieving Drive commands [s]*/
     double cmd_timeout_;

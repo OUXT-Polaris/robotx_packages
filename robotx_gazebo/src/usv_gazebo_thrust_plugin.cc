@@ -114,6 +114,18 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     ROS_INFO_STREAM("USV Model Link Name = " << link_name_);
   }
 
+  if (!_sdf->HasElement("leftThrusterJoint") || !_sdf->GetElement("leftThrusterJoint")->GetValue())
+  {
+    left_thruster_joint_name_ = _sdf->GetElement("leftThrusterJoint")->Get<std::string>();
+    left_thruster_joint_ = model_->GetJoint(left_thruster_joint_name_);
+  }
+
+  if (!_sdf->HasElement("rightThrusterJoint") || !_sdf->GetElement("rightThrusterJoint")->GetValue())
+  {
+    right_thruster_joint_name_ = _sdf->GetElement("rightThrusterJoint")->Get<std::string>();
+    right_thruster_joint_ = model_->GetJoint(right_thruster_joint_name_);
+  }
+
   cmd_timeout_ = getSdfParamDouble(_sdf,"cmdTimeout",cmd_timeout_);
   if (_sdf->HasElement("mappingType") && _sdf->GetElement("mappingType")->GetValue()) {
     param_mapping_type_ = _sdf->GetElement("mappingType")->Get<int>();
