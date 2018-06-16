@@ -11,11 +11,14 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
-  tf2_ros
   robotx_msgs
   image_transport
   cv_bridge
   visualization_msgs
+  tf2
+  tf2_ros
+  tf2_msgs
+  tf2_sensor_msgs
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)
@@ -65,9 +68,13 @@ set(stereo_image_object_bbox_extractor_src src/disparity_image.cpp src/stereo_im
 add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
 add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 
-set(passthrough_filter_node_src src/passthrough_filter.cpp)
-add_executable(passthrough_filter_node src/passthrough_filter_node.cpp ${passthrough_filter_node_src})
+set(passthrough_filter_src src/passthrough_filter.cpp)
+add_executable(passthrough_filter_node src/passthrough_filter_node.cpp ${passthrough_filter_src})
 add_dependencies(passthrough_filter_node robotx_msgs_generate_messages_cpp)
+
+set(pointcloud_merger_src src/pointcloud_merger.cpp)
+add_executable(pointcloud_merger_node src/pointcloud_merger_node.cpp ${pointcloud_merger_src})
+add_dependencies(pointcloud_merger_node robotx_msgs_generate_messages_cpp)
 
 set(euclidean_cluster_tracker_node_src src/euclidean_cluster_tracker_node.cpp src/particle_filter.cpp src/euclidean_cluster_tracker.cpp)
 add_executable(euclidean_cluster_tracker_node ${euclidean_cluster_tracker_node_src})
@@ -80,6 +87,7 @@ target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(passthrough_filter_node ${catkin_LIBRARIES})
+target_link_libraries(pointcloud_merger_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 
 #############
@@ -87,7 +95,7 @@ target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 #############
 # CPP Execution programs
 set(CPP_EXEC_NAMES 
-  object_recognition_node euclidean_clustering_node passthrough_filter_node
+  object_recognition_node euclidean_clustering_node passthrough_filter_node pointcloud_merger_node
   hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}

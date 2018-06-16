@@ -1,0 +1,2 @@
+pointcloud1_topic: /velodyne_points
+pointcloud2_topic: /velodyne2_points/filterd

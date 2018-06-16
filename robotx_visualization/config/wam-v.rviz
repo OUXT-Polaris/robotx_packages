@@ -6,9 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /PointCloud21
-        - /PointCloud21/Status1
-        - /MarkerArray1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -29,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -127,10 +124,10 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: jsk_rviz_plugin/OverlayImage
-      Enabled: true
+      Enabled: false
       Name: OverlayImage
       Topic: /stereo_image_object_bbox_extractor_node/disparity_image
-      Value: true
+      Value: false
       alpha: 0.800000012
       height: 128
       keep aspect ratio: true
@@ -154,7 +151,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: -999999
+      Min Intensity: 0
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -162,7 +159,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0500000007
       Style: Flat Squares
-      Topic: /velodyne2_points/filterd
+      Topic: /pointcloud_merger_node/merged_points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -261,7 +258,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.95801449
+      Distance: 14.0247402
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -276,10 +273,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.165398836
+      Pitch: 0.190398812
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.18541193
+      Yaw: 2.84541321
     Saved: ~
 Window Geometry:
   Displays:
