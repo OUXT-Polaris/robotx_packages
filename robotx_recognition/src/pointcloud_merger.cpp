@@ -18,7 +18,7 @@ pointcloud_merger::pointcloud_merger() : params_(),tf_listener_(tf_buffer_)
 {
     output_pointcloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(ros::this_node::getName()+"/merged_points", 1);
     pointcloud1_sub_ = nh_.subscribe(params_.pointcloud1_topic, 1, &pointcloud_merger::pointcloud1_callback_, this);
-    pointcloud2_sub_ = nh_.subscribe(params_.pointcloud1_topic, 1, &pointcloud_merger::pointcloud2_callback_, this);
+    pointcloud2_sub_ = nh_.subscribe(params_.pointcloud2_topic, 1, &pointcloud_merger::pointcloud2_callback_, this);
 }
 
 pointcloud_merger::~pointcloud_merger()
@@ -43,10 +43,14 @@ void pointcloud_merger::publish_pointcloud_()
 {
     std::mutex mutex;
     mutex.lock();
+    if(pointcloud1_msg_.header.frame_id == "" || pointcloud2_msg_.header.frame_id == "")
+    {
+        return;
+    }
     if(pointcloud1_msg_.header.frame_id != pointcloud2_msg_.header.frame_id)
     {
         geometry_msgs::TransformStamped transform_stamped;
-        transform_stamped = tf_buffer_.lookupTransform(pointcloud2_msg_.header.frame_id, pointcloud1_msg_.header.frame_id,ros::Time(0));
+        transform_stamped = tf_buffer_.lookupTransform(pointcloud1_msg_.header.frame_id, pointcloud2_msg_.header.frame_id,ros::Time(0));
         tf2::doTransform(pointcloud2_msg_, pointcloud2_msg_, transform_stamped);
     }
     pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_cloud1(new pcl::PointCloud<pcl::PointXYZI>);
