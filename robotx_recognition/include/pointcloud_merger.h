@@ -20,7 +20,6 @@ public:
      */
     struct parameters
     {
-        std::string output_frame;
         std::string pointcloud1_topic;
         std::string pointcloud2_topic;
         parameters()
@@ -51,10 +50,20 @@ private:
      */
     ros::Subscriber pointcloud1_sub_;
     /**
+     * @brief parameter for pointcloud1
+     * 
+     */
+    sensor_msgs::PointCloud2 pointcloud1_msg_;
+    /**
      * @brief ROS subscriber for (pointcloud2_topic) topic
      * @sa pointcloud_merger::params_
      */
     ros::Subscriber pointcloud2_sub_;
+    /**
+     * @brief parameter for pointcloud2
+     * 
+     */
+    sensor_msgs::PointCloud2 pointcloud2_msg_;
     /**
      * @brief ROS Nodehandle
      * 

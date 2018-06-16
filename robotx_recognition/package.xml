@@ -9,7 +9,7 @@
   <author>RyodoTanaka</author>
 
   <license>GPL</license>
-  
+
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>pcl_ros</build_depend>
@@ -17,7 +17,10 @@
   <build_depend>rospy</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>std_msgs</build_depend>
+  <build_depend>tf2</build_depend>
   <build_depend>tf2_ros</build_depend>
+  <build_depend>tf2_msgs</build_depend>
+  <build_depend>tf2_sensor_msgs</build_depend>
   <build_depend>robotx_msgs</build_depend>
   <build_depend>image_transport</build_depend>
   <build_depend>cv_bridge</build_depend>
@@ -29,7 +32,10 @@
   <run_depend>rospy</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>tf2</run_depend>
   <run_depend>tf2_ros</run_depend>
+  <run_depend>tf2_msgs</run_depend>
+  <run_depend>tf2_sensor_msgs</run_depend>
   <run_depend>robotx_msgs</run_depend>
   <run_depend>image_transport</run_depend>
   <run_depend>cv_bridge</run_depend>

@@ -11,11 +11,14 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
-  tf2_ros
   robotx_msgs
   image_transport
   cv_bridge
   visualization_msgs
+  tf2
+  tf2_ros
+  tf2_msgs
+  tf2_sensor_msgs
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)
