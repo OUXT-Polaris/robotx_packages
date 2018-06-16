@@ -23,6 +23,7 @@ void remote_operated_interface::joy_callback_(sensor_msgs::Joy msg)
     last_joy_cmd_ = msg;
     if(params_.controller_type == params_.DUALSHOCK4)
     {
+        //ROS_WARN_STREAM(msg);
     }
     return;
 }

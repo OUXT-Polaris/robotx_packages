@@ -226,7 +226,17 @@ private:
      * @brief remote_operated_interface class
      * 
      */
-    remote_operated_interface* remote_operated_ifnterface_ptr_;
+    remote_operated_interface remote_operated_if;
+    /**
+     * @brief send_command_thread
+     * 
+     */
+    boost::thread send_command_thread_;
+    /**
+     * @brief publish_heartbeat thread
+     * 
+     */
+    boost::thread publish_heartbeat_thread_;
 };
 
 #endif //ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE

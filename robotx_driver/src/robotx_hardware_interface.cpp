@@ -7,11 +7,10 @@
 #include <time.h>
 
 robotx_hardware_interface::robotx_hardware_interface() 
-    : params_(robotx_hardware_interface::parameters())
+    : params_(robotx_hardware_interface::parameters()),
+    remote_operated_if(boost::bind(&robotx_hardware_interface::set_action_mode,this,_1),
+            boost::bind(&robotx_hardware_interface::recieve_remote_oprated_motor_command,this,_1))
 {
-    remote_operated_ifnterface_ptr_ = 
-        new remote_operated_interface(boost::bind(&robotx_hardware_interface::set_action_mode,this,_1),
-            boost::bind(&robotx_hardware_interface::recieve_remote_oprated_motor_command,this,_1));
     heartbeat_pub_ = nh_.advertise<robotx_msgs::Heartbeat>("/heartbeat",1);
     if(params_.target == params_.ALL || params_.target == params_.SIMULATION)
     {
@@ -34,15 +33,14 @@ robotx_hardware_interface::robotx_hardware_interface()
     current_task_number_ = 0;
     fix_sub_ = nh_.subscribe("/fix", 1, &robotx_hardware_interface::fix_callback_, this);
     motor_command_sub_ = nh_.subscribe("/wam_v/motor_command", 1, &robotx_hardware_interface::motor_command_callback_, this);
-    boost::thread send_command_thread(boost::bind(&robotx_hardware_interface::send_command_, this));
-    boost::thread publish_heartbeat_thread(boost::bind(&robotx_hardware_interface::publish_heartbeat_, this));
-    send_command_thread.join();
-    publish_heartbeat_thread.join();
+    send_command_thread_ = boost::thread(boost::bind(&robotx_hardware_interface::send_command_, this));
+    publish_heartbeat_thread_ = boost::thread(boost::bind(&robotx_hardware_interface::publish_heartbeat_, this));
 }
 
 robotx_hardware_interface::~robotx_hardware_interface()
 {
-
+    send_command_thread_.join();
+    publish_heartbeat_thread_.join();
 }
 
 void robotx_hardware_interface::set_action_mode(int mode)
