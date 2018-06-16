@@ -27,7 +27,7 @@ public:
      */
     struct parameters
     {
-        enum controllers {DUALSHOCK4=0};
+        enum controllers {DUALSHOCK4_SIMPLE=0,DUALSHOCK4=1};
         int controller_type;
         /**
          * @brief Construct a new parameters objects
@@ -35,7 +35,7 @@ public:
          */
         parameters()
         {
-            ros::param::param<int>(ros::this_node::getName()+"/controller_type", controller_type, DUALSHOCK4);
+            ros::param::param<int>(ros::this_node::getName()+"/controller_type", controller_type, DUALSHOCK4_SIMPLE);
         }
     };
 
