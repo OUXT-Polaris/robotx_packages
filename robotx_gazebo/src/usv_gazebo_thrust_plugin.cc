@@ -249,8 +249,11 @@ void UsvThrust::UpdateChild()
 
   } // eo switch
 
-  double thrust = thrust_right + thrust_left;
-  double torque = (thrust_right - thrust_left)*param_boat_width_;
+  double l_theta = left_thruster_joint_->GetAngle(0).Degree()*M_PI/180;
+  double r_theta = right_thruster_joint_->GetAngle(0).Degree()*M_PI/180;
+  double torque 
+    = 0.5*param_boat_width_*thrust_right*std::cos(r_theta) - 0.5*param_boat_width_*thrust_left*std::cos(l_theta)
+    -param_boat_length_*thrust_right*std::sin(r_theta) -param_boat_length_*thrust_left*std::sin(l_theta);
   ROS_DEBUG_STREAM_THROTTLE(1.0,"Thrust: left:" << thrust_left
 			    << " right: " << thrust_right);
 
@@ -260,7 +263,7 @@ void UsvThrust::UpdateChild()
   // Add input force with offset below vessel
   math::Vector3 relpos(-1.0*param_boat_length_/2.0, 0.0 ,
 		       param_thrust_z_offset_);  // relative pos of thrusters
-  math::Vector3 inputforce3(thrust, 0,0);
+  math::Vector3 inputforce3(thrust_right*std::cos(r_theta)+thrust_left*std::cos(l_theta),thrust_right*std::sin(r_theta)+thrust_left*std::sin(l_theta),0);
 
   // Get Pose
   pose_ = link_->GetWorldPose();
@@ -269,8 +272,6 @@ void UsvThrust::UpdateChild()
   inputforce3 = pose_.rot.RotateVector(inputforce3);
   //link_->AddRelativeForce(inputforce3);
   link_->AddForceAtRelativePosition(inputforce3,relpos);
-
-  //ROS_ERROR_STREAM(left_thruster_joint_->GetName());
 }
 
 void UsvThrust::OnCmdDrive( const robotx_msgs::UsvDriveConstPtr &msg)

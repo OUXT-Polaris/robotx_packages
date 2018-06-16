@@ -2,4 +2,6 @@ target: 1
 init_mode: 0
 timeout: 30
 frequency: 30
-controller_type: 0
+# DUALSHOCK4_SIMPLE=0
+# DUALSHOCK4=1
+controller_type: 1
