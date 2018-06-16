@@ -4,4 +4,4 @@ timeout: 30
 frequency: 30
 # DUALSHOCK4_SIMPLE=0
 # DUALSHOCK4=1
-controller_type: 1
+controller_type: 0
