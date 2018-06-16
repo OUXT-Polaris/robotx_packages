@@ -3,10 +3,10 @@
 
 //headers in this package
 #include <tcp_client.h>
+#include <remote_operated_interface.h>
 
 //headers in ROS
 #include <ros/ros.h>
-#include <sensor_msgs/Joy.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/Float64.h>
@@ -15,11 +15,24 @@
 //headers in boost
 #include <boost/thread.hpp>
 
+//headers in STL
+#include <mutex>
+
 class robotx_hardware_interface
 {
 public:
     struct parameters
     {
+        /**
+         * @brief enum parameters describe driving mode.
+         * 
+         */
+        enum modes_{REMOTE_OPERATED=0,AUTONOMOUS=1,EMERGENCY=2};
+        /**
+         * @brief enum parameters describe target.
+         * 
+         */
+        enum targets_{ALL=0,SIMULATION=1,HARDWARE=2};
         /**
          * @brief hardware target
          * @sa robotx_hardware_interface::targets_
@@ -87,13 +100,19 @@ public:
     };
     robotx_hardware_interface();
     ~robotx_hardware_interface();
-private:
     /**
-     * @brief ROS callback function for joystick
+     * @brief function for setting action mode.
      * 
-     * @param msg joystick command.
+     * @param mode target action mode
      */
-    void joy_callback_(sensor_msgs::Joy msg);
+    void set_action_mode(int mode);
+    /**
+     * @brief callback function for remote_operated_interface::send_motor_command function
+     * @sa remote_operated_interface::send_motor_command_
+     * @param msg 
+     */
+    void recieve_remote_oprated_motor_command(std_msgs::Float64MultiArray msg);
+private:
     /**
      * @brief ROS callback function for motor command
      * 
@@ -166,8 +185,20 @@ private:
      * 
      */
     ros::Publisher heartbeat_pub_;
-    sensor_msgs::Joy last_joy_cmd_;
+    /**
+     * @brief ROS message for last motor command from robotx_control
+     * 
+     */
     std_msgs::Float64MultiArray last_motor_cmd_msg_;
+    /**
+     * @brief message for last manual motor command.
+     * 
+     */
+    std_msgs::Float64MultiArray last_manual_motor_cmd_msg_;
+    /**
+     * @brief ROS message for last /fix (message type : sensor_msgs/NavSatFix) message
+     * 
+     */
     sensor_msgs::NavSatFix last_fix_msg_;
     /**
      * @brief TCP/IP client for the left motor.
@@ -200,20 +231,25 @@ private:
      */
     volatile int current_task_number_;
     /**
-     * @brief enum parameters describe target.
+     * @brief mutex
      * 
      */
-    enum targets_{ALL=0,SIMULATION=1,HARDWARE=2};
+    std::mutex mtx_;
     /**
-     * @brief enum parameters describe driving mode.
+     * @brief remote_operated_interface class
      * 
      */
-    enum modes_{REMOTE_OPERATED=0,AUTONOMOUS=1,EMERGENCY=2};
+    remote_operated_interface remote_operated_if;
     /**
-     * @brief enum parameters describe joystick controller type.
+     * @brief send_command_thread
      * 
      */
-    enum controllers_{dualshock4=0};
+    boost::thread send_command_thread_;
+    /**
+     * @brief publish_heartbeat thread
+     * 
+     */
+    boost::thread publish_heartbeat_thread_;
 };
 
 #endif //ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE
