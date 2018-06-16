@@ -24,6 +24,7 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 #include <ros/time.h>
 
 #include <usv_gazebo_thrust_plugin.hh>
+#include <load_params.hh>
 
 using namespace gazebo;
 
@@ -114,16 +115,19 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf )
     ROS_INFO_STREAM("USV Model Link Name = " << link_name_);
   }
 
-  if (!_sdf->HasElement("leftThrusterJoint") || !_sdf->GetElement("leftThrusterJoint")->GetValue())
+  LoadParams(_sdf,std::string("leftThrusterJoint"),left_thruster_joint_name_,std::string("left_thruster_joint"));
+  LoadParams(_sdf,std::string("rightThrusterJoint"),right_thruster_joint_name_,std::string("right_thruster_joint"));
+  left_thruster_joint_ = model_->GetJoint(left_thruster_joint_name_);
+  right_thruster_joint_ = model_->GetJoint(right_thruster_joint_name_);
+  if(!left_thruster_joint_)
   {
-    left_thruster_joint_name_ = _sdf->GetElement("leftThrusterJoint")->Get<std::string>();
-    left_thruster_joint_ = model_->GetJoint(left_thruster_joint_name_);
+    ROS_FATAL("usv_gazebo_thrust_plugin error: leftThrusterJoint: %s does not exist\n", left_thruster_joint_name_.c_str());
+    return;
   }
-
-  if (!_sdf->HasElement("rightThrusterJoint") || !_sdf->GetElement("rightThrusterJoint")->GetValue())
+  if(!right_thruster_joint_)
   {
-    right_thruster_joint_name_ = _sdf->GetElement("rightThrusterJoint")->Get<std::string>();
-    right_thruster_joint_ = model_->GetJoint(right_thruster_joint_name_);
+    ROS_FATAL("usv_gazebo_thrust_plugin error: rightThrusterJoint: %s does not exist\n", right_thruster_joint_name_.c_str());
+    return;
   }
 
   cmd_timeout_ = getSdfParamDouble(_sdf,"cmdTimeout",cmd_timeout_);
@@ -265,6 +269,8 @@ void UsvThrust::UpdateChild()
   inputforce3 = pose_.rot.RotateVector(inputforce3);
   //link_->AddRelativeForce(inputforce3);
   link_->AddForceAtRelativePosition(inputforce3,relpos);
+
+  //ROS_ERROR_STREAM(left_thruster_joint_->GetName());
 }
 
 void UsvThrust::OnCmdDrive( const robotx_msgs::UsvDriveConstPtr &msg)

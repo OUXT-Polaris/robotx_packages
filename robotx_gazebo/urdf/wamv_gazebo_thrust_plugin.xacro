@@ -6,7 +6,7 @@
 			<plugin name="usv_thrust_${name}" filename="libusv_gazebo_thrust_plugin.so">
 				<bodyName>base_link</bodyName>
 				<leftThrusterJoint>left_thruster_joint</leftThrusterJoint>
-				<rightThrusterJoint>left_thruster_joint</rightThrusterJoint>
+				<rightThrusterJoint>right_thruster_joint</rightThrusterJoint>
 
 				<!-- Which thruster curve to use -->
 				<!-- Use 0 for linear mapping or 1 for nonlinear mapping -->
