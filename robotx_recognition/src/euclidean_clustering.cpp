@@ -78,23 +78,22 @@ bool euclidean_clustering::check_bbox_size(geometry_msgs::Vector3 bbox_scale)
 
 void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
 {
-  pcl::PCLPointCloud2 pcl_pc2;
-  pcl_conversions::toPCL(msg,pcl_pc2);
-  pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_pointcloud(new pcl::PointCloud<pcl::PointXYZI>);
-  pcl::fromPCLPointCloud2(pcl_pc2,*pcl_pointcloud);
-  pcl::PointCloud<pcl::PointXYZINormal>::Ptr pcl_cloud_with_normals(new pcl::PointCloud<pcl::PointXYZINormal>);
-  if(donwsample_)
-  {
-    //Downsample pointcloud
-    pcl::VoxelGrid<pcl::PointXYZI> voxel_grid;
-    voxel_grid.setInputCloud(pcl_pointcloud);
-    voxel_grid.setLeafSize(leaf_size_x, leaf_size_y, leaf_size_z);
-    voxel_grid.setDownsampleAllData(true);
-    voxel_grid.filter(*pcl_pointcloud);
-  }
-  
   if(clustering_method_ == CONDITIONAL_EUCLIDIAN_CLUSTERING)
   {
+    pcl::PCLPointCloud2 pcl_pc2;
+    pcl_conversions::toPCL(msg,pcl_pc2);
+    pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_pointcloud(new pcl::PointCloud<pcl::PointXYZI>);
+    pcl::fromPCLPointCloud2(pcl_pc2,*pcl_pointcloud);
+    pcl::PointCloud<pcl::PointXYZINormal>::Ptr pcl_cloud_with_normals(new pcl::PointCloud<pcl::PointXYZINormal>);
+    if(donwsample_)
+    {
+      //Downsample pointcloud
+      pcl::VoxelGrid<pcl::PointXYZI> voxel_grid;
+      voxel_grid.setInputCloud(pcl_pointcloud);
+      voxel_grid.setLeafSize(leaf_size_x, leaf_size_y, leaf_size_z);
+      voxel_grid.setDownsampleAllData(true);
+      voxel_grid.filter(*pcl_pointcloud);
+    }
     //Set up a Normal Estimation class and merge data in cloud_with_normals
     pcl::copyPointCloud(*pcl_pointcloud, *pcl_cloud_with_normals);
     pcl::NormalEstimation<pcl::PointXYZI, pcl::PointXYZINormal> normal_estimation;
@@ -172,15 +171,47 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
   }
   if(clustering_method_ == EUCLIDIAN_CLUSTER_EXTRACTION)
   {
-    pcl::search::Search<pcl::PointXYZI>::Ptr tree;
+    pcl::PCLPointCloud2 pcl_pc2;
+    pcl_conversions::toPCL(msg,pcl_pc2);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_pointcloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::fromPCLPointCloud2(pcl_pc2,*pcl_pointcloud);
+    if(donwsample_)
+    {
+      //Downsample pointcloud
+      pcl::VoxelGrid<pcl::PointXYZ> voxel_grid;
+      voxel_grid.setInputCloud(pcl_pointcloud);
+      voxel_grid.setLeafSize(leaf_size_x, leaf_size_y, leaf_size_z);
+      voxel_grid.setDownsampleAllData(true);
+      voxel_grid.filter(*pcl_pointcloud);
+    }
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
     tree->setInputCloud(pcl_pointcloud);
     std::vector<pcl::PointIndices> cluster_indices;  
-    pcl::EuclideanClusterExtraction<pcl::PointXYZI> ec;
+    pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
     ec.setClusterTolerance(euclidian_clustering_params_.cluster_tolerance);
     ec.setMinClusterSize(min_cluster_size_);  
     ec.setMaxClusterSize(max_cluster_size_);
     ec.setSearchMethod(tree);
     ec.setInputCloud(pcl_pointcloud);  
     ec.extract(cluster_indices);
+    for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
+    {
+      pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster(new pcl::PointCloud<pcl::PointXYZ>);
+      for (std::vector<int>::const_iterator pit = it->indices.begin (); pit != it->indices.end (); ++pit)
+        cloud_cluster->points.push_back (pcl_pointcloud->points[*pit]);
+      cloud_cluster->width = cloud_cluster->points.size ();
+      cloud_cluster->height = 1;
+      cloud_cluster->is_dense = true;
+      //calculating bounding box
+      std::vector<float> moment_of_inertia;
+      std::vector<float> eccentricity;
+      pcl::PointXYZ min_point,max_point;
+      pcl::MomentOfInertiaEstimation<pcl::PointXYZ> feature_extractor;
+      feature_extractor.setInputCloud(cloud_cluster);
+      feature_extractor.compute();
+      feature_extractor.getMomentOfInertia(moment_of_inertia);
+      feature_extractor.getEccentricity(eccentricity);
+      feature_extractor.getAABB(min_point,max_point);
+    }
   }
 }
