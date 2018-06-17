@@ -79,10 +79,6 @@ set(pointcloud_merger_src src/pointcloud_merger.cpp)
 add_executable(pointcloud_merger_node src/pointcloud_merger_node.cpp ${pointcloud_merger_src})
 add_dependencies(pointcloud_merger_node robotx_msgs_generate_messages_cpp)
 
-set(euclidean_cluster_tracker_node_src src/euclidean_cluster_tracker_node.cpp src/particle_filter.cpp src/euclidean_cluster_tracker.cpp)
-add_executable(euclidean_cluster_tracker_node ${euclidean_cluster_tracker_node_src})
-add_dependencies(euclidean_cluster_tracker_node robotx_msgs_generate_messages_cpp)
-
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
@@ -91,7 +87,6 @@ target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LI
 target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(passthrough_filter_node ${catkin_LIBRARIES})
 target_link_libraries(pointcloud_merger_node ${catkin_LIBRARIES})
-target_link_libraries(euclidean_cluster_tracker_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
