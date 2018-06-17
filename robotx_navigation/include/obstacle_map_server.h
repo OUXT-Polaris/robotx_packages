@@ -63,6 +63,8 @@ class obstacle_map_server
 public:
     obstacle_map_server();
     ~obstacle_map_server();
+private:
+    const parameters params_;
 };
 
 #endif  //OBSTACLE_MAP_SERVER_H_INCLUDED

@@ -18,14 +18,9 @@
     <remap from="/vo" to="/gps_odom" />
   </node>
 
-  <node name="motor_command_sender" pkg="robotx_navigation" type="motor_command_sender.py" args="" output="screen" respawn="true">
+  <rosparam command="load" file="$(find robotx_recognition)/config/obstacle_map_server.yaml" ns="obstacle_map_server_node"/>
+  <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
   </node>
-
-  <node name="test_cmd_vel_publisher" pkg="robotx_navigation" type="test_cmd_vel_publisher.py" args="" output="screen" respawn="true">
-  </node>
-
-  <!-- <node name="robotx_control_node" pkg="robotx_control" type="robotx_control_node" args="" output="screen" respawn="true"> -->
-  <!-- </node> -->
 
 <!--
   <node name="world_frame_publisher" pkg="robotx_navigation" type="world_frame_publisher.py" args="" output="screen" respawn="true">
@@ -35,17 +30,6 @@
   <node name="twist_from_fix_velocity_node" pkg="robotx_navigation" type="twist_from_fix_velocity_node" args="" output="screen" respawn="true">
     <remap from="/twist" to="/wam_v/twist" />
     <param name="imu_frame" value="base_link" type="str"/>
-  </node>
-
-  <node name="robotx_map_server_node" pkg="robotx_navigation" type="robotx_map_server_node" args="" output="screen" respawn="true">
-    <remap from="/robotx_map_server_node/input_cloud" to="/velodyne_points" />
-  </node>
-
-  <node name="joy_node" pkg="joy" type="joy_node" args="" output="screen" respawn="true">
-  </node>
-
-  <node name="joy_to_cmd_node" pkg="robotx_navigation" type="joy_to_cmd.py" args="" output="screen" respawn="true">
-    <param name="max_value" value="2" type="double"/>
   </node>
 
   <node name="geographic_map_server_node" pkg="robotx_navigation" type="geographic_map_server_node" args="" output="screen" respawn="true">
