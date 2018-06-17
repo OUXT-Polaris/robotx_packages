@@ -6,11 +6,14 @@ clustering_method: 1
 downsample:
   enable: false
 
+euclidean_clustering:
+  cluster_tolerance: 0.1
+
 conditional_euclidean_clustering:
-  min_cluster_size: 3
-  max_cluster_size: 300
   radius_search: 0.1
   cluster_tolerance: 500
 
 min_bbox_size: 0
 max_bbox_size: 3
+min_cluster_size: 3
+max_cluster_size: 300

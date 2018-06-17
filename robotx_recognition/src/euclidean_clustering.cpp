@@ -64,11 +64,11 @@ bool euclidean_clustering::enforce_intensity_similarity(const pcl::PointXYZINorm
 
 bool euclidean_clustering::check_bbox_size(geometry_msgs::Vector3 bbox_scale)
 {
-  if(bbox_scale.x > conditional_euclidian_clustering_params_.min_bbox_size && bbox_scale.x < conditional_euclidian_clustering_params_.max_bbox_size)
+  if(bbox_scale.x > bbox_params_.min_bbox_size && bbox_scale.x < bbox_params_.max_bbox_size)
   {
-    if(bbox_scale.y > conditional_euclidian_clustering_params_.min_bbox_size && bbox_scale.y < conditional_euclidian_clustering_params_.max_bbox_size)
+    if(bbox_scale.y > bbox_params_.min_bbox_size && bbox_scale.y < bbox_params_.max_bbox_size)
     {
-      if(bbox_scale.z > conditional_euclidian_clustering_params_.min_bbox_size && bbox_scale.z < conditional_euclidian_clustering_params_.max_bbox_size)
+      if(bbox_scale.z > bbox_params_.min_bbox_size && bbox_scale.z < bbox_params_.max_bbox_size)
       {
         return true;
       }

@@ -25,21 +25,29 @@ public:
   {
     euclidean_clustering_parameters()
     {
-
+      double cluster_tolerance;
+      ros::param::param<double>(ros::this_node::getName()+"/euclidean_clustering/cluster_tolerance", cluster_tolerance, 0.1);
     }
   };
   struct conditional_euclidian_clustering_parameters
   {
-    double min_bbox_size;
-    double max_bbox_size;
     double radius_search;
     double cluster_tolerance;
     conditional_euclidian_clustering_parameters()
     {
-      ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/min_bbox_size", min_bbox_size, 0.5);
-      ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/max_bbox_size", max_bbox_size, 3.0);
       ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/radius_search", radius_search, 50);
       ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/cluster_tolerance", cluster_tolerance, 1);
+    }
+  };
+  struct bbox_parameters
+  {
+    double min_bbox_size;
+    double max_bbox_size;
+    bbox_parameters()
+    {
+
+      ros::param::param<double>(ros::this_node::getName()+"/min_bbox_size", min_bbox_size, 0.5);
+      ros::param::param<double>(ros::this_node::getName()+"/max_bbox_size", max_bbox_size, 3.0);
     }
   };
   euclidean_clustering();
@@ -47,6 +55,7 @@ public:
   enum clustering_methods{CONDITIONAL_EUCLIDIAN_CLUSTERING=0,EUCLIDIAN_CLUSTER_EXTRACTION=1};
 private:
   const conditional_euclidian_clustering_parameters conditional_euclidian_clustering_params_;
+  const bbox_parameters bbox_params_;
   bool check_bbox_size(geometry_msgs::Vector3 bbox_scale);
   void poincloud_callback(sensor_msgs::PointCloud2 msg);
   void make_cluster(sensor_msgs::PointCloud2 msg);
@@ -56,8 +65,8 @@ private:
   ros::Subscriber pointcloud_sub_;
   ros::NodeHandle nh_;
   //parameters
-  int clustering_method_;
   int min_cluster_size_,max_cluster_size_;
+  int clustering_method_;
   double leaf_size_x,leaf_size_y,leaf_size_z;
   bool donwsample_;
   std::string input_cloud_;
