@@ -6,6 +6,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <jsk_recognition_msgs/BoundingBoxArray.h>
+#include <sensor_msgs/CameraInfo.h>
 
 //headers in this package
 #include <disparity_image.h>
@@ -17,6 +18,8 @@ public:
     {
         std::string left_image_topic;
         std::string right_image_topic;
+        std::string right_camera_info_topic;
+        std::string left_camera_info_topic;
         std::string euclidean_cluster_topic;
         bool publish_disparity;
         parameters()
@@ -30,11 +33,15 @@ public:
 private:
     void left_image_callback_(const sensor_msgs::ImageConstPtr& msg);
     void right_image_callback_(const sensor_msgs::ImageConstPtr& msg);
+    void left_camera_info_callback_(const sensor_msgs::CameraInfoConstPtr& msg);
+    void right_camera_info_callback_(const sensor_msgs::CameraInfoConstPtr& msg);
     void euclidean_cluster_callback_(jsk_recognition_msgs::BoundingBoxArray msg);
     void setup_publisher_subscriber_();
     image_transport::Subscriber left_image_sub_,right_image_sub_;
     image_transport::Publisher disparity_image_pub_;
     ros::Subscriber euclidean_cluster_sub_;
+    ros::Subscriber left_camera_info_sub_;
+    ros::Subscriber right_camera_info_sub_;
     ros::NodeHandle nh_;
     image_transport::ImageTransport it_;
     disparity_image disparity_image_;
