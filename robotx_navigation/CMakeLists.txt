@@ -34,10 +34,6 @@ add_executable(twist_from_fix_velocity_node src/twist_from_fix_velocity_node.cpp
 target_link_libraries(twist_from_fix_velocity_node ${catkin_LIBRARIES})
 add_document(twist_from_fix_velocity_node)
 
-add_executable(robotx_map_server_node src/robotx_map_server_node.cpp src/robotx_map_server.cpp)
-target_link_libraries(robotx_map_server_node ${catkin_LIBRARIES})
-add_document(robotx_map_server_node)
-
 add_executable(geographic_map_server_node src/geographic_map_server_node.cpp src/geographic_map_server.cpp)
 target_link_libraries(geographic_map_server_node ${catkin_LIBRARIES})
 add_document(geographic_map_server_node)
@@ -46,7 +42,7 @@ add_document(geographic_map_server_node)
 ## Install ##
 #############
 # CPP codes
-set(NODE_FILES twist_from_fix_velocity_node robotx_map_server_node geographic_map_server_node)
+set(NODE_FILES twist_from_fix_velocity_node geographic_map_server_node)
 foreach(nodes ${NODE_FILES})
   install(TARGETS ${nodes}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
