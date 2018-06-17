@@ -6,8 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /MarkerArray1
-        - /MarkerArray1/Namespaces1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -151,9 +149,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 1.05377645e-42
+      Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 1.12103877e-42
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -227,14 +225,18 @@ Visualization Manager:
                 {}
       Update Interval: 0
       Value: true
-    - Class: rviz/MarkerArray
+    - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: true
-      Marker Topic: /euclidean_clustering_node/marker
-      Name: MarkerArray
-      Namespaces:
-        "": true
-      Queue Size: 10
+      Name: BoundingBoxArray
+      Topic: /euclidean_clustering_node/marker
+      Unreliable: false
       Value: true
+      alpha: 0.300000012
+      color: 25; 255; 0
+      coloring: Auto
+      line width: 0.00499999989
+      only edge: false
+      show coords: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
