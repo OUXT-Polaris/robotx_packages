@@ -59,6 +59,10 @@ class obstacle_map_server
          * 
          */
         double origin_theta;
+        /**
+         * @brief Construct a new parameters object
+         * 
+         */
         parameters()
         {
             ros::param::param<double>(ros::this_node::getName()+"/margin", margin, 0.2);
@@ -73,7 +77,15 @@ class obstacle_map_server
         }
     };
 public:
+    /**
+     * @brief Construct a new obstacle map server object
+     * 
+     */
     obstacle_map_server();
+    /**
+     * @brief Destroy the obstacle map server object
+     * 
+     */
     ~obstacle_map_server();
 private:
     const parameters params_;
