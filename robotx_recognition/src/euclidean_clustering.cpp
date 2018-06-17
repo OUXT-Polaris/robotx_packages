@@ -11,15 +11,12 @@
 //headers in tf2
 //#include <tf2/LinearMath/Quaternion.h>
 
-euclidean_clustering::euclidean_clustering()
+euclidean_clustering::euclidean_clustering() 
+  : conditional_euclidian_clustering_params_()
 {
   marker_pub_= nh_.advertise<visualization_msgs::MarkerArray>(ros::this_node::getName()+"/marker", 1);
-  ros::param::param<int>(ros::this_node::getName()+"/conditional_euclidean_clustering/min_cluster_size", min_cluster_size_, 10);
-  ros::param::param<int>(ros::this_node::getName()+"/conditional_euclidean_clustering/max_cluster_size", max_cluster_size_, 1000);
-  ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/cluster_tolerance", cluster_tolerance_, 1);
-  ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/radius_search", radius_search_, 50);
-  ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/min_bbox_size", min_bbox_size_, 0.5);
-  ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/max_bbox_size", max_bbox_size_, 3.0);
+  ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
+  ros::param::param<int>(ros::this_node::getName()+"/max_cluster_size", max_cluster_size_, 1000);
   ros::param::param<bool>(ros::this_node::getName()+"/donwsample/enable", donwsample_, true);
   ros::param::param<double>(ros::this_node::getName()+"/donwsample/voxel_grid/leaf_size/x", leaf_size_x, 0.01);
   ros::param::param<double>(ros::this_node::getName()+"/donwsample/voxel_grid/leaf_size/y", leaf_size_y, 0.01);
@@ -67,11 +64,11 @@ bool euclidean_clustering::enforce_intensity_similarity(const pcl::PointXYZINorm
 
 bool euclidean_clustering::check_bbox_size(geometry_msgs::Vector3 bbox_scale)
 {
-  if(bbox_scale.x > min_bbox_size_ && bbox_scale.x < max_bbox_size_)
+  if(bbox_scale.x > conditional_euclidian_clustering_params_.min_bbox_size && bbox_scale.x < conditional_euclidian_clustering_params_.max_bbox_size)
   {
-    if(bbox_scale.y > min_bbox_size_ && bbox_scale.y < max_bbox_size_)
+    if(bbox_scale.y > conditional_euclidian_clustering_params_.min_bbox_size && bbox_scale.y < conditional_euclidian_clustering_params_.max_bbox_size)
     {
-      if(bbox_scale.z > min_bbox_size_ && bbox_scale.z < max_bbox_size_)
+      if(bbox_scale.z > conditional_euclidian_clustering_params_.min_bbox_size && bbox_scale.z < conditional_euclidian_clustering_params_.max_bbox_size)
       {
         return true;
       }
@@ -105,7 +102,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     normal_estimation.setInputCloud(pcl_pointcloud);
     pcl::search::KdTree<pcl::PointXYZI>::Ptr search_tree(new pcl::search::KdTree<pcl::PointXYZI>);
     normal_estimation.setSearchMethod(search_tree);
-    normal_estimation.setRadiusSearch(radius_search_);
+    normal_estimation.setRadiusSearch(conditional_euclidian_clustering_params_.radius_search);
     normal_estimation.compute(*pcl_cloud_with_normals);
 
     //Set up a Conditional Euclidean Clustering class
@@ -114,7 +111,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
 
     conditional_euclidean_clustering.setConditionFunction(&euclidean_clustering::custom_region_growing_function);
     //conditional_euclidean_clustering.setConditionFunction(&euclidean_clustering::enforce_intensity_similarity);
-    conditional_euclidean_clustering.setClusterTolerance(cluster_tolerance_);
+    conditional_euclidean_clustering.setClusterTolerance(conditional_euclidian_clustering_params_.cluster_tolerance);
     conditional_euclidean_clustering.setMinClusterSize(min_cluster_size_);
     conditional_euclidean_clustering.setMaxClusterSize(max_cluster_size_);
     pcl::IndicesClustersPtr clusters(new pcl::IndicesClusters),small_clusters(new pcl::IndicesClusters),large_clusters(new pcl::IndicesClusters);;
@@ -178,5 +175,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
   {
     pcl::KdTree<pcl::PointXYZI>::Ptr tree(new pcl::KdTreeFLANN<pcl::PointXYZI>); 
     tree->setInputCloud(pcl_pointcloud);
+    std::vector<pcl::PointIndices> cluster_indices;  
+    pcl::EuclideanClusterExtraction<pcl::PointXYZI> ec;  
   }
 }
