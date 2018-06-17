@@ -141,6 +141,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
       feature_extractor.getMomentOfInertia(moment_of_inertia);
       feature_extractor.getEccentricity(eccentricity);
       feature_extractor.getAABB(min_point,max_point);
+      //generate marker
       visualization_msgs::Marker marker;
       marker.header = msg.header;
       marker.type = marker.CUBE;
@@ -152,7 +153,6 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
       marker.pose.position.x = (max_point.x + min_point.x)/2;
       marker.pose.position.y = (max_point.y + min_point.y)/2;
       marker.pose.position.z = (max_point.z + min_point.z)/2;
-      //ROS_ERROR_STREAM(marker.scale);
       if(check_bbox_size(marker.scale))
       {
         marker.pose.orientation.x = 0;
@@ -194,6 +194,11 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     ec.setSearchMethod(tree);
     ec.setInputCloud(pcl_pointcloud);  
     ec.extract(cluster_indices);
+    
+    visualization_msgs::MarkerArray markers;
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<double> color(0.0,1.0);
     for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
     {
       pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster(new pcl::PointCloud<pcl::PointXYZ>);
@@ -212,6 +217,32 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
       feature_extractor.getMomentOfInertia(moment_of_inertia);
       feature_extractor.getEccentricity(eccentricity);
       feature_extractor.getAABB(min_point,max_point);
+      //generate marker
+      visualization_msgs::Marker marker;
+      marker.header = msg.header;
+      marker.type = marker.CUBE;
+      marker.action = marker.ADD;
+      marker.lifetime = ros::Duration(0.1);
+      marker.scale.x = std::fabs(max_point.x - min_point.x);
+      marker.scale.y = std::fabs(max_point.y - min_point.y);
+      marker.scale.z = std::fabs(max_point.z - min_point.z);
+      marker.pose.position.x = (max_point.x + min_point.x)/2;
+      marker.pose.position.y = (max_point.y + min_point.y)/2;
+      marker.pose.position.z = (max_point.z + min_point.z)/2;
+      if(check_bbox_size(marker.scale))
+      {
+        marker.pose.orientation.x = 0;
+        marker.pose.orientation.y = 0;
+        marker.pose.orientation.z = 0;
+        marker.pose.orientation.w = 1;
+        marker.color.r = color(mt);
+        marker.color.g = color(mt);
+        marker.color.b = color(mt);
+        marker.color.a = 0.8;
+        marker.frame_locked = true;
+        markers.markers.push_back(marker);
+      }
     }
+    marker_pub_.publish(markers);
   }
 }
