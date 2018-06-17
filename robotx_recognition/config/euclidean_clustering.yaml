@@ -1,7 +1,8 @@
-input_cloud: /velodyne_points
+input_cloud: /pointcloud_merger_node/merged_points
 min_cluster_size: 3
-max_cluster_size: 10
+max_cluster_size: 300
 radius_search: 300
 cluster_tolerance: 500
 min_bbox_size: 0
 max_bbox_size: 3
+donwsample: false

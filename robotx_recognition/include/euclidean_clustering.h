@@ -34,6 +34,7 @@ private:
   double cluster_tolerance_,leaf_size_x,leaf_size_y,leaf_size_z,radius_search_;
   double min_bbox_size_;
   double max_bbox_size_;
+  bool donwsample_;
   std::string input_cloud_;
 };
 #endif  //EUCLIDEAN_CLUSTERING_H_INCLUDED

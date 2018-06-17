@@ -20,6 +20,7 @@ euclidean_clustering::euclidean_clustering()
   ros::param::param<double>(ros::this_node::getName()+"/radius_search", radius_search_, 50);
   ros::param::param<double>(ros::this_node::getName()+"/min_bbox_size", min_bbox_size_, 0.5);
   ros::param::param<double>(ros::this_node::getName()+"/max_bbox_size", max_bbox_size_, 3.0);
+  ros::param::param<bool>(ros::this_node::getName()+"/donwsample", donwsample_, true);
   ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/x", leaf_size_x, 0.01);
   ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/y", leaf_size_y, 0.01);
   ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/z", leaf_size_z, 0.01);
@@ -86,12 +87,15 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
   pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_pointcloud(new pcl::PointCloud<pcl::PointXYZI>);
   pcl::fromPCLPointCloud2(pcl_pc2,*pcl_pointcloud);
   pcl::PointCloud<pcl::PointXYZINormal>::Ptr pcl_cloud_with_normals(new pcl::PointCloud<pcl::PointXYZINormal>);
-  //Downsample pointcloud
-  pcl::VoxelGrid<pcl::PointXYZI> voxel_grid;
-  voxel_grid.setInputCloud(pcl_pointcloud);
-  voxel_grid.setLeafSize(leaf_size_x, leaf_size_y, leaf_size_z);
-  voxel_grid.setDownsampleAllData(true);
-  voxel_grid.filter(*pcl_pointcloud);
+  if(donwsample_)
+  {
+    //Downsample pointcloud
+    pcl::VoxelGrid<pcl::PointXYZI> voxel_grid;
+    voxel_grid.setInputCloud(pcl_pointcloud);
+    voxel_grid.setLeafSize(leaf_size_x, leaf_size_y, leaf_size_z);
+    voxel_grid.setDownsampleAllData(true);
+    voxel_grid.filter(*pcl_pointcloud);
+  }
   //Set up a Normal Estimation class and merge data in cloud_with_normals
   pcl::copyPointCloud(*pcl_pointcloud, *pcl_cloud_with_normals);
   pcl::NormalEstimation<pcl::PointXYZI, pcl::PointXYZINormal> normal_estimation;
@@ -165,5 +169,5 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     }
   }
   marker_pub_.publish(markers);
-  //ROS_WARN_STREAM(markers.markers.size() << " clusters found.");
+  ROS_WARN_STREAM(clusters->size() << " clusters found.");
 }
