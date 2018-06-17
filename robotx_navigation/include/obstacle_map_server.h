@@ -6,8 +6,6 @@
 #include <nav_msgs/MapMetaData.h>
 #include <ros/ros.h>
 #include <jsk_recognition_msgs/BoundingBoxArray.h>
-#include <tf2_ros/transform_listener.h>
-
 /**
  * @brief obstacle_map_server class
  * 
@@ -68,6 +66,11 @@ class obstacle_map_server
          */
         std::string object_bbox_topic;
         /**
+         * @brief map tf trame name
+         * 
+         */
+        std::string map_frame;
+        /**
          * @brief Construct a new parameters object
          * 
          */
@@ -83,6 +86,7 @@ class obstacle_map_server
             ros::param::param<double>(ros::this_node::getName()+"/min_object_position_z", min_object_position_z, -3.0);
             ros::param::param<double>(ros::this_node::getName()+"/max_object_position_z", max_object_position_z, 3.0);
             ros::param::param<std::string>(ros::this_node::getName()+"/object_bbox_topic", object_bbox_topic, ros::this_node::getName()+"/object_bbox");
+            ros::param::param<std::string>(ros::this_node::getName()+"/map_frame", map_frame, "base_link");
         }
     };
 public:
@@ -126,12 +130,6 @@ private:
      * @return nav_msgs::OccupancyGrid generated occupancy grid
      */
     nav_msgs::OccupancyGrid generate_occupancy_grid_map(jsk_recognition_msgs::BoundingBoxArray msg);
-    /**
-     * @brief transform buffer
-     * 
-     */
-    tf2_ros::Buffer tf_buffer_;
-    tf2_ros::TransformListener tf_listener_;
 };
 
 #endif  //OBSTACLE_MAP_SERVER_H_INCLUDED
