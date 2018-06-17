@@ -34,12 +34,30 @@ class obstacle_map_server
          * 
          */
         int map_height;
+        /**
+         * @brief map origin in X axis
+         * 
+         */
+        double origin_x;
+        /**
+         * @brief map origin in Y axis
+         * 
+         */
+        double origin_y;
+        /**
+         * @brief map origin in theta
+         * 
+         */
+        double origin_theta;
         parameters()
         {
             ros::param::param<double>(ros::this_node::getName()+"/margin", margin, 0.2);
             ros::param::param<double>(ros::this_node::getName()+"/resolution", resolution, 0.05);
             ros::param::param<int>(ros::this_node::getName()+"/map_height", map_height, 400);
             ros::param::param<int>(ros::this_node::getName()+"/map_width", map_width, 400);
+            ros::param::param<double>(ros::this_node::getName()+"/origin_x", origin_x, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/origin_y", origin_y, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/origin_theta", origin_theta, 0.0);
         }
     };
 public:
