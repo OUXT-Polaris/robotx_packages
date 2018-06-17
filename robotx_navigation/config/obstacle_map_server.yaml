@@ -8,4 +8,3 @@ origin_y: 0
 origin_theta: 0
 min_object_position_z: -3
 max_object_position_z: 3
-map_frame: base_link
