@@ -23,7 +23,7 @@ class euclidean_clustering
 public:
   euclidean_clustering();
   ~euclidean_clustering();
-  enum clustering_methods{CONDITIONAL_EUCLIDIAN_CLUSTERING=0,SAC_SEGMENTATION=1};
+  enum clustering_methods{CONDITIONAL_EUCLIDIAN_CLUSTERING=0,EUCLIDIAN_CLUSTER_EXTRACTION=1};
 private:
   bool check_bbox_size(geometry_msgs::Vector3 bbox_scale);
   void poincloud_callback(sensor_msgs::PointCloud2 msg);

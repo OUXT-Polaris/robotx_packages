@@ -20,10 +20,10 @@ euclidean_clustering::euclidean_clustering()
   ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/radius_search", radius_search_, 50);
   ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/min_bbox_size", min_bbox_size_, 0.5);
   ros::param::param<double>(ros::this_node::getName()+"/conditional_euclidean_clustering/max_bbox_size", max_bbox_size_, 3.0);
-  ros::param::param<bool>(ros::this_node::getName()+"/donwsample", donwsample_, true);
-  ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/x", leaf_size_x, 0.01);
-  ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/y", leaf_size_y, 0.01);
-  ros::param::param<double>(ros::this_node::getName()+"/voxel_grid/leaf_size/z", leaf_size_z, 0.01);
+  ros::param::param<bool>(ros::this_node::getName()+"/donwsample/enable", donwsample_, true);
+  ros::param::param<double>(ros::this_node::getName()+"/donwsample/voxel_grid/leaf_size/x", leaf_size_x, 0.01);
+  ros::param::param<double>(ros::this_node::getName()+"/donwsample/voxel_grid/leaf_size/y", leaf_size_y, 0.01);
+  ros::param::param<double>(ros::this_node::getName()+"/donwsample/voxel_grid/leaf_size/z", leaf_size_z, 0.01);
   ros::param::param<std::string>(ros::this_node::getName()+"/input_cloud", input_cloud_, ros::this_node::getName()+"/input_cloud");
   ros::param::param<int>(ros::this_node::getName()+"/clustering_method", clustering_method_, CONDITIONAL_EUCLIDIAN_CLUSTERING);
   pointcloud_sub_ = nh_.subscribe(input_cloud_, 5, &euclidean_clustering::poincloud_callback, this);
@@ -174,8 +174,9 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     }
     marker_pub_.publish(markers);
   }
-  if(clustering_method_ == SAC_SEGMENTATION)
+  if(clustering_method_ == EUCLIDIAN_CLUSTER_EXTRACTION)
   {
-    
+    pcl::KdTree<pcl::PointXYZI>::Ptr tree(new pcl::KdTreeFLANN<pcl::PointXYZI>); 
+    tree->setInputCloud(pcl_pointcloud);
   }
 }

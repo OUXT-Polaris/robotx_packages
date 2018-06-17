@@ -1,7 +1,10 @@
 input_cloud: /pointcloud_merger_node/merged_points
 # CONDITIONAL_EUCLIDIAN_CLUSTERING = 0
-# SAC_SEGMENTATION = 1
+# EUCLIDIAN_CLUSTER_EXTRACTION = 1
 clustering_method: 1
+
+downsample:
+  enable: false
 
 conditional_euclidean_clustering:
   min_cluster_size: 3
@@ -10,4 +13,3 @@ conditional_euclidean_clustering:
   cluster_tolerance: 500
   min_bbox_size: 0
   max_bbox_size: 3
-  donwsample: false
