@@ -18,7 +18,7 @@
     <remap from="/vo" to="/gps_odom" />
   </node>
 
-  <rosparam command="load" file="$(find robotx_recognition)/config/obstacle_map_server.yaml" ns="obstacle_map_server_node"/>
+  <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_map_server.yaml" ns="obstacle_map_server_node"/>
   <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
   </node>
 
