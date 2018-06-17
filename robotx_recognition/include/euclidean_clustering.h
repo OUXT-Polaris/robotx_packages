@@ -9,14 +9,13 @@
 //headers in pcl
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/point_types.h>
-#include <pcl/io/pcd_io.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/features/moment_of_inertia_estimation.h>
 #include <pcl/segmentation/conditional_euclidean_clustering.h>
-
 #include <pcl/segmentation/sac_segmentation.h>  
-#include <pcl/segmentation/extract_clusters.h>  
+#include <pcl/segmentation/extract_clusters.h>
+#include <pcl/kdtree/kdtree.h> 
 
 class euclidean_clustering
 {

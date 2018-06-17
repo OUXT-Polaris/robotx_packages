@@ -8,9 +8,6 @@
 //headers in STL
 #include <random>
 
-//headers in tf2
-//#include <tf2/LinearMath/Quaternion.h>
-
 euclidean_clustering::euclidean_clustering() 
   : conditional_euclidian_clustering_params_()
 {
@@ -173,9 +170,14 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
   }
   if(clustering_method_ == EUCLIDIAN_CLUSTER_EXTRACTION)
   {
-    pcl::KdTree<pcl::PointXYZI>::Ptr tree(new pcl::KdTreeFLANN<pcl::PointXYZI>); 
+    pcl::search::Search<pcl::PointXYZI>::Ptr tree;
     tree->setInputCloud(pcl_pointcloud);
     std::vector<pcl::PointIndices> cluster_indices;  
-    pcl::EuclideanClusterExtraction<pcl::PointXYZI> ec;  
+    pcl::EuclideanClusterExtraction<pcl::PointXYZI> ec;
+    ec.setMinClusterSize(min_cluster_size_);  
+    ec.setMaxClusterSize(max_cluster_size_);
+    ec.setSearchMethod(tree);
+    ec.setInputCloud(pcl_pointcloud);  
+    ec.extract(cluster_indices);
   }
 }
