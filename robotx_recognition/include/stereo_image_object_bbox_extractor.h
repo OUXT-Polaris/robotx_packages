@@ -12,12 +12,12 @@
 class stereo_image_object_bbox_extractor
 {
 public:
-    struct config
+    struct parameters
     {
         std::string left_image_topic;
         std::string right_image_topic;
         bool publish_disparity;
-        config()
+        parameters()
         {
             publish_disparity = false;
         }
@@ -26,7 +26,7 @@ public:
     ~stereo_image_object_bbox_extractor();
     void left_image_callback(const sensor_msgs::ImageConstPtr& msg);
     void right_image_callback(const sensor_msgs::ImageConstPtr& msg);
-    void set_config(config conf){config_ = conf;};
+    void set_parameters(parameters params){params_ = params;};
 private:
     void setup_publisher_subscriber();
     image_transport::Subscriber left_image_sub_,right_image_sub_;
@@ -34,7 +34,7 @@ private:
     ros::NodeHandle nh_;
     image_transport::ImageTransport it_;
     disparity_image disparity_image_;
-    config config_;
+    parameters params_;
     cv::Mat left_image_;
     cv::Mat right_image_;
 };
