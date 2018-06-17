@@ -27,6 +27,7 @@ nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map(jsk_rec
     map.info.resolution = params_.resolution;
     map.info.origin.position.x = -params_.map_height*params_.resolution/2;
     map.info.origin.position.y = -params_.map_width*params_.resolution/2;
+    map.info.origin.position.z = params_.height_offset;
     tf::Quaternion quaternion = tf::createQuaternionFromRPY(0,0,0);
     map.info.origin.orientation.x = 0;
     map.info.origin.orientation.y = 0;

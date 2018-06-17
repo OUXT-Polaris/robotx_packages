@@ -41,6 +41,11 @@ class obstacle_map_server
          */
         std::string object_bbox_topic;
         /**
+         * @brief height offset of the publisher map
+         * 
+         */
+        double height_offset;
+        /**
          * @brief Construct a new parameters object
          * 
          */
@@ -50,6 +55,7 @@ class obstacle_map_server
             ros::param::param<double>(ros::this_node::getName()+"/resolution", resolution, 0.05);
             ros::param::param<int>(ros::this_node::getName()+"/map_height", map_height, 400);
             ros::param::param<int>(ros::this_node::getName()+"/map_width", map_width, 400);
+            ros::param::param<double>(ros::this_node::getName()+"/height_offset", height_offset, 0);
             ros::param::param<std::string>(ros::this_node::getName()+"/object_bbox_topic", object_bbox_topic, ros::this_node::getName()+"/object_bbox");
         }
     };
