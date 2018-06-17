@@ -13,7 +13,7 @@ euclidean_clustering::euclidean_clustering()
   euclidian_clustering_params_(),
   bbox_params_()
 {
-  marker_pub_= nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>(ros::this_node::getName()+"/marker", 1);
+  marker_pub_= nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>(ros::this_node::getName()+"/bbox", 1);
   ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
   ros::param::param<int>(ros::this_node::getName()+"/max_cluster_size", max_cluster_size_, 1000);
   ros::param::param<bool>(ros::this_node::getName()+"/donwsample/enable", donwsample_, true);

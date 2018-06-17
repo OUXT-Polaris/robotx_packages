@@ -4,6 +4,7 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/MapMetaData.h>
 #include <ros/ros.h>
+#include <jsk_recognition_msgs/BoundingBoxArray.h>
 
 /**
  * @brief obstacle_map_server class
