@@ -3,6 +3,7 @@
 
 obstacle_map_server::obstacle_map_server() : params_()
 {
+    map_pub_ = nh_.advertise<nav_msgs::OccupancyGrid>("/obstacle_map", 1);
     objects_bbox_sub_ = nh_.subscribe(params_.object_bbox_topic, 1, &obstacle_map_server::objects_bbox_callback_, this);
 }
 
@@ -24,8 +25,8 @@ nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map(jsk_rec
     map.info.height = params_.map_height;
     map.info.width = params_.map_width;
     map.info.resolution = params_.resolution;
-    map.info.origin.position.x = 0;
-    map.info.origin.position.y = 0;
+    map.info.origin.position.x = -params_.map_height*params_.resolution/2;
+    map.info.origin.position.y = -params_.map_width*params_.resolution/2;
     tf::Quaternion quaternion = tf::createQuaternionFromRPY(0,0,0);
     map.info.origin.orientation.x = 0;
     map.info.origin.orientation.y = 0;
@@ -48,13 +49,17 @@ nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map(jsk_rec
     {
         for(int m=0; m<params_.map_width; m++)
         {
+            double x = (double)m * params_.resolution - 0.5 * params_.resolution * params_.map_width;
+            double y = (double)i * params_.resolution - 0.5 * params_.resolution * params_.map_height;
             for(int n=0; n<objects_data.size(); n++)
             {
-                double x = (double)m * params_.resolution;
-                double y = (double)i * params_.resolution;
+                double distance = std::sqrt(std::pow(objects_data[n][1]-x,2) + std::pow(objects_data[n][2]-y,2));
+                if(distance < objects_data[n][0])
+                    map_data[i*params_.map_height+m] = 100;
             }
         }
     }
     map.data = map_data;
+    map_pub_.publish(map);
     return map;
 }

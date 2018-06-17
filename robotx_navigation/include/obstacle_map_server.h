@@ -81,6 +81,11 @@ private:
      */
     ros::Subscriber objects_bbox_sub_;
     /**
+     * @brief ROS publisher for /obstacle_map topic (message type : nav_msgs/OccupancyGrid)
+     * 
+     */
+    ros::Publisher map_pub_;
+    /**
      * @brief ROS callback function for (object_bbox_topic) topic (message type : jsk_recognition_msgs/BoundingBoxArray)
      * 
      * @param msg ROS message (message type : jsk_recognition_msgs/BoundingBoxArray)
