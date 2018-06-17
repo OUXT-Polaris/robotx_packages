@@ -41,7 +41,6 @@ void euclidean_clustering::poincloud_callback(sensor_msgs::PointCloud2 msg)
 bool euclidean_clustering::custom_region_growing_function(const pcl::PointXYZINormal& point_a, const pcl::PointXYZINormal& point_b, float squared_distance)
 {
   Eigen::Map<const Eigen::Vector3f> point_a_normal = point_a.getNormalVector3fMap (), point_b_normal = point_b.getNormalVector3fMap ();
-  ROS_ERROR_STREAM(squared_distance);
   if (squared_distance < 10000)
   {
     if (fabs (point_a.intensity - point_b.intensity) < 8.0f)
@@ -96,6 +95,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     voxel_grid.setDownsampleAllData(true);
     voxel_grid.filter(*pcl_pointcloud);
   }
+  
   //Set up a Normal Estimation class and merge data in cloud_with_normals
   pcl::copyPointCloud(*pcl_pointcloud, *pcl_cloud_with_normals);
   pcl::NormalEstimation<pcl::PointXYZI, pcl::PointXYZINormal> normal_estimation;
@@ -104,13 +104,13 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
   normal_estimation.setSearchMethod(search_tree);
   normal_estimation.setRadiusSearch(radius_search_);
   normal_estimation.compute(*pcl_cloud_with_normals);
+
   //Set up a Conditional Euclidean Clustering class
   pcl::ConditionalEuclideanClustering<pcl::PointXYZINormal> conditional_euclidean_clustering(true);
   conditional_euclidean_clustering.setInputCloud(pcl_cloud_with_normals);
 
-  //conditional_euclidean_clustering.setConditionFunction(&euclidean_clustering::custom_region_growing_function);
-  conditional_euclidean_clustering.setConditionFunction(&euclidean_clustering::enforce_intensity_similarity);
-
+  conditional_euclidean_clustering.setConditionFunction(&euclidean_clustering::custom_region_growing_function);
+  //conditional_euclidean_clustering.setConditionFunction(&euclidean_clustering::enforce_intensity_similarity);
   conditional_euclidean_clustering.setClusterTolerance(cluster_tolerance_);
   conditional_euclidean_clustering.setMinClusterSize(min_cluster_size_);
   conditional_euclidean_clustering.setMaxClusterSize(max_cluster_size_);
@@ -139,7 +139,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     pcl::PointXYZI min_point,max_point;
     pcl::MomentOfInertiaEstimation<pcl::PointXYZI> feature_extractor;
     feature_extractor.setInputCloud(pcl_pointcloud_clusterd);
-    feature_extractor.compute ();
+    feature_extractor.compute();
     feature_extractor.getMomentOfInertia(moment_of_inertia);
     feature_extractor.getEccentricity(eccentricity);
     feature_extractor.getAABB(min_point,max_point);
@@ -147,6 +147,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     marker.header = msg.header;
     marker.type = marker.CUBE;
     marker.action = marker.ADD;
+    marker.lifetime = ros::Duration(0.1);
     marker.scale.x = std::fabs(max_point.x - min_point.x);
     marker.scale.y = std::fabs(max_point.y - min_point.y);
     marker.scale.z = std::fabs(max_point.z - min_point.z);
@@ -169,5 +170,5 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     }
   }
   marker_pub_.publish(markers);
-  ROS_WARN_STREAM(clusters->size() << " clusters found.");
+  //ROS_WARN_STREAM(clusters->size() << " clusters found.");
 }
