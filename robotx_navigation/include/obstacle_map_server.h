@@ -36,21 +36,6 @@ class obstacle_map_server
          */
         int map_height;
         /**
-         * @brief map origin in X axis
-         * 
-         */
-        double origin_x;
-        /**
-         * @brief map origin in Y axis
-         * 
-         */
-        double origin_y;
-        /**
-         * @brief map origin in theta
-         * 
-         */
-        double origin_theta;
-        /**
          * @brief ROS topic name for object bounding box
          * 
          */
@@ -65,9 +50,6 @@ class obstacle_map_server
             ros::param::param<double>(ros::this_node::getName()+"/resolution", resolution, 0.05);
             ros::param::param<int>(ros::this_node::getName()+"/map_height", map_height, 400);
             ros::param::param<int>(ros::this_node::getName()+"/map_width", map_width, 400);
-            ros::param::param<double>(ros::this_node::getName()+"/origin_x", origin_x, 0.0);
-            ros::param::param<double>(ros::this_node::getName()+"/origin_y", origin_y, 0.0);
-            ros::param::param<double>(ros::this_node::getName()+"/origin_theta", origin_theta, 0.0);
             ros::param::param<std::string>(ros::this_node::getName()+"/object_bbox_topic", object_bbox_topic, ros::this_node::getName()+"/object_bbox");
         }
     };
