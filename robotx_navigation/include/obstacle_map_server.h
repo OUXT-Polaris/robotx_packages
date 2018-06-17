@@ -61,6 +61,11 @@ class obstacle_map_server
          */
         double origin_theta;
         /**
+         * @brief ROS topic name for object bounding box
+         * 
+         */
+        std::string object_bbox_topic;
+        /**
          * @brief Construct a new parameters object
          * 
          */
@@ -75,6 +80,7 @@ class obstacle_map_server
             ros::param::param<double>(ros::this_node::getName()+"/origin_theta", origin_theta, 0.0);
             ros::param::param<double>(ros::this_node::getName()+"/min_object_position_z", min_object_position_z, -3.0);
             ros::param::param<double>(ros::this_node::getName()+"/max_object_position_z", max_object_position_z, 3.0);
+            ros::param::param<std::string>(ros::this_node::getName()+"/object_bbox_topic", object_bbox_topic, ros::this_node::getName()+"/object_bbox");
         }
     };
 public:
@@ -89,7 +95,28 @@ public:
      */
     ~obstacle_map_server();
 private:
+    /**
+     * @brief parameters for obstacle_map_server class
+     * 
+     */
     const parameters params_;
+    /**
+     * @brief ROS NodeHandle
+     * 
+     */
+    ros::NodeHandle nh_;
+    /**
+     * @brief ROS subscriber for (object_bbox_topic) topic (message type : jsk_recognition_msgs/BoundingBoxArray)
+     * 
+     */
+    ros::Subscriber objects_bbox_sub_;
+    /**
+     * @brief ROS callback function for (object_bbox_topic) topic (message type : jsk_recognition_msgs/BoundingBoxArray)
+     * 
+     * @param msg ROS message (message type : jsk_recognition_msgs/BoundingBoxArray)
+     * @sa obstacle_map_server::objects_bbox_sub_
+     */
+    void objects_bbox_callback_(jsk_recognition_msgs::BoundingBoxArray msg);
 };
 
 #endif  //OBSTACLE_MAP_SERVER_H_INCLUDED
