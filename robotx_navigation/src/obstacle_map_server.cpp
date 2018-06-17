@@ -31,5 +31,19 @@ nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map(jsk_rec
     map.info.origin.orientation.y = quaternion.getY();
     map.info.origin.orientation.z = quaternion.getZ();
     map.info.origin.orientation.w = quaternion.getW();
+    std::vector<int8_t> map_data(params_.map_height*params_.map_width);
+    std::vector<std::array<double,3> > objects_data;
+    for(int i = 0; i<msg.boxes.size() ;i++)
+    {
+        std::array<double,3> object_data;
+        double radius = std::max(msg.boxes[i].dimensions.x, msg.boxes[i].dimensions.y) + params_.margin;
+        double center_x = msg.boxes[i].pose.position.x;
+        double center_y = msg.boxes[i].pose.position.y;
+        object_data[0] = radius;
+        object_data[1] = center_x;
+        object_data[2] = center_y;
+        objects_data.push_back(object_data);
+    }
+    map.data = map_data;
     return map;
 }
