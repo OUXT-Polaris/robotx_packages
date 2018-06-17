@@ -151,7 +151,7 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 1.12103877e-42
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -225,14 +225,18 @@ Visualization Manager:
                 {}
       Update Interval: 0
       Value: true
-    - Class: rviz/MarkerArray
+    - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: true
-      Marker Topic: /euclidean_clustering_node/marker
-      Name: MarkerArray
-      Namespaces:
-        "": true
-      Queue Size: 100
+      Name: BoundingBoxArray
+      Topic: /euclidean_clustering_node/marker
+      Unreliable: false
       Value: true
+      alpha: 0.300000012
+      color: 25; 255; 0
+      coloring: Auto
+      line width: 0.00499999989
+      only edge: false
+      show coords: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -258,7 +262,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 14.0247402
+      Distance: 10.2485619
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -273,10 +277,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.190398812
+      Pitch: 0.320398659
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.84541321
+      Yaw: 3.04041767
     Saved: ~
 Window Geometry:
   Displays:
