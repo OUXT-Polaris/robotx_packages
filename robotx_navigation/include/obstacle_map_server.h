@@ -15,6 +15,16 @@ class obstacle_map_server
     struct parameters
     {
         /**
+         * @brief min object position in Z axis [m]
+         * 
+         */
+        double min_object_position_z;
+        /**
+         * @brief max object position in Z axis [m]
+         * 
+         */
+        double max_object_position_z;
+        /**
          * @brief margin of objects [m]
          * 
          */
@@ -58,6 +68,8 @@ class obstacle_map_server
             ros::param::param<double>(ros::this_node::getName()+"/origin_x", origin_x, 0.0);
             ros::param::param<double>(ros::this_node::getName()+"/origin_y", origin_y, 0.0);
             ros::param::param<double>(ros::this_node::getName()+"/origin_theta", origin_theta, 0.0);
+            ros::param::param<double>(ros::this_node::getName()+"/min_object_position_z", min_object_position_z, -3.0);
+            ros::param::param<double>(ros::this_node::getName()+"/max_object_position_z", max_object_position_z, 3.0);
         }
     };
 public:
