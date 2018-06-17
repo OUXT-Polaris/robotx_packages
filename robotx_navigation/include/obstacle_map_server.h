@@ -1,10 +1,12 @@
 #ifndef OBSTACLE_MAP_SERVER_H_INCLUDED
 #define OBSTACLE_MAP_SERVER_H_INCLUDED
 
+//headers in ROS
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/MapMetaData.h>
 #include <ros/ros.h>
 #include <jsk_recognition_msgs/BoundingBoxArray.h>
+#include <tf2_ros/transform_listener.h>
 
 /**
  * @brief obstacle_map_server class
@@ -117,6 +119,19 @@ private:
      * @sa obstacle_map_server::objects_bbox_sub_
      */
     void objects_bbox_callback_(jsk_recognition_msgs::BoundingBoxArray msg);
+    /**
+     * @brief function for generating occupancy grid map
+     * 
+     * @param msg object bboxes
+     * @return nav_msgs::OccupancyGrid generated occupancy grid
+     */
+    nav_msgs::OccupancyGrid generate_occupancy_grid_map(jsk_recognition_msgs::BoundingBoxArray msg);
+    /**
+     * @brief transform buffer
+     * 
+     */
+    tf2_ros::Buffer tf_buffer_;
+    tf2_ros::TransformListener tf_listener_;
 };
 
 #endif  //OBSTACLE_MAP_SERVER_H_INCLUDED
