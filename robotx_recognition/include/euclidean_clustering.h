@@ -22,9 +22,9 @@ class euclidean_clustering
 public:
   struct euclidean_clustering_parameters
   {
+    double cluster_tolerance;
     euclidean_clustering_parameters()
     {
-      double cluster_tolerance;
       ros::param::param<double>(ros::this_node::getName()+"/euclidean_clustering/cluster_tolerance", cluster_tolerance, 0.1);
     }
   };
@@ -54,6 +54,7 @@ public:
   enum clustering_methods{CONDITIONAL_EUCLIDIAN_CLUSTERING=0,EUCLIDIAN_CLUSTER_EXTRACTION=1};
 private:
   const conditional_euclidian_clustering_parameters conditional_euclidian_clustering_params_;
+  const euclidean_clustering_parameters euclidian_clustering_params_;
   const bbox_parameters bbox_params_;
   bool check_bbox_size(geometry_msgs::Vector3 bbox_scale);
   void poincloud_callback(sensor_msgs::PointCloud2 msg);

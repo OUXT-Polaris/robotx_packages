@@ -9,7 +9,9 @@
 #include <random>
 
 euclidean_clustering::euclidean_clustering() 
-  : conditional_euclidian_clustering_params_()
+  : conditional_euclidian_clustering_params_(),
+  euclidian_clustering_params_(),
+  bbox_params_()
 {
   marker_pub_= nh_.advertise<visualization_msgs::MarkerArray>(ros::this_node::getName()+"/marker", 1);
   ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
@@ -174,6 +176,7 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     tree->setInputCloud(pcl_pointcloud);
     std::vector<pcl::PointIndices> cluster_indices;  
     pcl::EuclideanClusterExtraction<pcl::PointXYZI> ec;
+    ec.setClusterTolerance(euclidian_clustering_params_.cluster_tolerance);
     ec.setMinClusterSize(min_cluster_size_);  
     ec.setMaxClusterSize(max_cluster_size_);
     ec.setSearchMethod(tree);
