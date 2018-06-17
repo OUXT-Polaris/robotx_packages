@@ -4,7 +4,7 @@
 //headers in ros
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
-#include <visualization_msgs/MarkerArray.h>
+#include <jsk_recognition_msgs/BoundingBoxArray.h>
 
 //headers in pcl
 #include <pcl_conversions/pcl_conversions.h>

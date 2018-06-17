@@ -13,7 +13,7 @@ euclidean_clustering::euclidean_clustering()
   euclidian_clustering_params_(),
   bbox_params_()
 {
-  marker_pub_= nh_.advertise<visualization_msgs::MarkerArray>(ros::this_node::getName()+"/marker", 1);
+  marker_pub_= nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>(ros::this_node::getName()+"/marker", 1);
   ros::param::param<int>(ros::this_node::getName()+"/min_cluster_size", min_cluster_size_, 10);
   ros::param::param<int>(ros::this_node::getName()+"/max_cluster_size", max_cluster_size_, 1000);
   ros::param::param<bool>(ros::this_node::getName()+"/donwsample/enable", donwsample_, true);
@@ -116,10 +116,8 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     conditional_euclidean_clustering.segment(*clusters);
     conditional_euclidean_clustering.getRemovedClusters(small_clusters,large_clusters);
     //Generate marker message
-    visualization_msgs::MarkerArray markers;
-    std::random_device rd;
-    std::mt19937 mt(rd());
-    std::uniform_real_distribution<double> color(0.0,1.0);
+    jsk_recognition_msgs::BoundingBoxArray markers;
+    markers.header = msg.header;
     for (int i = 0; i < clusters->size(); ++i)
     {
       pcl::PointCloud<pcl::PointXYZI>::Ptr pcl_pointcloud_clusterd(new pcl::PointCloud<pcl::PointXYZI>);
@@ -142,29 +140,21 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
       feature_extractor.getEccentricity(eccentricity);
       feature_extractor.getAABB(min_point,max_point);
       //generate marker
-      visualization_msgs::Marker marker;
+      jsk_recognition_msgs::BoundingBox marker;
       marker.header = msg.header;
-      marker.type = marker.CUBE;
-      marker.action = marker.ADD;
-      marker.lifetime = ros::Duration(0.1);
-      marker.scale.x = std::fabs(max_point.x - min_point.x);
-      marker.scale.y = std::fabs(max_point.y - min_point.y);
-      marker.scale.z = std::fabs(max_point.z - min_point.z);
+      marker.dimensions.x = std::fabs(max_point.x - min_point.x);
+      marker.dimensions.y = std::fabs(max_point.y - min_point.y);
+      marker.dimensions.z = std::fabs(max_point.z - min_point.z);
       marker.pose.position.x = (max_point.x + min_point.x)/2;
       marker.pose.position.y = (max_point.y + min_point.y)/2;
       marker.pose.position.z = (max_point.z + min_point.z)/2;
-      if(check_bbox_size(marker.scale))
+      if(check_bbox_size(marker.dimensions))
       {
         marker.pose.orientation.x = 0;
         marker.pose.orientation.y = 0;
         marker.pose.orientation.z = 0;
         marker.pose.orientation.w = 1;
-        marker.color.r = color(mt);
-        marker.color.g = color(mt);
-        marker.color.b = color(mt);
-        marker.color.a = 0.8;
-        marker.frame_locked = true;
-        markers.markers.push_back(marker);
+        markers.boxes.push_back(marker);
       }
     }
     marker_pub_.publish(markers);
@@ -195,10 +185,8 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
     ec.setInputCloud(pcl_pointcloud);  
     ec.extract(cluster_indices);
     
-    visualization_msgs::MarkerArray markers;
-    std::random_device rd;
-    std::mt19937 mt(rd());
-    std::uniform_real_distribution<double> color(0.0,1.0);
+    jsk_recognition_msgs::BoundingBoxArray markers;
+    markers.header = msg.header;
     for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)
     {
       pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_cluster(new pcl::PointCloud<pcl::PointXYZ>);
@@ -218,29 +206,21 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
       feature_extractor.getEccentricity(eccentricity);
       feature_extractor.getAABB(min_point,max_point);
       //generate marker
-      visualization_msgs::Marker marker;
+      jsk_recognition_msgs::BoundingBox marker;
       marker.header = msg.header;
-      marker.type = marker.CUBE;
-      marker.action = marker.ADD;
-      marker.lifetime = ros::Duration(0.1);
-      marker.scale.x = std::fabs(max_point.x - min_point.x);
-      marker.scale.y = std::fabs(max_point.y - min_point.y);
-      marker.scale.z = std::fabs(max_point.z - min_point.z);
+      marker.dimensions.x = std::fabs(max_point.x - min_point.x);
+      marker.dimensions.y = std::fabs(max_point.y - min_point.y);
+      marker.dimensions.z = std::fabs(max_point.z - min_point.z);
       marker.pose.position.x = (max_point.x + min_point.x)/2;
       marker.pose.position.y = (max_point.y + min_point.y)/2;
       marker.pose.position.z = (max_point.z + min_point.z)/2;
-      if(check_bbox_size(marker.scale))
+      if(check_bbox_size(marker.dimensions))
       {
         marker.pose.orientation.x = 0;
         marker.pose.orientation.y = 0;
         marker.pose.orientation.z = 0;
         marker.pose.orientation.w = 1;
-        marker.color.r = color(mt);
-        marker.color.g = color(mt);
-        marker.color.b = color(mt);
-        marker.color.a = 0.8;
-        marker.frame_locked = true;
-        markers.markers.push_back(marker);
+        markers.boxes.push_back(marker);
       }
     }
     marker_pub_.publish(markers);

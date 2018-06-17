@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   tf2_msgs
   tf2_sensor_msgs
+  jsk_recognition_msgs
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)

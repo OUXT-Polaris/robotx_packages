@@ -34,6 +34,7 @@
   <run_depend>robotx_msgs</run_depend>
   <run_depend>pluginlib</run_depend>
   <run_depend>rviz</run_depend>
+  <run_depend>jsk_rviz_plugins</run_depend>
 
   <export>
     <rviz plugin="${prefix}/plugin_description.xml"/>
