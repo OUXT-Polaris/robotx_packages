@@ -15,11 +15,15 @@
 #include <pcl/features/moment_of_inertia_estimation.h>
 #include <pcl/segmentation/conditional_euclidean_clustering.h>
 
+#include <pcl/segmentation/sac_segmentation.h>  
+#include <pcl/segmentation/extract_clusters.h>  
+
 class euclidean_clustering
 {
 public:
   euclidean_clustering();
   ~euclidean_clustering();
+  enum clustering_methods{CONDITIONAL_EUCLIDIAN_CLUSTERING=0,SAC_SEGMENTATION=1};
 private:
   bool check_bbox_size(geometry_msgs::Vector3 bbox_scale);
   void poincloud_callback(sensor_msgs::PointCloud2 msg);
@@ -30,6 +34,7 @@ private:
   ros::Subscriber pointcloud_sub_;
   ros::NodeHandle nh_;
   //parameters
+  int clustering_method_;
   int min_cluster_size_,max_cluster_size_;
   double cluster_tolerance_,leaf_size_x,leaf_size_y,leaf_size_z,radius_search_;
   double min_bbox_size_;
