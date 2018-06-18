@@ -15,4 +15,4 @@ conditional_euclidean_clustering:
 
 min_cluster_size: 10
 max_cluster_size: 300
-inflation_size : 0.4
+inflation_size : 0.8

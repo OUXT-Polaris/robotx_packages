@@ -68,28 +68,28 @@ bool object_bbox_extractor::raycast_to_image(cv::Mat image, jsk_recognition_msgs
         if(i == 0)
         {
             bbox_points[i].header = header;
-            bbox_points[i].point.x = object_bbox.pose.position.x - object_bbox.dimensions.x;
+            bbox_points[i].point.x = object_bbox.pose.position.x + object_bbox.dimensions.x/2;
             bbox_points[i].point.y = object_bbox.pose.position.y + object_bbox.dimensions.y;
             bbox_points[i].point.z = object_bbox.pose.position.z + object_bbox.dimensions.z;
         }
         if(i == 1)
         {
             bbox_points[i].header = header;
-            bbox_points[i].point.x = object_bbox.pose.position.x - object_bbox.dimensions.x;
+            bbox_points[i].point.x = object_bbox.pose.position.x + object_bbox.dimensions.x/2;
             bbox_points[i].point.y = object_bbox.pose.position.y - object_bbox.dimensions.y;
             bbox_points[i].point.z = object_bbox.pose.position.z + object_bbox.dimensions.z;
         }
         if(i == 2)
         {
             bbox_points[i].header = header;
-            bbox_points[i].point.x = object_bbox.pose.position.x - object_bbox.dimensions.x;
+            bbox_points[i].point.x = object_bbox.pose.position.x + object_bbox.dimensions.x/2;
             bbox_points[i].point.y = object_bbox.pose.position.y + object_bbox.dimensions.y;
             bbox_points[i].point.z = object_bbox.pose.position.z - object_bbox.dimensions.z;
         }
         if(i == 3)
         {
             bbox_points[i].header = header;
-            bbox_points[i].point.x = object_bbox.pose.position.x - object_bbox.dimensions.x;
+            bbox_points[i].point.x = object_bbox.pose.position.x + object_bbox.dimensions.x/2;
             bbox_points[i].point.y = object_bbox.pose.position.y - object_bbox.dimensions.y;
             bbox_points[i].point.z = object_bbox.pose.position.z - object_bbox.dimensions.z;
         }
