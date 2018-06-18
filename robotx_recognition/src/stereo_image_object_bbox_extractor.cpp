@@ -31,7 +31,7 @@ stereo_image_object_bbox_extractor::~stereo_image_object_bbox_extractor()
 void stereo_image_object_bbox_extractor::euclidean_cluster_callback_(jsk_recognition_msgs::BoundingBoxArray msg)
 {
     cv::Mat disparity;
-    if(disparity_image_.get_disparity_image(disparity) != false)
+    if(disparity_image_.get_disparity_image(disparity) == false)
     {
         return;
     }
@@ -55,6 +55,10 @@ void stereo_image_object_bbox_extractor::euclidean_cluster_callback_(jsk_recogni
         bbox_center_point.point.y = msg.boxes[i].pose.position.y;
         bbox_center_point.point.z = msg.boxes[i].pose.position.z;
         tf2::doTransform(bbox_center_point, bbox_center_point, transform_stamped);
+        double pitch = std::atan(-bbox_center_point.point.z/bbox_center_point.point.x);
+        double yaw = std::atan(bbox_center_point.point.y/bbox_center_point.point.x);
+        int x_image = disparity.cols/2 - yaw/horizontal_fov*disparity.cols;
+        int y_image = disparity.rows/2 - pitch/vertical_fov*disparity.rows;
     }
 }
 

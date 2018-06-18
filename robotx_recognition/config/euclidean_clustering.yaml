@@ -7,7 +7,7 @@ downsample:
   enable: false
 
 euclidean_clustering:
-  cluster_tolerance: 1.0
+  cluster_tolerance: 3.0
 
 conditional_euclidean_clustering:
   radius_search: 0.1
