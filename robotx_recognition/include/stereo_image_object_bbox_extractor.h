@@ -35,6 +35,7 @@ public:
     ~stereo_image_object_bbox_extractor();
     void set_parameters(parameters params){params_ = params;};
 private:
+    std::array<int,2> raycast_to_image(geometry_msgs::PointStamped point);
     void left_image_callback_(const sensor_msgs::ImageConstPtr& msg);
     void right_image_callback_(const sensor_msgs::ImageConstPtr& msg);
     void euclidean_cluster_callback_(jsk_recognition_msgs::BoundingBoxArray msg);
