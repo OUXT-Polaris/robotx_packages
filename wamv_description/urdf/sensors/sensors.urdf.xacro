@@ -7,7 +7,9 @@
   <xacro:include filename="$(find wamv_description)/urdf/sensors/velodyne/velodyne.urdf.xacro"/>
 
   <!-- Stereo Camera-->
-  <xacro:stereo_camera_v0/>
+  <xacro:stereo_camera_v0 prefix="front" parent="base_link" base_line_length="0.35">
+    <origin xyz="0.8 0 1.6"/>
+  </xacro:stereo_camera_v0>
   <!-- GPS -->
   <xacro:gps_v0/>
   <!-- IMU -->
