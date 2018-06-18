@@ -27,7 +27,7 @@ $ source devel/setup.bash
 
 # how to launch
 ## Simulation
-roslaunch robotx_gazebo_plugins wam-v_gazebo.launch
+roslaunch robotx_gazebo robotx_gazebo.launch
 
 # branch model
 
