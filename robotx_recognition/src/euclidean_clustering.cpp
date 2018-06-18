@@ -61,21 +61,6 @@ bool euclidean_clustering::enforce_intensity_similarity(const pcl::PointXYZINorm
     return (false);
 }
 
-bool euclidean_clustering::check_bbox_size(geometry_msgs::Vector3 bbox_scale)
-{
-  if(bbox_scale.x > bbox_params_.min_bbox_size && bbox_scale.x < bbox_params_.max_bbox_size)
-  {
-    if(bbox_scale.y > bbox_params_.min_bbox_size && bbox_scale.y < bbox_params_.max_bbox_size)
-    {
-      if(bbox_scale.z > bbox_params_.min_bbox_size && bbox_scale.z < bbox_params_.max_bbox_size)
-      {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
 {
   if(clustering_method_ == CONDITIONAL_EUCLIDIAN_CLUSTERING)
@@ -142,20 +127,17 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
       //generate marker
       jsk_recognition_msgs::BoundingBox marker;
       marker.header = msg.header;
-      marker.dimensions.x = std::fabs(max_point.x - min_point.x);
-      marker.dimensions.y = std::fabs(max_point.y - min_point.y);
+      marker.dimensions.x = std::fabs(max_point.x - min_point.x) + bbox_params_.inflation_size;
+      marker.dimensions.y = std::fabs(max_point.y - min_point.y) + bbox_params_.inflation_size;
       marker.dimensions.z = std::fabs(max_point.z - min_point.z);
       marker.pose.position.x = (max_point.x + min_point.x)/2;
       marker.pose.position.y = (max_point.y + min_point.y)/2;
       marker.pose.position.z = (max_point.z + min_point.z)/2;
-      if(check_bbox_size(marker.dimensions))
-      {
-        marker.pose.orientation.x = 0;
-        marker.pose.orientation.y = 0;
-        marker.pose.orientation.z = 0;
-        marker.pose.orientation.w = 1;
-        markers.boxes.push_back(marker);
-      }
+      marker.pose.orientation.x = 0;
+      marker.pose.orientation.y = 0;
+      marker.pose.orientation.z = 0;
+      marker.pose.orientation.w = 1;
+      markers.boxes.push_back(marker);
     }
     marker_pub_.publish(markers);
   }
@@ -208,20 +190,17 @@ void euclidean_clustering::make_cluster(sensor_msgs::PointCloud2 msg)
       //generate marker
       jsk_recognition_msgs::BoundingBox marker;
       marker.header = msg.header;
-      marker.dimensions.x = std::fabs(max_point.x - min_point.x);
-      marker.dimensions.y = std::fabs(max_point.y - min_point.y);
+      marker.dimensions.x = std::fabs(max_point.x - min_point.x) + bbox_params_.inflation_size;
+      marker.dimensions.y = std::fabs(max_point.y - min_point.y) + bbox_params_.inflation_size;
       marker.dimensions.z = std::fabs(max_point.z - min_point.z);
       marker.pose.position.x = (max_point.x + min_point.x)/2;
       marker.pose.position.y = (max_point.y + min_point.y)/2;
       marker.pose.position.z = (max_point.z + min_point.z)/2;
-      if(check_bbox_size(marker.dimensions))
-      {
-        marker.pose.orientation.x = 0;
-        marker.pose.orientation.y = 0;
-        marker.pose.orientation.z = 0;
-        marker.pose.orientation.w = 1;
-        markers.boxes.push_back(marker);
-      }
+      marker.pose.orientation.x = 0;
+      marker.pose.orientation.y = 0;
+      marker.pose.orientation.z = 0;
+      marker.pose.orientation.w = 1;
+      markers.boxes.push_back(marker);
     }
     marker_pub_.publish(markers);
   }

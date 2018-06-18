@@ -71,6 +71,10 @@ set(stereo_image_object_bbox_extractor_src
 add_executable(stereo_image_object_bbox_extractor_node src/stereo_image_object_bbox_extractor_node.cpp ${stereo_image_object_bbox_extractor_src})
 add_dependencies(stereo_image_object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 
+set(object_bbox_extractor_src src/object_bbox_extractor.cpp)
+add_executable(object_bbox_extractor_node src/object_bbox_extractor_node.cpp ${object_bbox_extractor_src})
+add_dependencies(object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
+
 set(passthrough_filter_src src/passthrough_filter.cpp)
 add_executable(passthrough_filter_node src/passthrough_filter_node.cpp ${passthrough_filter_src})
 add_dependencies(passthrough_filter_node robotx_msgs_generate_messages_cpp)
@@ -85,6 +89,7 @@ target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(stereo_image_object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(passthrough_filter_node ${catkin_LIBRARIES})
 target_link_libraries(pointcloud_merger_node ${catkin_LIBRARIES})
 
@@ -94,7 +99,8 @@ target_link_libraries(pointcloud_merger_node ${catkin_LIBRARIES})
 # CPP Execution programs
 set(CPP_EXEC_NAMES 
   object_recognition_node euclidean_clustering_node passthrough_filter_node pointcloud_merger_node
-  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node)
+  hsv_buoy_detector_node bing_object_detection_node stereo_image_object_bbox_extractor_node
+  object_bbox_extractor_node)
 foreach(cpp_exec_names ${CPP_EXEC_NAMES})
   install(TARGETS ${cpp_exec_names}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

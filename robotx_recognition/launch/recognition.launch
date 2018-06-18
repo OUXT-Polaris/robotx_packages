@@ -10,10 +10,6 @@
   <node name="euclidean_clustering_node" pkg="robotx_recognition" type="euclidean_clustering_node" args="" output="screen" respawn="true">
   </node>
 
-  <rosparam command="load" file="$(find robotx_recognition)/config/stereo_image_object_bbox_extractor.yaml" ns="stereo_image_object_bbox_extractor_node"/>
-  <node pkg="robotx_recognition" type="stereo_image_object_bbox_extractor_node" name="stereo_image_object_bbox_extractor_node" args="" output="screen" respawn="true">
-  </node>
-
   <rosparam command="load" file="$(find robotx_recognition)/config/passthrough_filter.yaml" ns="passthrough_filter_node"/>
   <node pkg="robotx_recognition" type="passthrough_filter_node" name="passthrough_filter_node" args="" output="screen" respawn="true">
   </node>
@@ -21,8 +17,16 @@
   <rosparam command="load" file="$(find robotx_recognition)/config/pointcloud_merger.yaml" ns="pointcloud_merger_node"/>
   <node pkg="robotx_recognition" type="pointcloud_merger_node" name="pointcloud_merger_node" args="" output="screen" respawn="true">
   </node>
+
+  <rosparam command="load" file="$(find robotx_recognition)/config/object_bbox_extractor.yaml" ns="object_bbox_extractor_node"/>
+  <node pkg="robotx_recognition" type="object_bbox_extractor_node" name="object_bbox_extractor_node" args="" output="screen" respawn="false">
+  </node>
   
 <!--
+  <rosparam command="load" file="$(find robotx_recognition)/config/stereo_image_object_bbox_extractor.yaml" ns="stereo_image_object_bbox_extractor_node"/>
+  <node pkg="robotx_recognition" type="stereo_image_object_bbox_extractor_node" name="stereo_image_object_bbox_extractor_node" args="" output="screen" respawn="true">
+  </node>
+
   <node pkg="robotx_recognition" type="bing_object_detection_node" name="bing_object_detection_node" args="" output="screen" respawn="true">
     <remap from="/bing_object_detection_node/image_raw" to="/wam_v/front_camera/front_image_raw"/>
     <param name="max_num_bbox" value="10"/>

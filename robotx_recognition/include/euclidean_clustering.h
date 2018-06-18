@@ -40,13 +40,10 @@ public:
   };
   struct bbox_parameters
   {
-    double min_bbox_size;
-    double max_bbox_size;
+    double inflation_size;
     bbox_parameters()
     {
-
-      ros::param::param<double>(ros::this_node::getName()+"/min_bbox_size", min_bbox_size, 0.5);
-      ros::param::param<double>(ros::this_node::getName()+"/max_bbox_size", max_bbox_size, 3.0);
+      ros::param::param<double>(ros::this_node::getName()+"/inflation_size", inflation_size, 1);
     }
   };
   euclidean_clustering();
@@ -56,7 +53,6 @@ private:
   const conditional_euclidian_clustering_parameters conditional_euclidian_clustering_params_;
   const euclidean_clustering_parameters euclidian_clustering_params_;
   const bbox_parameters bbox_params_;
-  bool check_bbox_size(geometry_msgs::Vector3 bbox_scale);
   void poincloud_callback(sensor_msgs::PointCloud2 msg);
   void make_cluster(sensor_msgs::PointCloud2 msg);
   static bool custom_region_growing_function(const pcl::PointXYZINormal& point_a, const pcl::PointXYZINormal& point_b, float squared_distance);
