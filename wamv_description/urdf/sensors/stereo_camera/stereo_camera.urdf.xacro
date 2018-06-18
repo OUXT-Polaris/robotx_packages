@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find wamv_description)/urdf/sensors/camera/camera.urdf.xacro"/>
+  <xacro:macro name="stereo_camera_v0" params="prefix parent base_line_length *origin">
+    <!-- add link and joint -->
+    <link name="${prefix}_stereo_camera_base_link"/>
+    <joint name="${prefix}_stereo_camera_joint" type="fixed">
+      <insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${prefix}_stereo_camera_base_link"/>
+    </joint>
+    <!-- Left Camera -->
+    <xacro:camera_v0 prefix="left" parent="${prefix}_stereo_camera_base_link">
+      <origin xyz="0 ${base_line_length*(0.5)} 0"/>
+    </xacro:camera_v0>
+    <!-- Right Camera -->
+    <xacro:camera_v0 prefix="right" parent="${prefix}_stereo_camera_base_link">
+      <origin xyz="0 ${base_line_length*(-0.5)} 0"/>
+    </xacro:camera_v0>
+  </xacro:macro>
+</robot>

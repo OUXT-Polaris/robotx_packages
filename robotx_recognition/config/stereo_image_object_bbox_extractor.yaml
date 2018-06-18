@@ -1,0 +1,4 @@
+right_image_topic: /wam_v/right_camera/right_image_raw
+left_image_topic: /wam_v/left_camera/left_image_raw
+euclidean_cluster_topic: /euclidean_clustering_node/bbox
+publish_disparity: true

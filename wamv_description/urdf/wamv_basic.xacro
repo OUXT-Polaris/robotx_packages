@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="WAM-V">
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
   <!-- Defines the base vehicle -->
   <xacro:include filename="$(find wamv_description)/urdf/base/base.urdf.xacro" />
   <xacro:include filename="$(find wamv_description)/urdf/thruster/thruster.urdf.xacro"/>
