@@ -21,12 +21,14 @@ public:
         std::string image_topic;
         std::string euclidean_cluster_topic;
         double horizontal_fov;
+        bool publish_rect_image;
         parameters()
         {
             ros::param::param<std::string>(ros::this_node::getName()+"/camera_link", camera_link, "camera_link");
             ros::param::param<std::string>(ros::this_node::getName()+"/image_topic", image_topic, ros::this_node::getName()+"/image_raw");
             ros::param::param<std::string>(ros::this_node::getName()+"/euclidean_cluster_topic", euclidean_cluster_topic, ros::this_node::getName()+"/euclidean_cluster/bbox");
             ros::param::param<double>(ros::this_node::getName()+"/horizontal_fov", horizontal_fov, 1.3962634);
+            ros::param::param<bool>(ros::this_node::getName()+"/publish_rect_image", publish_rect_image, false);
         }
     };
     object_bbox_extractor();
@@ -38,6 +40,7 @@ private:
         geometry_msgs::TransformStamped transform_stamped, std_msgs::Header header, cv::Rect& image_bbox);
     const parameters params_;
     image_transport::Subscriber image_sub_;
+    image_transport::Publisher image_pub_;
     ros::Subscriber euclidean_cluster_sub_;
     ros::NodeHandle nh_;
     image_transport::ImageTransport it_;
