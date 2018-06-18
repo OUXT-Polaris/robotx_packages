@@ -19,7 +19,7 @@
   </node>
 
   <rosparam command="load" file="$(find robotx_recognition)/config/object_bbox_extractor.yaml" ns="object_bbox_extractor_node"/>
-  <node pkg="robotx_recognition" type="object_bbox_extractor_node" name="object_bbox_extractor_node" args="" output="screen" respawn="true">
+  <node pkg="robotx_recognition" type="object_bbox_extractor_node" name="object_bbox_extractor_node" args="" output="screen" respawn="false">
   </node>
   
 <!--
