@@ -17,23 +17,11 @@ stereo_image_object_bbox_extractor::stereo_image_object_bbox_extractor() : it_(n
     nh_.param<std::string>(ros::this_node::getName()+"/left_image_topic",  params_.left_image_topic,  ros::this_node::getName()+"/left_image_raw");
     nh_.param<std::string>(ros::this_node::getName()+"/right_image_topic", params_.right_image_topic, ros::this_node::getName()+"/right_image_raw");
     nh_.param<std::string>(ros::this_node::getName()+"/euclidean_cluster_topic", params_.euclidean_cluster_topic, ros::this_node::getName()+"/euclidean_cluster_bbox");
-    nh_.param<std::string>(ros::this_node::getName()+"/right_camera_info_topic", params_.right_camera_info_topic, ros::this_node::getName()+"/right_camera_info");
-    nh_.param<std::string>(ros::this_node::getName()+"/left_camera_info_topic", params_.left_camera_info_topic, ros::this_node::getName()+"/left_camera_info");
     set_parameters(params_);
     setup_publisher_subscriber_();
 }
 
 stereo_image_object_bbox_extractor::~stereo_image_object_bbox_extractor()
-{
-
-}
-
-void stereo_image_object_bbox_extractor::left_camera_info_callback_(const sensor_msgs::CameraInfoConstPtr& msg)
-{
-    
-}
-
-void stereo_image_object_bbox_extractor::right_camera_info_callback_(const sensor_msgs::CameraInfoConstPtr& msg)
 {
 
 }
@@ -50,9 +38,7 @@ void stereo_image_object_bbox_extractor::setup_publisher_subscriber_()
         disparity_image_pub_ = it_.advertise(ros::this_node::getName()+"/disparity_image", 1);
     }
     left_image_sub_  = it_.subscribe(params_.left_image_topic, 1, &stereo_image_object_bbox_extractor::left_image_callback_, this);
-    left_camera_info_sub_ = nh_.subscribe(params_.left_camera_info_topic, 1, &stereo_image_object_bbox_extractor::left_camera_info_callback_, this);
     right_image_sub_ = it_.subscribe(params_.right_image_topic, 1, &stereo_image_object_bbox_extractor::right_image_callback_, this);
-    right_camera_info_sub_ = nh_.subscribe(params_.right_camera_info_topic, 1, &stereo_image_object_bbox_extractor::right_camera_info_callback_, this);
     euclidean_cluster_sub_ = nh_.subscribe(params_.euclidean_cluster_topic, 1, &stereo_image_object_bbox_extractor::euclidean_cluster_callback_, this);
 }
 
