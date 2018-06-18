@@ -70,7 +70,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        front_stereo_camera_base_link:
+        front_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -82,19 +82,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         left_thruster_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_camera_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         right_thruster_link:
           Alpha: 1
           Show Axes: false
@@ -129,7 +121,7 @@ Visualization Manager:
     - Class: jsk_rviz_plugin/OverlayImage
       Enabled: true
       Name: OverlayImage
-      Topic: /stereo_image_object_bbox_extractor_node/disparity_image
+      Topic: /wam_v/front_camera/front_image_raw
       Value: true
       alpha: 0.800000012
       height: 128
@@ -152,9 +144,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 999999
+      Max Intensity: 1.59290103e-37
       Min Color: 0; 0; 0
-      Min Intensity: 4.87878226e-37
+      Min Intensity: 1.59290103e-37
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -176,19 +168,15 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        front_stereo_camera_base_link:
+        front_camera_link:
           Value: true
         gps:
           Value: true
         imu:
           Value: true
-        left_camera_link:
-          Value: true
         left_thruster_link:
           Value: true
         odom:
-          Value: true
-        right_camera_link:
           Value: true
         right_thruster_link:
           Value: true
@@ -208,11 +196,8 @@ Visualization Manager:
       Tree:
         base_footprint:
           base_link:
-            front_stereo_camera_base_link:
-              left_camera_link:
-                {}
-              right_camera_link:
-                {}
+            front_camera_link:
+              {}
             gps:
               {}
             imu:
