@@ -16,7 +16,8 @@ catkin_package()
 #############
 ## Install ##
 #############
-set(URDF_DIRS urdf urdf/base urdf/data urdf/sensors urdf/sensors/camera urdf/sensors/gps urdf/sensors/imu urdf/sensors/twist urdf/sensors/velodyne urdf/thruster)
+set(URDF_DIRS urdf urdf/base urdf/data urdf/sensors urdf/sensors/camera urdf/sensors/gps urdf/sensors/imu 
+  urdf/sensors/twist urdf/sensors/velodyne urdf/thruster urdf/sensors/stereo_camera)
 foreach(dir launch mesh/base ${URDF_DIRS})
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
