@@ -34,7 +34,8 @@ public:
 private:
     void image_callback_(const sensor_msgs::ImageConstPtr& msg);
     void euclidean_cluster_callback_(jsk_recognition_msgs::BoundingBoxArray msg);
-    bool raycast_to_image(cv::Mat image, jsk_recognition_msgs::BoundingBox object_bbox, geometry_msgs::TransformStamped transform_stamped, cv::Rect& image_bbox);
+    bool raycast_to_image(cv::Mat image, jsk_recognition_msgs::BoundingBox object_bbox, 
+        geometry_msgs::TransformStamped transform_stamped, std_msgs::Header header, cv::Rect& image_bbox);
     const parameters params_;
     image_transport::Subscriber image_sub_;
     ros::Subscriber euclidean_cluster_sub_;
