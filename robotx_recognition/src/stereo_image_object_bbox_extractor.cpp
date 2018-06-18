@@ -14,6 +14,7 @@ stereo_image_object_bbox_extractor::stereo_image_object_bbox_extractor() : it_(n
     disparity_image_.set_parameters(disparity_params);
 
     nh_.getParam(ros::this_node::getName()+"/publish_disparity",params_.publish_disparity);
+    nh_.param<double>(ros::this_node::getName()+"horizontal_fov", params_.horizontal_fov, 1.3962634);
     nh_.param<std::string>(ros::this_node::getName()+"/camera_base_link", params_.camera_base_link, ros::this_node::getName()+"/camera_base_link");
     nh_.param<std::string>(ros::this_node::getName()+"/left_image_topic", params_.left_image_topic, ros::this_node::getName()+"/left_image_raw");
     nh_.param<std::string>(ros::this_node::getName()+"/right_image_topic", params_.right_image_topic, ros::this_node::getName()+"/right_image_raw");
@@ -29,6 +30,13 @@ stereo_image_object_bbox_extractor::~stereo_image_object_bbox_extractor()
 
 void stereo_image_object_bbox_extractor::euclidean_cluster_callback_(jsk_recognition_msgs::BoundingBoxArray msg)
 {
+    cv::Mat disparity;
+    if(disparity_image_.get_disparity_image(disparity) != false)
+    {
+        return;
+    }
+    double horizontal_fov = params_.horizontal_fov;
+    double vertical_fov = params_.horizontal_fov/disparity.cols*disparity.rows;
     geometry_msgs::TransformStamped transform_stamped;
     try
     {

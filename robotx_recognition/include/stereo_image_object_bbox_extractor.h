@@ -25,6 +25,7 @@ public:
         std::string right_image_topic;
         std::string euclidean_cluster_topic;
         bool publish_disparity;
+        double horizontal_fov;
         parameters()
         {
             publish_disparity = false;
