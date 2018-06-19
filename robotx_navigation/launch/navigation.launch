@@ -5,6 +5,7 @@
     <remap from="/odom" to="/gps_odom" />
   </node>
 
+<!--
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <param name="output_frame" value="odom"/>
     <param name="freq" value="30.0"/>
@@ -22,7 +23,6 @@
   <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
   </node>
 
-<!--
   <node name="world_frame_publisher" pkg="robotx_navigation" type="world_frame_publisher.py" args="" output="screen" respawn="true">
     <remap from="/odom" to="/gps_odom" />
   </node>
