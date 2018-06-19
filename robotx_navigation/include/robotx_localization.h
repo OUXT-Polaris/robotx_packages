@@ -23,7 +23,6 @@ public:
             ros::param::param<std::string>(ros::this_node::getName()+"/publish_frame", publish_frame, "map");
             ros::param::param<std::string>(ros::this_node::getName()+"/twist_topic", twist_topic, ros::this_node::getName()+"/twist");
             ros::param::param<std::string>(ros::this_node::getName()+"/fix_topic", fix_topic, ros::this_node::getName()+"/fix");
-            ros::param::param<std::string>(ros::this_node::getName()+"/imu_topic", fix_topic, ros::this_node::getName()+"/imu");
             ros::param::param<double>(ros::this_node::getName()+"/system_noise/x", system_noise_x, 0.05);
             ros::param::param<double>(ros::this_node::getName()+"/system_noise/y", system_noise_y, 0.05);
             ros::param::param<double>(ros::this_node::getName()+"/system_noise/theta", system_noise_theta, 0.05);

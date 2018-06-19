@@ -1,7 +1,6 @@
 publish_frame: map
 twist_topic: /vel
 fix_topic: /fix
-imu_topic: /imu
 system_noise:
   x: 0.05
   y: 0.05
