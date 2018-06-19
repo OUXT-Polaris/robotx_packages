@@ -51,7 +51,7 @@ add_document(obstacle_map_server_node)
 ## Install ##
 #############
 # CPP codes
-set(NODE_FILES twist_from_fix_velocity_node geographic_map_server_node obstacle_map_server_node)
+set(NODE_FILES twist_from_fix_velocity_node geographic_map_server_node obstacle_map_server_node robotx_localization_node)
 foreach(nodes ${NODE_FILES})
   install(TARGETS ${nodes}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
