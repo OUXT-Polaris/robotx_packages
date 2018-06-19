@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-<!--
-  <rosparam command="load" file="$(find robotx_recognition)/config/robotx_recognition.yaml" ns="object_recognition_node"/>
-
-  <node name="object_recognition_node" pkg="robotx_recognition" type="object_recognition_node" args="" output="screen" respawn="true">
-  </node>
--->
   <rosparam command="load" file="$(find robotx_recognition)/config/euclidean_clustering.yaml" ns="euclidean_clustering_node"/>
   <node name="euclidean_clustering_node" pkg="robotx_recognition" type="euclidean_clustering_node" args="" output="screen" respawn="true">
   </node>
@@ -23,17 +17,13 @@
   </node>
   
 <!--
-  <rosparam command="load" file="$(find robotx_recognition)/config/stereo_image_object_bbox_extractor.yaml" ns="stereo_image_object_bbox_extractor_node"/>
-  <node pkg="robotx_recognition" type="stereo_image_object_bbox_extractor_node" name="stereo_image_object_bbox_extractor_node" args="" output="screen" respawn="true">
-  </node>
-
   <node pkg="robotx_recognition" type="bing_object_detection_node" name="bing_object_detection_node" args="" output="screen" respawn="true">
     <remap from="/bing_object_detection_node/image_raw" to="/wam_v/front_camera/front_image_raw"/>
     <param name="max_num_bbox" value="10"/>
   </node>
 
-  <node name="voxelchain_input_generator_node" pkg="robotx_recognition" type="voxelchain_input_generator_node" args="" output="screen" respawn="true">
-    <remap from="/voxelchain_input_generator_node/clusters" to="/euclidean_clustering_node/clusters"/>
+  <rosparam command="load" file="$(find robotx_recognition)/config/object_recognition.yaml" ns="object_recognition_node"/>
+  <node name="object_recognition_node" pkg="robotx_recognition" type="object_recognition_node" args="" output="screen" respawn="true">
   </node>
 -->
 </launch>
