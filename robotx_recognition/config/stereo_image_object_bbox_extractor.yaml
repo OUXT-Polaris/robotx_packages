@@ -1,6 +1,0 @@
-right_image_topic: /wam_v/right_camera/right_image_raw
-left_image_topic: /wam_v/left_camera/left_image_raw
-euclidean_cluster_topic: /euclidean_clustering_node/bbox
-camera_base_link: front_stereo_camera_base_link
-publish_disparity: true
-horizontal_fov: 1.3962634
