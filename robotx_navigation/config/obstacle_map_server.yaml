@@ -1,6 +1,6 @@
 object_bbox_topic: /euclidean_clustering_node/bbox
 margin: 0.2
-resolution: 0.05
+resolution: 0.20
 map_height: 400
 map_width: 400
 height_offset: -2.5
