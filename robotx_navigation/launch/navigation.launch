@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <node name="utm_odometry_node" pkg="gps_common" type="utm_odometry_node" args="" output="screen" respawn="true">
-    <param name="child_frame_id" value="odom" type="str"/>
-    <remap from="/odom" to="/gps_odom" />
+  <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_map_server.yaml" ns="obstacle_map_server_node"/>
+  <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
   </node>
 
 <!--
@@ -19,8 +18,9 @@
     <remap from="/vo" to="/gps_odom" />
   </node>
 
-  <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_map_server.yaml" ns="obstacle_map_server_node"/>
-  <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
+  <node name="utm_odometry_node" pkg="gps_common" type="utm_odometry_node" args="" output="screen" respawn="true">
+    <param name="child_frame_id" value="odom" type="str"/>
+    <remap from="/odom" to="/gps_odom" />
   </node>
 
   <node name="world_frame_publisher" pkg="robotx_navigation" type="world_frame_publisher.py" args="" output="screen" respawn="true">
