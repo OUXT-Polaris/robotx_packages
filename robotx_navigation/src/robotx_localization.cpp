@@ -32,20 +32,20 @@ void robotx_localization::update_frame_()
     {
         std::lock(fix_mutex_,twist_mutex_);
         //critical section start
-        pfilter_ptr_->resample(params_.ess_threshold);
+        //pfilter_ptr_->resample(params_.ess_threshold);
         Eigen::VectorXd control_input(3);
         Eigen::VectorXd state = pfilter_ptr_->get_state();
         Eigen::VectorXd position(3);
         position(0) = params_.min_x + state(0)*(params_.max_x-params_.min_x);
         position(1) = params_.min_y + state(1)*(params_.max_y-params_.min_y);
         position(2) = 2*M_PI*state(2);
-        control_input(0) = std::cos(position(2)) - std::sin(position(2));
-        control_input(1) = std::sin(position(2)) + std::cos(position(2));
-        control_input(2) = position(2);
+        control_input(0) = (std::cos(position(2))*last_twist_message_.linear.x - std::sin(position(2))*last_twist_message_.linear.y)/params_.publish_rate;
+        control_input(1) = (std::sin(position(2))*last_twist_message_.linear.x + std::cos(position(2))*last_twist_message_.linear.y)/params_.publish_rate;
+        control_input(2) = last_twist_message_.angular.z/params_.publish_rate;
         control_input(0) = control_input(0)/(params_.max_x - params_.min_x);
         control_input(1) = control_input(1)/(params_.max_y - params_.min_y);
         control_input(2) = control_input(2)/(2*M_PI);
-        pfilter_ptr_->add_system_noise(control_input,0.1);
+        pfilter_ptr_->add_system_noise(control_input,0);
         Eigen::MatrixXd states = pfilter_ptr_->get_states();
         double measurement_x = (last_fix_message_.longitude-init_measurement_.longitude)*111263.283/(params_.max_x-params_.min_x);
         double measurement_y = (last_fix_message_.latitude-init_measurement_.latitude)*6378150*std::cos(last_fix_message_.longitude/180*M_PI)*2*M_PI/(360*60*60)/(params_.max_y-params_.min_y);
@@ -74,7 +74,6 @@ void robotx_localization::update_frame_()
         transform_stamped.transform.rotation.z = q.z();
         transform_stamped.transform.rotation.w = q.w();
         broadcaster_.sendTransform(transform_stamped);
-        //ROS_ERROR_STREAM(predicted_pos(0) << "," << predicted_pos(1) << "," << predicted_pos(2));
         //critical section end
         fix_mutex_.unlock();
         twist_mutex_.unlock();
