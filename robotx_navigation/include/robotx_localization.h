@@ -8,6 +8,16 @@
 #include <ros/ros.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <geometry_msgs/Twist.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/transform_broadcaster.h>
+#include <geometry_msgs/TransformStamped.h>
+
+//headers in Boost
+#include <boost/thread.hpp>
+#include <boost/bind.hpp>
+
+//headers in STL
+#include <mutex>
 
 class robotx_localization
 {
@@ -42,6 +52,8 @@ private:
     const parameters params_;
     void fix_callback_(sensor_msgs::NavSatFix msg);
     void twist_callback_(geometry_msgs::Twist msg);
+    void update_frame_();
+    boost::thread thread_update_frame_;
     ros::Subscriber fix_sub_;
     ros::Subscriber twist_sub_;
     ros::NodeHandle nh_;
@@ -51,6 +63,8 @@ private:
     volatile bool fix_recieved_;
     volatile bool twist_received_;
     particle_filter* pfilter_ptr_;
-    
+    tf2_ros::TransformBroadcaster broadcaster_;
+    std::mutex fix_mutex_;
+    std::mutex twist_mutex_;
 };
 #endif  //ROBOTX_LOCALIZATION_H_INCLUDED
