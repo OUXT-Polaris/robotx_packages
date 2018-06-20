@@ -145,9 +145,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 7.20730714e-37
+      Max Intensity: 2.30977303e-18
       Min Color: 0; 0; 0
-      Min Intensity: 4.87134932e-37
+      Min Intensity: 0
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -177,7 +177,7 @@ Visualization Manager:
           Value: true
         left_thruster_link:
           Value: true
-        odom:
+        map:
           Value: true
         right_thruster_link:
           Value: true
@@ -213,7 +213,7 @@ Visualization Manager:
             velodyne_base_link:
               velodyne:
                 {}
-        odom:
+        map:
           {}
       Update Interval: 0
       Value: true

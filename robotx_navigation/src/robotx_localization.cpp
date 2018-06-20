@@ -53,7 +53,7 @@ void robotx_localization::update_frame_()
         for(int i=0; i<params_.num_particles; i++)
         {
             double error = std::sqrt(std::pow(states(0,i)-measurement_x,2) + std::pow(states(1,i)-measurement_y,2));
-            // avoid zero dicision
+            // avoid zero division
             if(error == 0)
                 error = 0.000000000000001;
             weights(i) = 1/error;
