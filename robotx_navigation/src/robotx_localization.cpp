@@ -60,6 +60,20 @@ void robotx_localization::update_frame_()
         }
         pfilter_ptr_->set_weights(weights);
         Eigen::VectorXd predicted_pos = pfilter_ptr_->get_state();
+        geometry_msgs::TransformStamped transform_stamped;
+        transform_stamped.header.stamp = ros::Time::now();
+        transform_stamped.header.frame_id = params_.publish_frame;
+        transform_stamped.child_frame_id = params_.robot_frame;
+        transform_stamped.transform.translation.x = predicted_pos(0)*(params_.max_x-params_.min_x) + params_.min_x;
+        transform_stamped.transform.translation.y = predicted_pos(1)*(params_.max_y-params_.min_y) + params_.min_y;
+        transform_stamped.transform.translation.z = 0;
+        tf2::Quaternion q;
+        q.setRPY(0, 0, predicted_pos(2)*2*M_PI);
+        transform_stamped.transform.rotation.x = q.x();
+        transform_stamped.transform.rotation.y = q.y();
+        transform_stamped.transform.rotation.z = q.z();
+        transform_stamped.transform.rotation.w = q.w();
+        broadcaster_.sendTransform(transform_stamped);
         //ROS_ERROR_STREAM(predicted_pos(0) << "," << predicted_pos(1) << "," << predicted_pos(2));
         //critical section end
         fix_mutex_.unlock();

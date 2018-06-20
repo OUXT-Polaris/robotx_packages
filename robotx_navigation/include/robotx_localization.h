@@ -27,6 +27,7 @@ class robotx_localization
 public:
     struct parameters
     {
+        std::string robot_frame;
         std::string publish_frame;
         std::string twist_topic;
         std::string fix_topic;
@@ -39,6 +40,7 @@ public:
         double ess_threshold;
         parameters()
         {
+            ros::param::param<std::string>(ros::this_node::getName()+"/robot_frame", robot_frame, "base_link");
             ros::param::param<std::string>(ros::this_node::getName()+"/publish_frame", publish_frame, "map");
             ros::param::param<std::string>(ros::this_node::getName()+"/twist_topic", twist_topic, ros::this_node::getName()+"/twist");
             ros::param::param<std::string>(ros::this_node::getName()+"/fix_topic", fix_topic, ros::this_node::getName()+"/fix");

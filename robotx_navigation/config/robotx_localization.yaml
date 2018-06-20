@@ -1,6 +1,7 @@
 publish_frame: map
+robot_frame: base_link
 twist_topic: /vel
 fix_topic: /fix
-num_particles: 10
+num_particles: 100
 publish_rate: 100
 ess_threshold: 30
