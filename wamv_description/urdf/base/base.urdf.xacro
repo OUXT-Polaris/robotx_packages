@@ -3,6 +3,13 @@
   <xacro:include filename="$(find wamv_description)/urdf/data/properties.xacro"/>
 
   <xacro:macro name="base_v0">
+    <!-- base_footprint -->
+    <link name="base_footprint"/>
+    <joint name="base_link_joint" type="fixed">
+      <origin xyz="0 0 0"/>
+      <parent link="base_footprint"/>
+      <child link="base_link"/>
+    </joint>
     <!-- base_link -->
     <link name="base_link">
       <wind>true</wind>
@@ -30,13 +37,6 @@
         <inertia ixx="120.0" ixy="0.0" ixz="0.0" iyy="393" iyz="0.0" izz="446.0"/>
       </inertial>
     </link>
-    <!-- base_footprint -->
-    <link name="base_footprint"/>
-    <joint name="base_link_joint" type="fixed">
-      <origin xyz="0 0 0"/>
-      <parent link="base_footprint"/>
-      <child link="base_link"/>
-    </joint>
   </xacro:macro>
   
   <xacro:macro name="float_collision_v0" params="prefix prefix_factor">

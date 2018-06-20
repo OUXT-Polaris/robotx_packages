@@ -1,5 +1,5 @@
 publish_frame: map
-robot_frame: base_link
+robot_frame: base_footprint
 twist_topic: /vel
 fix_topic: /fix
 num_particles: 1000
