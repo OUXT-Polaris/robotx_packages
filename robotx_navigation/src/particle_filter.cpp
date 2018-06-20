@@ -99,11 +99,10 @@ void particle_filter::clamp(Eigen::VectorXd& target, double max, double min)
       }
       else
       {
-        do
+        while(target(i) < min)
         {
           target(i) = target(i)+(max-min);
         }
-        while(target(i) < min);
         target(i) = fmod(target(i),max-min)+min;
       }
     }
@@ -122,11 +121,10 @@ void particle_filter::clamp(Eigen::MatrixXd& target, double max, double min)
       }
       else
       {
-        do
+        while(target(i, j) < min)
         {
           target(i, j) = target(i, j)+(max-min);
         }
-        while(target(i, j) < min);
         target(i, j) = fmod(target(i, j),max-min)+min;
       }
     }
