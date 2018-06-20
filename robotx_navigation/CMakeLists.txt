@@ -39,6 +39,10 @@ add_executable(geographic_map_server_node src/geographic_map_server_node.cpp src
 target_link_libraries(geographic_map_server_node ${catkin_LIBRARIES})
 add_document(geographic_map_server_node)
 
+add_executable(robotx_localization_node src/robotx_localization_node.cpp src/robotx_localization.cpp src/particle_filter.cpp)
+target_link_libraries(robotx_localization_node ${catkin_LIBRARIES})
+add_document(robotx_localization_node)
+
 add_executable(obstacle_map_server_node src/obstacle_map_server_node.cpp src/obstacle_map_server.cpp)
 target_link_libraries(obstacle_map_server_node ${catkin_LIBRARIES})
 add_document(obstacle_map_server_node)
@@ -47,7 +51,7 @@ add_document(obstacle_map_server_node)
 ## Install ##
 #############
 # CPP codes
-set(NODE_FILES twist_from_fix_velocity_node geographic_map_server_node obstacle_map_server_node)
+set(NODE_FILES twist_from_fix_velocity_node geographic_map_server_node obstacle_map_server_node robotx_localization_node)
 foreach(nodes ${NODE_FILES})
   install(TARGETS ${nodes}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
