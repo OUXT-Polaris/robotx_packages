@@ -2,6 +2,7 @@
 
 robotx_localization::robotx_localization() : params_()
 {
+    //pfilter_ptr_ = new particle_filter(3,params_.num_particles_,);
     fix_recieved_ = false;
     twist_received_ = false;
     fix_sub_ = nh_.subscribe(params_.fix_topic, 1, &robotx_localization::fix_callback_, this);
