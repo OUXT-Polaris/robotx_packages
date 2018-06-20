@@ -19,6 +19,9 @@
 //headers in STL
 #include <mutex>
 
+//headers in Eigtn
+#include <Eigen/Core>
+
 class robotx_localization
 {
 public:
@@ -33,6 +36,7 @@ public:
         double min_y;
         double max_x;
         double max_y;
+        double ess_threshold;
         parameters()
         {
             ros::param::param<std::string>(ros::this_node::getName()+"/publish_frame", publish_frame, "map");
@@ -44,6 +48,7 @@ public:
             ros::param::param<double>(ros::this_node::getName()+"/min_y", min_y, -100);
             ros::param::param<double>(ros::this_node::getName()+"/max_x", max_x, 100);
             ros::param::param<double>(ros::this_node::getName()+"/max_y", max_y, 100);
+            ros::param::param<double>(ros::this_node::getName()+"/ess_threshold", ess_threshold, (double)num_particles/(double)3);
         }
     };
     robotx_localization();

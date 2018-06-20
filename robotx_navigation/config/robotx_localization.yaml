@@ -1,5 +1,6 @@
 publish_frame: map
 twist_topic: /vel
 fix_topic: /fix
-num_particles: 1000
+num_particles: 10
 publish_rate: 100
+ess_threshold: 30
