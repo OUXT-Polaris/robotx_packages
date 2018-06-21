@@ -122,7 +122,13 @@ private:
      * @param msg object bboxes
      * @return nav_msgs::OccupancyGrid generated occupancy grid
      */
-    nav_msgs::OccupancyGrid generate_occupancy_grid_map(jsk_recognition_msgs::BoundingBoxArray msg);
+    nav_msgs::OccupancyGrid generate_occupancy_grid_map_(jsk_recognition_msgs::BoundingBoxArray msg);
+    /**
+     * @brief function for generating occupancy grid map
+     * 
+     * @return nav_msgs::OccupancyGrid 
+     */
+    nav_msgs::OccupancyGrid generate_occupancy_grid_map_();
     /**
      * @brief transform buffer
      * 
@@ -137,7 +143,7 @@ private:
      * @brief buffer of measurement data
      * 
      */
-    boost::circular_buffer<jsk_recognition_msgs::BoundingBoxArray> measurements;
+    boost::circular_buffer<jsk_recognition_msgs::BoundingBoxArray> measurements_;
 };
 
 #endif  //OBSTACLE_MAP_SERVER_H_INCLUDED
