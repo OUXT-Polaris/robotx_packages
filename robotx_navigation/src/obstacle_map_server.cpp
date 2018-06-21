@@ -4,6 +4,7 @@
 obstacle_map_server::obstacle_map_server() : params_(),tf_listener_(tf_buffer_)
 {
     map_pub_ = nh_.advertise<nav_msgs::OccupancyGrid>("/obstacle_map", 1);
+    measurements = boost::circular_buffer<jsk_recognition_msgs::BoundingBoxArray>(params_.buffer_length);
     objects_bbox_sub_ = nh_.subscribe(params_.object_bbox_topic, 1, &obstacle_map_server::objects_bbox_callback_, this);
 }
 
