@@ -23,55 +23,36 @@ void obstacle_map_server::objects_bbox_callback_(jsk_recognition_msgs::BoundingB
 nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map_()
 {
     nav_msgs::OccupancyGrid map;
-    map.header = measurements_[measurements_.size()-1].header;
-    map.info.map_load_time = ros::Time::now();
-    map.info.height = params_.map_height;
-    map.info.width = params_.map_width;
-    map.info.resolution = params_.resolution;
-    map.info.origin.position.x = -params_.map_height*params_.resolution/2;
-    map.info.origin.position.y = -params_.map_width*params_.resolution/2;
-    map.info.origin.position.z = params_.height_offset;
-    tf::Quaternion quaternion = tf::createQuaternionFromRPY(0,0,0);
-    map.info.origin.orientation.x = 0;
-    map.info.origin.orientation.y = 0;
-    map.info.origin.orientation.z = 0;
-    map.info.origin.orientation.w = 1;
-    std::vector<int8_t> map_data(params_.map_height*params_.map_width);
+    std::vector<geometry_msgs::TransformStamped> transform_stemped_buf(measurements_.size());
     for(int i=0; i<measurements_.size(); i++)
     {
-        std::vector<std::array<double,3> > objects_data;
-        if(i==(measurements_.size()-1))
+        if(i == measurements_.size()-1)
         {
-            for(int i = 0; i<measurements_[measurements_.size()-1].boxes.size() ;i++)
+            try
             {
-                std::array<double,3> object_data;
-                double radius = std::max(measurements_[measurements_.size()-1].boxes[i].dimensions.x, 
-                    measurements_[measurements_.size()-1].boxes[i].dimensions.y) + params_.margin;
-                double center_x = measurements_[measurements_.size()-1].boxes[i].pose.position.x;
-                double center_y = measurements_[measurements_.size()-1].boxes[i].pose.position.y;
-                object_data[0] = radius;
-                object_data[1] = center_x;
-                object_data[2] = center_y;
-                objects_data.push_back(object_data);
+                transform_stemped_buf[i] = tf_buffer_.lookupTransform(measurements_[i].header.frame_id, params_.world_frame, ros::Time(0));
             }
-            for(int i=0; i<params_.map_height; i++)
+            catch (tf2::TransformException &ex) 
             {
-                for(int m=0; m<params_.map_width; m++)
-                {
-                    double x = (double)m * params_.resolution - 0.5 * params_.resolution * params_.map_width;
-                    double y = (double)i * params_.resolution - 0.5 * params_.resolution * params_.map_height;
-                    for(int n=0; n<objects_data.size(); n++)
-                    {
-                        double distance = std::sqrt(std::pow(objects_data[n][1]-x,2) + std::pow(objects_data[n][2]-y,2));
-                        if(distance < objects_data[n][0])
-                            map_data[i*params_.map_height+m] = 100;
-                    }
-                }
+                ROS_WARN("Could NOT transform  %s", ex.what());
+            }
+        }
+        else
+        {
+            try
+            {
+                transform_stemped_buf[i] = tf_buffer_.lookupTransform(measurements_[i].header.frame_id, params_.world_frame, measurements_[i].header.stamp);
+            }
+            catch (tf2::TransformException &ex) 
+            {
+                ROS_WARN("Could NOT transform  %s", ex.what());
             }
         }
     }
+    /*
     map.data = map_data;
     map_pub_.publish(map);
+    */
     return map;
 }
 
