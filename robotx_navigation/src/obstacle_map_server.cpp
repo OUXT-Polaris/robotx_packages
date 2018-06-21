@@ -23,14 +23,39 @@ void obstacle_map_server::objects_bbox_callback_(jsk_recognition_msgs::BoundingB
 nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map_()
 {
     nav_msgs::OccupancyGrid map;
-    std::vector<geometry_msgs::TransformStamped> transform_stemped_buf(measurements_.size());
+    std::vector<jsk_recognition_msgs::BoundingBoxArray> transformed_measurements;
     for(int i=0; i<measurements_.size(); i++)
     {
         if(i == measurements_.size()-1)
         {
             try
             {
-                transform_stemped_buf[i] = tf_buffer_.lookupTransform(measurements_[i].header.frame_id, params_.world_frame, ros::Time(0));
+                geometry_msgs::TransformStamped transform_stemped;
+                transform_stemped = tf_buffer_.lookupTransform(measurements_[i].header.frame_id, params_.world_frame, ros::Time(0));
+                jsk_recognition_msgs::BoundingBoxArray transformed_measurement;
+                transformed_measurement.header.frame_id = params_.world_frame;
+                transformed_measurement.header.stamp = measurements_[i].header.stamp;
+                for(int m=0; m<measurements_[i].boxes.size() ;m++)
+                {
+                    jsk_recognition_msgs::BoundingBox transformed_bbox;
+                    geometry_msgs::PoseStamped pose_stamped_in,pose_stamped_out;
+                    pose_stamped_in.header = measurements_[i].header;
+                    pose_stamped_in.pose = measurements_[i].boxes[m].pose;
+                    pose_stamped_out.header.frame_id = params_.world_frame;
+                    pose_stamped_out.header.stamp = measurements_[i].header.stamp;
+                    tf2::doTransform(pose_stamped_in, pose_stamped_out, transform_stemped);
+                    geometry_msgs::Vector3Stamped vector3_stamped_in,vector3_stamped_out;
+                    vector3_stamped_in.header = measurements_[i].header;
+                    vector3_stamped_in.vector = measurements_[i].boxes[m].dimensions;
+                    vector3_stamped_out.header.frame_id = params_.world_frame;
+                    vector3_stamped_out.header.stamp = measurements_[i].header.stamp;
+                    tf2::doTransform(vector3_stamped_in, vector3_stamped_out, transform_stemped);
+                    transformed_bbox.pose = pose_stamped_out.pose;
+                    transformed_bbox.dimensions = vector3_stamped_out.vector;
+                    transformed_bbox.header.frame_id = measurements_[i].header.frame_id;
+                    transformed_bbox.header.stamp = measurements_[i].header.stamp;
+                    transformed_measurement.boxes.push_back(transformed_bbox);
+                }
             }
             catch (tf2::TransformException &ex) 
             {
@@ -41,7 +66,32 @@ nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map_()
         {
             try
             {
-                transform_stemped_buf[i] = tf_buffer_.lookupTransform(measurements_[i].header.frame_id, params_.world_frame, measurements_[i].header.stamp);
+                geometry_msgs::TransformStamped transform_stemped;
+                transform_stemped = tf_buffer_.lookupTransform(measurements_[i].header.frame_id, params_.world_frame, measurements_[i].header.stamp);
+                jsk_recognition_msgs::BoundingBoxArray transformed_measurement;
+                transformed_measurement.header.frame_id = params_.world_frame;
+                transformed_measurement.header.stamp = measurements_[i].header.stamp;
+                for(int m=0; m<measurements_[i].boxes.size() ;m++)
+                {
+                    jsk_recognition_msgs::BoundingBox transformed_bbox;
+                    geometry_msgs::PoseStamped pose_stamped_in,pose_stamped_out;
+                    pose_stamped_in.header = measurements_[i].header;
+                    pose_stamped_in.pose = measurements_[i].boxes[m].pose;
+                    pose_stamped_out.header.frame_id = params_.world_frame;
+                    pose_stamped_out.header.stamp = measurements_[i].header.stamp;
+                    tf2::doTransform(pose_stamped_in, pose_stamped_out, transform_stemped);
+                    geometry_msgs::Vector3Stamped vector3_stamped_in,vector3_stamped_out;
+                    vector3_stamped_in.header = measurements_[i].header;
+                    vector3_stamped_in.vector = measurements_[i].boxes[m].dimensions;
+                    vector3_stamped_out.header.frame_id = params_.world_frame;
+                    vector3_stamped_out.header.stamp = measurements_[i].header.stamp;
+                    tf2::doTransform(vector3_stamped_in, vector3_stamped_out, transform_stemped);
+                    transformed_bbox.pose = pose_stamped_out.pose;
+                    transformed_bbox.dimensions = vector3_stamped_out.vector;
+                    transformed_bbox.header.frame_id = measurements_[i].header.frame_id;
+                    transformed_bbox.header.stamp = measurements_[i].header.stamp;
+                    transformed_measurement.boxes.push_back(transformed_bbox);
+                }
             }
             catch (tf2::TransformException &ex) 
             {
