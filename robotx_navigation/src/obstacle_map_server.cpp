@@ -1,7 +1,7 @@
 #include <obstacle_map_server.h>
 #include <tf/transform_datatypes.h>
 
-obstacle_map_server::obstacle_map_server() : params_()
+obstacle_map_server::obstacle_map_server() : params_(),tf_listener_(tf_buffer_)
 {
     map_pub_ = nh_.advertise<nav_msgs::OccupancyGrid>("/obstacle_map", 1);
     objects_bbox_sub_ = nh_.subscribe(params_.object_bbox_topic, 1, &obstacle_map_server::objects_bbox_callback_, this);

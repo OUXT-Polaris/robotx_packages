@@ -6,6 +6,9 @@
 #include <nav_msgs/MapMetaData.h>
 #include <ros/ros.h>
 #include <jsk_recognition_msgs/BoundingBoxArray.h>
+#include <tf2_ros/transform_listener.h>
+#include <geometry_msgs/TransformStamped.h>
+
 /**
  * @brief obstacle_map_server class
  * 
@@ -105,6 +108,8 @@ private:
      * @return nav_msgs::OccupancyGrid generated occupancy grid
      */
     nav_msgs::OccupancyGrid generate_occupancy_grid_map(jsk_recognition_msgs::BoundingBoxArray msg);
+    tf2_ros::Buffer tf_buffer_;
+    tf2_ros::TransformListener tf_listener_;
 };
 
 #endif  //OBSTACLE_MAP_SERVER_H_INCLUDED
