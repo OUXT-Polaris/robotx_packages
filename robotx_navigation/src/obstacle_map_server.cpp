@@ -117,7 +117,15 @@ nav_msgs::OccupancyGrid obstacle_map_server::generate_occupancy_grid_map_()
             }
         }
     }
-    geometry_msgs::TransformStamped transform_stemped = tf_buffer_.lookupTransform(params_.world_frame, params_.robot_frame, ros::Time(0));
+    geometry_msgs::TransformStamped transform_stemped;
+    try
+    {
+        transform_stemped = tf_buffer_.lookupTransform(params_.world_frame, params_.robot_frame, ros::Time(0));
+    }
+    catch (tf2::TransformException &ex) 
+    {
+        ROS_WARN("Could NOT transform  %s", ex.what());
+    }
     std::vector<std::array<double,3> > objects_data;
     for(int i=0; i<transformed_measurements.size(); i++)
     {
