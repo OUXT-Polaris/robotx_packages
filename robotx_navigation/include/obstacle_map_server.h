@@ -33,6 +33,11 @@ class obstacle_map_server
          */
         double resolution;
         /**
+         * @brief height offset of the map[m]
+         * 
+         */
+        double height_offset;
+        /**
          * @brief map width [cells]
          * 
          */
@@ -48,11 +53,6 @@ class obstacle_map_server
          */
         std::string object_bbox_topic;
         /**
-         * @brief height offset of the publisher map
-         * 
-         */
-        double height_offset;
-        /**
          * @brief buffer length of measurement data
          * 
          */
@@ -63,6 +63,11 @@ class obstacle_map_server
          */
         std::string world_frame;
         /**
+         * @brief name of robot frame
+         * 
+         */
+        std::string robot_frame;
+        /**
          * @brief Construct a new parameters object
          * 
          */
@@ -70,12 +75,13 @@ class obstacle_map_server
         {
             ros::param::param<double>(ros::this_node::getName()+"/margin", margin, 0.2);
             ros::param::param<double>(ros::this_node::getName()+"/resolution", resolution, 0.05);
+            ros::param::param<double>(ros::this_node::getName()+"/height_offset", height_offset, 2.5);
             ros::param::param<int>(ros::this_node::getName()+"/map_height", map_height, 400);
             ros::param::param<int>(ros::this_node::getName()+"/map_width", map_width, 400);
             ros::param::param<int>(ros::this_node::getName()+"/buffer_length",  buffer_length, 10);
-            ros::param::param<double>(ros::this_node::getName()+"/height_offset", height_offset, 0);
             ros::param::param<std::string>(ros::this_node::getName()+"/object_bbox_topic", object_bbox_topic, ros::this_node::getName()+"/object_bbox");
             ros::param::param<std::string>(ros::this_node::getName()+"/world_frame", world_frame, ros::this_node::getName()+"/world_frame");
+            ros::param::param<std::string>(ros::this_node::getName()+"/robot_frame", robot_frame, ros::this_node::getName()+"/robot_frame");
         }
     };
 public:
@@ -117,13 +123,6 @@ private:
      * @sa obstacle_map_server::objects_bbox_sub_
      */
     void objects_bbox_callback_(jsk_recognition_msgs::BoundingBoxArray msg);
-    /**
-     * @brief function for generating occupancy grid map
-     * 
-     * @param msg object bboxes
-     * @return nav_msgs::OccupancyGrid generated occupancy grid
-     */
-    nav_msgs::OccupancyGrid generate_occupancy_grid_map_(jsk_recognition_msgs::BoundingBoxArray msg);
     /**
      * @brief function for generating occupancy grid map
      * 

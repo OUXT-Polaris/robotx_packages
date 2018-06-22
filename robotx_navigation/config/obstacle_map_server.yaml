@@ -4,5 +4,6 @@ resolution: 0.20
 map_height: 400
 map_width: 400
 height_offset: -2.5
-buffer_length: 5
+buffer_length: 20
 world_frame: world
+robot_frame: velodyne
