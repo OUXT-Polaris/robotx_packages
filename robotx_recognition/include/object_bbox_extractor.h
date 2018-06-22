@@ -1,6 +1,9 @@
 #ifndef OBJECT_BBOX_EXTRACTOR_H_INCLUDED
 #define OBJECT_BBOX_EXTRACTOR_H_INCLUDED
 
+//headers in this package
+#include <robotx_msgs/RegionOfInterestArray.h>
+
 //headers in ROS
 #include <ros/ros.h>
 #include <cv_bridge/cv_bridge.h>
@@ -22,7 +25,7 @@ public:
         std::string euclidean_cluster_topic;
         double horizontal_fov;
         bool publish_rect_image;
-        bool enable_rect_image_publisher;
+        bool enable_roi_image_publisher;
         parameters()
         {
             ros::param::param<std::string>(ros::this_node::getName()+"/camera_link", camera_link, "camera_link");
@@ -30,7 +33,7 @@ public:
             ros::param::param<std::string>(ros::this_node::getName()+"/euclidean_cluster_topic", euclidean_cluster_topic, ros::this_node::getName()+"/euclidean_cluster/bbox");
             ros::param::param<double>(ros::this_node::getName()+"/horizontal_fov", horizontal_fov, 1.3962634);
             ros::param::param<bool>(ros::this_node::getName()+"/publish_rect_image", publish_rect_image, false);
-            ros::param::param<bool>(ros::this_node::getName()+"/enable_rect_image_publisher", enable_rect_image_publisher, false);
+            ros::param::param<bool>(ros::this_node::getName()+"/enable_roi_image_publisher", enable_roi_image_publisher, false);
         }
     };
     object_bbox_extractor();
@@ -43,7 +46,9 @@ private:
     const parameters params_;
     image_transport::Subscriber image_sub_;
     image_transport::Publisher image_pub_;
+    image_transport::Publisher roi_image_pub_;
     ros::Subscriber euclidean_cluster_sub_;
+    ros::Publisher roi_array_pub_;
     ros::NodeHandle nh_;
     image_transport::ImageTransport it_;
     tf2_ros::Buffer tf_buffer_;

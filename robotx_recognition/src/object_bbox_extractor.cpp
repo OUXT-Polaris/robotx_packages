@@ -3,6 +3,10 @@
 object_bbox_extractor::object_bbox_extractor() : it_(nh_), params_(), tf_listener_(tf_buffer_)
 {
     image_pub_ = it_.advertise(ros::this_node::getName()+"/rect_image", 1);
+    if(params_.enable_roi_image_publisher == true)
+    {
+        roi_image_pub_ = it_.advertise(ros::this_node::getName()+"/roi_image", 1);
+    }
     image_sub_ = it_.subscribe(params_.image_topic, 1, &object_bbox_extractor::image_callback_, this);
     euclidean_cluster_sub_ = nh_.subscribe(params_.euclidean_cluster_topic, 1, &object_bbox_extractor::euclidean_cluster_callback_, this);
 }
