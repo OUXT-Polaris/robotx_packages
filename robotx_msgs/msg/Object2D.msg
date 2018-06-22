@@ -1,2 +1,0 @@
-string type
-robotx_msgs/BoundingBox2D boundingbox
