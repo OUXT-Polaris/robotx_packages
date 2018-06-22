@@ -1,4 +1,4 @@
-publish_frame: map
+publish_frame: world
 robot_frame: base_footprint
 twist_topic: /vel
 fix_topic: /fix

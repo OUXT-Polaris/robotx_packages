@@ -6,6 +6,13 @@
 #include <nav_msgs/MapMetaData.h>
 #include <ros/ros.h>
 #include <jsk_recognition_msgs/BoundingBoxArray.h>
+#include <tf2_ros/transform_listener.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <geometry_msgs/TransformStamped.h>
+
+//headers in Boost
+#include <boost/circular_buffer.hpp>
+
 /**
  * @brief obstacle_map_server class
  * 
@@ -26,6 +33,11 @@ class obstacle_map_server
          */
         double resolution;
         /**
+         * @brief height offset of the map[m]
+         * 
+         */
+        double height_offset;
+        /**
          * @brief map width [cells]
          * 
          */
@@ -41,10 +53,20 @@ class obstacle_map_server
          */
         std::string object_bbox_topic;
         /**
-         * @brief height offset of the publisher map
+         * @brief buffer length of measurement data
          * 
          */
-        double height_offset;
+        int buffer_length;
+        /**
+         * @brief name of world frame
+         * 
+         */
+        std::string world_frame;
+        /**
+         * @brief name of robot frame
+         * 
+         */
+        std::string robot_frame;
         /**
          * @brief Construct a new parameters object
          * 
@@ -53,10 +75,13 @@ class obstacle_map_server
         {
             ros::param::param<double>(ros::this_node::getName()+"/margin", margin, 0.2);
             ros::param::param<double>(ros::this_node::getName()+"/resolution", resolution, 0.05);
+            ros::param::param<double>(ros::this_node::getName()+"/height_offset", height_offset, 2.5);
             ros::param::param<int>(ros::this_node::getName()+"/map_height", map_height, 400);
             ros::param::param<int>(ros::this_node::getName()+"/map_width", map_width, 400);
-            ros::param::param<double>(ros::this_node::getName()+"/height_offset", height_offset, 0);
+            ros::param::param<int>(ros::this_node::getName()+"/buffer_length",  buffer_length, 10);
             ros::param::param<std::string>(ros::this_node::getName()+"/object_bbox_topic", object_bbox_topic, ros::this_node::getName()+"/object_bbox");
+            ros::param::param<std::string>(ros::this_node::getName()+"/world_frame", world_frame, ros::this_node::getName()+"/world_frame");
+            ros::param::param<std::string>(ros::this_node::getName()+"/robot_frame", robot_frame, ros::this_node::getName()+"/robot_frame");
         }
     };
 public:
@@ -101,10 +126,24 @@ private:
     /**
      * @brief function for generating occupancy grid map
      * 
-     * @param msg object bboxes
-     * @return nav_msgs::OccupancyGrid generated occupancy grid
+     * @return nav_msgs::OccupancyGrid 
      */
-    nav_msgs::OccupancyGrid generate_occupancy_grid_map(jsk_recognition_msgs::BoundingBoxArray msg);
+    nav_msgs::OccupancyGrid generate_occupancy_grid_map_();
+    /**
+     * @brief transform buffer
+     * 
+     */
+    tf2_ros::Buffer tf_buffer_;
+    /**
+     * @brief transform listener
+     * 
+     */
+    tf2_ros::TransformListener tf_listener_;
+    /**
+     * @brief buffer of measurement data
+     * 
+     */
+    boost::circular_buffer<jsk_recognition_msgs::BoundingBoxArray> measurements_;
 };
 
 #endif  //OBSTACLE_MAP_SERVER_H_INCLUDED
