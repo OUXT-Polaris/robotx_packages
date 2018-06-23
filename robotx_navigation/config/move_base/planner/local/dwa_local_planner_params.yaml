@@ -1,5 +1,6 @@
 base_local_planner: dwa_local_planner/DWAPlannerROS
 DWAPlannerROS:
+  global_frame_id: world
   # Robot configuration parameters  
   acc_lim_x: 0.75
   acc_lim_y: 0

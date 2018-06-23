@@ -8,13 +8,10 @@
     <remap from="navigation_velocity_smoother/robot_cmd_vel" to="cmd_vel"/>
   </node>
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <!-- FRAME -->
-    <rosparam file="$(find robotx_navigation)/config/move_base/frames.yaml" command="load"/>
-
+  <node pkg="move_base" type="move_base" name="move_base" output="screen" respawn="true">
     <!-- COST MAP -->
     <rosparam file="$(find robotx_navigation)/config/move_base/costmap/local_costmap_params.yaml" command="load"/>
-    <rosparam file="$(find robotx_navigation)/config/move_base/costmap/global_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find robotx_navigation)/config/move_base/costmap/global_static_costmap_params.yaml" command="load"/>
     <rosparam file="$(find robotx_navigation)/config/move_base/costmap/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find robotx_navigation)/config/move_base/costmap/costmap_common_params.yaml" command="load" ns="local_costmap" /> 
 
@@ -31,6 +28,11 @@
 
     <!-- REMAP -->
     <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
+  </node>
+
+  <node pkg="map_server" type="map_server" name="field_map_server" output="screen" respawn="true" args="$(find robotx_navigation)/data/field.yaml">
+    <remap from="map" to="field_map"/>
+    <param name="frame_id" value="world"/>
   </node>
 
 </launch>
