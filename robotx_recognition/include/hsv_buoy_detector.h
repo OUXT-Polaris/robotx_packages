@@ -3,7 +3,7 @@
 
 //headers in this package
 #include <hsv_threshold.h>
-#include <robotx_msgs/RegionOfInterestArray.h>
+#include <robotx_msgs/RegionOfInterest2DArray.h>
 
 //headers in ROS
 #include <ros/ros.h>

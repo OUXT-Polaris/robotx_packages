@@ -7,7 +7,7 @@
 
 hsv_buoy_detector::hsv_buoy_detector():it_(nh_)
 {
-  roi_array_pub_ = nh_.advertise<robotx_msgs::RegionOfInterestArray>(ros::this_node::getName()+"/result", 10);
+  roi_array_pub_ = nh_.advertise<robotx_msgs::RegionOfInterest2DArray>(ros::this_node::getName()+"/result", 10);
   XmlRpc::XmlRpcValue parameters;
   nh_.getParam(ros::this_node::getName(), parameters);
   for(auto threshold_param_itr = parameters.begin(); threshold_param_itr != parameters.end(); ++threshold_param_itr)
@@ -44,7 +44,7 @@ void hsv_buoy_detector::image_callback(const sensor_msgs::ImageConstPtr& msg)
   cv::cvtColor(src_image, hsv_image, CV_RGB2HSV, 3);
   masked_images_ = std::vector<cv::Mat>(threashold_params.size());
   //robotx_msgs::Objects2D objects2d_msg;
-  robotx_msgs::RegionOfInterestArray roi_array_msg;
+  robotx_msgs::RegionOfInterest2DArray roi_array_msg;
   //generate masked images for all objects and calculate contours
   for(int i = 0;i < masked_images_.size();i++)
   {
