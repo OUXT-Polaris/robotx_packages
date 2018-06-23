@@ -76,16 +76,15 @@ void hsv_buoy_detector::image_callback(const sensor_msgs::ImageConstPtr& msg)
       if(max_area >= area && area >= min_area)
       {
         cv::Rect bbox_rect = cv::boundingRect(approx);
-        sensor_msgs::RegionOfInterest roi_msg;
+        robotx_msgs::RegionOfInterest2D roi_msg;
         //robotx_msgs::Object2D object2d_msg;
         //object2d_msg.type = threashold_params[i].target_buoy_name;
         //object2d_msg.boundingbox.header = msg->header;
-        roi_msg.x_offset = bbox_rect.x;
-        roi_msg.y_offset = bbox_rect.y;
-        roi_msg.width = bbox_rect.width;
-        roi_msg.height = bbox_rect.height;
-        roi_array_msg.labels.push_back(threashold_params[i].target_buoy_name);
-        roi_array_msg.rois.push_back(roi_msg);
+        roi_msg.roi.x_offset = bbox_rect.x;
+        roi_msg.roi.y_offset = bbox_rect.y;
+        roi_msg.roi.width = bbox_rect.width;
+        roi_msg.roi.height = bbox_rect.height;
+        roi_array_msg.object_rois.push_back(roi_msg);
         //object2d_msg.boundingbox.corner_point_0[0] = bbox_rect.x;
         //object2d_msg.boundingbox.corner_point_0[1] = bbox_rect.y;
         //object2d_msg.boundingbox.corner_point_1[0] = bbox_rect.x + bbox_rect.width;

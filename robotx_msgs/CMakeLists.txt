@@ -22,6 +22,7 @@ add_message_files(
   Heartbeat.msg
   TechnicalDirectorNetworkStatus.msg
   UsvDrive.msg
+  RegionOfInterest2D.msg
   RegionOfInterest2DArray.msg
   ObjectRegionOfInterestArray.msg
 )

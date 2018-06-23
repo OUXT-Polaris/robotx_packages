@@ -1,2 +1,1 @@
-sensor_msgs/RegionOfInterest[] rois
-string[] labels
+robotx_msgs/RegionOfInterest2D[] object_rois

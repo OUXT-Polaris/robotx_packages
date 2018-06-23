@@ -2,7 +2,7 @@
 #define OBJECT_BBOX_EXTRACTOR_H_INCLUDED
 
 //headers in this package
-#include <robotx_msgs/RegionOfInterestArray.h>
+#include <robotx_msgs/ObjectRegionOfInterestArray.h>
 
 //headers in ROS
 #include <ros/ros.h>
