@@ -44,6 +44,7 @@
   <run_depend>jsk_recognition_msgs</run_depend>
   <run_depend>navigation</run_depend>
   <run_depend>move_base</run_depend>
+  <run_depend>map_server</run_depend>
   <run_depend>dwa_local_planner</run_depend>
   <run_depend>nodelet</run_depend>
   <run_depend>yocs_velocity_smoother</run_depend>
