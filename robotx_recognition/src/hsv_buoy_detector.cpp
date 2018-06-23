@@ -7,7 +7,7 @@
 
 hsv_buoy_detector::hsv_buoy_detector():it_(nh_)
 {
-  objects2d_pub_ = nh_.advertise<robotx_msgs::Objects2D>(ros::this_node::getName()+"/result", 1000);
+  roi_array_pub_ = nh_.advertise<robotx_msgs::RegionOfInterest2DArray>(ros::this_node::getName()+"/result", 10);
   XmlRpc::XmlRpcValue parameters;
   nh_.getParam(ros::this_node::getName(), parameters);
   for(auto threshold_param_itr = parameters.begin(); threshold_param_itr != parameters.end(); ++threshold_param_itr)
@@ -43,7 +43,8 @@ void hsv_buoy_detector::image_callback(const sensor_msgs::ImageConstPtr& msg)
   cv::Mat hsv_image;
   cv::cvtColor(src_image, hsv_image, CV_RGB2HSV, 3);
   masked_images_ = std::vector<cv::Mat>(threashold_params.size());
-  robotx_msgs::Objects2D objects2d_msg;
+  //robotx_msgs::Objects2D objects2d_msg;
+  robotx_msgs::RegionOfInterest2DArray roi_array_msg;
   //generate masked images for all objects and calculate contours
   for(int i = 0;i < masked_images_.size();i++)
   {
@@ -75,16 +76,22 @@ void hsv_buoy_detector::image_callback(const sensor_msgs::ImageConstPtr& msg)
       if(max_area >= area && area >= min_area)
       {
         cv::Rect bbox_rect = cv::boundingRect(approx);
-        robotx_msgs::Object2D object2d_msg;
-        object2d_msg.type = threashold_params[i].target_buoy_name;
+        robotx_msgs::RegionOfInterest2D roi_msg;
+        //robotx_msgs::Object2D object2d_msg;
+        //object2d_msg.type = threashold_params[i].target_buoy_name;
         //object2d_msg.boundingbox.header = msg->header;
-        object2d_msg.boundingbox.corner_point_0[0] = bbox_rect.x;
-        object2d_msg.boundingbox.corner_point_0[1] = bbox_rect.y;
-        object2d_msg.boundingbox.corner_point_1[0] = bbox_rect.x + bbox_rect.width;
-        object2d_msg.boundingbox.corner_point_1[1] = bbox_rect.y + bbox_rect.height;
-        objects2d_msg.objects.push_back(object2d_msg);
+        roi_msg.roi.x_offset = bbox_rect.x;
+        roi_msg.roi.y_offset = bbox_rect.y;
+        roi_msg.roi.width = bbox_rect.width;
+        roi_msg.roi.height = bbox_rect.height;
+        roi_array_msg.object_rois.push_back(roi_msg);
+        //object2d_msg.boundingbox.corner_point_0[0] = bbox_rect.x;
+        //object2d_msg.boundingbox.corner_point_0[1] = bbox_rect.y;
+        //object2d_msg.boundingbox.corner_point_1[0] = bbox_rect.x + bbox_rect.width;
+        //object2d_msg.boundingbox.corner_point_1[1] = bbox_rect.y + bbox_rect.height;
+        //objects2d_msg.objects.push_back(object2d_msg);
       }
     }
   }
-  objects2d_pub_.publish(objects2d_msg);
+  roi_array_pub_.publish(roi_array_msg);
 }

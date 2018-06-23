@@ -3,7 +3,7 @@
 
 //headers in this package
 #include <object_model.h>
-#include <robotx_msgs/Objects.h>
+#include <robotx_msgs/ObjectRegionOfInterestArray.h>
 
 //headers in ROS
 #include <ros/ros.h>

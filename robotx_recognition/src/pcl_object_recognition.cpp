@@ -23,7 +23,7 @@
 pcl_object_recognition::pcl_object_recognition()
 {
   read_parameters();
-  detected_object_pub_ = nh_.advertise<robotx_msgs::Objects>(ros::this_node::getName()+"/detected_objects", 1);
+  detected_object_pub_ = nh_.advertise<robotx_msgs::ObjectRegionOfInterestArray>(ros::this_node::getName()+"/detected_objects", 1);
   object_marker_pub_ = nh_.advertise<visualization_msgs::MarkerArray>(ros::this_node::getName()+"/detected_objects/marker", 1);
   pointcloud_sub_ = nh_.subscribe(pointcloud_topic_, 1, &pcl_object_recognition::pointcloud_callback, this);
 }
@@ -54,7 +54,7 @@ bool pcl_object_recognition::check_file_existence(std::string& str)
 
 void pcl_object_recognition::publish_messages(std::vector<std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > > results, std_msgs::Header header)
 {
-  robotx_msgs::Objects objects_msg;
+  robotx_msgs::ObjectRegionOfInterestArray objects_msg;
   visualization_msgs::MarkerArray marker_array_msg;
   for(int i = 0; i < results.size(); i++)
   {
@@ -63,21 +63,21 @@ void pcl_object_recognition::publish_messages(std::vector<std::vector<Eigen::Mat
     {
       visualization_msgs::Marker marker_msg;
       marker_msg.type = marker_msg.MESH_RESOURCE;
-      robotx_msgs::Object object_msg;
-      object_msg.type = object_models_[i]->get_name();
+      robotx_msgs::ObjectRegionOfInterest object_msg;
+      object_msg.label = object_models_[i]->get_name();
       // Print the rotation matrix and translation vector
       Eigen::Matrix3f rotation = rototranslations[m].block<3,3>(0, 0);
       Eigen::Vector3f translation = rototranslations[m].block<3,1>(0, 3);
-      object_msg.pose.header = header;
-      object_msg.pose.pose.position.x = translation(0);
-      object_msg.pose.pose.position.y = translation(1);
-      object_msg.pose.pose.position.z = translation(2);
-      object_msg.pose.pose.orientation = rot_to_quat(rotation);
-      object_msg.mesh_resouce_path = object_models_[i]->get_marker_mesh_path();
-      object_msg.stl_file_path = object_models_[i]->get_stl_file_path();
-      objects_msg.objects.push_back(object_msg);
+      object_msg.roi_3d.header = header;
+      object_msg.roi_3d.pose.position.x = translation(0);
+      object_msg.roi_3d.pose.position.y = translation(1);
+      object_msg.roi_3d.pose.position.z = translation(2);
+      object_msg.roi_3d.pose.orientation = rot_to_quat(rotation);
+      //object_msg.mesh_resouce_path = object_models_[i]->get_marker_mesh_path();
+      //object_msg.stl_file_path = object_models_[i]->get_stl_file_path();
+      objects_msg.object_rois.push_back(object_msg);
       marker_msg.header = header;
-      marker_msg.pose = object_msg.pose.pose;
+      marker_msg.pose = object_msg.roi_3d.pose;
       marker_msg.scale.x = 1;
       marker_msg.scale.y = 1;
       marker_msg.scale.z = 1;

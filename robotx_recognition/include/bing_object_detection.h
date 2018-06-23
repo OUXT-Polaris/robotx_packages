@@ -9,7 +9,7 @@
 
 #include <vector>
 
-#include <robotx_msgs/BoundingBox2DArrayStamped.h>
+#include <robotx_msgs/RegionOfInterest2DArray.h>
 
 class bing_object_detection : public cv::saliency::ObjectnessBING
 {

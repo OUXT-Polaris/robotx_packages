@@ -1,0 +1,1 @@
+robotx_msgs/ObjectRegionOfInterest[] object_rois
