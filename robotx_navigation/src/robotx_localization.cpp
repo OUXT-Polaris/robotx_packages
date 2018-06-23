@@ -11,6 +11,8 @@ robotx_localization::robotx_localization() : params_()
     pfilter_ptr_ = new particle_filter(3,params_.num_particles,init_value,is_circular);
     fix_recieved_ = false;
     twist_received_ = false;
+    robot_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose", 1);
+    odom_pub_ = nh_.advertise<nav_msgs::Odometry>("/odom", 1);
     fix_sub_ = nh_.subscribe(params_.fix_topic, 1, &robotx_localization::fix_callback_, this);
     twist_sub_ = nh_.subscribe(params_.twist_topic, 1, &robotx_localization::twist_callback_, this);
     thread_update_frame_ = boost::thread(boost::bind(&robotx_localization::update_frame_, this));
@@ -74,6 +76,22 @@ void robotx_localization::update_frame_()
         transform_stamped.transform.rotation.z = q.z();
         transform_stamped.transform.rotation.w = q.w();
         broadcaster_.sendTransform(transform_stamped);
+        geometry_msgs::PoseStamped robot_pose_msg;
+        robot_pose_msg.header = transform_stamped.header;
+        robot_pose_msg.pose.position.x = predicted_pos(0)*(params_.max_x-params_.min_x) + params_.min_x;
+        robot_pose_msg.pose.position.y = predicted_pos(1)*(params_.max_y-params_.min_y) + params_.min_y;
+        robot_pose_msg.pose.position.z = 0;
+        robot_pose_msg.pose.orientation.x = q.x();
+        robot_pose_msg.pose.orientation.y = q.y();
+        robot_pose_msg.pose.orientation.z = q.z();
+        robot_pose_msg.pose.orientation.w = q.w();
+        robot_pose_pub_.publish(robot_pose_msg);
+        nav_msgs::Odometry odom_msg;
+        odom_msg.header = robot_pose_msg.header;
+        odom_msg.child_frame_id = params_.robot_frame;
+        odom_msg.pose.pose = robot_pose_msg.pose;
+        odom_msg.twist.twist = last_twist_message_;
+        odom_pub_.publish(odom_msg);
         //critical section end
         fix_mutex_.unlock();
         twist_mutex_.unlock();

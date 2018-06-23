@@ -6,9 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /OverlayImage1
-        - /BoundingBoxArray1
-        - /Map1
         - /Map1/Position1
       Splitter Ratio: 0.5
     Tree Height: 775
@@ -145,9 +142,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 2.30977303e-18
+      Max Intensity: 1.49812572e-37
       Min Color: 0; 0; 0
-      Min Intensity: 0
+      Min Intensity: 1.8263717e-38
       Name: PointCloud2
       Position Transformer: XYZ
       Queue Size: 10
@@ -177,8 +174,6 @@ Visualization Manager:
           Value: true
         left_thruster_link:
           Value: true
-        map:
-          Value: true
         right_thruster_link:
           Value: true
         velodyne:
@@ -188,6 +183,8 @@ Visualization Manager:
         velodyne2_base_link:
           Value: true
         velodyne_base_link:
+          Value: true
+        world:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -213,7 +210,7 @@ Visualization Manager:
             velodyne_base_link:
               velodyne:
                 {}
-        map:
+        world:
           {}
       Update Interval: 0
       Value: true
@@ -270,9 +267,24 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.0500000007
         Value: Arrow
-      Topic: /gps_odom
+      Topic: /robotx_localization_node/odom
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.100000001
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: false
+      Head Length: 0.300000012
+      Head Radius: 0.100000001
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.0500000007
+      Shape: Arrow
+      Topic: /robotx_localization_node/robot_pose
+      Unreliable: false
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

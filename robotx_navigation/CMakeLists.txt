@@ -19,6 +19,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_geometry_msgs
   nav_msgs
   jsk_recognition_msgs
+  dwa_local_planner
+  global_planner
 )
 
 catkin_package()
