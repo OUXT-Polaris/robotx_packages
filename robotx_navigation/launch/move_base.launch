@@ -11,7 +11,7 @@
   <node pkg="move_base" type="move_base" name="move_base" output="screen" respawn="true">
     <!-- COST MAP -->
     <rosparam file="$(find robotx_navigation)/config/move_base/costmap/local_costmap_params.yaml" command="load"/>
-    <rosparam file="$(find robotx_navigation)/config/move_base/costmap/global_static_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find robotx_navigation)/config/move_base/costmap/global_costmap_params.yaml" command="load"/>
     <rosparam file="$(find robotx_navigation)/config/move_base/costmap/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find robotx_navigation)/config/move_base/costmap/costmap_common_params.yaml" command="load" ns="local_costmap" /> 
 
