@@ -11,6 +11,7 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_ros/transform_broadcaster.h>
 #include <geometry_msgs/TransformStamped.h>
+#include <geometry_msgs/PoseStamped.h>
 
 //headers in Boost
 #include <boost/thread.hpp>
@@ -63,6 +64,7 @@ private:
     boost::thread thread_update_frame_;
     ros::Subscriber fix_sub_;
     ros::Subscriber twist_sub_;
+    ros::Publisher robot_pose_pub_;
     ros::NodeHandle nh_;
     sensor_msgs::NavSatFix last_fix_message_;
     sensor_msgs::NavSatFix init_measurement_;
