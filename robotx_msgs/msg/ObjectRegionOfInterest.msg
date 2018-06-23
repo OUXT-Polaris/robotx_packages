@@ -1,0 +1,3 @@
+sensor_msgs/RegionOfInterest roi_2d
+jsk_recognition_msgs/BoundingBox roi_3d
+string label

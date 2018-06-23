@@ -24,6 +24,7 @@ add_message_files(
   UsvDrive.msg
   RegionOfInterest2D.msg
   RegionOfInterest2DArray.msg
+  ObjectRegionOfInterest.msg
   ObjectRegionOfInterestArray.msg
 )
 ## Generate added messages and services with any dependencies listed here
