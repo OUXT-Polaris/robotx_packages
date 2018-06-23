@@ -12,6 +12,7 @@
 #include <tf2_ros/transform_broadcaster.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <nav_msgs/Odometry.h>
 
 //headers in Boost
 #include <boost/thread.hpp>
@@ -65,6 +66,7 @@ private:
     ros::Subscriber fix_sub_;
     ros::Subscriber twist_sub_;
     ros::Publisher robot_pose_pub_;
+    ros::Publisher odom_pub_;
     ros::NodeHandle nh_;
     sensor_msgs::NavSatFix last_fix_message_;
     sensor_msgs::NavSatFix init_measurement_;
