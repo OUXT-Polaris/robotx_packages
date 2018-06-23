@@ -23,10 +23,10 @@ obstacle_layer:
   z_resolution: 0.2
   z_voxels: 2
   publish_voxel_map: false
-  observation_sources:  merged_pointcloud
-  merged_pointcloud:
+  observation_sources:  merged_points
+  merged_points:
     data_type: PointCloud2
-    topic: /pointcloud_merger_node/merged_pointcloud
+    topic: /pointcloud_merger_node/merged_points
     marking: true
     clearing: true
     min_obstacle_height: 0
