@@ -39,6 +39,12 @@ void object_bbox_extractor::image_callback_(const sensor_msgs::ImageConstPtr& ms
             {
                 cv::rectangle(rect_image, cv::Point(rect.x,rect.y), cv::Point(rect.x+rect.width, rect.y+rect.height), cv::Scalar(0,0,200), 3, 4);
             }
+            if(params_.enable_roi_image_publisher)
+            {
+                cv::Mat roi_image(image, rect);
+                sensor_msgs::ImagePtr roi_image_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8",  roi_image).toImageMsg();
+                roi_image_pub_.publish(roi_image_msg);
+            }
         }
     }
     if(params_.publish_rect_image)
