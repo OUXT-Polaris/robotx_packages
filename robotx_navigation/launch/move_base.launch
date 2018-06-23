@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find robotx_navigation)/config/move_base/frames.yaml" command="load"/>
+        <rosparam file="$(find robotx_navigation)/config/move_base/local_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find robotx_navigation)/config/move_base/global_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find robotx_navigation)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find robotx_navigation)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" /> 
+        <rosparam file="$(find robotx_navigation)/config/move_base/move_base_params.yaml" command="load" />
+        <rosparam file="$(find robotx_navigation)/config/move_base/global_planner_params.yaml" command="load" />
+        <rosparam file="$(find robotx_navigation)/config/move_base/dwa_local_planner_params.yaml" command="load"/>
+        <rosparam file="$(find robotx_navigation)/config/move_base/navfn_global_planner_params.yaml" command="load" />
+    </node>
+</launch>
