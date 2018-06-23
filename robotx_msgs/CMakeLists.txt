@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  jsk_recognition_msgs
 )
 
 ################################################
@@ -22,6 +23,7 @@ add_message_files(
   TechnicalDirectorNetworkStatus.msg
   UsvDrive.msg
   RegionOfInterestArray.msg
+  ObjectRegionOfInterestArray.msg
 )
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
@@ -29,6 +31,7 @@ generate_messages(
   geometry_msgs#
   sensor_msgs#
   std_msgs
+  jsk_recognition_msgs
   )
 
 ###################################
