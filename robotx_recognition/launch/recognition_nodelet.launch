@@ -11,4 +11,8 @@
   <rosparam command="load" file="$(find robotx_recognition)/config/euclidean_clustering.yaml" ns="robotx_recognition_nodelet_manager"/>
   <node pkg="nodelet" type="nodelet" name="euclidean_clustering_nodelet" args="load robotx_recognition_nodelet/euclidean_clustering_nodelet robotx_recognition_nodelet_manager">  
   </node>
+
+  <rosparam command="load" file="$(find robotx_recognition)/config/passthrough_filter.yaml" ns="robotx_recognition_nodelet_manager"/>
+  <node pkg="nodelet" type="nodelet" name="passthrough_filter_nodelet" args="load robotx_recognition_nodelet/passthrough_filter_nodelet robotx_recognition_nodelet_manager">  
+  </node>
 </launch>
