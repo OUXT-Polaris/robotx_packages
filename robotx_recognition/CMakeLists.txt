@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_msgs
   tf2_sensor_msgs
   jsk_recognition_msgs
+  nodelet
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)
@@ -49,42 +50,63 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
-set(object_recognition_src src/object_recognition_node.cpp src/pcl_object_recognition.cpp src/object_model.cpp)
-add_executable(object_recognition_node ${object_recognition_src})
+
+# object_recognition
+set(object_recognition_src src/pcl_object_recognition.cpp src/object_model.cpp)
+add_executable(object_recognition_node src/object_recognition_node.cpp ${object_recognition_src})
 add_dependencies(object_recognition_node robotx_msgs_generate_messages_cpp)
+target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
+add_library(object_recognition_nodelet src/object_recognition_nodelet.cpp ${object_recognition_src})
+add_dependencies(object_recognition_nodelet robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
+target_link_libraries(object_recognition_nodelet ${catkin_LIBRARIES})
 
-set(euclidean_clustering_src src/euclidean_clustering_node.cpp src/euclidean_clustering.cpp)
-add_executable(euclidean_clustering_node ${euclidean_clustering_src})
+# euclidean_clustering
+set(euclidean_clustering_src src/euclidean_clustering.cpp)
+add_executable(euclidean_clustering_node src/euclidean_clustering_node.cpp ${euclidean_clustering_src})
 add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
+target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
+add_library(euclidean_clustering_nodelet src/euclidean_clustering_nodelet.cpp ${euclidean_clustering_src})
+add_dependencies(euclidean_clustering_nodelet robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
+target_link_libraries(euclidean_clustering_nodelet ${catkin_LIBRARIES})
 
-set(hsv_buoy_detector_src src/hsv_buoy_detector_node.cpp src/hsv_buoy_detector.cpp)
-add_executable(hsv_buoy_detector_node ${hsv_buoy_detector_src})
+# hsv buoy detector
+set(hsv_buoy_detector_src src/hsv_buoy_detector.cpp)
+add_executable(hsv_buoy_detector_node src/hsv_buoy_detector_node.cpp ${hsv_buoy_detector_src})
 add_dependencies(hsv_buoy_detector_node robotx_msgs_generate_messages_cpp)
+target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
-set(bing_object_detection_node_src src/bing_object_detection_node.cpp src/bing_object_detection.cpp)
-add_executable(bing_object_detection_node ${bing_object_detection_node_src})
+# bing object detection
+set(bing_object_detection_node_src src/bing_object_detection.cpp)
+add_executable(bing_object_detection_node src/bing_object_detection_node.cpp ${bing_object_detection_node_src})
 add_dependencies(bing_object_detection_node robotx_msgs_generate_messages_cpp)
+target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
+# object bbox extractor
 set(object_bbox_extractor_src src/object_bbox_extractor.cpp)
 add_executable(object_bbox_extractor_node src/object_bbox_extractor_node.cpp ${object_bbox_extractor_src})
 add_dependencies(object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
+target_link_libraries(object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+add_library(object_bbox_extractor_nodelet src/object_bbox_extractor_nodelet.cpp ${object_bbox_extractor_src})
+add_dependencies(object_bbox_extractor_nodelet robotx_msgs_generate_messages_cpp)
+target_link_libraries(object_bbox_extractor_nodelet ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
+# passthrough_filter
 set(passthrough_filter_src src/passthrough_filter.cpp)
 add_executable(passthrough_filter_node src/passthrough_filter_node.cpp ${passthrough_filter_src})
 add_dependencies(passthrough_filter_node robotx_msgs_generate_messages_cpp)
+target_link_libraries(passthrough_filter_node ${catkin_LIBRARIES})
+add_library(passthrough_filter_nodelet src/passthrough_filter_nodelet.cpp ${passthrough_filter_src})
+add_dependencies(passthrough_filter_nodelet robotx_msgs_generate_messages_cpp)
+target_link_libraries(passthrough_filter_nodelet ${catkin_LIBRARIES})
 
+# pointcloud_merger
 set(pointcloud_merger_src src/pointcloud_merger.cpp)
 add_executable(pointcloud_merger_node src/pointcloud_merger_node.cpp ${pointcloud_merger_src})
 add_dependencies(pointcloud_merger_node robotx_msgs_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
-target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
-target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
-target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
-target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
-target_link_libraries(object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
-target_link_libraries(passthrough_filter_node ${catkin_LIBRARIES})
 target_link_libraries(pointcloud_merger_node ${catkin_LIBRARIES})
+add_library(pointcloud_merger_nodelet src/pointcloud_merger_nodelet.cpp ${pointcloud_merger_src})
+add_dependencies(pointcloud_merger_nodelet robotx_msgs_generate_messages_cpp)
+target_link_libraries(pointcloud_merger_nodelet ${catkin_LIBRARIES})
 
 #############
 ## Install ##

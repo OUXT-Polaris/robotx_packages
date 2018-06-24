@@ -1,0 +1,35 @@
+<library path="lib/libobject_recognition_nodelet">
+	<class name="robotx_recognition_nodelet/object_recognition_nodelet" type="robotx_recognition_nodelet::object_recognition_nodelet" base_class_type="nodelet::Nodelet">
+		<description>
+			object_recognition_nodelet class using PCL
+		</description>
+	</class>
+</library>
+<library path="lib/libeuclidean_clustering_nodelet">
+	<class name="robotx_recognition_nodelet/euclidean_clustering_nodelet" type="robotx_recognition_nodelet::euclidean_clustering_nodelet" base_class_type="nodelet::Nodelet">
+		<description>
+			euclidean_clustering_nodelet class using PCL
+		</description>
+	</class>
+</library>
+<library path="lib/libpassthrough_filter_nodelet">
+	<class name="robotx_recognition_nodelet/passthrough_filter_nodelet" type="robotx_recognition_nodelet::passthrough_filter_nodelet" base_class_type="nodelet::Nodelet">
+		<description>
+			passthrough_filter_nodelet class using PCL
+		</description>
+	</class>
+</library>
+<library path="lib/libpointcloud_merger_nodelet">
+	<class name="robotx_recognition_nodelet/pointcloud_merger_nodelet" type="robotx_recognition_nodelet::pointcloud_merger_nodelet" base_class_type="nodelet::Nodelet">
+		<description>
+			pointcloud_merger_nodelet class using PCL
+		</description>
+	</class>
+</library>
+<library path="lib/libobject_bbox_extractor_nodelet">
+	<class name="robotx_recognition_nodelet/object_bbox_extractor_nodelet" type="robotx_recognition_nodelet::object_bbox_extractor_nodelet" base_class_type="nodelet::Nodelet">
+		<description>
+			object_bbox_extractor_nodelet class using PCL
+		</description>
+	</class>
+</library>
