@@ -4,6 +4,8 @@
 			object_recognition_nodelet class using PCL
 		</description>
 	</class>
+</library>
+<library path="lib/libeuclidean_clustering_nodelet">
 	<class name="robotx_recognition_nodelet/euclidean_clustering_nodelet" type="robotx_recognition_nodelet::euclidean_clustering_nodelet" base_class_type="nodelet::Nodelet">
 		<description>
 			euclidean_clustering_nodelet class using PCL

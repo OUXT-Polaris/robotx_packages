@@ -66,6 +66,7 @@ add_executable(euclidean_clustering_node src/euclidean_clustering_node.cpp ${euc
 add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
 add_library(euclidean_clustering_nodelet src/euclidean_clustering_nodelet.cpp ${euclidean_clustering_src})
+add_dependencies(euclidean_clustering_nodelet robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
 target_link_libraries(euclidean_clustering_nodelet ${catkin_LIBRARIES})
 
 set(hsv_buoy_detector_src src/hsv_buoy_detector.cpp)
