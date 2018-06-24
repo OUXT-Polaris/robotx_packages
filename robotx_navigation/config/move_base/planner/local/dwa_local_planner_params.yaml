@@ -1,0 +1,48 @@
+base_local_planner: dwa_local_planner/DWAPlannerROS
+DWAPlannerROS:
+  global_frame_id: world
+  # Robot configuration parameters  
+  acc_lim_x: 0.75
+  acc_lim_y: 0
+  acc_lim_th: 0.2
+
+  max_vel_x: 0.2
+  min_vel_x: -0.1
+  max_vel_y: 0
+  min_vel_y: 0
+
+  max_trans_vel: 1.1
+  min_trans_vel: -0.25
+  max_rot_vel: 0.3
+  min_rot_vel: -0.3
+
+  # Goal Tolerance Parameters
+  yaw_goal_tolerance: 0.3
+  xy_goal_tolerance: 0.2
+  latch_xy_goal_tolerance: false
+
+  # # Forward Simulation Parameters
+  sim_time: 2.0
+  sim_granularity: 0.02
+  vx_samples: 50
+  vy_samples: 0
+  vtheta_samples: 50
+  penalize_negative_x: true
+
+  # # Trajectory scoring parameters
+  # The weighting for how much the controller should stay close to the path it was given
+  # path_distance_bias: 32.0
+  # The weighting for how much the controller should attempt to reach its local goal, also controls speed
+  # goal_distance_bias: 24.0
+  # The weighting for how much the controller should attempt to avoid obstacles
+  occdist_scale: 0.2
+  # The distance from the center point of the robot to place an additional scoring point, in meters
+  forward_point_distance: 0.5
+  # The amount of time that the robot must stThe absolute value of the veolicty at which to start scaling the robot's footprint, in m/sop before a collision in order for a trajectory to be considered valid in seconds
+  stop_time_buffer: 3.0
+  # The absolute value of the veolicty at which to start scaling the robot's footprint, in m/s
+  # scaling_speed: 0.25
+  # The maximum factor to scale the robot's footprint by
+  # max_scaling_factor: 0.2 
+
+# # Oscillation Prevention Parameters

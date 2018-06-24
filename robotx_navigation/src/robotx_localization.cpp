@@ -34,7 +34,7 @@ void robotx_localization::update_frame_()
     {
         std::lock(fix_mutex_,twist_mutex_);
         //critical section start
-        //pfilter_ptr_->resample(params_.ess_threshold);
+        pfilter_ptr_->resample(params_.ess_threshold);
         Eigen::VectorXd control_input(3);
         Eigen::VectorXd state = pfilter_ptr_->get_state();
         Eigen::VectorXd position(3);
@@ -55,9 +55,10 @@ void robotx_localization::update_frame_()
         for(int i=0; i<params_.num_particles; i++)
         {
             double error = std::sqrt(std::pow(states(0,i)-measurement_x,2) + std::pow(states(1,i)-measurement_y,2));
+            double threashold = 0.01;
             // avoid zero division
-            if(error == 0)
-                error = 0.000000000000001;
+            if(std::fabs(error) < threashold)
+                error = threashold;
             weights(i) = 1/error;
         }
         pfilter_ptr_->set_weights(weights);

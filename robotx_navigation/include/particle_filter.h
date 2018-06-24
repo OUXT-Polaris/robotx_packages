@@ -18,12 +18,12 @@ public:
   void add_system_noise(double variance);
   void resample(double threshold);
 private:
+  double get_ess(){return 1/weights_.cwiseAbs2().sum();};
   std::vector<bool> is_circular_;
   int dimensions_;
   int num_partcles_;
   Eigen::MatrixXd states_;
   Eigen::VectorXd weights_;
-  double get_ess(){return weights_.cwiseAbs2().sum();};
   void clamp(Eigen::MatrixXd& target, double max, double min);
   void clamp(Eigen::VectorXd& target, double max, double min);
   void get_normal_distribution_random_numbers(Eigen::MatrixXd& target, double average, double variance);

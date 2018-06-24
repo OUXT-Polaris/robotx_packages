@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+  <include file="$(find robotx_navigation)/launch/move_base.launch">
+  </include>
+
+<!--
   <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_map_server.yaml" ns="obstacle_map_server_node"/>
   <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
   </node>
+-->
 
   <rosparam command="load" file="$(find robotx_navigation)/config/robotx_localization.yaml" ns="robotx_localization_node"/>
   <node name="robotx_localization_node" pkg="robotx_navigation" type="robotx_localization_node" args="" output="screen" respawn="true">
   </node>
-
-<!--
-  <node name="utm_odometry_node" pkg="gps_common" type="utm_odometry_node" args="" output="screen" respawn="true">
-    <param name="child_frame_id" value="odom" type="str"/>
-    <remap from="/odom" to="/gps_odom" />
-  </node>
-
-  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
-    <param name="output_frame" value="odom"/>
-    <param name="freq" value="30.0"/>
-    <param name="sensor_timeout" value="1.0"/>
-    <param name="odom_used" value="false"/>
-    <param name="imu_used" value="true"/>
-    <param name="vo_used" value="true"/>
-    <param name="debug" value="false"/>
-    <param name="self_diagnose" value="false"/>
-    <remap from="/imu_data" to="/imu" />
-    <remap from="/vo" to="/gps_odom" />
-  </node>
-
-  <node name="world_frame_publisher" pkg="robotx_navigation" type="world_frame_publisher.py" args="" output="screen" respawn="true">
-    <remap from="/odom" to="/gps_odom" />
-  </node>
-
-  <node name="twist_from_fix_velocity_node" pkg="robotx_navigation" type="twist_from_fix_velocity_node" args="" output="screen" respawn="true">
-    <remap from="/twist" to="/wam_v/twist" />
-    <param name="imu_frame" value="base_link" type="str"/>
-  </node>
-
-  <node name="geographic_map_server_node" pkg="robotx_navigation" type="geographic_map_server_node" args="" output="screen" respawn="true">
-    <param name="osm_filepath" value="$(find robotx_navigation)/data/field.osm" type="str"/>
-  </node>
-  -->
 </launch>
