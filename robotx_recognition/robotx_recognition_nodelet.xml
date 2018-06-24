@@ -26,3 +26,10 @@
 		</description>
 	</class>
 </library>
+<library path="lib/libobject_bbox_extractor_nodelet">
+	<class name="robotx_recognition_nodelet/object_bbox_extractor_nodelet" type="robotx_recognition_nodelet::object_bbox_extractor_nodelet" base_class_type="nodelet::Nodelet">
+		<description>
+			object_bbox_extractor_nodelet class using PCL
+		</description>
+	</class>
+</library>

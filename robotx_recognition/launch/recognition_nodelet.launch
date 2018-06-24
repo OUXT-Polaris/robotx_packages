@@ -19,4 +19,8 @@
   <rosparam command="load" file="$(find robotx_recognition)/config/pointcloud_merger.yaml" ns="robotx_recognition_nodelet_manager"/>
   <node pkg="nodelet" type="nodelet" name="pointcloud_merger_nodelet" args="load robotx_recognition_nodelet/pointcloud_merger_nodelet robotx_recognition_nodelet_manager">  
   </node>
+
+  <rosparam command="load" file="$(find robotx_recognition)/config/object_bbox_extractor.yaml" ns="robotx_recognition_nodelet_manager"/>
+  <node pkg="nodelet" type="nodelet" name="object_bbox_extractor_nodelet" args="load robotx_recognition_nodelet/object_bbox_extractor_nodelet robotx_recognition_nodelet_manager">  
+  </node>
 </launch>

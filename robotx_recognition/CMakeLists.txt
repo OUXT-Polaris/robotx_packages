@@ -86,6 +86,9 @@ set(object_bbox_extractor_src src/object_bbox_extractor.cpp)
 add_executable(object_bbox_extractor_node src/object_bbox_extractor_node.cpp ${object_bbox_extractor_src})
 add_dependencies(object_bbox_extractor_node robotx_msgs_generate_messages_cpp)
 target_link_libraries(object_bbox_extractor_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+add_library(object_bbox_extractor_nodelet src/object_bbox_extractor_nodelet.cpp ${object_bbox_extractor_src})
+add_dependencies(object_bbox_extractor_nodelet robotx_msgs_generate_messages_cpp)
+target_link_libraries(object_bbox_extractor_nodelet ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 # passthrough_filter
 set(passthrough_filter_src src/passthrough_filter.cpp)
