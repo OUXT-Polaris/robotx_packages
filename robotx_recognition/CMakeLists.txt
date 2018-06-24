@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_msgs
   tf2_sensor_msgs
   jsk_recognition_msgs
+  nodelet
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)
@@ -49,20 +50,22 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
-set(object_recognition_src src/object_recognition_node.cpp src/pcl_object_recognition.cpp src/object_model.cpp)
-add_executable(object_recognition_node ${object_recognition_src})
+set(object_recognition_src src/pcl_object_recognition.cpp src/object_model.cpp)
+add_executable(object_recognition_node src/object_recognition_node.cpp ${object_recognition_src})
 add_dependencies(object_recognition_node robotx_msgs_generate_messages_cpp)
+add_library(object_recognition_nodelet src/object_recognition_nodelet.cpp ${object_recognition_src})
+add_dependencies(object_recognition_nodelet robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
 
-set(euclidean_clustering_src src/euclidean_clustering_node.cpp src/euclidean_clustering.cpp)
-add_executable(euclidean_clustering_node ${euclidean_clustering_src})
+set(euclidean_clustering_src src/euclidean_clustering.cpp)
+add_executable(euclidean_clustering_node src/euclidean_clustering_node.cpp ${euclidean_clustering_src})
 add_dependencies(euclidean_clustering_node robotx_msgs_generate_messages_cpp)
 
-set(hsv_buoy_detector_src src/hsv_buoy_detector_node.cpp src/hsv_buoy_detector.cpp)
-add_executable(hsv_buoy_detector_node ${hsv_buoy_detector_src})
+set(hsv_buoy_detector_src src/hsv_buoy_detector.cpp)
+add_executable(hsv_buoy_detector_node src/hsv_buoy_detector_node.cpp ${hsv_buoy_detector_src})
 add_dependencies(hsv_buoy_detector_node robotx_msgs_generate_messages_cpp)
 
-set(bing_object_detection_node_src src/bing_object_detection_node.cpp src/bing_object_detection.cpp)
-add_executable(bing_object_detection_node ${bing_object_detection_node_src})
+set(bing_object_detection_node_src src/bing_object_detection.cpp)
+add_executable(bing_object_detection_node src/bing_object_detection_node.cpp ${bing_object_detection_node_src})
 add_dependencies(bing_object_detection_node robotx_msgs_generate_messages_cpp)
 
 set(object_bbox_extractor_src src/object_bbox_extractor.cpp)
@@ -79,6 +82,7 @@ add_dependencies(pointcloud_merger_node robotx_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(object_recognition_node ${catkin_LIBRARIES})
+target_link_libraries(object_recognition_nodelet ${catkin_LIBRARIES})
 target_link_libraries(euclidean_clustering_node ${catkin_LIBRARIES})
 target_link_libraries(hsv_buoy_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(bing_object_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
@@ -98,6 +102,13 @@ foreach(cpp_exec_names ${CPP_EXEC_NAMES})
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
     )
 endforeach(cpp_exec_names)
+# CPP Nodelet programs
+set(CPP_NODELET_NAMES)
+foreach(cpp_nodelet_names ${CPP_NODELET_NAMES})
+  install(TARGETS ${cpp_nodelet_names}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    )
+endforeach(cpp_nodelet_names)
 # include header files
 install(DIRECTORY include/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}

@@ -26,6 +26,7 @@
   <build_depend>cv_bridge</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>jsk_recognition_msgs</build_depend>
+  <build_depend>nodelet</build_depend>
 
   <run_depend>geometry_msgs</run_depend>
   <run_depend>pcl_ros</run_depend>
@@ -41,5 +42,9 @@
   <run_depend>image_transport</run_depend>
   <run_depend>cv_bridge</run_depend>
   <run_depend>jsk_recognition_msgs</run_depend>
+  <run_depend>nodelet</run_depend>
   
+  <export>
+    <nodelet plugin="${prefix}/robotx_recognition_nodelet.xml" />
+  </export>
 </package>

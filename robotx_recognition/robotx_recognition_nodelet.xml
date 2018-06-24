@@ -1,0 +1,7 @@
+<library path="lib/libobject_recognition_nodelet">
+	<class name="robotx_recognition_nodelet/object_recognition_nodelet" type="robotx_recognition_nodelet::object_recognition_nodelet" base_class_type="nodelet::Nodelet">
+		<description>
+			object_recognition_nodelet class using PCL
+		</description>
+	</class>
+</library>

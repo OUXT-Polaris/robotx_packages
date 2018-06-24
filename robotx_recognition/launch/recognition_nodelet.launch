@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="nodelet" type="nodelet" args="manager" name="robotx_recognition_nodelet_manager" output="screen"/>
+
+  <rosparam command="load" file="$(find robotx_recognition)/config/object_recognition.yaml" ns="robotx_recognition_nodelet_manager"/>
+  <node pkg="nodelet" type="nodelet" name="object_recognition_nodelet" args="load robotx_recognition_nodelet/object_recognition_nodelet robotx_recognition_nodelet_manager">  
+  </node>
+</launch>
