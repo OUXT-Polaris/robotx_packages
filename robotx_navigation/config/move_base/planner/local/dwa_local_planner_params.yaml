@@ -4,29 +4,29 @@ DWAPlannerROS:
   # Robot configuration parameters  
   acc_lim_x: 0.75
   acc_lim_y: 0
-  acc_lim_th: 3.14
+  acc_lim_th: 0.2
 
-  max_vel_x: 1.1
-  min_vel_x: -0.25
+  max_vel_x: 0.2
+  min_vel_x: -0.1
   max_vel_y: 0
   min_vel_y: 0
 
   max_trans_vel: 1.1
   min_trans_vel: -0.25
-  max_rot_vel: 3.14
-  min_rot_vel: -3.14
+  max_rot_vel: 0.3
+  min_rot_vel: -0.3
 
   # Goal Tolerance Parameters
-  yaw_goal_tolerance: 3.14
-  xy_goal_tolerance: 0.5
+  yaw_goal_tolerance: 0.3
+  xy_goal_tolerance: 0.2
   latch_xy_goal_tolerance: false
 
   # # Forward Simulation Parameters
   sim_time: 2.0
   sim_granularity: 0.02
-  vx_samples: 20
+  vx_samples: 50
   vy_samples: 0
-  vtheta_samples: 30
+  vtheta_samples: 50
   penalize_negative_x: true
 
   # # Trajectory scoring parameters

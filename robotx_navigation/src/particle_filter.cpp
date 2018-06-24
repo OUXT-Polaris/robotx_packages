@@ -168,11 +168,11 @@ void particle_filter::resample(double threshold)
         double total_weights = 0;
         for(int j = 0; j<weights_.size(); j++)
         {
-        total_weights += weights_(j);
-        if(total_weights >= random_values[i])
-        {
-            indexes[i] = i;
-        }
+          total_weights += weights_(j);
+          if(total_weights >= random_values[i])
+          {
+              indexes[i] = i;
+          }
         }
     }
     for(int i = 0; i<num_partcles_; i++)
