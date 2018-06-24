@@ -101,6 +101,9 @@ set(pointcloud_merger_src src/pointcloud_merger.cpp)
 add_executable(pointcloud_merger_node src/pointcloud_merger_node.cpp ${pointcloud_merger_src})
 add_dependencies(pointcloud_merger_node robotx_msgs_generate_messages_cpp)
 target_link_libraries(pointcloud_merger_node ${catkin_LIBRARIES})
+add_library(pointcloud_merger_nodelet src/pointcloud_merger_nodelet.cpp ${pointcloud_merger_src})
+add_dependencies(pointcloud_merger_nodelet robotx_msgs_generate_messages_cpp)
+target_link_libraries(pointcloud_merger_nodelet ${catkin_LIBRARIES})
 
 #############
 ## Install ##
