@@ -3,6 +3,7 @@
 
 #include <euclidean_clustering.h>
 #include <nodelet/nodelet.h>
+#include <euclidean_clustering.h>
 
 namespace robotx_recognition_nodelet
 {
@@ -12,6 +13,8 @@ namespace robotx_recognition_nodelet
             euclidean_clustering_nodelet();
             ~euclidean_clustering_nodelet();
             virtual void onInit();
+        private:
+            euclidean_clustering clustering;
     };
 }
 
