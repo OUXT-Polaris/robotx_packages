@@ -1,0 +1,31 @@
+#See also https://github.com/CIR-KIT/fourth_robot_pkg/blob/indigo-devel/fourth_robot_2dnav/params/planner/recovery_behaviors.yaml
+
+recovery_behavior_enabled: true
+recovery_behaviors:
+  - name: 'conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'aggressive_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'rotate_recovery_1'
+    type: 'rotate_recovery/RotateRecovery'
+  - name: 'rotate_recovery_2'
+    type: 'rotate_recovery/RotateRecovery'
+  - name: 'rotate_recovery_3'
+    type: 'rotate_recovery/RotateRecovery'
+  # - name: 'step_back_and_max_steer_recovery'
+  #   type: 'step_back_and_max_steer_recovery/StepBackAndMaxSteerRecovery'
+
+conservative_reset:
+  reset_distance: 2.0
+
+aggressive_reset:
+  reset_distance: 1.0
+
+rotate_recovery_1:
+  sim_granularity: 0.017
+
+rotate_recovery_2:
+  sim_granularity: 0.017
+
+rotate_recovery_3:
+  sim_granularity: 0.017

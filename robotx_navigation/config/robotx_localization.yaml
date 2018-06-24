@@ -2,6 +2,6 @@ publish_frame: world
 robot_frame: base_footprint
 twist_topic: /vel
 fix_topic: /fix
-num_particles: 1000
+num_particles: 3000
 publish_rate: 100
 #ess_threshold: 50

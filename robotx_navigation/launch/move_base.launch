@@ -3,11 +3,12 @@
   <node pkg="nodelet" type="nodelet" args="manager" name="move_base_nodelet_manager" output="screen" />
 
   <node pkg="nodelet" type="nodelet" name="navigation_velocity_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet move_base_nodelet_manager">
-    <rosparam file="$(find robotx_navigation)/config/move_base/smoother.yaml" command="load"/>
+    <rosparam file="$(find robotx_navigation)/config/navigation_velocity_smoother.yaml" command="load"/>
     <remap from="navigation_velocity_smoother/odometry" to="odom"/>
     <remap from="navigation_velocity_smoother/robot_cmd_vel" to="cmd_vel"/>
   </node>
 
+  <!-- Select one Global and Loacl Planner -->
   <node pkg="move_base" type="move_base" name="move_base" output="screen" respawn="true">
     <!-- COST MAP -->
     <rosparam file="$(find robotx_navigation)/config/move_base/costmap/local_costmap_params.yaml" command="load"/>
@@ -26,6 +27,9 @@
     <!-- <rosparam file="$(find robotx_navigation)/config/move_base/planner/local/teb_local_planner.yaml" command="load"/> -->
     <!-- <rosparam file="$(find robotx_navigation)/config/move_base/planner/local/trajectory_planner.yaml" command="load"/> -->
 
+    <!-- BEHAVIORS -->
+    <rosparam file="$(find robotx_navigation)/config/move_base/behavior/recovery_behavior_params.yaml" command="load"/>
+    
     <!-- REMAP -->
     <remap from="cmd_vel" to="navigation_velocity_smoother/raw_cmd_vel"/>
   </node>
