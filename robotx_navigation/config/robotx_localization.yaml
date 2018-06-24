@@ -4,4 +4,4 @@ twist_topic: /vel
 fix_topic: /fix
 num_particles: 3000
 publish_rate: 100
-#ess_threshold: 50
+ess_threshold: 2000
