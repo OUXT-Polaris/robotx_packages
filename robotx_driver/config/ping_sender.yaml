@@ -1,0 +1,14 @@
+frequency: 1.0
+
+target_device:
+  jstson1:
+    ip_address: 127.0.0.1
+    device_id: 0
+
+  velodyne1:
+    ip_address: 192.168.0.1
+    device_id: 11
+
+  velodyne2:
+    ip_address: 192.168.0.2
+    device_id: 12

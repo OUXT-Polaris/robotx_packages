@@ -15,6 +15,7 @@
 int main(int argc, char *argv[])
 {
   ros::init(argc, argv, "ping_sender_node");
+  ping_sender sender;
   ros::spin();
   return 0;
 }
