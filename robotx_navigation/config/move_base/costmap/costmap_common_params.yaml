@@ -9,17 +9,23 @@ transform_tolerance: 0.5
 
 resolution: 0.05
 
-obstacle_range: 20.0
-raytrace_range: 20.0
+#obstacle_range: 20.0
+#raytrace_range: 20.0
 
 #layer definitions
 static:
   map_topic: field_map
-  subscribe_to_updates: true
+  subscribe_to_updates: false
 
 obstacles_laser:
+  enabled: true
+  track_unknown_space: true
+  inflation_radius: 0.3
+  obstacle_range: 20.0
+  raytrace_range: 20.0
   observation_sources: merged_points
   merged_points: {data_type: PointCloud2, clearing: true, marking: true, topic: /pointcloud_merger_node/merged_points, inf_is_valid: true}
-
+  expected_update_rate: 0.25
+  
 inflation:
   inflation_radius: 1.0
