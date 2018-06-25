@@ -13,6 +13,19 @@ ping_sender::ping_sender()
         ROS_WARN_STREAM(ros::this_node::getName() << " : failed to get frequency parameters, set 1.0");
         frequency_ = 1.0;
     }
+    try
+    {
+        timeout_ = parameters["timeout"];
+    }
+    catch(...)
+    {
+        ROS_WARN_STREAM(ros::this_node::getName() << " : failed to get timeout parameters, set 1.0");
+        timeout_ = 1/frequency_*0.5;
+    }
+    if(timeout_ > 1/frequency_*0.5)
+    {
+        timeout_ = 1/frequency_*0.5;
+    }
     XmlRpc::XmlRpcValue target_device_params = parameters["target_device"];
     for(auto param_itr = target_device_params.begin(); param_itr != target_device_params.end(); ++param_itr)
     {

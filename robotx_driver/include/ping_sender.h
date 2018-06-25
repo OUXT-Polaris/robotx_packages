@@ -3,23 +3,11 @@
 
 //headers in STL
 #include <map>
-#include <fcntl.h>
-#include <errno.h>
-#include <sys/socket.h>
-#include <resolv.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <netinet/ip_icmp.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 //headers in ROS
 #include <ros/ros.h>
-
-#define PACKETSIZE  64
-struct packet
-{
-    struct icmphdr hdr;
-    char msg[PACKETSIZE-sizeof(struct icmphdr)];
-};
 
 struct device_info
 {
@@ -53,5 +41,10 @@ private:
      * 
      */
     double frequency_;
+    /**
+     * @brief timeout of ping command (maximun = 0.5*1/frequency_) 
+     * 
+     */
+    double timeout_;
 };
 #endif  //PING_SENDER_H_INCLUDED
