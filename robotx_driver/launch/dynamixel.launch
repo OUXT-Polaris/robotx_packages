@@ -22,5 +22,5 @@
     <param name="profile_velocity"         value="$(arg profile_velocity)"/>
     <param name="profile_acceleration"     value="$(arg profile_acceleration)"/>
     
-    <node name="multi_port_example" pkg="dynamixel_workbench_controllers" type="multi_port" required="true" output="screen"/>
+    <node name="multi_port_example" pkg="dynamixel_workbench_controllers" type="multi_port" output="screen" respawn="true"/>
 </launch>
