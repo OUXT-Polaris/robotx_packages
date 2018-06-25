@@ -59,16 +59,10 @@ add_dependencies(robotx_hardware_interface_node robotx_msgs_generate_messages_cp
 target_link_libraries(robotx_hardware_interface_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_document(robotx_hardware_interface_node)
 
-set(ping_sender_src src/ping_sender.cpp)
-add_executable(ping_sender_node src/ping_sender_node.cpp ${ping_sender_src})
-add_dependencies(ping_sender_node robotx_msgs_generate_messages_cpp)
-target_link_libraries(ping_sender_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-add_document(ping_sender_node)
-
 #############
 ## Install ##
 #############
-install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node ping_sender_node
+install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(DIRECTORY include

@@ -17,8 +17,4 @@
         <arg name="port" default="2369"/>
     </include>
 -->
-
-    <node pkg="robotx_driver" type="ping_sender_node" name="ping_sender_node">
-        <rosparam file="$(find robotx_driver)/config/ping_sender.yaml" command="load"/>
-    </node>
 </launch>
