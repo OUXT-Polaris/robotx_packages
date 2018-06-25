@@ -3,6 +3,7 @@
 
 //headers in STL
 #include <map>
+#include <thread>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -30,6 +31,18 @@ public:
     ping_sender();
     ~ping_sender();
 private:
+    /**
+     * @brief send ping to target ip_address
+     * 
+     * @param ip_address ip_adress
+     * @return true succeed to send ping
+     * @return false failed to send ping
+     */
+    bool ping_(std::string ip_address);
+    /**
+     * @brief ROS nodehandle
+     * 
+     */
     ros::NodeHandle nh_;
     /**
      * @brief ip tables
