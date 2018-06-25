@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+<!--
+    <node pkg="nmea_navsat_driver" type="nmea_serial_driver" name="nmea_serial_driver" output="screen" respawn="true">
+        <rosparam file="$(find robotx_driver)/config/nmea_navsat_driver.yaml" command="load"/>
+    </node>
+
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+        <arg name="frame_id" default="velodyne1"/>
+        <arg name="device_ip" default=""/>
+        <arg name="port" default="2368"/>
+    </include>
+
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch">
+        <arg name="frame_id" default="velodyne2"/>
+        <arg name="device_ip" default=""/>
+        <arg name="port" default="2369"/>
+    </include>
+-->
+</launch>
