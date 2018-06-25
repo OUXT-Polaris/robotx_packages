@@ -118,8 +118,8 @@ bool object_bbox_extractor::raycast_to_image(cv::Mat image, jsk_recognition_msgs
             bbox_points[i].point.z = object_bbox.pose.position.z - object_bbox.dimensions.z;
         }
         tf2::doTransform(bbox_points[i], bbox_points[i], transform_stamped);
-        double pitch = std::atan(bbox_points[i].point.z/bbox_points[i].point.x);
-        double yaw = std::atan(bbox_points[i].point.y/bbox_points[i].point.x);
+        double pitch = std::atan2(bbox_points[i].point.z,bbox_points[i].point.x);
+        double yaw = std::atan2(bbox_points[i].point.y,bbox_points[i].point.x);
         cv::Point image_point;
         image_point.x = image.cols/2 - yaw/horizontal_fov*image.cols;
         image_point.y = image.rows/2 - pitch/vertical_fov*image.rows;

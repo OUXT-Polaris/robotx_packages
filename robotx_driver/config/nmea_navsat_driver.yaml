@@ -1,0 +1,5 @@
+port: /dev/ttyUSB0
+baud: 4800
+frame_id: gps
+time_ref_source: gps
+useRMC: false
