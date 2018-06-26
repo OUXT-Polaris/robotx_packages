@@ -36,6 +36,7 @@
   <run_depend>rviz</run_depend>
   <run_depend>jsk_rviz_plugins</run_depend>
   <run_depend>rqt_bag</run_depend>
+  <run_depend>rqt_robot_monitor</run_depend>
   <run_depend>rosbag</run_depend>
 
   <export>
