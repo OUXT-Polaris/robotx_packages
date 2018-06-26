@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>robotx_visualization</name>
+  <name>robotx_tools</name>
   <version>0.0.0</version>
-  <description>The robotx_visualization package</description>
+  <description>The robotx_tools package</description>
 
   <maintainer email="masaya@todo.todo">masaya</maintainer>
   <author>masaya</author>
@@ -35,6 +35,9 @@
   <run_depend>pluginlib</run_depend>
   <run_depend>rviz</run_depend>
   <run_depend>jsk_rviz_plugins</run_depend>
+  <run_depend>rqt_bag</run_depend>
+  <run_depend>rqt_robot_monitor</run_depend>
+  <run_depend>rosbag</run_depend>
 
   <export>
     <rviz plugin="${prefix}/plugin_description.xml"/>
