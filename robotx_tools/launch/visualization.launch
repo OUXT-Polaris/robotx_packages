@@ -18,6 +18,7 @@
   </node>
   -->
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/wam-v.rviz" required="true" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/wam-v.rviz" respawn="false" />
 
+  <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" args="" respawn="false" />
 </launch>
