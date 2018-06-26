@@ -41,6 +41,7 @@ void object_bbox_extractor::image_callback_(const sensor_msgs::ImageConstPtr& ms
         if(raycast_to_image(image,last_bbox_msg_.boxes[i],transform_stamped,last_bbox_msg_.header,rect))
         {
             robotx_msgs::ObjectRegionOfInterest roi_msg;
+            roi_msg.header = msg->header;
             roi_msg.roi_2d.do_rectify = false;
             roi_msg.roi_2d.x_offset = rect.x;
             roi_msg.roi_2d.y_offset = rect.y;
