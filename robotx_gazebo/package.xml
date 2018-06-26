@@ -37,7 +37,7 @@
   
   <depend>wamv_description</depend>
   <depend>robotx_recognition</depend>
-  <depend>robotx_visualization</depend>
+  <depend>robotx_tools</depend>
   <depend>robotx_driver</depend>
   <depend>robotx_navigation</depend>
 
