@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="rosbag" type="record" name="rosbag_recorder_node" 
+        args="/wam_v/front_camera/front_image_raw /imu /fix /velodyne_points /velodyne2_points 
+        /joint_states /vel
+        -o $(find robotx_tools)/rosbag/">
+    </node>
+</launch>
