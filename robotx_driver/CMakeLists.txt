@@ -45,10 +45,18 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-)
+if(${CUDA_FOUND})
+  include_directories(
+    include
+    ${catkin_INCLUDE_DIRS}
+    ${CUDA_INCLUDE_DIRS}
+  )
+else()
+  include_directories(
+    include
+    ${catkin_INCLUDE_DIRS}
+  )
+endif()
 
 set(heartbeat_publisher_node_src src/heartbeat_publisher_node.cpp src/heartbeat_publisher.cpp src/tcp_client.cpp)
 add_executable(heartbeat_publisher_node ${heartbeat_publisher_node_src})
@@ -67,10 +75,16 @@ message(STATUS "")
 message(STATUS "FoundCUDA              : ${CUDA_FOUND}")
 
 if(${CUDA_FOUND})
+  #set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -std=c++11 -gencode arch=compute_30,code=sm_30)
+  #set(CUDA_SEPARABLE_COMPILATION ON)
+  #set(CUDA_PROPAGATE_HOST_FLAGS OFF)
+  #set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}; "-std=c++11 -O3")
+  #set(CUDA_HOST_COMPILER g++)
+
   set(cuda_diagnostic_src src/cuda_diagnostic.cu)
   cuda_add_executable(cuda_diagnostic_node ${cuda_diagnostic_src} src/cuda_diagnostic_node.cpp)
   add_dependencies(cuda_diagnostic_node robotx_msgs_generate_messages_cpp)
-  target_link_libraries(cuda_diagnostic_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+  target_link_libraries(cuda_diagnostic_node ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${CUDA_LIBRARIES})
   add_document(cuda_diagnostic_node)
 endif()
 
@@ -79,11 +93,11 @@ endif()
 ## Install ##
 #############
 if(${CUDA_FOUND})
-  install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node
+  install(TARGETS cuda_diagnostic_node robotx_hardware_interface_node heartbeat_publisher_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   )
 else()
-  install(TARGETS cuda_diagnostic_node robotx_hardware_interface_node heartbeat_publisher_node
+  install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   )
 endif()
