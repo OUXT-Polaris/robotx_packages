@@ -35,7 +35,7 @@ find_package(CUDA)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES robotx_driver
-  CATKIN_DEPENDS joy robotx_msgs roscpp rospy sensor_msgs std_msgs
+  CATKIN_DEPENDS joy robotx_msgs roscpp rospy sensor_msgs std_msgs diagnostic_msgs diagnostic_updater
 #  DEPENDS system_lib
 )
 
@@ -79,9 +79,9 @@ if(${CUDA_FOUND})
   #set(CUDA_SEPARABLE_COMPILATION ON)
   #set(CUDA_PROPAGATE_HOST_FLAGS OFF)
   #set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}; "-std=c++11 -O3")
-  #set(CUDA_HOST_COMPILER g++)
+  set(CUDA_HOST_COMPILER g++)
 
-  set(cuda_diagnostic_src src/cuda_diagnostic.cu)
+  set(cuda_diagnostic_src src/cuda_diagnostic.cpp)
   cuda_add_executable(cuda_diagnostic_node ${cuda_diagnostic_src} src/cuda_diagnostic_node.cpp)
   add_dependencies(cuda_diagnostic_node robotx_msgs_generate_messages_cpp)
   target_link_libraries(cuda_diagnostic_node ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${CUDA_LIBRARIES})
