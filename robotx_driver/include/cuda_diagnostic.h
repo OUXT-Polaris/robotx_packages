@@ -28,22 +28,20 @@ class cuda_diagnostic
              * 
              */
             std::string device_id;
-            int num_cuda_devices;
+            double update_frequency;
             parameters()
             {
-                ros::param::param<std::string>(ros::this_node::getName()+"/device_id", device_id, "");
-                cudaError_t error_id = cudaGetDeviceCount(&num_cuda_devices);
-                if(error_id != cudaSuccess)
-                {
-                    ROS_ERROR_STREAM("No cuda device detected. Abort.");
-                    std::exit(0);
-                }
+                ros::param::param<std::string>(ros::this_node::getName()+"/device_id", device_id, "cuda_device");
+                ros::param::param<double>(ros::this_node::getName()+"update_frequency", update_frequency, 1);
             }
         };
         cuda_diagnostic();
         ~cuda_diagnostic();
+        void run();
     private:
         ros::NodeHandle nh_;
         diagnostic_updater::Updater updater_;
+        const parameters params_;
+        void update_(diagnostic_updater::DiagnosticStatusWrapper &stat);
 };
 #endif  //CUDA_DIAGNOSTIC_H_INCLUDED
