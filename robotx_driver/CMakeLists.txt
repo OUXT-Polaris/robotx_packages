@@ -15,9 +15,13 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  diagnostic_msgs
+  diagnostic_updater
 )
 
 find_package(Boost REQUIRED COMPONENTS thread system chrono)
+
+find_package(CUDA)
 
 ###################################
 ## catkin specific configuration ##
@@ -59,15 +63,35 @@ add_dependencies(robotx_hardware_interface_node robotx_msgs_generate_messages_cp
 target_link_libraries(robotx_hardware_interface_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 add_document(robotx_hardware_interface_node)
 
+message(STATUS "")
+message(STATUS "FoundCUDA              : ${CUDA_FOUND}")
+
+if(${CUDA_FOUND})
+  set(cuda_diagnostic_src src/cuda_diagnostic.cu)
+  cuda_add_executable(cuda_diagnostic_node ${cuda_diagnostic_src} src/cuda_diagnostic_node.cpp)
+  add_dependencies(cuda_diagnostic_node robotx_msgs_generate_messages_cpp)
+  target_link_libraries(cuda_diagnostic_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+  add_document(cuda_diagnostic_node)
+endif()
+
+
 #############
 ## Install ##
 #############
-install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node
+if(${CUDA_FOUND})
+  install(TARGETS robotx_hardware_interface_node heartbeat_publisher_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+  )
+else()
+  install(TARGETS cuda_diagnostic_node robotx_hardware_interface_node heartbeat_publisher_node
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
+endif()
+
 install(DIRECTORY include
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
+
 foreach(dir launch config)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
