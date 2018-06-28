@@ -40,6 +40,7 @@ class Predicdion():
         self.inLayer    = self.graph.get_operation_by_name('import/conv2d_1_input')
         self.learnPhase = self.graph.get_operation_by_name('import/dropout_1/keras_learning_phase')
         self.outLayer   = self.graph.get_operation_by_name('import/output0')
+        self.sess = tf.Session(graph=self.graph)
 
 
     def __call__(self, image):
@@ -48,8 +49,7 @@ class Predicdion():
         image = cv2.resize(image, (128,128))
         image = image.reshape((1,128,128,3))
 
-        with tf.Session(graph=self.graph) as sess:
-            y_pred = sess.run(self.outLayer.outputs[0],
-                              {self.inLayer.outputs[0]: image,
-                               self.learnPhase.outputs[0]: 0})
+        y_pred = self.sess.run(self.outLayer.outputs[0],
+                               {self.inLayer.outputs[0]: image,
+                                self.learnPhase.outputs[0]: 0})
         return y_pred[0]
