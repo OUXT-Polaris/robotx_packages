@@ -3,7 +3,7 @@
 cuda_diagnostic::cuda_diagnostic() : params_()
 {
     updater_.setHardwareID(params_.device_id); 
-    updater_.add("update function", this, &cuda_diagnostic::update_);
+    updater_.add("cuda-memory", this, &cuda_diagnostic::update_);
 }
 
 cuda_diagnostic::~cuda_diagnostic()

@@ -1,0 +1,3 @@
+computers:
+  type: GenericAnalyzer
+  path: cuda-memory
