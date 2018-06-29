@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="rqt_bag" type="rqt_bag" name="rqt_bag_node" required="true">
+    </node>
+</launch>

@@ -41,6 +41,7 @@ void object_bbox_extractor::image_callback_(const sensor_msgs::ImageConstPtr& ms
         if(raycast_to_image(image,last_bbox_msg_.boxes[i],transform_stamped,last_bbox_msg_.header,rect))
         {
             robotx_msgs::ObjectRegionOfInterest roi_msg;
+            roi_msg.header = msg->header;
             roi_msg.roi_2d.do_rectify = false;
             roi_msg.roi_2d.x_offset = rect.x;
             roi_msg.roi_2d.y_offset = rect.y;
@@ -118,8 +119,8 @@ bool object_bbox_extractor::raycast_to_image(cv::Mat image, jsk_recognition_msgs
             bbox_points[i].point.z = object_bbox.pose.position.z - object_bbox.dimensions.z;
         }
         tf2::doTransform(bbox_points[i], bbox_points[i], transform_stamped);
-        double pitch = std::atan(bbox_points[i].point.z/bbox_points[i].point.x);
-        double yaw = std::atan(bbox_points[i].point.y/bbox_points[i].point.x);
+        double pitch = std::atan2(bbox_points[i].point.z,bbox_points[i].point.x);
+        double yaw = std::atan2(bbox_points[i].point.y,bbox_points[i].point.x);
         cv::Point image_point;
         image_point.x = image.cols/2 - yaw/horizontal_fov*image.cols;
         image_point.y = image.rows/2 - pitch/vertical_fov*image.rows;
