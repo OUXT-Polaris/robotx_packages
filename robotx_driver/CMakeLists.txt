@@ -74,7 +74,7 @@ add_document(robotx_hardware_interface_node)
 message(STATUS "")
 message(STATUS "FoundCUDA              : ${CUDA_FOUND}")
 
-if(${CUDA_FOUND})
+if(CUDA_FOUND)
   #set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}; -std=c++11 -gencode arch=compute_30,code=sm_30)
   #set(CUDA_SEPARABLE_COMPILATION ON)
   #set(CUDA_PROPAGATE_HOST_FLAGS OFF)
@@ -92,7 +92,7 @@ endif()
 #############
 ## Install ##
 #############
-if(${CUDA_FOUND})
+if(CUDA_FOUND)
   install(TARGETS cuda_diagnostic_node robotx_hardware_interface_node heartbeat_publisher_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   )
