@@ -7,6 +7,4 @@
     <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
         <rosparam command="load" file="$(find robotx_driver)/config/diagnostic_aggregator.yaml"/>
     </node>
-
-    <node name="rqt_robot_monitor" pkg="rqt_robot_monitor" type="rqt_robot_monitor" args="" respawn="true" />
 </launch>
