@@ -3,7 +3,7 @@
 cuda_diagnostic::cuda_diagnostic() : params_()
 {
     updater_.setHardwareID(params_.device_id); 
-    updater_.add("cuda-memory", this, &cuda_diagnostic::update_memory_usage_);
+    updater_.add("gpu-memory-usage", this, &cuda_diagnostic::update_memory_usage_);
 }
 
 cuda_diagnostic::~cuda_diagnostic()
@@ -29,10 +29,18 @@ void cuda_diagnostic::update_memory_usage_(diagnostic_updater::DiagnosticStatusW
     if(result != cudaSuccess)
     {
         stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "cudaMemGetInfo failed");
+        stat.add("gpu-memory-usage", "NaN");
     }
     else
     {
-        stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "cudaMemGetInfo succeed");
+        if((double)free/(double)total < params_.low_memory_usage_threshold)
+        {
+            stat.summary(diagnostic_msgs::DiagnosticStatus::WARN, "Low free memory");
+        }
+        else
+        {
+            stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Enough free memory");
+        }
+        stat.add("gpu-memory-usage", std::to_string((double)free/(double)total*100)+"%");
     }
-    stat.add("cuda-memory", 0);
 }

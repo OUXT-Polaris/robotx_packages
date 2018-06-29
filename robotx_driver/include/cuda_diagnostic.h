@@ -28,11 +28,21 @@ class cuda_diagnostic
              * 
              */
             std::string device_id;
+            /**
+             * @brief update frequency of diagnostic
+             * 
+             */
             double update_frequency;
+            /**
+             * @brief threshold of low or enought memory usage
+             * 
+             */
+            double low_memory_usage_threshold;
             parameters()
             {
                 ros::param::param<std::string>(ros::this_node::getName()+"/device_id", device_id, "cuda_device");
                 ros::param::param<double>(ros::this_node::getName()+"/update_frequency", update_frequency, 1);
+                ros::param::param<double>(ros::this_node::getName()+"/low_memory_usage_threshold", low_memory_usage_threshold, 0.2);
             }
         };
         cuda_diagnostic();
