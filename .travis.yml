@@ -26,7 +26,8 @@ install:
   - sudo dpkg -i cuda-repo-ubuntu1604_9.2.88-1_amd64.deb
   - rm cuda-repo-ubuntu1604_9.2.88-1_amd64.deb
   - sudo apt update
-  - sudo apt install -y cuda
+  - sudo apt install -y aptitude
+  - sudo aptitude install -y cuda
 script:		
   - source .ci_config/travis.sh 
 git:
