@@ -1,4 +1,9 @@
 analyzers:
   computers:
     type: diagnostic_aggregator/GenericAnalyzer
-    path: cuda-memory
+    path: computers
+    find_and_remove_prefix: "cuda_diagnostic_node:"
+  tf:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: TF
+    find_and_remove_prefix: "tf_monitor:"

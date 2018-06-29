@@ -75,6 +75,7 @@
   <exec_depend>diagnostic_msgs</exec_depend>
   <exec_depend>diagnostic_updater</exec_depend>
   <exec_depend>diagnostic_aggregator</exec_depend>
+  <exec_depend>diagnostic_common_diagnostics</exec_depend>
   <exec_depend>velodyne_pointcloud</exec_depend>
   <exec_depend>nmea_navsat_driver</exec_depend>
   <exec_depend>dynamixel_workbench</exec_depend>
