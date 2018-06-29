@@ -28,6 +28,7 @@ install:
   - sudo apt update
   - sudo apt install -y aptitude
   - sudo aptitude install -y cuda
+  - sudo ln -s /usr/local/cuda-9.2 /usr/local/cuda
 script:		
   - source .ci_config/travis.sh 
 git:
