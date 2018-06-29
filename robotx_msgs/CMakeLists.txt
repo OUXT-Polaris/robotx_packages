@@ -26,6 +26,7 @@ add_message_files(
   RegionOfInterest2DArray.msg
   ObjectRegionOfInterest.msg
   ObjectRegionOfInterestArray.msg
+  ObjectType.msg
 )
 ## Generate added messages and services with any dependencies listed here
 generate_messages(

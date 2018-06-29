@@ -64,7 +64,7 @@ void pcl_object_recognition::publish_messages(std::vector<std::vector<Eigen::Mat
       visualization_msgs::Marker marker_msg;
       marker_msg.type = marker_msg.MESH_RESOURCE;
       robotx_msgs::ObjectRegionOfInterest object_msg;
-      object_msg.label = object_models_[i]->get_name();
+      // object_msg.label = object_models_[i]->get_name();
       // Print the rotation matrix and translation vector
       Eigen::Matrix3f rotation = rototranslations[m].block<3,3>(0, 0);
       Eigen::Vector3f translation = rototranslations[m].block<3,1>(0, 3);
