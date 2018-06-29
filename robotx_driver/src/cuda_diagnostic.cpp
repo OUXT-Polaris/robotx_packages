@@ -34,5 +34,5 @@ void cuda_diagnostic::update_memory_usage_(diagnostic_updater::DiagnosticStatusW
     {
         stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "cudaMemGetInfo succeed");
     }
-    stat.add("cuda memory", 0);
+    stat.add("cuda-memory", 0);
 }

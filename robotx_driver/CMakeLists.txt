@@ -106,10 +106,21 @@ install(DIRECTORY include
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
-foreach(dir launch config)
+foreach(dir config)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)
+
+if(CUDA_FOUND)
+  foreach(dir launch)
+    install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+  endforeach(dir)
+else()
+  install(TARGETS launch/communication.launch launch/dynamixel.launch launch/simulation.launch wan_v_drivers.launch wam_v_motors.launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  )
+endif()
 
 #############
 ## Testing ##
