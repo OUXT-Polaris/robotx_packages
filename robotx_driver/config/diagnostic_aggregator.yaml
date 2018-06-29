@@ -1,0 +1,9 @@
+analyzers:
+  computers:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: jetson1
+    find_and_remove_prefix: "cuda_diagnostic_node:"
+  tf:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: TF
+    find_and_remove_prefix: "tf_monitor:"
