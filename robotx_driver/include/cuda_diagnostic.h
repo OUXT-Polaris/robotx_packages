@@ -32,7 +32,7 @@ class cuda_diagnostic
             parameters()
             {
                 ros::param::param<std::string>(ros::this_node::getName()+"/device_id", device_id, "cuda_device");
-                ros::param::param<double>(ros::this_node::getName()+"update_frequency", update_frequency, 1);
+                ros::param::param<double>(ros::this_node::getName()+"/update_frequency", update_frequency, 1);
             }
         };
         cuda_diagnostic();
@@ -42,6 +42,6 @@ class cuda_diagnostic
         ros::NodeHandle nh_;
         diagnostic_updater::Updater updater_;
         const parameters params_;
-        void update_(diagnostic_updater::DiagnosticStatusWrapper &stat);
+        void update_memory_usage_(diagnostic_updater::DiagnosticStatusWrapper &stat);
 };
 #endif  //CUDA_DIAGNOSTIC_H_INCLUDED

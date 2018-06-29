@@ -3,7 +3,7 @@
 cuda_diagnostic::cuda_diagnostic() : params_()
 {
     updater_.setHardwareID(params_.device_id); 
-    updater_.add("cuda-memory", this, &cuda_diagnostic::update_);
+    updater_.add("cuda-memory", this, &cuda_diagnostic::update_memory_usage_);
 }
 
 cuda_diagnostic::~cuda_diagnostic()
@@ -21,7 +21,7 @@ void cuda_diagnostic::run()
     }
 }
 
-void cuda_diagnostic::update_(diagnostic_updater::DiagnosticStatusWrapper &stat)
+void cuda_diagnostic::update_memory_usage_(diagnostic_updater::DiagnosticStatusWrapper &stat)
 {
     size_t free;
     size_t total;

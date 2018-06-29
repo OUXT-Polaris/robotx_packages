@@ -1,3 +1,4 @@
-computers:
-  type: GenericAnalyzer
-  path: cuda-memory
+analyzers:
+  computers:
+    type: GenericAnalyzer
+    path: cuda-memory
