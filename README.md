@@ -6,6 +6,10 @@ This packages include Simulation,Remote Viewer, Control System, etc...
 |:---:|
 |[![Build Status](https://travis-ci.org/OUXT-Polaris/robotx_packages.svg?branch=master)](https://travis-ci.org/OUXT-Polaris/robotx_packages)|
 
+|develop|
+|:---:|
+|[![Build Status](https://travis-ci.org/OUXT-Polaris/robotx_packages.svg?branch=develop)](https://travis-ci.org/OUXT-Polaris/robotx_packages)|
+
 # Installation
 #### 1. Create **catkinized**  workspace.
 #### 2. Clone this repository.
