@@ -112,14 +112,15 @@ foreach(dir config)
 endforeach(dir)
 
 if(CUDA_FOUND)
-  foreach(dir launch)
+  foreach(dir launch launch_cuda)
     install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
   endforeach(dir)
 else()
-  install(TARGETS launch/communication.launch launch/dynamixel.launch launch/simulation.launch wan_v_drivers.launch wam_v_motors.launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
-  )
+  foreach(dir launch)
+    install(DIRECTORY ${dir}/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
+  endforeach(dir)
 endif()
 
 #############
