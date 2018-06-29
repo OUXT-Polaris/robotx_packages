@@ -9,6 +9,7 @@
 
 //headers in CUDA
 #include <cuda_runtime.h>
+#include <nvml.h>
 
 /**
  * @brief cuda diagnostic class
@@ -38,11 +39,13 @@ class cuda_diagnostic
              * 
              */
             double low_memory_usage_threshold;
+            double temperature_error_threshold;
             parameters()
             {
                 ros::param::param<std::string>(ros::this_node::getName()+"/device_id", device_id, "cuda_device");
                 ros::param::param<double>(ros::this_node::getName()+"/update_frequency", update_frequency, 1);
                 ros::param::param<double>(ros::this_node::getName()+"/low_memory_usage_threshold", low_memory_usage_threshold, 0.2);
+                ros::param::param<double>(ros::this_node::getName()+"/temperature_error_threshold", temperature_error_threshold, 200);
             }
         };
         cuda_diagnostic();
