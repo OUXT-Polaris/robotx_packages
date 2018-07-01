@@ -1,0 +1,7 @@
+device_id: gpu_device
+update_rateupdate_frequency: 1
+low_memory_usage_threshold: 0.2
+temperature_error_threshold: 100
+temperature_warn_threshold: 80
+#check /sys/devices/virtual/thermal/thermal_zone*/temp
+gpu_device_name: x86_pkg_temp
