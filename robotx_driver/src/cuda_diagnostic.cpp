@@ -47,11 +47,50 @@ void cuda_diagnostic::update_temperature_(diagnostic_updater::DiagnosticStatusWr
     int device_id_query_return_code;
     if(exec_shell_cmd(device_id_query_cmd.c_str(),device_id_query_result,device_id_query_return_code))
     {
-        //ROS_ERROR_STREAM(device_id_query_result);
+        std::istringstream stream(device_id_query_result);
+        std::string field;
+        int target_index = -1;
+        int i = 0;
+        while (std::getline(stream, field))
+        {
+            if(std::equal(field.begin(), field.end(),params_.gpu_device_name.c_str()))
+            {
+                target_index = i;
+            }
+            i++;
+        }
+        if(target_index == -1)
+        {
+            stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "does not match any device name in executing cat /sys/devices/virtual/thermal/thermal_zone*/type");
+            stat.add("gpu-temperature", "NaN");
+        }
+        else
+        {
+            std::string get_temperature_cmd = "cat /sys/devices/virtual/thermal/thermal_zone*/temp";
+            std::string get_temperature_result;
+            int get_temperature_return_code;
+            if(exec_shell_cmd(get_temperature_cmd.c_str(),get_temperature_result,get_temperature_return_code))
+            {
+                int m = 0;
+                std::istringstream temperature_stream(get_temperature_result);
+                std::string temperature_field;
+                while (std::getline(temperature_stream, temperature_field))
+                {
+                    if(m == target_index)
+                    {
+                        double temperature = std::stod(temperature_field)/(double)1000;
+                        stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Get GPU temperature succeed");
+                        stat.add("gpu-temperature", std::to_string(temperature) + " C");
+                    }
+                    m++;
+                }
+            }
+        }
     }
     else
     {
         stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "failed to execute cat /sys/devices/virtual/thermal/thermal_zone*/type");
+        stat.add("gpu-temperature", "NaN");
     }
 }
 

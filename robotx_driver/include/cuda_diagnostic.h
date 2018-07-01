@@ -56,6 +56,11 @@ class cuda_diagnostic
              * 
              */
             double temperature_warn_threshold;
+            /**
+             * @brief name of GPU device in /sys/devices/virtual/thermal/thermal_zone(asterisk)/temp command
+             * 
+             */
+            std::string gpu_device_name;
             parameters()
             {
                 ros::param::param<std::string>(ros::this_node::getName()+"/device_id", device_id, "cuda_device");
@@ -63,6 +68,7 @@ class cuda_diagnostic
                 ros::param::param<double>(ros::this_node::getName()+"/low_memory_usage_threshold", low_memory_usage_threshold, 0.2);
                 ros::param::param<double>(ros::this_node::getName()+"/temperature_error_threshold", temperature_error_threshold, 100);
                 ros::param::param<double>(ros::this_node::getName()+"/temperature_warn_threshold", temperature_warn_threshold, 80);
+                ros::param::param<std::string>(ros::this_node::getName()+"/gpu_device_name", gpu_device_name, "gpu_device");
             }
         };
         cuda_diagnostic();
