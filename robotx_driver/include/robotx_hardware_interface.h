@@ -95,6 +95,8 @@ public:
             ros::param::param<int>(ros::this_node::getName()+"/frequency", frequency, 30);
             ros::param::param<std::string>(ros::this_node::getName()+"/left_motor_ip",left_motor_ip, "127.0.0.1");
             ros::param::param<std::string>(ros::this_node::getName()+"/right_motor_ip",right_motor_ip, "127.0.0.1");
+            ros::param::param<int>(ros::this_node::getName()+"/left_motor_port",left_motor_port, 50000);
+            ros::param::param<int>(ros::this_node::getName()+"/right_motor_port",right_motor_port, 50001);
             ros::param::param<std::string>(ros::this_node::getName()+"/team_id",team_id, "OUXT Polaris");
         };
     };
