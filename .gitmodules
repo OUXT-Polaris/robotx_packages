@@ -1,0 +1,3 @@
+[submodule "robot_kinetics_pkgs"]
+	path = robot_kinetics_pkgs
+	url = git@github.com:OUXT-Polaris/robot_kinetics_pkgs.git
