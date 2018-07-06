@@ -33,7 +33,7 @@
       <!-- Inertial -->
       <inertial>
         <!-- From von Ellenrieder, consistent with WAM-V specs-->
-        <mass value="180.0"/> 
+        <mass value="350.0"/> 
         <inertia ixx="120.0" ixy="0.0" ixz="0.0" iyy="393" iyz="0.0" izz="446.0"/>
       </inertial>
     </link>
