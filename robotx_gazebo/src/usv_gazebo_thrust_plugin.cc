@@ -253,11 +253,11 @@ void UsvThrust::UpdateChild()
 
   } // eo switch
 
-  double l_theta = left_thruster_joint_->GetAngle(0).Degree()*M_PI/180;
-  double r_theta = right_thruster_joint_->GetAngle(0).Degree()*M_PI/180;
+  double l_theta = left_thruster_joint_->GetAngle(0).Degree()*M_PI/180.0;
+  double r_theta = right_thruster_joint_->GetAngle(0).Degree()*M_PI/180.0;
   double torque 
     = 0.5*param_boat_width_*thrust_right*std::cos(r_theta) - 0.5*param_boat_width_*thrust_left*std::cos(l_theta)
-    -param_boat_length_*thrust_right*std::sin(r_theta) -param_boat_length_*thrust_left*std::sin(l_theta);
+    -0.5*param_boat_length_*thrust_right*std::sin(r_theta) - 0.5*param_boat_length_*thrust_left*std::sin(l_theta);
   ROS_DEBUG_STREAM_THROTTLE(1.0,"Thrust: left:" << thrust_left
 			    << " right: " << thrust_right);
 
