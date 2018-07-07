@@ -33,12 +33,13 @@ endif()
 
 
 find_package(OpenCV REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
 ###################################
 catkin_package(
-  DEPENDS Eigen
+  DEPENDS Eigen3
 )
 
 ###########
@@ -46,7 +47,7 @@ catkin_package(
 ###########
 include_directories(
   include
-  ${Eigen_INCLUDE_DIRS}
+  ${Eigen3_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
