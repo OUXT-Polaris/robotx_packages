@@ -3,8 +3,8 @@
 
 //headers in ROS
 #include <diagnostic_updater/diagnostic_updater.h>
-#include <std_msgs/Bool.h>
 #include <diagnostic_updater/publisher.h>
+#include <std_msgs/Bool.h>
 #include <ros/ros.h>
 
 //headers in CUDA

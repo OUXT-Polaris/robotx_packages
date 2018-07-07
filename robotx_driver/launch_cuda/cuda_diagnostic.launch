@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="cuda_diagnostic_node" pkg="robotx_driver" type="cuda_diagnostic_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_driver)/config/gpu_device_info.yaml"/>
+    </node>
+</launch>
