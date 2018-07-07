@@ -19,6 +19,16 @@ env:
     
   matrix:		
     - ROS_DISTRO=kinetic ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu
+before_install:
+    - "easy_install --version"
+    - "pip freeze"
+    - "travis_retry pip install -U setuptools"
+    - "cd `mktemp -d`"
+    - "travis_retry wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
+    - "travis_retry python get-pip.py"
+    - "cd $OLDPWD"
+    - "pip --version"
+    - "easy_install --version"
 install:		
   - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config		
   - pip install overpy

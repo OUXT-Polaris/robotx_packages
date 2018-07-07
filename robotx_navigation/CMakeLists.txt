@@ -53,8 +53,8 @@ add_document(obstacle_map_server_node)
 ## Install ##
 #############
 # CPP codes
-set(NODE_FILES twist_from_fix_velocity_node geographic_map_server_node obstacle_map_server_node robotx_localization_node)
-foreach(nodes ${NODE_FILES})
+set(CPP_EXEC_NAMES twist_from_fix_velocity_node geographic_map_server_node obstacle_map_server_node robotx_localization_node)
+foreach(nodes ${CPP_EXEC_NAMES})
   install(TARGETS ${nodes}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
     )
@@ -64,7 +64,9 @@ install(DIRECTORY include/
   )
 
 # Python scripts
-set(PYTHON_SCRPTS scripts/joy_to_cmd.py scripts/motor_command_sender.py scripts/test_cmd_vel_publisher.py scripts/world_frame_publisher.py)
+set(PYTHON_SCRPTS 
+  scripts/joy_to_cmd.py scripts/motor_command_sender.py scripts/test_cmd_vel_publisher.py scripts/world_frame_publisher.py
+  data/download_osm.py)
 foreach(scripts ${PYTHON_SCRIPTS})
   catkin_install_python(PROGRAMS ${scripts}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
