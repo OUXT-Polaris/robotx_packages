@@ -11,6 +11,8 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <std_msgs/Float64.h>
 #include <std_msgs/UInt8.h>
+#include <diagnostic_updater/diagnostic_updater.h>
+#include <diagnostic_updater/publisher.h>
 
 //headers in boost
 #include <boost/thread.hpp>
@@ -250,6 +252,25 @@ private:
      * 
      */
     boost::thread publish_heartbeat_thread_;
+    /**
+     * @brief diagnostic updater for thruster
+     * 
+     */
+    diagnostic_updater::Updater thruster_diagnostic_updater_;
+    /**
+     * @brief diagnostic update function for left thruster
+     * checke TCP/IP connection status
+     * 
+     * @param stat 
+     */
+    void update_left_thruster_connection_status_(diagnostic_updater::DiagnosticStatusWrapper &stat);
+    /**
+     * @brief diagnostic update function for right thruster
+     * checke TCP/IP connection status
+     * 
+     * @param stat 
+     */
+    void update_right_thruster_connection_status_(diagnostic_updater::DiagnosticStatusWrapper &stat);
 };
 
 #endif //ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE
