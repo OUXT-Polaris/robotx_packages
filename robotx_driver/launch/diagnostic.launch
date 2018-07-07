@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_driver)/config/diagnostic_aggregator.yaml"/>
+    </node>
+
+    <node pkg="diagnostic_common_diagnostics" type="tf_monitor.py" name="tf_monitor"/>
+</launch>

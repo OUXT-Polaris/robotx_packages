@@ -34,6 +34,9 @@ robotx_hardware_interface::robotx_hardware_interface()
         right_motor_cmd_client_ptr_ = new tcp_client(io_service_,params_.right_motor_ip,params_.right_motor_port,params_.timeout);
         io_service_.run();
     }
+    thruster_diagnostic_updater_.setHardwareID("thruster");
+    thruster_diagnostic_updater_.add("left_connection_status", this, &robotx_hardware_interface::update_left_thruster_connection_status_);
+    thruster_diagnostic_updater_.add("right_connection_status", this, &robotx_hardware_interface::update_right_thruster_connection_status_);
     driving_mode_ = params_.init_mode;
     current_task_number_ = 0;
     fix_sub_ = nh_.subscribe("/fix", 1, &robotx_hardware_interface::fix_callback_, this);
@@ -81,11 +84,64 @@ void robotx_hardware_interface::motor_command_callback_(std_msgs::Float64MultiAr
     return;
 }
 
+void robotx_hardware_interface::update_left_thruster_connection_status_(diagnostic_updater::DiagnosticStatusWrapper &stat)
+{
+    if(params_.target == params_.SIMULATION)
+    {
+        stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "connection success");
+        stat.add("connection_status", "OK");
+        return;
+    }
+    if(params_.target == params_.ALL || params_.target == params_.HARDWARE)
+    {
+        if(left_motor_cmd_client_ptr_->get_connection_status())
+        {
+            stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "connection success");
+            stat.add("connection_status", "OK");
+        }
+        else
+        {
+            stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "connection failed");
+            stat.add("connection_status", "Fail");            
+        }
+        return;
+    }
+    stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "control target does not match");
+    stat.add("connection_status", "");
+}
+
+void robotx_hardware_interface::update_right_thruster_connection_status_(diagnostic_updater::DiagnosticStatusWrapper &stat)
+{
+    if(params_.target == params_.SIMULATION)
+    {
+        stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "connection success");
+        stat.add("connection_status", "OK");
+        return;
+    }
+    if(params_.target == params_.ALL || params_.target == params_.HARDWARE)
+    {
+        if(right_motor_cmd_client_ptr_->get_connection_status())
+        {
+            stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "connection success");
+            stat.add("connection_status", "OK");
+        }
+        else
+        {
+            stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "connection failed");
+            stat.add("connection_status", "Fail");            
+        }
+        return;
+    }
+    stat.summary(diagnostic_msgs::DiagnosticStatus::ERROR, "control target does not match");
+    stat.add("connection_status", "");
+}
+
 void robotx_hardware_interface::send_command_()
 {
     ros::Rate rate(params_.frequency);
     while (ros::ok())
     {
+        thruster_diagnostic_updater_.update();
         mtx_.lock();
         if(params_.target == params_.ALL || params_.target == params_.SIMULATION)
         {
