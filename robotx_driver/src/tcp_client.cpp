@@ -54,12 +54,12 @@ void tcp_client::on_connect(const boost::system::error_code& error)
   if(error)
   {
     connection_status_ = false;
-    ROS_ERROR_STREAM("connect failed : " << error.message());
+    ROS_ERROR_STREAM("connect failed : " << error.message() << "(" << ip_address_ << ":" << port_ << ")");
   }
   else
   {
     connection_status_ = true;
-    ROS_INFO_STREAM("connected");
+    ROS_INFO_STREAM("connected" << "(" << ip_address_ << ":" << port_ << ")");
   }
   start_receive();
 }
@@ -68,7 +68,7 @@ void tcp_client::on_receive(const boost::system::error_code& error, size_t bytes
 {
   if(error == boost::asio::error::operation_aborted)
   {
-     ROS_ERROR_STREAM("timeout");
+     ROS_ERROR_STREAM("timeout" << "(" << ip_address_ << ":" << port_ << ")");
   }
   else
   {

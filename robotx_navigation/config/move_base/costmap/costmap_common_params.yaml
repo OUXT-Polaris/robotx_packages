@@ -21,8 +21,8 @@ obstacles_laser:
   enabled: true
   track_unknown_space: true
   inflation_radius: 0.3
-  obstacle_range: 20.0
-  raytrace_range: 20.0
+  obstacle_range: 100.0
+  raytrace_range: 100.0
   observation_sources: merged_points
   merged_points: {data_type: PointCloud2, clearing: true, marking: true, topic: /pointcloud_merger_node/merged_points, inf_is_valid: true}
   expected_update_rate: 0.25
