@@ -76,7 +76,7 @@ foreach(scripts ${PYTHON_SCRIPTS})
 endforeach(scripts)
 
 # Install all files
-foreach(dir launch config)
+foreach(dir launch config data)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)
