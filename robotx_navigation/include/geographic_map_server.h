@@ -7,7 +7,7 @@
 //headers in ROS
 #include <ros/ros.h>
 #include <sensor_msgs/NavSatFix.h>
-#include <yaml-cpp/yaml.h>
+#include <ros/package.h>
 
 //headers in stl
 #include <vector>
@@ -21,6 +21,7 @@ public:
     std::string origin_fix_topic;
     parameters()
     {
+      ros::param::param<std::string>(ros::this_node::getName()+"/yaml_filepath", yaml_filepath, ros::package::getPath("robotx_navigation")+"/data/coastline.yaml");
       ros::param::param<std::string>(ros::this_node::getName()+"/origin_fix_topic", origin_fix_topic, "/origin/fix");
     }
   };

@@ -14,7 +14,6 @@
   </node>
   
   <rosparam command="load" file="$(find robotx_navigation)/config/geographic_map_server.yaml" ns="geographic_map_server_node"/>
-  <rosparam command="load" file="$(find robotx_navigation)/data/coastline.yaml" ns="geographic_map_server_node/map"/>
   <node name="geographic_map_server_node" pkg="robotx_navigation" type="geographic_map_server_node" args="" output="screen" respawn="true">
   </node>
 </launch>

@@ -13,7 +13,7 @@ def fetch_result(tag,lat,lon):
     f = open("coastline.yaml", "w")
     for coastline_way in coastline_result.ways:
         way_data = {}
-        way_data["node_ids"] = str(coastline_way._node_ids)
+        way_data["node_ids"] = coastline_way._node_ids
         coastline_way_data[str(coastline_way.id)] = way_data
     for coastline_node in node_result.nodes:
         node_data = {}
