@@ -21,7 +21,6 @@ public:
     std::string origin_fix_topic;
     parameters()
     {
-      ros::param::param<std::string>(ros::this_node::getName()+"/yaml_filepath", yaml_filepath, ros::this_node::getName()+"/yaml_filepath");
       ros::param::param<std::string>(ros::this_node::getName()+"/origin_fix_topic", origin_fix_topic, "/origin/fix");
     }
   };
@@ -32,6 +31,6 @@ private:
   ros::NodeHandle nh_;
   ros::Subscriber origin_fix_sub_;
   void origin_fix_callback_(sensor_msgs::NavSatFix msg);
-  robotx_msgs::GeographicMap read_yaml_file();
+  robotx_msgs::GeographicMap generate_geographic_map();
 };
 #endif //GEOGRAPHIC_MAP_SERVER_H_INCLUDED
