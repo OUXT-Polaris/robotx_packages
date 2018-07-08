@@ -3,8 +3,8 @@
 
 geographic_map_server::geographic_map_server() : params_()
 {
-  generate_geographic_map();
-  origin_fix_sub_ = nh_.subscribe(params_.origin_fix_topic, 1, &geographic_map_server::origin_fix_callback_, this);
+  map_pub_ = nh_.advertise<robotx_msgs::GeographicMap>("/geographic_map", 1);
+  geographic_map_ = generate_geographic_map_();
 }
 
 geographic_map_server::~geographic_map_server()
@@ -12,13 +12,39 @@ geographic_map_server::~geographic_map_server()
 
 }
 
-void geographic_map_server::origin_fix_callback_(sensor_msgs::NavSatFix msg)
+void geographic_map_server::run()
 {
-
+  ros::Rate rate(params_.frequency);
+  while(ros::ok)
+  {
+    geographic_map_.header.stamp = ros::Time::now();
+    map_pub_.publish(geographic_map_);
+    rate.sleep();
+  }
 }
 
-robotx_msgs::GeographicMap geographic_map_server::generate_geographic_map()
+robotx_msgs::GeographicMap geographic_map_server::generate_geographic_map_()
 {
   robotx_msgs::GeographicMap map;
+  map.header.frame_id = params_.frame_id;
+  try
+  {
+    YAML::Node map_yaml_data = YAML::LoadFile(params_.yaml_filepath);
+    YAML::Node way_data = map_yaml_data["way"];
+    YAML::Node node_data = map_yaml_data["node"];
+    for (auto node_data_itr = node_data.begin(); node_data_itr != node_data.end(); ++node_data_itr)
+    {
+      robotx_msgs::GeographicPoint geopoint;
+      geopoint.id = (uint64_t)std::stoull(node_data_itr->first.as<std::string>());
+      YAML::Node geopos_data = node_data[node_data_itr->first.as<std::string>()];
+      geopoint.geographic_point.latitude = geopos_data["lat"].as<double>();
+      geopoint.geographic_point.longitude = geopos_data["lon"].as<double>();
+      map.points.push_back(geopoint);
+    }
+  }
+  catch(YAML::Exception& e)
+  {
+    ROS_ERROR_STREAM(e.what());
+  }
   return map;
 }

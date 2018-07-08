@@ -1,1 +1,2 @@
-origin_fix_topic: /origin/fix
+frequency: 1.0
+frame_id: world

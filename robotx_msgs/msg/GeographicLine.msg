@@ -1,2 +1,2 @@
-uint32 start_point_id
-uint32 end_point_id
+uint64 start_point_id
+uint64 end_point_id
