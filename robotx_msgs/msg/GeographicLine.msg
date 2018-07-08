@@ -1,2 +1,3 @@
-uint64 start_point_id
-uint64 end_point_id
+uint64 start_node_id
+uint64 end_node_id
+uint64 id 
