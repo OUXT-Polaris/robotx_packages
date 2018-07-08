@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   jsk_recognition_msgs
   dwa_local_planner
   global_planner
+  yaml_cpp_0_3
 )
 
 catkin_package()
