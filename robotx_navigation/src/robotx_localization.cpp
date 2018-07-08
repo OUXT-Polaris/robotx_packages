@@ -13,6 +13,7 @@ robotx_localization::robotx_localization() : params_()
     twist_received_ = false;
     robot_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose", 1);
     odom_pub_ = nh_.advertise<nav_msgs::Odometry>("/odom", 1);
+    init_fix_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/origin/fix", 1);
     fix_sub_ = nh_.subscribe(params_.fix_topic, 1, &robotx_localization::fix_callback_, this);
     twist_sub_ = nh_.subscribe(params_.twist_topic, 1, &robotx_localization::twist_callback_, this);
     thread_update_frame_ = boost::thread(boost::bind(&robotx_localization::update_frame_, this));
@@ -93,6 +94,7 @@ void robotx_localization::update_frame_()
         odom_msg.pose.pose = robot_pose_msg.pose;
         odom_msg.twist.twist = last_twist_message_;
         odom_pub_.publish(odom_msg);
+        init_fix_pub_.publish(init_measurement_);
         //critical section end
         fix_mutex_.unlock();
         twist_mutex_.unlock();
