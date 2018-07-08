@@ -8,6 +8,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <ros/package.h>
+#include <yaml-cpp/yaml.h>
 
 //headers in stl
 #include <vector>
