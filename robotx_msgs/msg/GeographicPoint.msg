@@ -1,0 +1,2 @@
+geographic_msgs/GeoPoint geographic_point
+uint32 id

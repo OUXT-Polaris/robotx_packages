@@ -27,6 +27,8 @@ add_message_files(
   RegionOfInterest2DArray.msg
   ObjectRegionOfInterest.msg
   ObjectRegionOfInterestArray.msg
+  GeographicPoint.msg
+  GeographicLine.msg
   GeographicMap.msg
 )
 ## Generate added messages and services with any dependencies listed here

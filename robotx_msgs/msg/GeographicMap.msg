@@ -1,2 +1,3 @@
 Header header
-geographic_msgs/GeoPoint[] points
+robotx_msgs/GeographicPoint[] points
+robotx_msgs/GeographicLine[] lines
