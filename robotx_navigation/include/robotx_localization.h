@@ -65,6 +65,7 @@ private:
     boost::thread thread_update_frame_;
     ros::Subscriber fix_sub_;
     ros::Subscriber twist_sub_;
+    ros::Publisher init_fix_pub_;
     ros::Publisher robot_pose_pub_;
     ros::Publisher odom_pub_;
     ros::NodeHandle nh_;
