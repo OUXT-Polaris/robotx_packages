@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
   jsk_recognition_msgs
   dwa_local_planner
   global_planner
+  yaml_cpp_0_3
 )
 
 catkin_package()
@@ -35,18 +36,22 @@ include_directories(
 
 add_executable(twist_from_fix_velocity_node src/twist_from_fix_velocity_node.cpp src/twist_calculator.cpp)
 target_link_libraries(twist_from_fix_velocity_node ${catkin_LIBRARIES})
+add_dependencies(twist_from_fix_velocity_node robotx_msgs_generate_messages_cpp)
 add_document(twist_from_fix_velocity_node)
 
 add_executable(geographic_map_server_node src/geographic_map_server_node.cpp src/geographic_map_server.cpp)
-target_link_libraries(geographic_map_server_node ${catkin_LIBRARIES})
+target_link_libraries(geographic_map_server_node ${catkin_LIBRARIES} -lyaml-cpp)
+add_dependencies(geographic_map_server_node robotx_msgs_generate_messages_cpp)
 add_document(geographic_map_server_node)
 
 add_executable(robotx_localization_node src/robotx_localization_node.cpp src/robotx_localization.cpp src/particle_filter.cpp)
 target_link_libraries(robotx_localization_node ${catkin_LIBRARIES})
+add_dependencies(robotx_localization_node robotx_msgs_generate_messages_cpp)
 add_document(robotx_localization_node)
 
 add_executable(obstacle_map_server_node src/obstacle_map_server_node.cpp src/obstacle_map_server.cpp)
 target_link_libraries(obstacle_map_server_node ${catkin_LIBRARIES})
+add_dependencies(obstacle_map_server_node robotx_msgs_generate_messages_cpp)
 add_document(obstacle_map_server_node)
 
 add_executable(costmap_clear_request_sender_node src/costmap_clear_request_sender_node.cpp src/costmap_clear_request_sender.cpp)
@@ -68,14 +73,15 @@ install(DIRECTORY include/
   )
 
 # Python scripts
-set(PYTHON_SCRPTS scripts/joy_to_cmd.py scripts/motor_command_sender.py scripts/test_cmd_vel_publisher.py scripts/world_frame_publisher.py)
+set(PYTHON_SCRPTS 
+  scripts/joy_to_cmd.py scripts/motor_command_sender.py scripts/test_cmd_vel_publisher.py scripts/world_frame_publisher.py)
 foreach(scripts ${PYTHON_SCRIPTS})
   catkin_install_python(PROGRAMS ${scripts}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 endforeach(scripts)
 
 # Install all files
-foreach(dir launch config)
+foreach(dir launch config data)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)

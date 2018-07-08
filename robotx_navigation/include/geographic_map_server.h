@@ -2,13 +2,13 @@
 #define GEOGRAPHIC_MAP_SERVER_H_INCLUDED
 
 //headers in this package
-#include <osm_node.h>
-#include <osm_way.h>
+#include <robotx_msgs/GeographicMap.h>
 
 //headers in ROS
 #include <ros/ros.h>
 #include <sensor_msgs/NavSatFix.h>
-#include <geometry_msgs/Vector3Stamped.h>
+#include <ros/package.h>
+#include <yaml-cpp/yaml.h>
 
 //headers in stl
 #include <vector>
@@ -16,23 +16,27 @@
 class geographic_map_server
 {
 public:
+  struct parameters
+  {
+    std::string yaml_filepath;
+    std::string frame_id;
+    double frequency;
+    parameters()
+    {
+      ros::param::param<std::string>(ros::this_node::getName()+"/yaml_filepath", yaml_filepath, ros::package::getPath("robotx_navigation")+"/data/coastline.yaml");
+      ros::param::param<std::string>(ros::this_node::getName()+"/frame_id", frame_id, "world");
+      ros::param::param<double>(ros::this_node::getName()+"/frequency", frequency, 1);
+    }
+  };
   geographic_map_server();
   ~geographic_map_server();
+  void run();
 private:
-  //members for ROS
+  const parameters params_;
   ros::NodeHandle nh_;
-  ros::Subscriber fix_sub_,imu_sub_;
-  void fix_callback(sensor_msgs::NavSatFix msg);
-  void fix_velocity_callback(geometry_msgs::Vector3Stamped msg);
-  //members for osm
-  void parse_osm();
-  void get_osm_way();
-  std::string osm_filepath_;
-  std::vector<osm_node*> osm_nodes_;
-  std::vector<osm_way*> osm_ways_;
-  //members for geographic function
-  double earth_radius_;
-  double ship_direction;
-  volatile bool is_fix_velocity_recieved_;
+  ros::Publisher map_pub_;
+  void origin_fix_callback_(sensor_msgs::NavSatFix msg);
+  robotx_msgs::GeographicMap generate_geographic_map_();
+  robotx_msgs::GeographicMap geographic_map_;
 };
 #endif //GEOGRAPHIC_MAP_SERVER_H_INCLUDED
