@@ -21,7 +21,6 @@ env:
     - ROS_DISTRO=kinetic ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu
 install:		
   - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config		
-  - sudo pip install overpy
 script:		
   - source .ci_config/travis.sh 
 git:
