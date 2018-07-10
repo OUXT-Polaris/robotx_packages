@@ -2,7 +2,7 @@
 set(CODING_FORMAT "{BasedOnStyle: Google, ColumnLimit: 110, BinPackParameters: false}")
 
 ## functions  
-option(WITH_CLANG_FORMAT ON)
+option(WITH_CLANG_FORMAT OFF)
 find_program(CLANG_FORMAT_EXE clang-format)
 
 function(clang_format target)
