@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(robotx_navigation)
 
 include(../Doxygen/doxygen.cmake)
+include(../Format/ClangFormat.cmake)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -38,25 +39,30 @@ add_executable(twist_from_fix_velocity_node src/twist_from_fix_velocity_node.cpp
 target_link_libraries(twist_from_fix_velocity_node ${catkin_LIBRARIES})
 add_dependencies(twist_from_fix_velocity_node robotx_msgs_generate_messages_cpp)
 add_document(twist_from_fix_velocity_node)
+clang_format(twist_from_fix_velocity_node)
 
 add_executable(geographic_map_server_node src/geographic_map_server_node.cpp src/geographic_map_server.cpp)
 target_link_libraries(geographic_map_server_node ${catkin_LIBRARIES} -lyaml-cpp)
 add_dependencies(geographic_map_server_node robotx_msgs_generate_messages_cpp)
 add_document(geographic_map_server_node)
+clang_format(geographic_map_server_node)
 
 add_executable(robotx_localization_node src/robotx_localization_node.cpp src/robotx_localization.cpp src/particle_filter.cpp)
 target_link_libraries(robotx_localization_node ${catkin_LIBRARIES})
 add_dependencies(robotx_localization_node robotx_msgs_generate_messages_cpp)
 add_document(robotx_localization_node)
+clang_format(robotx_localization_node)
 
 add_executable(obstacle_map_server_node src/obstacle_map_server_node.cpp src/obstacle_map_server.cpp)
 target_link_libraries(obstacle_map_server_node ${catkin_LIBRARIES})
 add_dependencies(obstacle_map_server_node robotx_msgs_generate_messages_cpp)
 add_document(obstacle_map_server_node)
+clang_format(obstacle_map_server_node)
 
 add_executable(costmap_clear_request_sender_node src/costmap_clear_request_sender_node.cpp src/costmap_clear_request_sender.cpp)
 target_link_libraries(costmap_clear_request_sender_node ${catkin_LIBRARIES})
 add_document(costmap_clear_request_sender_node)
+clang_format(costmap_clear_request_sender_node)
 
 #############
 ## Install ##
