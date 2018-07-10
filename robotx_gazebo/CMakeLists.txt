@@ -60,6 +60,7 @@ target_link_libraries(buoyancy_gazebo_plugin
   ${Eigen_LIBRARIES}
   )
 add_document(buoyancy_gazebo_plugin)
+clang_format(buoyancy_gazebo_plugin)
 
 # usv_gazebo_dynamics_plugin
 add_library(usv_gazebo_dynamics_plugin
@@ -71,6 +72,7 @@ target_link_libraries(usv_gazebo_dynamics_plugin
   ${Eigen_LIBRARIES}
 )
 add_document(usv_gazebo_dynamics_plugin)
+clang_format(usv_gazebo_dynamics_plugin)
 
 # usv_gazebo_thrust_plugin
 add_library(usv_gazebo_thrust_plugin
@@ -84,6 +86,7 @@ target_link_libraries(usv_gazebo_thrust_plugin
   ${Eigen_LIBRARIES}
 )
 add_document(usv_gazebo_thrust_plugin)
+#clang_format(usv_gazebo_thrust_plugin)
 
 ## usv_gazebo_wind_plugin
 add_library(usv_gazebo_wind_plugin
@@ -95,6 +98,7 @@ target_link_libraries(usv_gazebo_wind_plugin
   ${Eigen_LIBRARIES}
 )
 add_document(usv_gazebo_wind_plugin)
+clang_format(usv_gazebo_wind_plugin)
 
 # usv_twist_sensor_plugin
 add_library(usv_twist_sensor_plugin
@@ -106,6 +110,7 @@ target_link_libraries(usv_twist_sensor_plugin
   ${Eigen_LIBRARIES}
 )
 add_document(usv_twist_sensor_plugin)
+clang_format(usv_twist_sensor_plugin)
 
 #############
 ## Install ##

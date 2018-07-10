@@ -3,7 +3,8 @@
 Copyright (c) 2017, Brian Bingham
 All rights reserved
 
-This file is part of the usv_gazebo_dynamics_plugin package, known as this Package.
+This file is part of the usv_gazebo_dynamics_plugin package, known as this
+Package.
 
 This Package free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,8 +22,8 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  * @file usv_gazebo_dynamics_plugin.hh
  * @author Brian Bingham
  * @date 2017
@@ -32,59 +33,59 @@ along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 #define USV_GAZEBO_DYNAMICS_H
 
 // C++
-#include <vector>
-#include <iostream>     // std::cout, std::ios
-#include <sstream>      // std::ostringstream
+#include <iostream>  // std::cout, std::ios
+#include <sstream>   // std::ostringstream
 #include <thread>
+#include <vector>
 
 // Gazebo
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/physics.hh>
 //#include <gazebo_plugins/gazebo_ros_utils.h>
 
-//ROS
-#include <nav_msgs/Odometry.h>
-#include <geometry_msgs/TwistWithCovariance.h>
+// ROS
 #include <geometry_msgs/PoseWithCovariance.h>
+#include <geometry_msgs/TwistWithCovariance.h>
+#include <nav_msgs/Odometry.h>
 //#include <usv_msgs/UsvDrive.h>
 //#include <usv_gazebo_plugins/UsvDrive.h>
 
 #include <Eigen/Core>
-				    //#include <tf/transform_broadcaster.h>
+//#include <tf/transform_broadcaster.h>
 #include <ros/ros.h>
 
 // Custom Callback Queue
-#include <ros/callback_queue.h>
 #include <ros/advertise_options.h>
+#include <ros/callback_queue.h>
 
-namespace gazebo
-{
-  /**
-   * @brief USV plugin for gazebo
-   * 
-   */
-  class UsvPlugin : public ModelPlugin
-  {
-  public:
+namespace gazebo {
+/**
+ * @brief USV plugin for gazebo
+ *
+ */
+class UsvPlugin : public ModelPlugin {
+   public:
     /**
      * @brief Construct a new Usv Plugin object
-     * 
+     *
      */
     UsvPlugin();
     /**
      * @brief Destroy the Usv Plugin object
-     * 
+     *
      */
     virtual ~UsvPlugin();
-    /** 
-     * @brief Loads the model in gets dynamic parameters from SDF. 
+    /**
+     * @brief Loads the model in gets dynamic parameters from SDF.
      */
     virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
-  protected:
+
+   protected:
     /* @brief Callback for Gazebo simulation engine */
     virtual void UpdateChild();
     virtual void FiniChild();
-  private:
+
+   private:
     /* @brief Presumably this would get called when there is a collision,
       but not implemented! */
     void OnContact(const std::string &name, const physics::Contact &contact);
@@ -93,7 +94,9 @@ namespace gazebo
     void spin();
 
     /** @brief Convenience function for getting SDF parameters */
-    double getSdfParamDouble(sdf::ElementPtr sdfPtr,const std::string &param_name,double default_val);
+    double getSdfParamDouble(sdf::ElementPtr sdfPtr,
+                             const std::string &param_name,
+                             double default_val);
 
     /// Parameters
     /**
@@ -109,20 +112,22 @@ namespace gazebo
     */
     ros::NodeHandle *rosnode_;
 
-    //ros::Publisher sensor_state_pub_;
-    //ros::Publisher odom_pub_;
-    //ros::Publisher joint_state_pub_;
+    // ros::Publisher sensor_state_pub_;
+    // ros::Publisher odom_pub_;
+    // ros::Publisher joint_state_pub_;
 
-    //GazeboRosPtr gazebo_ros_;
-    //physics::ModelPtr parent;
+    // GazeboRosPtr gazebo_ros_;
+    // physics::ModelPtr parent;
     /**
     * @brief parameter for update connection(necessary for gazebo)
     */
     event::ConnectionPtr update_connection_;
 
-    /** @brief Pointer to the Gazebo world, retrieved when the model is loaded */
+    /** @brief Pointer to the Gazebo world, retrieved when the model is loaded
+     */
     physics::WorldPtr world_;
-    /** @brief Pointer to Gazebo parent model, retrieved when the model is loaded */
+    /** @brief Pointer to Gazebo parent model, retrieved when the model is
+     * loaded */
     physics::ModelPtr model_;
     /**
     *  @brief Pointer to model link in gazebo,
@@ -130,7 +135,6 @@ namespace gazebo
     *  The states are taken from this link and forces applied to this link.
     */
     physics::LinkPtr link_;
-
 
     // Simulation time of the last update
     common::Time prev_update_time_;
@@ -187,12 +191,11 @@ namespace gazebo
     /** @brief Plugin Parameter: Boat length [m] */
     double param_boat_length_;
     /** @brief Plugin Parameter: Horizontal surface area [m^2] */
-    double param_boat_area_ ;
+    double param_boat_area_;
     /** @brief Plugin Parameter: Metacentric length [m] */
     double param_metacentric_length_;
     /** @brief Plugin Parameter: Metacentric width[m] */
     double param_metacentric_width_;
-
 
     double xyz_damping_;
     double yaw_damping_;
@@ -208,7 +211,7 @@ namespace gazebo
     int param_wave_n_;
     std::vector<float> param_wave_amps_;
     std::vector<float> param_wave_periods_;
-    std::vector< std::vector<float> > param_wave_directions_;
+    std::vector<std::vector<float> > param_wave_directions_;
     /* Old - for single wave
     double param_wave_amp_;
     math::Vector2d param_wave_dir_;
@@ -228,7 +231,7 @@ namespace gazebo
     // Pointer to the update event connection
     event::ConnectionPtr updateConnection;
 
-  };  // class UsvPlugin
-} // namespace gazebo
+};  // class UsvPlugin
+}  // namespace gazebo
 
-#endif //USV_GAZEBO_DYNAMICS_H
+#endif  // USV_GAZEBO_DYNAMICS_H

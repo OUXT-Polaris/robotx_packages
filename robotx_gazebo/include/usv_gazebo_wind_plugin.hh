@@ -3,7 +3,8 @@
 Copyright (c) 2018, Brian Bingham
 All rights reserved
 
-This file is part of the usv_gazebo_dynamics_plugin package, known as this Package.
+This file is part of the usv_gazebo_dynamics_plugin package, known as this
+Package.
 
 This Package free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,41 +24,41 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef USV_GAZEBO_WIND_H
 #define USV_GAZEBO_WIND_H
 
-
 // Gazebo
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/physics.hh>
 //#include <gazebo_plugins/gazebo_ros_utils.h>
 
-//ROS
-#include <nav_msgs/Odometry.h>
-#include <geometry_msgs/TwistWithCovariance.h>
+// ROS
 #include <geometry_msgs/PoseWithCovariance.h>
+#include <geometry_msgs/TwistWithCovariance.h>
+#include <nav_msgs/Odometry.h>
 
 #include <Eigen/Core>
-				    //#include <tf/transform_broadcaster.h>
+//#include <tf/transform_broadcaster.h>
 #include <ros/ros.h>
 
 // Custom Callback Queue
-#include <ros/callback_queue.h>
 #include <ros/advertise_options.h>
+#include <ros/callback_queue.h>
 
-namespace gazebo
-{
-  class UsvWindPlugin : public ModelPlugin
-  {
-  public:
+namespace gazebo {
+class UsvWindPlugin : public ModelPlugin {
+   public:
     UsvWindPlugin();
     virtual ~UsvWindPlugin();
     /*! Loads the model in gets dynamic parameters from SDF. */
     virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
-  protected:
+
+   protected:
     /*! Callback for Gazebo simulation engine */
     virtual void UpdateChild();
     virtual void FiniChild();
-  private:
 
-    double getSdfParamDouble(sdf::ElementPtr sdfPtr, const std::string &param_name, double default_val);
+   private:
+    double getSdfParamDouble(sdf::ElementPtr sdfPtr,
+                             const std::string &param_name,
+                             double default_val);
 
     /*! ROS spin once */
     void spin();
@@ -68,8 +69,8 @@ namespace gazebo
 
     ros::NodeHandle *rosnode_;
 
-    //GazeboRosPtr gazebo_ros_;
-    //physics::ModelPtr parent;
+    // GazeboRosPtr gazebo_ros_;
+    // physics::ModelPtr parent;
     event::ConnectionPtr update_connection_;
 
     /*! Pointer to the Gazebo world, retrieved when the model is loaded */
@@ -94,7 +95,7 @@ namespace gazebo
     // Pointer to the update event connection
     event::ConnectionPtr updateConnection;
 
-  };  // class UsvWindPlugin
-} // namespace gazebo
+};  // class UsvWindPlugin
+}  // namespace gazebo
 
-#endif //USV_GAZEBO_WIND_H
+#endif  // USV_GAZEBO_WIND_H

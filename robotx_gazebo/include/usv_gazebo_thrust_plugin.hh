@@ -3,7 +3,8 @@
 Copyright (c) 2017, Brian Bingham
 All rights reserved
 
-This file is part of the usv_gazebo_dynamics_plugin package, known as this Package.
+This file is part of the usv_gazebo_dynamics_plugin package, known as this
+Package.
 
 This Package free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +23,7 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @brief gazebo plugin for USV thrust simulation
- * 
+ *
  * @file usv_gazebo_thrust_plugin.hh
  * @author Brian Bingham
  * @date 2017
@@ -32,41 +33,41 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 #define USV_GAZEBO_THRUST_H
 
 // C++
-#include <algorithm>  // min/mzx
 #include <math.h>
+#include <algorithm>  // min/mzx
 
 // Gazebo
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/physics.hh>
 //#include <gazebo_plugins/gazebo_ros_utils.h>
 
-//ROS
+// ROS
 #include <robotx_msgs/UsvDrive.h>
 #include <ros/ros.h>
 
 // Custom Callback Queue
-#include <ros/callback_queue.h>
 #include <ros/advertise_options.h>
+#include <ros/callback_queue.h>
 
-namespace gazebo
-{
-  class UsvThrust : public ModelPlugin
-  {
-  public:
+namespace gazebo {
+class UsvThrust : public ModelPlugin {
+   public:
     UsvThrust();
     virtual ~UsvThrust();
     /*! Loads the model in gets dynamic parameters from SDF. */
     virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
-  protected:
+
+   protected:
     /*! Callback for Gazebo simulation engine */
     virtual void UpdateChild();
     virtual void FiniChild();
-  private:
+
+   private:
     /*!
       Callback for Drive commands
       \param msg usv_msgs UsvDrive message
     */
-    void OnCmdDrive( const robotx_msgs::UsvDriveConstPtr &msg);
+    void OnCmdDrive(const robotx_msgs::UsvDriveConstPtr &msg);
 
     /*! ROS spin once */
     void spin();
@@ -74,7 +75,9 @@ namespace gazebo
     /*! Convenience function for getting SDF parameters
 
      */
-    double getSdfParamDouble(sdf::ElementPtr sdfPtr,const std::string &param_name,double default_val);
+    double getSdfParamDouble(sdf::ElementPtr sdfPtr,
+                             const std::string &param_name,
+                             double default_val);
 
     /*! Takes ROS Kingfisher Drive commands and scales them by max thrust
 
@@ -86,8 +89,7 @@ namespace gazebo
      */
     double scaleThrustCmd(double cmd);
 
-    double glf(double x, float A, float K, float B,
-	       float v, float C, float M);
+    double glf(double x, float A, float K, float B, float v, float C, float M);
 
     double glfThrustCmd(double cmd);
 
@@ -99,8 +101,8 @@ namespace gazebo
 
     ros::Subscriber cmd_drive_sub_;
 
-    //GazeboRosPtr gazebo_ros_;
-    //physics::ModelPtr parent;
+    // GazeboRosPtr gazebo_ros_;
+    // physics::ModelPtr parent;
     event::ConnectionPtr update_connection_;
     boost::thread *spinner_thread_;
 
@@ -114,22 +116,22 @@ namespace gazebo
     physics::LinkPtr link_;
     /**
      * @brief parameter for left thruster joint
-     * 
+     *
      */
     physics::JointPtr left_thruster_joint_;
     /**
      * @brief parameter for left thruster joint name
-     * 
+     *
      */
     std::string left_thruster_joint_name_;
     /**
      * @brief parameter for right thruster joint
-     * 
+     *
      */
     physics::JointPtr right_thruster_joint_;
     /**
      * @brief parameter for right thruster joint name
-     * 
+     *
      */
     std::string right_thruster_joint_name_;
     math::Pose pose_;
@@ -139,7 +141,6 @@ namespace gazebo
     common::Time last_cmd_drive_time_;
     double last_cmd_drive_left_;
     double last_cmd_drive_right_;
-
 
     int param_mapping_type_;
     /*! Plugin Parameter: Maximum (abs val) of Drive commands. typ. +/-1.0 */
@@ -157,7 +158,7 @@ namespace gazebo
     double param_thrust_z_offset_;
     // Pointer to the update event connection
     event::ConnectionPtr updateConnection;
-  };  // class UsvThrust
-} // namespace gazebo
+};  // class UsvThrust
+}  // namespace gazebo
 
-#endif //USV_GAZEBO_THRUST_H
+#endif  // USV_GAZEBO_THRUST_H

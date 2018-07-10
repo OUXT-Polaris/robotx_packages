@@ -13,8 +13,8 @@
 #include <ros/ros.h>
 
 int main(int argc, char *argv[]) {
-  ros::init(argc, argv, "heartbeat_publisher_node");
-  heartbeat_publisher publisher;
-  ros::spin();
-  return 0;
+    ros::init(argc, argv, "heartbeat_publisher_node");
+    heartbeat_publisher publisher;
+    ros::spin();
+    return 0;
 }
