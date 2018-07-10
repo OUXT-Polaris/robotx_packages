@@ -22,6 +22,7 @@ env:
 install:		
   - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config		
   - sudo pip install overpy
+  - sudo apt install clang-format
 script:		
   - source .ci_config/travis.sh 
 git:

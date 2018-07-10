@@ -37,23 +37,23 @@
 namespace gazebo {
 /// \brief A class for storing the volume properties of a link.
 class VolumeProperties {
-    /// \brief Default constructor.
-   public:
-    VolumeProperties() : area(0), height(0) {}
+  /// \brief Default constructor.
+ public:
+  VolumeProperties() : area(0), height(0) {}
 
-    /// \brief Center of volume in the link frame.
-    // public: ignition::math::Vector3d cov;
-    // public: math::Vector3 cov;
-   public:
-    math::Vector3 cov;
-    /// \brief Volume of this link.
-    // public: double volume;
-    /// \brief Horizontal area of this link
-   public:
-    double area;
-    /// \brief Vertical height for this link
-   public:
-    double height;
+  /// \brief Center of volume in the link frame.
+  // public: ignition::math::Vector3d cov;
+  // public: math::Vector3 cov;
+ public:
+  math::Vector3 cov;
+  /// \brief Volume of this link.
+  // public: double volume;
+  /// \brief Horizontal area of this link
+ public:
+  double area;
+  /// \brief Vertical height for this link
+ public:
+  double height;
 };
 
 /// \brief A plugin that simulates buoyancy of an object immersed in fluid.
@@ -79,66 +79,66 @@ class VolumeProperties {
  *
  */
 class BuoyancyPlugin : public ModelPlugin {
-    /// \brief Constructor.
-   public:
-    BuoyancyPlugin();
+  /// \brief Constructor.
+ public:
+  BuoyancyPlugin();
 
-    /// \brief Read the model SDF to compute volume and center of volume for
-    /// each link, and store those properties in volPropsMap.
-   public:
-    virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);
+  /// \brief Read the model SDF to compute volume and center of volume for
+  /// each link, and store those properties in volPropsMap.
+ public:
+  virtual void Load(physics::ModelPtr _model, sdf::ElementPtr _sdf);
 
-    // Documentation inherited
-   public:
-    virtual void Init();
+  // Documentation inherited
+ public:
+  virtual void Init();
 
-    /// \brief Callback for World Update events.
-   protected:
-    virtual void OnUpdate();
+  /// \brief Callback for World Update events.
+ protected:
+  virtual void OnUpdate();
 
-    /// \brief Connection to World Update events.
-   protected:
-    event::ConnectionPtr updateConnection;
+  /// \brief Connection to World Update events.
+ protected:
+  event::ConnectionPtr updateConnection;
 
-    /// \brief Pointer to model containing the plugin.
-   protected:
-    physics::ModelPtr model;
+  /// \brief Pointer to model containing the plugin.
+ protected:
+  physics::ModelPtr model;
 
-    /// \brief Pointer to the plugin SDF.
-   protected:
-    sdf::ElementPtr sdf;
+  /// \brief Pointer to the plugin SDF.
+ protected:
+  sdf::ElementPtr sdf;
 
-    /**
-     * @brief The density of the fluid in which the object is submerged in
-     * kg/m^3. Defaults to 1000, the fluid density of water.
-     *
-     */
-   protected:
-    double fluidDensity;
+  /**
+   * @brief The density of the fluid in which the object is submerged in
+   * kg/m^3. Defaults to 1000, the fluid density of water.
+   *
+   */
+ protected:
+  double fluidDensity;
 
-    /**
-     * @brief The height of the fluid/air interface [m].  Defaults to 0
-     *
-     */
-   protected:
-    double fluidLevel;
+  /**
+   * @brief The height of the fluid/air interface [m].  Defaults to 0
+   *
+   */
+ protected:
+  double fluidLevel;
 
-    /**
-     * @brief Quadratic drag generally applied to Z velocity
-     *
-     */
-   protected:
-    double fluidDrag;
+  /**
+   * @brief Quadratic drag generally applied to Z velocity
+   *
+   */
+ protected:
+  double fluidDrag;
 
-    /// \brief Map of <link ID, point> pairs mapping link IDs to the CoV (center
-    /// of volume) and volume of the link.
-   protected:
-    std::map<int, VolumeProperties> volPropsMap;
+  /// \brief Map of <link ID, point> pairs mapping link IDs to the CoV (center
+  /// of volume) and volume of the link.
+ protected:
+  std::map<int, VolumeProperties> volPropsMap;
 
-    // \brief Vector of links in the model for which we will apply buoyancy
-    // forces.
-   protected:
-    physics::Link_V buoyLinks;
+  // \brief Vector of links in the model for which we will apply buoyancy
+  // forces.
+ protected:
+  physics::Link_V buoyLinks;
 };
 }
 

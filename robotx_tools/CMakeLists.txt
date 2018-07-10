@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robotx_tools)
 
+include(../Format/ClangFormat.cmake)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
@@ -80,6 +82,7 @@ add_library(robotx_tools
 )
 
 target_link_libraries(robotx_tools ${QT_LIBRARIES} ${catkin_LIBRARIES} ${PYTHON_LIBRARY} ${OpenCV_LIBRARIES})
+clang_format(robotx_tools)
 
 #############
 ## Install ##

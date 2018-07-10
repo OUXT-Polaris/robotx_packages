@@ -51,113 +51,111 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace gazebo {
 class UsvThrust : public ModelPlugin {
-   public:
-    UsvThrust();
-    virtual ~UsvThrust();
-    /*! Loads the model in gets dynamic parameters from SDF. */
-    virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
+ public:
+  UsvThrust();
+  virtual ~UsvThrust();
+  /*! Loads the model in gets dynamic parameters from SDF. */
+  virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
 
-   protected:
-    /*! Callback for Gazebo simulation engine */
-    virtual void UpdateChild();
-    virtual void FiniChild();
+ protected:
+  /*! Callback for Gazebo simulation engine */
+  virtual void UpdateChild();
+  virtual void FiniChild();
 
-   private:
-    /*!
-      Callback for Drive commands
-      \param msg usv_msgs UsvDrive message
-    */
-    void OnCmdDrive(const robotx_msgs::UsvDriveConstPtr &msg);
+ private:
+  /*!
+    Callback for Drive commands
+    \param msg usv_msgs UsvDrive message
+  */
+  void OnCmdDrive(const robotx_msgs::UsvDriveConstPtr &msg);
 
-    /*! ROS spin once */
-    void spin();
+  /*! ROS spin once */
+  void spin();
 
-    /*! Convenience function for getting SDF parameters
+  /*! Convenience function for getting SDF parameters
 
-     */
-    double getSdfParamDouble(sdf::ElementPtr sdfPtr,
-                             const std::string &param_name,
-                             double default_val);
+   */
+  double getSdfParamDouble(sdf::ElementPtr sdfPtr, const std::string &param_name, double default_val);
 
-    /*! Takes ROS Kingfisher Drive commands and scales them by max thrust
+  /*! Takes ROS Kingfisher Drive commands and scales them by max thrust
 
-      \param cmd ROS drive command
-      \param max_cmd  Maximum value expected for commands - scaling factor
-      \param max_pos  Maximum positive force value
-      \param max_neg  Maximum negative force value
-      \return Value scaled and saturated
-     */
-    double scaleThrustCmd(double cmd);
+    \param cmd ROS drive command
+    \param max_cmd  Maximum value expected for commands - scaling factor
+    \param max_pos  Maximum positive force value
+    \param max_neg  Maximum negative force value
+    \return Value scaled and saturated
+   */
+  double scaleThrustCmd(double cmd);
 
-    double glf(double x, float A, float K, float B, float v, float C, float M);
+  double glf(double x, float A, float K, float B, float v, float C, float M);
 
-    double glfThrustCmd(double cmd);
+  double glfThrustCmd(double cmd);
 
-    /// Parameters
-    std::string node_namespace_;
-    std::string link_name_;
+  /// Parameters
+  std::string node_namespace_;
+  std::string link_name_;
 
-    ros::NodeHandle *rosnode_;
+  ros::NodeHandle *rosnode_;
 
-    ros::Subscriber cmd_drive_sub_;
+  ros::Subscriber cmd_drive_sub_;
 
-    // GazeboRosPtr gazebo_ros_;
-    // physics::ModelPtr parent;
-    event::ConnectionPtr update_connection_;
-    boost::thread *spinner_thread_;
+  // GazeboRosPtr gazebo_ros_;
+  // physics::ModelPtr parent;
+  event::ConnectionPtr update_connection_;
+  boost::thread *spinner_thread_;
 
-    /*! Pointer to the Gazebo world, retrieved when the model is loaded */
-    physics::WorldPtr world_;
-    /*! Pointer to Gazebo parent model, retrieved when the model is loaded */
-    physics::ModelPtr model_;
-    /*! Pointer to model link in gazebo,
-      optionally specified by the bodyName parameter,
-      The states are taken from this link and forces applied to this link.*/
-    physics::LinkPtr link_;
-    /**
-     * @brief parameter for left thruster joint
-     *
-     */
-    physics::JointPtr left_thruster_joint_;
-    /**
-     * @brief parameter for left thruster joint name
-     *
-     */
-    std::string left_thruster_joint_name_;
-    /**
-     * @brief parameter for right thruster joint
-     *
-     */
-    physics::JointPtr right_thruster_joint_;
-    /**
-     * @brief parameter for right thruster joint name
-     *
-     */
-    std::string right_thruster_joint_name_;
-    math::Pose pose_;
-    /*! Timeout for recieving Drive commands [s]*/
-    double cmd_timeout_;
-    common::Time prev_update_time_;
-    common::Time last_cmd_drive_time_;
-    double last_cmd_drive_left_;
-    double last_cmd_drive_right_;
+  /*! Pointer to the Gazebo world, retrieved when the model is loaded */
+  physics::WorldPtr world_;
+  /*! Pointer to Gazebo parent model, retrieved when the model is loaded */
+  physics::ModelPtr model_;
+  /*! Pointer to model link in gazebo,
+    optionally specified by the bodyName parameter,
+    The states are taken from this link and forces applied to this link.*/
+  physics::LinkPtr link_;
+  /**
+   * @brief parameter for left thruster joint
+   *
+   */
+  physics::JointPtr left_thruster_joint_;
+  /**
+   * @brief parameter for left thruster joint name
+   *
+   */
+  std::string left_thruster_joint_name_;
+  /**
+   * @brief parameter for right thruster joint
+   *
+   */
+  physics::JointPtr right_thruster_joint_;
+  /**
+   * @brief parameter for right thruster joint name
+   *
+   */
+  std::string right_thruster_joint_name_;
+  math::Pose pose_;
+  /*! Timeout for recieving Drive commands [s]*/
+  double cmd_timeout_;
+  common::Time prev_update_time_;
+  common::Time last_cmd_drive_time_;
+  double last_cmd_drive_left_;
+  double last_cmd_drive_right_;
 
-    int param_mapping_type_;
-    /*! Plugin Parameter: Maximum (abs val) of Drive commands. typ. +/-1.0 */
-    double param_max_cmd_;
-    /*! Plugin Parameter: Maximum forward force [N] */
-    double param_max_force_fwd_;
-    /*! Plugin Parameter: Maximum reverse force [N] */
-    double param_max_force_rev_;
+  int param_mapping_type_;
+  /*! Plugin Parameter: Maximum (abs val) of Drive commands. typ. +/-1.0 */
+  double param_max_cmd_;
+  /*! Plugin Parameter: Maximum forward force [N] */
+  double param_max_force_fwd_;
+  /*! Plugin Parameter: Maximum reverse force [N] */
+  double param_max_force_rev_;
 
-    /*! Plugin Parameter: Boat width [m] */
-    double param_boat_width_;
-    /*! Plugin Parameter: Boat length [m] */
-    double param_boat_length_;
-    /*! Plugin Parameter: Z offset for applying forward thrust */
-    double param_thrust_z_offset_;
-    // Pointer to the update event connection
-    event::ConnectionPtr updateConnection;
+  /*! Plugin Parameter: Boat width [m] */
+  double param_boat_width_;
+  /*! Plugin Parameter: Boat length [m] */
+  double param_boat_length_;
+  /*! Plugin Parameter: Z offset for applying forward thrust */
+  double param_thrust_z_offset_;
+  // Pointer to the update event connection
+  event::ConnectionPtr updateConnection;
 };  // class UsvThrust
 }  // namespace gazebo
 

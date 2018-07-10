@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(robotx_gazebo)
 
 include(../Doxygen/doxygen.cmake)
+include(../Format/ClangFormat.cmake)
 
 find_package(catkin REQUIRED COMPONENTS
   cmake_modules
@@ -86,7 +87,7 @@ target_link_libraries(usv_gazebo_thrust_plugin
   ${Eigen_LIBRARIES}
 )
 add_document(usv_gazebo_thrust_plugin)
-#clang_format(usv_gazebo_thrust_plugin)
+clang_format(usv_gazebo_thrust_plugin)
 
 ## usv_gazebo_wind_plugin
 add_library(usv_gazebo_wind_plugin

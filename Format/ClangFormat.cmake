@@ -1,5 +1,8 @@
+## define format
+set(CODING_FORMAT "{BasedOnStyle: Google, ColumnLimit: 110, BinPackParameters: false}")
+
 ## functions  
-option(WITH_CLANG_FORMAT OFF)
+option(WITH_CLANG_FORMAT ON)
 find_program(CLANG_FORMAT_EXE clang-format)
 
 function(clang_format target)
@@ -8,11 +11,9 @@ function(clang_format target)
     get_target_property(MY_SOURCES ${target} SOURCES)
     file(GLOB HEADERS include/*)
 
-    file(COPY ../Format/.clang-format DESTINATION ${PROJECT_SOURCE_DIR})
-
     add_custom_target(
       "${target}_format-with-clang-format"
-      COMMAND "${CLANG_FORMAT_EXE}" -i -style=file ${MY_SOURCES} ${HEADERS}
+      COMMAND "${CLANG_FORMAT_EXE}" -i -style=${CODING_FORMAT} ${MY_SOURCES} ${HEADERS}
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
     if(WITH_CLANG_FORMAT)
