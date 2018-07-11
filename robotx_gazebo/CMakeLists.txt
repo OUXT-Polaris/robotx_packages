@@ -113,6 +113,18 @@ target_link_libraries(usv_twist_sensor_plugin
 add_document(usv_twist_sensor_plugin)
 clang_format(usv_twist_sensor_plugin)
 
+# ball_launcher_plugin
+add_library(ball_launcher_plugin
+  src/ball_launcher_plugin.cc
+)
+target_link_libraries(ball_launcher_plugin
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+  ${Eigen_LIBRARIES}
+)
+add_document(ball_launcher_plugin)
+clang_format(ball_launcher_plugin)
+
 #############
 ## Install ##
 #############
@@ -142,6 +154,13 @@ install(TARGETS usv_gazebo_wind_plugin
 )
 # usv_twist_sensor_plugin
 install(TARGETS usv_twist_sensor_plugin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+# ball_launcher_plugin
+install(TARGETS ball_launcher_plugin
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
