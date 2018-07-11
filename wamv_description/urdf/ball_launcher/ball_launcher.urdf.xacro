@@ -18,6 +18,11 @@
     </joint>
 
     <link name="ball_launcher_yaw_link">
+      <!-- Inertial -->
+      <inertial name="ball_launcher_base">
+        <origin xyz="0 0 0"/>
+        <xacro:box_inertial mass="0.1" height="0.2" width="0.2" depth="0.2"/>
+      </inertial>
     </link>
 
     <joint name="ball_launcher_yaw_joint" type="revolute">
@@ -30,6 +35,11 @@
     </joint>
 
     <link name="ball_launcher_pitch_link">
+      <!-- Inertial -->
+      <inertial name="ball_launcher_base">
+        <origin xyz="0 0 0"/>
+        <xacro:box_inertial mass="0.1" height="0.2" width="0.2" depth="0.2"/>
+      </inertial>
     </link>
 
     <joint name="ball_launcher_pitch_joint" type="revolute">
