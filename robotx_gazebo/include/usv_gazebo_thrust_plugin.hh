@@ -75,7 +75,9 @@ namespace gazebo {
     /*! Convenience function for getting SDF parameters
 
      */
-    double getSdfParamDouble(sdf::ElementPtr sdfPtr, const std::string &param_name, double default_val);
+    double getSdfParamDouble(sdf::ElementPtr sdfPtr,
+                             const std::string &param_name,
+                             double default_val);
 
     /*! Takes ROS Kingfisher Drive commands and scales them by max thrust
 

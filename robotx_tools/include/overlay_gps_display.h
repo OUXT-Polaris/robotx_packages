@@ -50,7 +50,8 @@
 #include <boost/circular_buffer.hpp>
 
 namespace ros_ship_visualization {
-  class OverlayGpsDisplay : public rviz::MessageFilterDisplay<sensor_msgs::NavSatFix> {
+  class OverlayGpsDisplay
+      : public rviz::MessageFilterDisplay<sensor_msgs::NavSatFix> {
     Q_OBJECT
    public:
     OverlayGpsDisplay();
@@ -64,7 +65,8 @@ namespace ros_ship_visualization {
     void processMessage(const sensor_msgs::NavSatFix::ConstPtr& msg);
     bool download_map(std::string request_url);
     void load_map_downloader_script();
-    bool build_request_url(const sensor_msgs::NavSatFix::ConstPtr& msg, std::string& request_url);
+    bool build_request_url(const sensor_msgs::NavSatFix::ConstPtr& msg,
+                           std::string& request_url);
     inline bool check_map_image_file();
     rviz::IntProperty* zoom_property_;
     rviz::IntProperty* width_property_;

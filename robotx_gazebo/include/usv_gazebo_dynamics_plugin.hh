@@ -94,7 +94,9 @@ namespace gazebo {
     void spin();
 
     /** @brief Convenience function for getting SDF parameters */
-    double getSdfParamDouble(sdf::ElementPtr sdfPtr, const std::string &param_name, double default_val);
+    double getSdfParamDouble(sdf::ElementPtr sdfPtr,
+                             const std::string &param_name,
+                             double default_val);
 
     /// Parameters
     /**

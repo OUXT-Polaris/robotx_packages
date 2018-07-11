@@ -42,7 +42,8 @@
 #include <OGRE/OgreTexture.h>
 #include <OGRE/OgreTextureManager.h>
 // see OGRE/OgrePrerequisites.h
-//#define OGRE_VERSION    ((OGRE_VERSION_MAJOR << 16) | (OGRE_VERSION_MINOR << 8) | OGRE_VERSION_PATCH)
+//#define OGRE_VERSION    ((OGRE_VERSION_MAJOR << 16) | (OGRE_VERSION_MINOR <<
+// 8) | OGRE_VERSION_PATCH)
 #if OGRE_VERSION < ((1 << 16) | (9 << 8) | 0)
 #include <OGRE/OgreOverlayContainer.h>
 #include <OGRE/OgreOverlayElement.h>
@@ -68,7 +69,9 @@ namespace ros_ship_visualization {
     virtual Ogre::HardwarePixelBufferSharedPtr getPixelBuffer();
     virtual QImage getQImage(unsigned int width, unsigned int height);
     virtual QImage getQImage(OverlayObject& overlay);
-    virtual QImage getQImage(unsigned int width, unsigned int height, QColor& bg_color);
+    virtual QImage getQImage(unsigned int width,
+                             unsigned int height,
+                             QColor& bg_color);
     virtual QImage getQImage(OverlayObject& overlay, QColor& bg_color);
 
    protected:

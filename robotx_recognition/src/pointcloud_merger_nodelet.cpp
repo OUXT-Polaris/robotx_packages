@@ -3,10 +3,9 @@
 
 namespace robotx_recognition_nodelet {
   pointcloud_merger_nodelet::pointcloud_merger_nodelet() {}
-
   pointcloud_merger_nodelet::~pointcloud_merger_nodelet() {}
-
   void pointcloud_merger_nodelet::onInit() {}
 }
 
-PLUGINLIB_EXPORT_CLASS(robotx_recognition_nodelet::pointcloud_merger_nodelet, nodelet::Nodelet)
+PLUGINLIB_EXPORT_CLASS(robotx_recognition_nodelet::pointcloud_merger_nodelet,
+                       nodelet::Nodelet)

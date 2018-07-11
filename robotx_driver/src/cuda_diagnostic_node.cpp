@@ -12,7 +12,8 @@
 // headers for ros
 #include <ros/ros.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   ros::init(argc, argv, "cuda_diagnostic_node");
   cuda_diagnostic cuda_diagnostic_updater;
   cuda_diagnostic_updater.run();

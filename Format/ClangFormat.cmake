@@ -1,5 +1,5 @@
 ## define format
-set(CODING_FORMAT "{BasedOnStyle: Google, ColumnLimit: 110, BinPackParameters: false, NamespaceIndentation: All}")
+set(CODING_FORMAT "{BasedOnStyle: Google, ColumnLimit: 80, BinPackParameters: false, NamespaceIndentation: All, BreakBeforeBraces : Stroustrup}")
 
 ## functions  
 find_program(CLANG_FORMAT_EXE clang-format)

@@ -8,7 +8,8 @@
 
 class object_model {
  public:
-  object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model, std::string object_name);
+  object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model,
+               std::string object_name);
   object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model,
                std::string object_name,
                std::string stl_file_path,

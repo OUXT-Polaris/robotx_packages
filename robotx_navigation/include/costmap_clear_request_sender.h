@@ -25,10 +25,13 @@ class costmap_clear_request_sender {
      *
      */
     std::string target_service_name;
-    parameters() {
-      ros::param::param<double>(ros::this_node::getName() + "/frequency", frequency, 2);
-      ros::param::param<std::string>(ros::this_node::getName() + "/target_service_name", target_service_name,
-                                     "/move_base/clear_costmaps");
+    parameters()
+    {
+      ros::param::param<double>(ros::this_node::getName() + "/frequency",
+                                frequency, 2);
+      ros::param::param<std::string>(
+          ros::this_node::getName() + "/target_service_name",
+          target_service_name, "/move_base/clear_costmaps");
     }
   };
   /**

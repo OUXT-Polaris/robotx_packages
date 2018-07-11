@@ -4,7 +4,8 @@
 // headers for ros
 #include <ros/ros.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   ros::init(argc, argv, "obstacle_map_server_node");
   obstacle_map_server server;
   ros::spin();

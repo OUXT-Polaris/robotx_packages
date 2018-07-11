@@ -40,7 +40,6 @@ namespace gazebo {
     /// \brief Default constructor.
    public:
     VolumeProperties() : area(0), height(0) {}
-
     /// \brief Center of volume in the link frame.
     // public: ignition::math::Vector3d cov;
     // public: math::Vector3 cov;

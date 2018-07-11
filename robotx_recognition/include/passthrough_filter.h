@@ -37,19 +37,28 @@ class passthough_filter {
      * @brief default parameters
      *
      */
-    parameters() {
+    parameters()
+    {
       // if you want run as remove mode, set mode = 1
       ros::param::param<int>(ros::this_node::getName() + "/mode", mode, remain);
-      ros::param::param<double>(ros::this_node::getName() + "/min_x", min_x, 0.0);
-      ros::param::param<double>(ros::this_node::getName() + "/min_y", min_y, 0.0);
-      ros::param::param<double>(ros::this_node::getName() + "/min_z", min_z, 0.0);
-      ros::param::param<double>(ros::this_node::getName() + "/max_x", max_x, 0.0);
-      ros::param::param<double>(ros::this_node::getName() + "/max_y", max_y, 0.0);
-      ros::param::param<double>(ros::this_node::getName() + "/max_z", max_z, 0.0);
-      ros::param::param<std::string>(ros::this_node::getName() + "/input_cloud", input_cloud,
-                                     ros::this_node::getName() + "/input_cloud");
-      ros::param::param<std::string>(ros::this_node::getName() + "/output_cloud", output_cloud,
-                                     ros::this_node::getName() + "/output_cloud");
+      ros::param::param<double>(ros::this_node::getName() + "/min_x", min_x,
+                                0.0);
+      ros::param::param<double>(ros::this_node::getName() + "/min_y", min_y,
+                                0.0);
+      ros::param::param<double>(ros::this_node::getName() + "/min_z", min_z,
+                                0.0);
+      ros::param::param<double>(ros::this_node::getName() + "/max_x", max_x,
+                                0.0);
+      ros::param::param<double>(ros::this_node::getName() + "/max_y", max_y,
+                                0.0);
+      ros::param::param<double>(ros::this_node::getName() + "/max_z", max_z,
+                                0.0);
+      ros::param::param<std::string>(
+          ros::this_node::getName() + "/input_cloud", input_cloud,
+          ros::this_node::getName() + "/input_cloud");
+      ros::param::param<std::string>(
+          ros::this_node::getName() + "/output_cloud", output_cloud,
+          ros::this_node::getName() + "/output_cloud");
     }
   };
   /**

@@ -3,10 +3,9 @@
 
 namespace robotx_recognition_nodelet {
   object_recognition_nodelet::object_recognition_nodelet() {}
-
   object_recognition_nodelet::~object_recognition_nodelet() {}
-
   void object_recognition_nodelet::onInit() {}
 }
 
-PLUGINLIB_EXPORT_CLASS(robotx_recognition_nodelet::object_recognition_nodelet, nodelet::Nodelet)
+PLUGINLIB_EXPORT_CLASS(robotx_recognition_nodelet::object_recognition_nodelet,
+                       nodelet::Nodelet)
