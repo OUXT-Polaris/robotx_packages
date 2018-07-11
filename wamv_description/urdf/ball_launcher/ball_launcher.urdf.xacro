@@ -40,6 +40,14 @@
         <origin xyz="0 0 0"/>
         <xacro:box_inertial mass="0.1" height="0.2" width="0.2" depth="0.2"/>
       </inertial>
+      <!-- Visual -->
+      <visual>
+        <geometry>
+          <cylinder length="0.2" radius="0.05"/>
+        </geometry>
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
+        <material name="gray"/>
+      </visual>
     </link>
 
     <joint name="ball_launcher_pitch_joint" type="revolute">
