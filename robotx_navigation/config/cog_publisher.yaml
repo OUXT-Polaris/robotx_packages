@@ -1,0 +1,4 @@
+# publish frme of /cog/robot
+publish_frame: base_link
+# publish rate of the topics
+publish_rate: 50
