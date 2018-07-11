@@ -94,6 +94,8 @@ namespace gazebo
     /// Parameters
     std::string node_namespace_;
     std::string link_name_;
+    std::string left_thruster_link_name_;
+    std::string right_thruster_link_name_;
 
     ros::NodeHandle *rosnode_;
 
@@ -110,8 +112,18 @@ namespace gazebo
     physics::ModelPtr model_;
     /*! Pointer to model link in gazebo,
       optionally specified by the bodyName parameter,
-      The states are taken from this link and forces applied to this link.*/
+      The states are taken from this link and forces applied to this link.*/  
     physics::LinkPtr link_;
+    /*! Pointer to model link in gazebo,
+      optionally specified by the leftThrusterLink parameter,
+      The states are taken from this link and forces applied to this link.*/
+    physics::LinkPtr left_thruster_link_;
+    /*! Pointer to model link in gazebo,
+      optionally specified by the rightThrusterLink parameter,
+      The states are taken from this link and forces applied to this link.*/
+    
+    physics::LinkPtr right_thruster_link_;
+    
     /**
      * @brief parameter for left thruster joint
      * 
