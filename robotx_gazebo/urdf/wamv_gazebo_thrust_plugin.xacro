@@ -4,7 +4,9 @@
     <!--Gazebo Plugin for simulating WAM-V dynamics-->
     <gazebo >
 			<plugin name="usv_thrust_${name}" filename="libusv_gazebo_thrust_plugin.so">
-				<bodyName>base_link</bodyName>
+			    <bodyName>base_link</bodyName>
+                <leftThrusterName>left_thruster_link</leftThrusterName>
+                <rightThrusterName>right_thruster_link</rightThrusterName>
 				<leftThrusterJoint>left_thruster_joint</leftThrusterJoint>
 				<rightThrusterJoint>right_thruster_joint</rightThrusterJoint>
 
