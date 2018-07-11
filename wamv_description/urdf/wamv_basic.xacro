@@ -3,6 +3,7 @@
   <!-- Defines the base vehicle -->
   <xacro:include filename="$(find wamv_description)/urdf/base/base.urdf.xacro" />
   <xacro:include filename="$(find wamv_description)/urdf/thruster/thruster.urdf.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/ball_launcher/ball_launcher.urdf.xacro" />
   <xacro:base_v0/>
   <xacro:thruster_v0 prefix="left" prefix_factor="1"/>
   <xacro:thruster_v0 prefix="right" prefix_factor="-1"/>
@@ -10,6 +11,7 @@
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
     </plugin>
   </gazebo>
+  <xacro:ball_launcher_v0/>
   
   <!-- Attach hydrodynamics plugin -->
   <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_dynamics_plugin.xacro" />
