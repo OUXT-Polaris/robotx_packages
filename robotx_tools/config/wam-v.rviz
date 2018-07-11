@@ -7,8 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /Map1/Position1
-        - /Map2
-        - /Path1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -144,7 +142,7 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 999999
+      Max Intensity: 1.3676673e-42
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: PointCloud2
@@ -320,6 +318,16 @@ Visualization Manager:
       Topic: /move_base/DWAPlannerROS/global_plan
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Class: rviz/PointStamped
+      Color: 204; 41; 204
+      Enabled: true
+      History Length: 1
+      Name: PointStamped
+      Radius: 0.200000003
+      Topic: /cog/robot
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -345,7 +353,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 18.2120018
+      Distance: 9.5850563
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -360,10 +368,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.790398479
+      Pitch: 0.47539866
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.70541954
+      Yaw: 3.30541873
     Saved: ~
 Window Geometry:
   Displays:
