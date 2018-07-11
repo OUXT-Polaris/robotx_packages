@@ -49,6 +49,7 @@
         <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
         <material name="gray"/>
       </visual>
+      <plugin name="libball_launcher_plugin" filename="libball_launcher_plugin.so"/>
     </link>
 
     <joint name="ball_launcher_pitch_joint" type="revolute">
@@ -62,5 +63,8 @@
 
     <!-- Transmission -->
     <xacro:ball_launcher_transmission_v0/>
+
+    <!-- Gazebo -->
+    <!-- <xacro:ball_launcher_gazebo_v0/> -->
   </xacro:macro>
 </robot>

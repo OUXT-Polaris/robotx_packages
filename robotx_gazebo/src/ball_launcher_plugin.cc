@@ -14,7 +14,7 @@
 #include <load_params.hh>
 
 using namespace gazebo;
-class ball_launcher : public ModelPlugin {
+class ball_launcher_plugin : public ModelPlugin {
  public:
   void Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
   {
@@ -35,9 +35,17 @@ class ball_launcher : public ModelPlugin {
     ball_lifetime_ = ros::Duration(lifetime);
 
     // world_ptr_->InsertModelFile(ball_sdf_path_);
-    // ROS_ERROR_STREAM(ball_sdf_path_);
+    //
+    this->update_connection_ = event::Events::ConnectWorldUpdateBegin(
+        boost::bind(&ball_launcher_plugin::OnUpdate, this, _1));
   }
-  void OnUpdate(const common::UpdateInfo& /*_info*/) {}
+
+  void OnUpdate(const common::UpdateInfo& /*_info*/)
+  {
+    // ROS_ERROR_STREAM(ball_sdf_path_);
+    ROS_ERROR_STREAM("TEST");
+  }
+
  private:
   std::string ball_sdf_path_;
   physics::LinkPtr ball_launcher_link_ptr_;
@@ -46,6 +54,7 @@ class ball_launcher : public ModelPlugin {
   physics::WorldPtr world_ptr_;
   volatile bool ball_exist_;
   ros::Duration ball_lifetime_;
+  event::ConnectionPtr update_connection_;
 };
 
-GZ_REGISTER_MODEL_PLUGIN(ball_launcher)
+GZ_REGISTER_MODEL_PLUGIN(ball_launcher_plugin)
