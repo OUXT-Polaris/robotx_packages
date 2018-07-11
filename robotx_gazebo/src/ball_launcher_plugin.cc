@@ -18,8 +18,9 @@ class ball_launcher : public ModelPlugin {
  public:
   void Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
   {
-    ball_urdf_path_ =
-        ros::package::getPath("robotx_gazebo") + "/modeles/ball/ball.urdf";
+    // Read ball sdf file path
+    ball_sdf_path_ =
+        ros::package::getPath("robotx_gazebo") + "/modeles/ball/ball.sdf";
     std::string default_ball_launcher_link_name = "ball_launcher_pitch_link";
     std::string ball_launcher_link_name;
     LoadParams(sdf, "target_link", ball_launcher_link_name,
@@ -27,12 +28,24 @@ class ball_launcher : public ModelPlugin {
     model_ptr_ = _parent;
     this->ball_launcher_link_ptr_ =
         this->model_ptr_->GetLink(ball_launcher_link_name);
+
+    // Read lifetime
+    double lifetime;
+    LoadParams(sdf, "lifetime", lifetime, 5.0);
+    ball_lifetime_ = ros::Duration(lifetime);
+
+    // world_ptr_->InsertModelFile(ball_sdf_path_);
+    // ROS_ERROR_STREAM(ball_sdf_path_);
   }
   void OnUpdate(const common::UpdateInfo& /*_info*/) {}
  private:
-  std::string ball_urdf_path_;
+  std::string ball_sdf_path_;
   physics::LinkPtr ball_launcher_link_ptr_;
   physics::ModelPtr model_ptr_;
+  physics::ModelPtr ball_model_ptr_;
+  physics::WorldPtr world_ptr_;
+  volatile bool ball_exist_;
+  ros::Duration ball_lifetime_;
 };
 
 GZ_REGISTER_MODEL_PLUGIN(ball_launcher)

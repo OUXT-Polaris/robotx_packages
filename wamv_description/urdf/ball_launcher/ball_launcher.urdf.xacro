@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find wamv_description)/urdf/ball_launcher/ball_launcher.gazebo.xacro"/>
   <xacro:include filename="$(find wamv_description)/urdf/ball_launcher/ball_launcher.transmission.xacro"/>
 
   <xacro:macro name="ball_launcher_v0">

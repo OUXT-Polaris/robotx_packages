@@ -53,6 +53,7 @@ link_directories(
 
 # buoyancy_gazebo_plugin
 add_library(buoyancy_gazebo_plugin
+  SHARED
   src/buoyancy_gazebo_plugin.cc
  )
 target_link_libraries(buoyancy_gazebo_plugin
@@ -65,6 +66,7 @@ clang_format(buoyancy_gazebo_plugin)
 
 # usv_gazebo_dynamics_plugin
 add_library(usv_gazebo_dynamics_plugin
+  SHARED
   src/usv_gazebo_dynamics_plugin.cc
 )
 target_link_libraries(usv_gazebo_dynamics_plugin
@@ -77,6 +79,7 @@ clang_format(usv_gazebo_dynamics_plugin)
 
 # usv_gazebo_thrust_plugin
 add_library(usv_gazebo_thrust_plugin
+  SHARED
   src/usv_gazebo_thrust_plugin.cc
 )
 add_dependencies(usv_gazebo_thrust_plugin robotx_msgs)
@@ -91,6 +94,7 @@ clang_format(usv_gazebo_thrust_plugin)
 
 ## usv_gazebo_wind_plugin
 add_library(usv_gazebo_wind_plugin
+  SHARED
   src/usv_gazebo_wind_plugin.cc
 )
 target_link_libraries(usv_gazebo_wind_plugin
@@ -103,6 +107,7 @@ clang_format(usv_gazebo_wind_plugin)
 
 # usv_twist_sensor_plugin
 add_library(usv_twist_sensor_plugin
+  SHARED
   src/usv_twist_sensor_plugin.cc
 )
 target_link_libraries(usv_twist_sensor_plugin
@@ -115,12 +120,12 @@ clang_format(usv_twist_sensor_plugin)
 
 # ball_launcher_plugin
 add_library(ball_launcher_plugin
+  SHARED
   src/ball_launcher_plugin.cc
 )
 target_link_libraries(ball_launcher_plugin
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
-  ${Eigen_LIBRARIES}
 )
 add_document(ball_launcher_plugin)
 clang_format(ball_launcher_plugin)
