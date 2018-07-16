@@ -10,6 +10,7 @@
 // #include <gazebo/physics/Model.hh>
 
 // headers in ROS
+#include <robotx_msgs/BallLauncherStatus.h>
 #include <ros/package.h>
 #include <ros/ros.h>
 #include <std_msgs/Empty.h>
@@ -24,7 +25,7 @@ namespace gazebo {
     void OnUpdate(const common::UpdateInfo& _info);
 
    private:
-    void spawn_ball();
+    void spawn_ball(int ball_id);
     void delete_ball();
     void load_ball_urdf();
     // launch command subscriber
@@ -40,7 +41,9 @@ namespace gazebo {
     physics::WorldPtr world_ptr_;
     ros::Duration ball_lifetime_;
     event::ConnectionPtr update_connection_;
-    volatile bool ball_exist_;
+    int num_balls_;
+    // volatile bool ball_exist_;
+
     // ROS nodehandle
     ros::NodeHandle nh_;
     // spanm model service client
