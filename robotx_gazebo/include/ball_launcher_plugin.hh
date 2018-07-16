@@ -15,16 +15,15 @@
 
 namespace gazebo {
   class ball_launcher_plugin : public ModelPlugin {
-  public:
+   public:
     ball_launcher_plugin();
     virtual ~ball_launcher_plugin();
-    
     /*! Loads the model in gets dynamic parameters from SDF. */
     void Load(physics::ModelPtr _parent, sdf::ElementPtr sdf);
-
     void OnUpdate(const common::UpdateInfo& _info);
 
-  private:
+   private:
+    void spawn_ball();
     std::string ball_sdf_path_;
     physics::LinkPtr ball_launcher_link_ptr_;
     physics::ModelPtr model_ptr_;
@@ -33,7 +32,9 @@ namespace gazebo {
     volatile bool ball_exist_;
     ros::Duration ball_lifetime_;
     event::ConnectionPtr update_connection_;
-  }; // class ball_launcher_plugin
-} // namespace gazebo
+    ros::NodeHandle nh_;
+    ros::ServiceClient client_;
+  };  // class ball_launcher_plugin
+}  // namespace gazebo
 
-#endif // BALL_LAUNCHER_PLUGIN_H
+#endif  // BALL_LAUNCHER_PLUGIN_H
