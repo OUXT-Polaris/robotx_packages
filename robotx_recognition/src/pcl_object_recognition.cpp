@@ -20,42 +20,53 @@
 #include <iostream>
 #include <string>
 
-pcl_object_recognition::pcl_object_recognition() {
+pcl_object_recognition::pcl_object_recognition()
+{
   read_parameters();
-  detected_object_pub_ = nh_.advertise<robotx_msgs::ObjectRegionOfInterestArray>(
-      ros::this_node::getName() + "/detected_objects", 1);
+  detected_object_pub_ =
+      nh_.advertise<robotx_msgs::ObjectRegionOfInterestArray>(
+          ros::this_node::getName() + "/detected_objects", 1);
   object_marker_pub_ = nh_.advertise<visualization_msgs::MarkerArray>(
       ros::this_node::getName() + "/detected_objects/marker", 1);
-  pointcloud_sub_ = nh_.subscribe(pointcloud_topic_, 1, &pcl_object_recognition::pointcloud_callback, this);
+  pointcloud_sub_ = nh_.subscribe(
+      pointcloud_topic_, 1, &pcl_object_recognition::pointcloud_callback, this);
 }
 
 pcl_object_recognition::~pcl_object_recognition() {}
-
-void pcl_object_recognition::pointcloud_callback(sensor_msgs::PointCloud2 input_cloud) {
+void pcl_object_recognition::pointcloud_callback(
+    sensor_msgs::PointCloud2 input_cloud)
+{
   pcl::PointCloud<pcl::PointXYZ>::Ptr scene_pointcloud =
       pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
   pcl::fromROSMsg(input_cloud, *scene_pointcloud);
   scene_model_ = new object_model(scene_pointcloud, "scene");
-  std::vector<std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > > results;
-  for (auto object_model_itr = object_models_.begin(); object_model_itr != object_models_.end();
-       ++object_model_itr) {
+  std::vector<
+      std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > >
+      results;
+  for (auto object_model_itr = object_models_.begin();
+       object_model_itr != object_models_.end(); ++object_model_itr) {
     results.push_back(recognize(*object_model_itr));
   }
   publish_messages(results, input_cloud.header);
 }
 
-bool pcl_object_recognition::check_file_existence(std::string& str) {
+bool pcl_object_recognition::check_file_existence(std::string& str)
+{
   std::ifstream ifs(str);
   return ifs.is_open();
 }
 
 void pcl_object_recognition::publish_messages(
-    std::vector<std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > > results,
-    std_msgs::Header header) {
+    std::vector<std::vector<Eigen::Matrix4f,
+                            Eigen::aligned_allocator<Eigen::Matrix4f> > >
+        results,
+    std_msgs::Header header)
+{
   robotx_msgs::ObjectRegionOfInterestArray objects_msg;
   visualization_msgs::MarkerArray marker_array_msg;
   for (int i = 0; i < results.size(); i++) {
-    std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > rototranslations = results[i];
+    std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> >
+        rototranslations = results[i];
     for (size_t m = 0; m < rototranslations.size(); ++m) {
       visualization_msgs::Marker marker_msg;
       marker_msg.type = marker_msg.MESH_RESOURCE;
@@ -69,7 +80,8 @@ void pcl_object_recognition::publish_messages(
       object_msg.roi_3d.pose.position.y = translation(1);
       object_msg.roi_3d.pose.position.z = translation(2);
       object_msg.roi_3d.pose.orientation = rot_to_quat(rotation);
-      // object_msg.mesh_resouce_path = object_models_[i]->get_marker_mesh_path();
+      // object_msg.mesh_resouce_path =
+      // object_models_[i]->get_marker_mesh_path();
       // object_msg.stl_file_path = object_models_[i]->get_stl_file_path();
       objects_msg.object_rois.push_back(object_msg);
       marker_msg.header = header;
@@ -78,7 +90,8 @@ void pcl_object_recognition::publish_messages(
       marker_msg.scale.y = 1;
       marker_msg.scale.z = 1;
       marker_msg.frame_locked = true;
-      marker_msg.mesh_resource = "file://" + object_models_[i]->get_marker_mesh_path();
+      marker_msg.mesh_resource =
+          "file://" + object_models_[i]->get_marker_mesh_path();
       marker_msg.color.r = 1;
       marker_msg.color.g = 1;
       marker_msg.color.b = 1;
@@ -90,45 +103,58 @@ void pcl_object_recognition::publish_messages(
   object_marker_pub_.publish(marker_array_msg);
 }
 
-std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > pcl_object_recognition::recognize(
-    object_model* target_object_model) {
+std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> >
+pcl_object_recognition::recognize(object_model* target_object_model)
+{
   //
   //  Find Model-Scene Correspondences with KdTree
   //
   pcl::CorrespondencesPtr model_scene_corrs(new pcl::Correspondences());
   pcl::KdTreeFLANN<pcl::SHOT352> match_search;
   match_search.setInputCloud(target_object_model->get_model_descriptors());
-  //  For each scene keypoint descriptor, find nearest neighbor into the model keypoints descriptor cloud and
+  //  For each scene keypoint descriptor, find nearest neighbor into the model
+  //  keypoints descriptor cloud and
   //  add it to the correspondences vector.
   for (size_t i = 0; i < scene_model_->get_model_descriptors()->size(); ++i) {
     std::vector<int> neigh_indices(1);
     std::vector<float> neigh_sqr_dists(1);
-    if (!pcl_isfinite(scene_model_->get_model_descriptors()->at(i).descriptor[0]))  // skipping NaNs
+    if (!pcl_isfinite(scene_model_->get_model_descriptors()
+                          ->at(i)
+                          .descriptor[0]))  // skipping NaNs
     {
       continue;
     }
-    int found_neighs = match_search.nearestKSearch(scene_model_->get_model_descriptors()->at(i), 1,
-                                                   neigh_indices, neigh_sqr_dists);
-    if (found_neighs == 1 && neigh_sqr_dists[0] < 0.25f)  //  add match only if the squared descriptor
-                                                          //  distance is less than 0.25 (SHOT descriptor
-                                                          //  distances are between 0 and 1 by design)
+    int found_neighs = match_search.nearestKSearch(
+        scene_model_->get_model_descriptors()->at(i), 1, neigh_indices,
+        neigh_sqr_dists);
+    if (found_neighs == 1 &&
+        neigh_sqr_dists[0] <
+            0.25f)  //  add match only if the squared descriptor
+                    //  distance is less than 0.25 (SHOT descriptor
+                    //  distances are between 0 and 1 by design)
     {
-      pcl::Correspondence corr(neigh_indices[0], static_cast<int>(i), neigh_sqr_dists[0]);
+      pcl::Correspondence corr(neigh_indices[0], static_cast<int>(i),
+                               neigh_sqr_dists[0]);
       model_scene_corrs->push_back(corr);
     }
   }
   //
   //  Actual Clustering
   //
-  std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > rototranslations;
+  std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> >
+      rototranslations;
   std::vector<pcl::Correspondences> clustered_corrs;
   //
   //  Compute (Keypoints) Reference Frames only for Hough
   //
-  pcl::PointCloud<pcl::ReferenceFrame>::Ptr model_rf(new pcl::PointCloud<pcl::ReferenceFrame>());
-  pcl::PointCloud<pcl::ReferenceFrame>::Ptr scene_rf(new pcl::PointCloud<pcl::ReferenceFrame>());
+  pcl::PointCloud<pcl::ReferenceFrame>::Ptr model_rf(
+      new pcl::PointCloud<pcl::ReferenceFrame>());
+  pcl::PointCloud<pcl::ReferenceFrame>::Ptr scene_rf(
+      new pcl::PointCloud<pcl::ReferenceFrame>());
 
-  pcl::BOARDLocalReferenceFrameEstimation<pcl::PointXYZ, pcl::Normal, pcl::ReferenceFrame> rf_est;
+  pcl::BOARDLocalReferenceFrameEstimation<pcl::PointXYZ, pcl::Normal,
+                                          pcl::ReferenceFrame>
+      rf_est;
   rf_est.setFindHoles(true);
   rf_est.setRadiusSearch(1);
 
@@ -143,7 +169,9 @@ std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > pcl_obj
   rf_est.compute(*scene_rf);
 
   //  Clustering
-  pcl::Hough3DGrouping<pcl::PointXYZ, pcl::PointXYZ, pcl::ReferenceFrame, pcl::ReferenceFrame> clusterer;
+  pcl::Hough3DGrouping<pcl::PointXYZ, pcl::PointXYZ, pcl::ReferenceFrame,
+                       pcl::ReferenceFrame>
+      clusterer;
   clusterer.setHoughBinSize(1.0);
   clusterer.setHoughThreshold(5.0);
   clusterer.setUseInterpolation(true);
@@ -160,7 +188,9 @@ std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > pcl_obj
   return rototranslations;
 }
 
-geometry_msgs::Quaternion pcl_object_recognition::rot_to_quat(Eigen::Matrix3f rotation) {
+geometry_msgs::Quaternion pcl_object_recognition::rot_to_quat(
+    Eigen::Matrix3f rotation)
+{
   geometry_msgs::Quaternion quat;
   float q0 = (rotation(0, 0) + rotation(1, 1) + rotation(2, 2) + 1.0f) / 4.0f;
   float q1 = (rotation(0, 0) - rotation(1, 1) - rotation(2, 2) + 1.0f) / 4.0f;
@@ -179,30 +209,36 @@ geometry_msgs::Quaternion pcl_object_recognition::rot_to_quat(Eigen::Matrix3f ro
     q1 *= sign(rotation(2, 1) - rotation(1, 2));
     q2 *= sign(rotation(0, 2) - rotation(2, 0));
     q3 *= sign(rotation(1, 0) - rotation(0, 1));
-  } else if (q1 >= q0 && q1 >= q2 && q1 >= q3) {
+  }
+  else if (q1 >= q0 && q1 >= q2 && q1 >= q3) {
     q0 *= sign(rotation(2, 1) - rotation(1, 2));
     q1 *= +1.0f;
     q2 *= sign(rotation(1, 0) + rotation(0, 1));
     q3 *= sign(rotation(0, 2) + rotation(2, 0));
-  } else if (q2 >= q0 && q2 >= q1 && q2 >= q3) {
+  }
+  else if (q2 >= q0 && q2 >= q1 && q2 >= q3) {
     q0 *= sign(rotation(0, 2) - rotation(2, 0));
     q1 *= sign(rotation(1, 0) + rotation(0, 1));
     q2 *= +1.0f;
     q3 *= sign(rotation(2, 1) + rotation(1, 2));
-  } else if (q3 >= q0 && q3 >= q1 && q3 >= q2) {
+  }
+  else if (q3 >= q0 && q3 >= q1 && q3 >= q2) {
     q0 *= sign(rotation(1, 0) - rotation(0, 1));
     q1 *= sign(rotation(0, 2) + rotation(2.0));
     q2 *= sign(rotation(2, 1) + rotation(1, 2));
     q3 *= +1.0f;
-  } else {
+  }
+  else {
     ROS_ERROR_STREAM("Failed to convert quaternion");
   }
   return quat;
 }
 
-object_model* pcl_object_recognition::load_object_model(std::string object_name,
-                                                        std::string stl_file_path,
-                                                        std::string marker_mesh_path) {
+object_model* pcl_object_recognition::load_object_model(
+    std::string object_name,
+    std::string stl_file_path,
+    std::string marker_mesh_path)
+{
   pcl::PolygonMesh::Ptr mesh(new pcl::PolygonMesh());
   pcl::PointCloud<pcl::PointXYZ>::Ptr object_pointcloud =
       pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
@@ -210,24 +246,32 @@ object_model* pcl_object_recognition::load_object_model(std::string object_name,
     pcl::io::loadPolygonFileSTL(stl_file_path, *mesh);
     pcl::fromPCLPointCloud2(mesh->cloud, *object_pointcloud);
     ROS_INFO_STREAM("load stl file from:" << stl_file_path);
-  } else {
+  }
+  else {
     ROS_ERROR_STREAM("file is not exist:" << stl_file_path);
     // return;
   }
-  object_model* obj_model = new object_model(object_pointcloud, object_name, stl_file_path, marker_mesh_path);
+  object_model* obj_model = new object_model(object_pointcloud, object_name,
+                                             stl_file_path, marker_mesh_path);
   return obj_model;
 }
 
-void pcl_object_recognition::read_parameters() {
+void pcl_object_recognition::read_parameters()
+{
   XmlRpc::XmlRpcValue parameters;
   nh_.getParam(ros::this_node::getName(), parameters);
   pointcloud_topic_ = std::string(parameters["input_cloud"]);
   XmlRpc::XmlRpcValue target_objects_params = parameters["target_objects"];
-  std::string resource_path = ros::package::getPath("robotx_recognition") + "/data/";
-  for (auto object_param_itr = target_objects_params.begin(); object_param_itr != target_objects_params.end();
-       ++object_param_itr) {
-    std::string stl_path = resource_path + std::string(object_param_itr->second["stl_filename"]);
-    std::string mesh_path = resource_path + std::string(object_param_itr->second["marker_filename"]);
-    object_models_.push_back(load_object_model(object_param_itr->first, stl_path, mesh_path));
+  std::string resource_path =
+      ros::package::getPath("robotx_recognition") + "/data/";
+  for (auto object_param_itr = target_objects_params.begin();
+       object_param_itr != target_objects_params.end(); ++object_param_itr) {
+    std::string stl_path =
+        resource_path + std::string(object_param_itr->second["stl_filename"]);
+    std::string mesh_path =
+        resource_path +
+        std::string(object_param_itr->second["marker_filename"]);
+    object_models_.push_back(
+        load_object_model(object_param_itr->first, stl_path, mesh_path));
   }
 }

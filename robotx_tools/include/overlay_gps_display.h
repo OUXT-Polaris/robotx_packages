@@ -50,41 +50,43 @@
 #include <boost/circular_buffer.hpp>
 
 namespace ros_ship_visualization {
-class OverlayGpsDisplay : public rviz::MessageFilterDisplay<sensor_msgs::NavSatFix> {
-  Q_OBJECT
- public:
-  OverlayGpsDisplay();
-  virtual ~OverlayGpsDisplay();
+  class OverlayGpsDisplay
+      : public rviz::MessageFilterDisplay<sensor_msgs::NavSatFix> {
+    Q_OBJECT
+   public:
+    OverlayGpsDisplay();
+    virtual ~OverlayGpsDisplay();
 
- protected:
-  virtual void onInitialize();
-  virtual void reset();
+   protected:
+    virtual void onInitialize();
+    virtual void reset();
 
- private:
-  void processMessage(const sensor_msgs::NavSatFix::ConstPtr& msg);
-  bool download_map(std::string request_url);
-  void load_map_downloader_script();
-  bool build_request_url(const sensor_msgs::NavSatFix::ConstPtr& msg, std::string& request_url);
-  inline bool check_map_image_file();
-  rviz::IntProperty* zoom_property_;
-  rviz::IntProperty* width_property_;
-  rviz::IntProperty* height_property_;
-  rviz::IntProperty* scale_property_;
-  rviz::IntProperty* position_x_property_;
-  rviz::IntProperty* position_y_property_;
-  rviz::IntProperty* messages_per_plot_property_;
-  rviz::IntProperty* history_length_property_;
-  rviz::FloatProperty* alpha_property_;
-  // rviz::StringProperty* api_key_property_;
-  rviz::EnumProperty* maptype_property_;
-  boost::circular_buffer<sensor_msgs::NavSatFix> fix_buffer_;
-  PyObject* map_downloader_function_;
-  std::string map_image_path_, api_key_;
-  OverlayObject::Ptr overlay_;
- private Q_SLOTS:
-  void updateGooleMapAPIProperty();
-  void updateDisplayProperty();
-  void updateHistoryLength();
-};
+   private:
+    void processMessage(const sensor_msgs::NavSatFix::ConstPtr& msg);
+    bool download_map(std::string request_url);
+    void load_map_downloader_script();
+    bool build_request_url(const sensor_msgs::NavSatFix::ConstPtr& msg,
+                           std::string& request_url);
+    inline bool check_map_image_file();
+    rviz::IntProperty* zoom_property_;
+    rviz::IntProperty* width_property_;
+    rviz::IntProperty* height_property_;
+    rviz::IntProperty* scale_property_;
+    rviz::IntProperty* position_x_property_;
+    rviz::IntProperty* position_y_property_;
+    rviz::IntProperty* messages_per_plot_property_;
+    rviz::IntProperty* history_length_property_;
+    rviz::FloatProperty* alpha_property_;
+    // rviz::StringProperty* api_key_property_;
+    rviz::EnumProperty* maptype_property_;
+    boost::circular_buffer<sensor_msgs::NavSatFix> fix_buffer_;
+    PyObject* map_downloader_function_;
+    std::string map_image_path_, api_key_;
+    OverlayObject::Ptr overlay_;
+   private Q_SLOTS:
+    void updateGooleMapAPIProperty();
+    void updateDisplayProperty();
+    void updateHistoryLength();
+  };
 }
 #endif

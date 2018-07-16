@@ -43,57 +43,59 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 #include <ros/callback_queue.h>
 
 namespace gazebo {
-class UsvWindPlugin : public ModelPlugin {
- public:
-  UsvWindPlugin();
-  virtual ~UsvWindPlugin();
-  /*! Loads the model in gets dynamic parameters from SDF. */
-  virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
+  class UsvWindPlugin : public ModelPlugin {
+   public:
+    UsvWindPlugin();
+    virtual ~UsvWindPlugin();
+    /*! Loads the model in gets dynamic parameters from SDF. */
+    virtual void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
 
- protected:
-  /*! Callback for Gazebo simulation engine */
-  virtual void UpdateChild();
-  virtual void FiniChild();
+   protected:
+    /*! Callback for Gazebo simulation engine */
+    virtual void UpdateChild();
+    virtual void FiniChild();
 
- private:
-  double getSdfParamDouble(sdf::ElementPtr sdfPtr, const std::string &param_name, double default_val);
+   private:
+    double getSdfParamDouble(sdf::ElementPtr sdfPtr,
+                             const std::string &param_name,
+                             double default_val);
 
-  /*! ROS spin once */
-  void spin();
+    /*! ROS spin once */
+    void spin();
 
-  /// Parameters
-  std::string node_namespace_;
-  std::string link_name_;
+    /// Parameters
+    std::string node_namespace_;
+    std::string link_name_;
 
-  ros::NodeHandle *rosnode_;
+    ros::NodeHandle *rosnode_;
 
-  // GazeboRosPtr gazebo_ros_;
-  // physics::ModelPtr parent;
-  event::ConnectionPtr update_connection_;
+    // GazeboRosPtr gazebo_ros_;
+    // physics::ModelPtr parent;
+    event::ConnectionPtr update_connection_;
 
-  /*! Pointer to the Gazebo world, retrieved when the model is loaded */
-  physics::WorldPtr world_;
-  /*! Pointer to Gazebo parent model, retrieved when the model is loaded */
-  physics::ModelPtr model_;
-  /*! Pointer to model link in gazebo,
-    optionally specified by the bodyName parameter,
-    The states are taken from this link and forces applied to this link.*/
-  physics::LinkPtr link_;
+    /*! Pointer to the Gazebo world, retrieved when the model is loaded */
+    physics::WorldPtr world_;
+    /*! Pointer to Gazebo parent model, retrieved when the model is loaded */
+    physics::ModelPtr model_;
+    /*! Pointer to model link in gazebo,
+      optionally specified by the bodyName parameter,
+      The states are taken from this link and forces applied to this link.*/
+    physics::LinkPtr link_;
 
-  /*! Wind velocity in Gazebo coordinates [m/s] */
-  math::Vector3 param_wind_velocity_vector_;
+    /*! Wind velocity in Gazebo coordinates [m/s] */
+    math::Vector3 param_wind_velocity_vector_;
 
-  /*! Wind force coefficients */
-  math::Vector3 param_wind_coeff_vector_;
+    /*! Wind force coefficients */
+    math::Vector3 param_wind_coeff_vector_;
 
-  boost::thread *spinner_thread_;
+    boost::thread *spinner_thread_;
 
-  event::ConnectionPtr contact_event_;
+    event::ConnectionPtr contact_event_;
 
-  // Pointer to the update event connection
-  event::ConnectionPtr updateConnection;
+    // Pointer to the update event connection
+    event::ConnectionPtr updateConnection;
 
-};  // class UsvWindPlugin
+  };  // class UsvWindPlugin
 }  // namespace gazebo
 
 #endif  // USV_GAZEBO_WIND_H

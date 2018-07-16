@@ -40,7 +40,8 @@ BuoyancyPlugin::BuoyancyPlugin()
     // Density of liquid water at 1 atm pressure and 15 degrees Celsius.
     : fluidDensity(999.1026),
       fluidLevel(0.0),
-      fluidDrag(0.0) {
+      fluidDrag(0.0)
+{
   // pass
 }
 
@@ -50,7 +51,8 @@ BuoyancyPlugin::BuoyancyPlugin()
  * @param _model target model pointer
  * @param _sdf target element pointer
  */
-void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
+void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
+{
   GZ_ASSERT(_model != NULL, "Received NULL model pointer");
   this->model = _model;
   physics::WorldPtr world = _model->GetWorld();
@@ -83,8 +85,9 @@ void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
     for (sdf::ElementPtr linkElem = this->sdf->GetElement("link"); linkElem;
          linkElem = linkElem->GetNextElement("link")) {
       // Print each attribute for the link
-      gzmsg << "Looking for name attribute in link number " << cnt << ", which has "
-            << linkElem->GetAttributeCount() << " attributes" << std::endl;
+      gzmsg << "Looking for name attribute in link number " << cnt
+            << ", which has " << linkElem->GetAttributeCount() << " attributes"
+            << std::endl;
       cnt++;
       int id = -1;
       std::string name = "";
@@ -101,8 +104,10 @@ void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
         id = link->GetId();
         // Add this link to our list for applying buoy forces
         this->buoyLinks.push_back(link);
-      } else {
-        gzwarn << "Missing 'name' element within link number [" << cnt - 1 << "] in SDF" << std::endl;
+      }
+      else {
+        gzwarn << "Missing 'name' element within link number [" << cnt - 1
+               << "] in SDF" << std::endl;
         // Exit if we didn't set ID
         continue;
       }
@@ -113,11 +118,13 @@ void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
       }
 
       if (linkElem->HasElement("center_of_volume")) {
-        math::Vector3 cov = linkElem->GetElement("center_of_volume")->Get<math::Vector3>();
+        math::Vector3 cov =
+            linkElem->GetElement("center_of_volume")->Get<math::Vector3>();
         this->volPropsMap[id].cov = cov;
-      } else {
-        gzwarn << "Required element center_of_volume missing from link [" << name << "] in BuoyancyPlugin SDF"
-               << std::endl;
+      }
+      else {
+        gzwarn << "Required element center_of_volume missing from link ["
+               << name << "] in BuoyancyPlugin SDF" << std::endl;
         continue;
       }
       /*
@@ -145,30 +152,34 @@ void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
       if (linkElem->HasElement("area")) {
         double area = linkElem->GetElement("area")->Get<double>();
         if (area <= 0) {
-          gzwarn << "Nonpositive area specified in BuoyancyPlugin!" << std::endl;
+          gzwarn << "Nonpositive area specified in BuoyancyPlugin!"
+                 << std::endl;
           // Remove the element from the map since it's invalid.
           this->volPropsMap.erase(id);
           continue;
         }
         this->volPropsMap[id].area = area;
-      } else {
-        gzwarn << "Required element 'area' missing from element link [" << name << "] in BuoyancyPlugin SDF"
-               << std::endl;
+      }
+      else {
+        gzwarn << "Required element 'area' missing from element link [" << name
+               << "] in BuoyancyPlugin SDF" << std::endl;
         continue;
       }
 
       if (linkElem->HasElement("height")) {
         double height = linkElem->GetElement("height")->Get<double>();
         if (height <= 0) {
-          gzwarn << "Nonpositive height specified in BuoyancyPlugin!" << std::endl;
+          gzwarn << "Nonpositive height specified in BuoyancyPlugin!"
+                 << std::endl;
           // Remove the element from the map since it's invalid.
           this->volPropsMap.erase(id);
           continue;
         }
         this->volPropsMap[id].height = height;
-      } else {
-        gzwarn << "Required element 'height' missing from element link [" << name << "] in BuoyancyPlugin SDF"
-               << std::endl;
+      }
+      else {
+        gzwarn << "Required element 'height' missing from element link ["
+               << name << "] in BuoyancyPlugin SDF" << std::endl;
         continue;
       }
     }
@@ -220,15 +231,18 @@ void BuoyancyPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
  * Initialized.
  *
  */
-void BuoyancyPlugin::Init() {
-  this->updateConnection = event::Events::ConnectWorldUpdateBegin(std::bind(&BuoyancyPlugin::OnUpdate, this));
+void BuoyancyPlugin::Init()
+{
+  this->updateConnection = event::Events::ConnectWorldUpdateBegin(
+      std::bind(&BuoyancyPlugin::OnUpdate, this));
 }
 
 /**
  * @brief Gazebo plugin function when the simulation updates.
  *
  */
-void BuoyancyPlugin::OnUpdate() {
+void BuoyancyPlugin::OnUpdate()
+{
   //  for (auto link : this->model->GetLinks()){
   // physics::Link_V links = this->model->GetLinks();
   physics::LinkPtr link;
@@ -256,10 +270,12 @@ void BuoyancyPlugin::OnUpdate() {
     if (bottomRelSurf <= 0)  // out of water
     {
       volume = 0.0;
-    } else if (bottomRelSurf <= height)  // at surface
+    }
+    else if (bottomRelSurf <= height)  // at surface
     {
       volume = bottomRelSurf * area;
-    } else {
+    }
+    else {
       volume = height * area;
     }
 
@@ -289,7 +305,8 @@ void BuoyancyPlugin::OnUpdate() {
     }
 
     // rotate buoyancy into the link frame before applying the force.
-    math::Vector3 buoyancyLinkFrame = linkFrame.rot.GetInverse().RotateVector(buoyancy);
+    math::Vector3 buoyancyLinkFrame =
+        linkFrame.rot.GetInverse().RotateVector(buoyancy);
     // linkFrame.Rot().Inverse().RotateVector(buoyancy);
 
     // link->AddLinkForce(buoyancyLinkFrame, volumeProperties.cov);

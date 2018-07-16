@@ -21,41 +21,54 @@ class euclidean_clustering {
  public:
   struct euclidean_clustering_parameters {
     double cluster_tolerance;
-    euclidean_clustering_parameters() {
-      ros::param::param<double>(ros::this_node::getName() + "/euclidean_clustering/cluster_tolerance",
-                                cluster_tolerance, 0.1);
+    euclidean_clustering_parameters()
+    {
+      ros::param::param<double>(
+          ros::this_node::getName() + "/euclidean_clustering/cluster_tolerance",
+          cluster_tolerance, 0.1);
     }
   };
   struct conditional_euclidian_clustering_parameters {
     double radius_search;
     double cluster_tolerance;
-    conditional_euclidian_clustering_parameters() {
-      ros::param::param<double>(ros::this_node::getName() + "/conditional_euclidean_clustering/radius_search",
-                                radius_search, 50);
+    conditional_euclidian_clustering_parameters()
+    {
       ros::param::param<double>(
-          ros::this_node::getName() + "/conditional_euclidean_clustering/cluster_tolerance",
+          ros::this_node::getName() +
+              "/conditional_euclidean_clustering/radius_search",
+          radius_search, 50);
+      ros::param::param<double>(
+          ros::this_node::getName() +
+              "/conditional_euclidean_clustering/cluster_tolerance",
           cluster_tolerance, 1);
     }
   };
   struct bbox_parameters {
     double inflation_size;
-    bbox_parameters() {
-      ros::param::param<double>(ros::this_node::getName() + "/inflation_size", inflation_size, 1);
+    bbox_parameters()
+    {
+      ros::param::param<double>(ros::this_node::getName() + "/inflation_size",
+                                inflation_size, 1);
     }
   };
   euclidean_clustering();
   ~euclidean_clustering();
-  enum clustering_methods { CONDITIONAL_EUCLIDIAN_CLUSTERING = 0, EUCLIDIAN_CLUSTER_EXTRACTION = 1 };
+  enum clustering_methods {
+    CONDITIONAL_EUCLIDIAN_CLUSTERING = 0,
+    EUCLIDIAN_CLUSTER_EXTRACTION = 1
+  };
 
  private:
-  const conditional_euclidian_clustering_parameters conditional_euclidian_clustering_params_;
+  const conditional_euclidian_clustering_parameters
+      conditional_euclidian_clustering_params_;
   const euclidean_clustering_parameters euclidian_clustering_params_;
   const bbox_parameters bbox_params_;
   void poincloud_callback(sensor_msgs::PointCloud2 msg);
   void make_cluster(sensor_msgs::PointCloud2 msg);
-  static bool custom_region_growing_function(const pcl::PointXYZINormal& point_a,
-                                             const pcl::PointXYZINormal& point_b,
-                                             float squared_distance);
+  static bool custom_region_growing_function(
+      const pcl::PointXYZINormal& point_a,
+      const pcl::PointXYZINormal& point_b,
+      float squared_distance);
   static bool enforce_intensity_similarity(const pcl::PointXYZINormal& point_a,
                                            const pcl::PointXYZINormal& point_b,
                                            float squared_distance);

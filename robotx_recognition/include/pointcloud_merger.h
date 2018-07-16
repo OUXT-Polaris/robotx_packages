@@ -20,11 +20,14 @@ class pointcloud_merger {
   struct parameters {
     std::string pointcloud1_topic;
     std::string pointcloud2_topic;
-    parameters() {
-      ros::param::param<std::string>(ros::this_node::getName() + "/pointcloud1_topic", pointcloud1_topic,
-                                     ros::this_node::getName() + "/pointcloud1");
-      ros::param::param<std::string>(ros::this_node::getName() + "/pointcloud2_topic", pointcloud2_topic,
-                                     ros::this_node::getName() + "/pointcloud2");
+    parameters()
+    {
+      ros::param::param<std::string>(
+          ros::this_node::getName() + "/pointcloud1_topic", pointcloud1_topic,
+          ros::this_node::getName() + "/pointcloud1");
+      ros::param::param<std::string>(
+          ros::this_node::getName() + "/pointcloud2_topic", pointcloud2_topic,
+          ros::this_node::getName() + "/pointcloud2");
     }
   };
   pointcloud_merger();
@@ -45,7 +48,8 @@ class pointcloud_merger {
    */
   tf2_ros::TransformListener tf_listener_;
   /**
-   * @brief ROS publisher for ~/merged_points (message type : sensor_msgs/PointCloud2)
+   * @brief ROS publisher for ~/merged_points (message type :
+   * sensor_msgs/PointCloud2)
    *
    */
   ros::Publisher output_pointcloud_pub_;
@@ -75,14 +79,16 @@ class pointcloud_merger {
    */
   ros::NodeHandle nh_;
   /**
-   * @brief ROS callback function for pointcloud1_topic (message type : sensor_msgs/PointCloud2)
+   * @brief ROS callback function for pointcloud1_topic (message type :
+   * sensor_msgs/PointCloud2)
    *
    * @param msg ROS message
    * @sa pointcloud_merger::pointcloud1_sub_
    */
   void pointcloud1_callback_(sensor_msgs::PointCloud2 msg);
   /**
-   * @brief ROS callback function for pointcloud2_topic (message type : sensor_msgs/PointCloud2)
+   * @brief ROS callback function for pointcloud2_topic (message type :
+   * sensor_msgs/PointCloud2)
    *
    * @param msg ROS message
    * @sa pointcloud_merger::pointcloud2_sub_

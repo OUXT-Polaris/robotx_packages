@@ -24,17 +24,24 @@ class object_bbox_extractor {
     double horizontal_fov;
     bool publish_rect_image;
     bool enable_roi_image_publisher;
-    parameters() {
-      ros::param::param<std::string>(ros::this_node::getName() + "/camera_link", camera_link, "camera_link");
-      ros::param::param<std::string>(ros::this_node::getName() + "/image_topic", image_topic,
+    parameters()
+    {
+      ros::param::param<std::string>(ros::this_node::getName() + "/camera_link",
+                                     camera_link, "camera_link");
+      ros::param::param<std::string>(ros::this_node::getName() + "/image_topic",
+                                     image_topic,
                                      ros::this_node::getName() + "/image_raw");
-      ros::param::param<std::string>(ros::this_node::getName() + "/euclidean_cluster_topic",
-                                     euclidean_cluster_topic,
-                                     ros::this_node::getName() + "/euclidean_cluster/bbox");
-      ros::param::param<double>(ros::this_node::getName() + "/horizontal_fov", horizontal_fov, 1.3962634);
-      ros::param::param<bool>(ros::this_node::getName() + "/publish_rect_image", publish_rect_image, false);
-      ros::param::param<bool>(ros::this_node::getName() + "/enable_roi_image_publisher",
-                              enable_roi_image_publisher, false);
+      ros::param::param<std::string>(
+          ros::this_node::getName() + "/euclidean_cluster_topic",
+          euclidean_cluster_topic,
+          ros::this_node::getName() + "/euclidean_cluster/bbox");
+      ros::param::param<double>(ros::this_node::getName() + "/horizontal_fov",
+                                horizontal_fov, 1.3962634);
+      ros::param::param<bool>(ros::this_node::getName() + "/publish_rect_image",
+                              publish_rect_image, false);
+      ros::param::param<bool>(
+          ros::this_node::getName() + "/enable_roi_image_publisher",
+          enable_roi_image_publisher, false);
     }
   };
   object_bbox_extractor();

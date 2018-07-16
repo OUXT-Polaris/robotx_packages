@@ -38,21 +38,32 @@ class robotx_localization {
     double max_x;
     double max_y;
     double ess_threshold;
-    parameters() {
-      ros::param::param<std::string>(ros::this_node::getName() + "/robot_frame", robot_frame,
-                                     "base_footprint");
-      ros::param::param<std::string>(ros::this_node::getName() + "/publish_frame", publish_frame, "map");
-      ros::param::param<std::string>(ros::this_node::getName() + "/twist_topic", twist_topic,
+    parameters()
+    {
+      ros::param::param<std::string>(ros::this_node::getName() + "/robot_frame",
+                                     robot_frame, "base_footprint");
+      ros::param::param<std::string>(
+          ros::this_node::getName() + "/publish_frame", publish_frame, "map");
+      ros::param::param<std::string>(ros::this_node::getName() + "/twist_topic",
+                                     twist_topic,
                                      ros::this_node::getName() + "/twist");
-      ros::param::param<std::string>(ros::this_node::getName() + "/fix_topic", fix_topic,
+      ros::param::param<std::string>(ros::this_node::getName() + "/fix_topic",
+                                     fix_topic,
                                      ros::this_node::getName() + "/fix");
-      ros::param::param<int>(ros::this_node::getName() + "/num_particles", num_particles, 1000);
-      ros::param::param<int>(ros::this_node::getName() + "/publish_rate", publish_rate, 100);
-      ros::param::param<double>(ros::this_node::getName() + "/min_x", min_x, -100);
-      ros::param::param<double>(ros::this_node::getName() + "/min_y", min_y, -100);
-      ros::param::param<double>(ros::this_node::getName() + "/max_x", max_x, 100);
-      ros::param::param<double>(ros::this_node::getName() + "/max_y", max_y, 100);
-      ros::param::param<double>(ros::this_node::getName() + "/ess_threshold", ess_threshold,
+      ros::param::param<int>(ros::this_node::getName() + "/num_particles",
+                             num_particles, 1000);
+      ros::param::param<int>(ros::this_node::getName() + "/publish_rate",
+                             publish_rate, 100);
+      ros::param::param<double>(ros::this_node::getName() + "/min_x", min_x,
+                                -100);
+      ros::param::param<double>(ros::this_node::getName() + "/min_y", min_y,
+                                -100);
+      ros::param::param<double>(ros::this_node::getName() + "/max_x", max_x,
+                                100);
+      ros::param::param<double>(ros::this_node::getName() + "/max_y", max_y,
+                                100);
+      ros::param::param<double>(ros::this_node::getName() + "/ess_threshold",
+                                ess_threshold,
                                 (double)num_particles / (double)3);
     }
   };

@@ -18,7 +18,9 @@ class bing_object_detection : public cv::saliency::ObjectnessBING {
 
  private:
   void _image_callback(const sensor_msgs::ImageConstPtr& msg);
-  void _detect(cv::Mat image, std::vector<cv::Vec4i>& bboxs, std::vector<float>& objectness_vals);
+  void _detect(cv::Mat image,
+               std::vector<cv::Vec4i>& bboxs,
+               std::vector<float>& objectness_vals);
   ros::NodeHandle _nh;
   image_transport::ImageTransport _it;
   image_transport::Subscriber _image_sub;

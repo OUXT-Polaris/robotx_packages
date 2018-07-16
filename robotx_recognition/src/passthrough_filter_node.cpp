@@ -19,7 +19,8 @@
 // headers for ros
 #include <ros/ros.h>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
   ros::init(argc, argv, "passthrough_filter_node");
   passthough_filter* filter_ptr = new passthough_filter();
   ros::spin();

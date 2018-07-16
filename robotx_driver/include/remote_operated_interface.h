@@ -31,9 +31,10 @@ class remote_operated_interface {
      * @brief Construct a new parameters objects
      *
      */
-    parameters() {
-      ros::param::param<int>(ros::this_node::getName() + "/controller_type", controller_type,
-                             DUALSHOCK4_SIMPLE);
+    parameters()
+    {
+      ros::param::param<int>(ros::this_node::getName() + "/controller_type",
+                             controller_type, DUALSHOCK4_SIMPLE);
     }
   };
 
@@ -42,8 +43,9 @@ class remote_operated_interface {
    *
    * @param set_action_mode_function callback function for set_action_mode
    */
-  remote_operated_interface(std::function<void(int)> set_action_mode_function,
-                            std::function<void(std_msgs::Float64MultiArray)> send_motor_command);
+  remote_operated_interface(
+      std::function<void(int)> set_action_mode_function,
+      std::function<void(std_msgs::Float64MultiArray)> send_motor_command);
   /**
    * @brief Destroy the remote operated interface object
    *
@@ -80,12 +82,14 @@ class remote_operated_interface {
    * @brief callback function for sending motor command
    * @sa robotx_hardware_interface::recieve_remote_oprated_motor_command
    */
-  std::function<void(std_msgs::Float64MultiArray motor_command)> send_motor_command_;
+  std::function<void(std_msgs::Float64MultiArray motor_command)>
+      send_motor_command_;
   /**
    * @brief signal for send_motor_command function
    * @sa robotx_hardware_interface::send_motor_command_
    */
-  boost::signals2::signal<void(std_msgs::Float64MultiArray motor_command)> send_motor_command_signal_;
+  boost::signals2::signal<void(std_msgs::Float64MultiArray motor_command)>
+      send_motor_command_signal_;
   /**
    * @brief ROS callback function for joystick
    *
