@@ -87,28 +87,18 @@ class robotx_hardware_interface {
      * @brief set parameters
      *
      */
-    parameters()
-    {
-      ros::param::param<int>(ros::this_node::getName() + "/target", target,
-                             ALL);
-      ros::param::param<int>(ros::this_node::getName() + "/init_mode",
-                             init_mode, REMOTE_OPERATED);
-      ros::param::param<int>(ros::this_node::getName() + "/timeout", timeout,
-                             30);
-      ros::param::param<int>(ros::this_node::getName() + "/frequency",
-                             frequency, 30);
-      ros::param::param<std::string>(
-          ros::this_node::getName() + "/left_motor_ip", left_motor_ip,
-          "127.0.0.1");
-      ros::param::param<std::string>(
-          ros::this_node::getName() + "/right_motor_ip", right_motor_ip,
-          "127.0.0.1");
-      ros::param::param<int>(ros::this_node::getName() + "/left_motor_port",
-                             left_motor_port, 50000);
-      ros::param::param<int>(ros::this_node::getName() + "/right_motor_port",
-                             right_motor_port, 50001);
-      ros::param::param<std::string>(ros::this_node::getName() + "/team_id",
-                                     team_id, "OUXT Polaris");
+    parameters() {
+      ros::param::param<int>(ros::this_node::getName() + "/target", target, ALL);
+      ros::param::param<int>(ros::this_node::getName() + "/init_mode", init_mode, REMOTE_OPERATED);
+      ros::param::param<int>(ros::this_node::getName() + "/timeout", timeout, 30);
+      ros::param::param<int>(ros::this_node::getName() + "/frequency", frequency, 30);
+      ros::param::param<std::string>(ros::this_node::getName() + "/left_motor_ip", left_motor_ip,
+                                     "127.0.0.1");
+      ros::param::param<std::string>(ros::this_node::getName() + "/right_motor_ip", right_motor_ip,
+                                     "127.0.0.1");
+      ros::param::param<int>(ros::this_node::getName() + "/left_motor_port", left_motor_port, 50000);
+      ros::param::param<int>(ros::this_node::getName() + "/right_motor_port", right_motor_port, 50001);
+      ros::param::param<std::string>(ros::this_node::getName() + "/team_id", team_id, "OUXT Polaris");
     };
   };
   robotx_hardware_interface();
@@ -288,16 +278,14 @@ class robotx_hardware_interface {
    *
    * @param stat
    */
-  void update_left_thruster_connection_status_(
-      diagnostic_updater::DiagnosticStatusWrapper &stat);
+  void update_left_thruster_connection_status_(diagnostic_updater::DiagnosticStatusWrapper &stat);
   /**
    * @brief diagnostic update function for right thruster
    * checke TCP/IP connection status
    *
    * @param stat
    */
-  void update_right_thruster_connection_status_(
-      diagnostic_updater::DiagnosticStatusWrapper &stat);
+  void update_right_thruster_connection_status_(diagnostic_updater::DiagnosticStatusWrapper &stat);
 };
 
 #endif  // ROBOTX_HARDWARE_INTERFACE_H_INCLUDEDE

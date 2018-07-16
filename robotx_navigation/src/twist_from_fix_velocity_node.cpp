@@ -21,8 +21,7 @@
  * @param argv args
  * @return int aleays return 0;
  */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ros::init(argc, argv, "twist_from_fix_velocity_node");
   twist_calculator calculator;
   ros::spin();

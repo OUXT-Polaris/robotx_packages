@@ -1,31 +1,26 @@
 #include <robotx_localization.h>
 
-robotx_localization::robotx_localization() : params_()
-{
+robotx_localization::robotx_localization() : params_() {
   Eigen::VectorXd init_value = Eigen::VectorXd::Ones(3);
   init_value = init_value * 0.5;
   std::vector<bool> is_circular(3);
   is_circular[0] = false;
   is_circular[1] = false;
   is_circular[2] = true;
-  pfilter_ptr_ =
-      new particle_filter(3, params_.num_particles, init_value, is_circular);
+  pfilter_ptr_ = new particle_filter(3, params_.num_particles, init_value, is_circular);
   fix_recieved_ = false;
   twist_received_ = false;
   robot_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose", 1);
   odom_pub_ = nh_.advertise<nav_msgs::Odometry>("/odom", 1);
   init_fix_pub_ = nh_.advertise<sensor_msgs::NavSatFix>("/origin/fix", 1);
-  fix_sub_ = nh_.subscribe(params_.fix_topic, 1,
-                           &robotx_localization::fix_callback_, this);
-  twist_sub_ = nh_.subscribe(params_.twist_topic, 1,
-                             &robotx_localization::twist_callback_, this);
-  thread_update_frame_ =
-      boost::thread(boost::bind(&robotx_localization::update_frame_, this));
+  fix_sub_ = nh_.subscribe(params_.fix_topic, 1, &robotx_localization::fix_callback_, this);
+  twist_sub_ = nh_.subscribe(params_.twist_topic, 1, &robotx_localization::twist_callback_, this);
+  thread_update_frame_ = boost::thread(boost::bind(&robotx_localization::update_frame_, this));
 }
 
 robotx_localization::~robotx_localization() { thread_update_frame_.join(); }
-void robotx_localization::update_frame_()
-{
+
+void robotx_localization::update_frame_() {
   ros::Rate rate(params_.publish_rate);
   while (fix_recieved_ == false) {
     rate.sleep();
@@ -52,17 +47,15 @@ void robotx_localization::update_frame_()
     control_input(2) = control_input(2) / (2 * M_PI);
     pfilter_ptr_->add_system_noise(control_input, 0);
     Eigen::MatrixXd states = pfilter_ptr_->get_states();
-    double measurement_x =
-        (last_fix_message_.longitude - init_measurement_.longitude) *
-        111263.283 / (params_.max_x - params_.min_x);
-    double measurement_y =
-        (last_fix_message_.latitude - init_measurement_.latitude) * 6378150 *
-        std::cos(last_fix_message_.longitude / 180 * M_PI) * 2 * M_PI /
-        (360 * 60 * 60) / (params_.max_y - params_.min_y);
+    double measurement_x = (last_fix_message_.longitude - init_measurement_.longitude) * 111263.283 /
+                           (params_.max_x - params_.min_x);
+    double measurement_y = (last_fix_message_.latitude - init_measurement_.latitude) * 6378150 *
+                           std::cos(last_fix_message_.longitude / 180 * M_PI) * 2 * M_PI / (360 * 60 * 60) /
+                           (params_.max_y - params_.min_y);
     Eigen::VectorXd weights(params_.num_particles);
     for (int i = 0; i < params_.num_particles; i++) {
-      double error = std::sqrt(std::pow(states(0, i) - measurement_x, 2) +
-                               std::pow(states(1, i) - measurement_y, 2));
+      double error =
+          std::sqrt(std::pow(states(0, i) - measurement_x, 2) + std::pow(states(1, i) - measurement_y, 2));
       double threashold = 0.01;
       // avoid zero division
       if (std::fabs(error) < threashold) error = threashold;
@@ -88,10 +81,8 @@ void robotx_localization::update_frame_()
     broadcaster_.sendTransform(transform_stamped);
     geometry_msgs::PoseStamped robot_pose_msg;
     robot_pose_msg.header = transform_stamped.header;
-    robot_pose_msg.pose.position.x =
-        predicted_pos(0) * (params_.max_x - params_.min_x) + params_.min_x;
-    robot_pose_msg.pose.position.y =
-        predicted_pos(1) * (params_.max_y - params_.min_y) + params_.min_y;
+    robot_pose_msg.pose.position.x = predicted_pos(0) * (params_.max_x - params_.min_x) + params_.min_x;
+    robot_pose_msg.pose.position.y = predicted_pos(1) * (params_.max_y - params_.min_y) + params_.min_y;
     robot_pose_msg.pose.position.z = 0;
     robot_pose_msg.pose.orientation.x = q.x();
     robot_pose_msg.pose.orientation.y = q.y();
@@ -112,8 +103,7 @@ void robotx_localization::update_frame_()
   }
 }
 
-void robotx_localization::fix_callback_(sensor_msgs::NavSatFix msg)
-{
+void robotx_localization::fix_callback_(sensor_msgs::NavSatFix msg) {
   std::lock_guard<std::mutex> lock(fix_mutex_);
   if (fix_recieved_ == false) {
     init_measurement_ = msg;
@@ -122,8 +112,7 @@ void robotx_localization::fix_callback_(sensor_msgs::NavSatFix msg)
   fix_recieved_ = true;
 }
 
-void robotx_localization::twist_callback_(geometry_msgs::Twist msg)
-{
+void robotx_localization::twist_callback_(geometry_msgs::Twist msg) {
   std::lock_guard<std::mutex> lock(twist_mutex_);
   last_twist_message_ = msg;
   twist_received_ = true;

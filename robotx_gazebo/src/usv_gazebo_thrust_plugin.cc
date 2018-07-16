@@ -30,8 +30,8 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 using namespace gazebo;
 
 UsvThrust::UsvThrust() {}
-UsvThrust::~UsvThrust()
-{
+
+UsvThrust::~UsvThrust() {
   rosnode_->shutdown();
   spinner_thread_->join();
   delete rosnode_;
@@ -39,27 +39,22 @@ UsvThrust::~UsvThrust()
 }
 
 void UsvThrust::FiniChild() {}
+
 double UsvThrust::getSdfParamDouble(sdf::ElementPtr sdfPtr,
                                     const std::string &param_name,
-                                    double default_val)
-{
+                                    double default_val) {
   double val = default_val;
-  if (sdfPtr->HasElement(param_name) &&
-      sdfPtr->GetElement(param_name)->GetValue()) {
+  if (sdfPtr->HasElement(param_name) && sdfPtr->GetElement(param_name)->GetValue()) {
     val = sdfPtr->GetElement(param_name)->Get<double>();
-    ROS_INFO_STREAM("Parameter found - setting <" << param_name << "> to <"
-                                                  << val << ">.");
-  }
-  else {
-    ROS_INFO_STREAM("Parameter <" << param_name
-                                  << "> not found: Using default value of <"
-                                  << val << ">.");
+    ROS_INFO_STREAM("Parameter found - setting <" << param_name << "> to <" << val << ">.");
+
+  } else {
+    ROS_INFO_STREAM("Parameter <" << param_name << "> not found: Using default value of <" << val << ">.");
   }
   return val;
 }
 
-void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
-{
+void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
   ROS_INFO("Loading usv_gazebo_thrust_plugin");
   model_ = _parent;
   world_ = model_->GetWorld();
@@ -86,17 +81,14 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
   // Get parameters from SDF
   if (_sdf->HasElement("robotNamespace")) {
-    node_namespace_ =
-        _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
+    node_namespace_ = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
   }
 
-  if (!_sdf->HasElement("bodyName") ||
-      !_sdf->GetElement("bodyName")->GetValue()) {
+  if (!_sdf->HasElement("bodyName") || !_sdf->GetElement("bodyName")->GetValue()) {
     link_ = model_->GetLink();
     link_name_ = link_->GetName();
     ROS_INFO_STREAM("Did not find SDF parameter bodyName");
-  }
-  else {
+  } else {
     link_name_ = _sdf->GetElement("bodyName")->Get<std::string>();
     // link_name_ = "thrust_link";
     link_ = model_->GetLink(link_name_);
@@ -104,18 +96,16 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     ROS_INFO_STREAM("Found SDF parameter bodyName as <" << link_name_ << ">");
   }
   if (!link_) {
-    ROS_FATAL("usv_gazebo_thrust_plugin error: bodyName: %s does not exist\n",
-              link_name_.c_str());
+    ROS_FATAL("usv_gazebo_thrust_plugin error: bodyName: %s does not exist\n", link_name_.c_str());
     return;
-  }
-  else {
+  } else {
     ROS_INFO_STREAM("USV Model Link Name = " << link_name_);
   }
 
   LoadParams(_sdf, std::string("leftThrusterJoint"), left_thruster_joint_name_,
              std::string("left_thruster_joint"));
-  LoadParams(_sdf, std::string("rightThrusterJoint"),
-             right_thruster_joint_name_, std::string("right_thruster_joint"));
+  LoadParams(_sdf, std::string("rightThrusterJoint"), right_thruster_joint_name_,
+             std::string("right_thruster_joint"));
   left_thruster_joint_ = model_->GetJoint(left_thruster_joint_name_);
   right_thruster_joint_ = model_->GetJoint(right_thruster_joint_name_);
   if (!left_thruster_joint_) {
@@ -134,16 +124,12 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   }
 
   cmd_timeout_ = getSdfParamDouble(_sdf, "cmdTimeout", cmd_timeout_);
-  if (_sdf->HasElement("mappingType") &&
-      _sdf->GetElement("mappingType")->GetValue()) {
+  if (_sdf->HasElement("mappingType") && _sdf->GetElement("mappingType")->GetValue()) {
     param_mapping_type_ = _sdf->GetElement("mappingType")->Get<int>();
-    ROS_INFO_STREAM("Parameter found - setting <mappingType> to <"
-                    << param_mapping_type_ << ">.");
-  }
-  else {
-    ROS_INFO_STREAM(
-        "Parameter <mappingType> not found: Using default value of <"
-        << param_mapping_type_ << ">.");
+    ROS_INFO_STREAM("Parameter found - setting <mappingType> to <" << param_mapping_type_ << ">.");
+  } else {
+    ROS_INFO_STREAM("Parameter <mappingType> not found: Using default value of <" << param_mapping_type_
+                                                                                  << ">.");
   }
   // verify
   if ((param_mapping_type_ > 1) || (param_mapping_type_ < 0)) {
@@ -151,17 +137,12 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     param_mapping_type_ = 0;
   }
   param_max_cmd_ = getSdfParamDouble(_sdf, "maxCmd", param_max_cmd_);
-  param_max_force_fwd_ =
-      getSdfParamDouble(_sdf, "maxForceFwd", param_max_force_fwd_);
-  param_max_force_rev_ =
-      getSdfParamDouble(_sdf, "maxForceRev", param_max_force_rev_);
-  param_max_force_rev_ =
-      -1.0 * std::abs(param_max_force_rev_);  // make negative
+  param_max_force_fwd_ = getSdfParamDouble(_sdf, "maxForceFwd", param_max_force_fwd_);
+  param_max_force_rev_ = getSdfParamDouble(_sdf, "maxForceRev", param_max_force_rev_);
+  param_max_force_rev_ = -1.0 * std::abs(param_max_force_rev_);  // make negative
   param_boat_width_ = getSdfParamDouble(_sdf, "boatWidth", param_boat_width_);
-  param_boat_length_ =
-      getSdfParamDouble(_sdf, "boatLength", param_boat_length_);
-  param_thrust_z_offset_ =
-      getSdfParamDouble(_sdf, "thrustOffsetZ", param_thrust_z_offset_);
+  param_boat_length_ = getSdfParamDouble(_sdf, "boatLength", param_boat_length_);
+  param_thrust_z_offset_ = getSdfParamDouble(_sdf, "thrustOffsetZ", param_thrust_z_offset_);
 
   // initialize time and odometry position
   prev_update_time_ = last_cmd_drive_time_ = this->world_->GetSimTime();
@@ -169,60 +150,48 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // Initialize the ROS node and subscribe to cmd_drive
   int argc = 0;
   char **argv = NULL;
-  ros::init(
-      argc, argv, "usv_thrust_gazebo",
-      ros::init_options::NoSigintHandler | ros::init_options::AnonymousName);
+  ros::init(argc, argv, "usv_thrust_gazebo",
+            ros::init_options::NoSigintHandler | ros::init_options::AnonymousName);
   rosnode_ = new ros::NodeHandle(node_namespace_);
 
-  cmd_drive_sub_ =
-      rosnode_->subscribe("cmd_drive", 1, &UsvThrust::OnCmdDrive, this);
+  cmd_drive_sub_ = rosnode_->subscribe("cmd_drive", 1, &UsvThrust::OnCmdDrive, this);
 
   // Listen to the update event. This event is broadcast every
   // simulation iteration.
-  this->spinner_thread_ =
-      new boost::thread(boost::bind(&UsvThrust::spin, this));
-  this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-      boost::bind(&UsvThrust::UpdateChild, this));
+  this->spinner_thread_ = new boost::thread(boost::bind(&UsvThrust::spin, this));
+  this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&UsvThrust::UpdateChild, this));
 }
 
-double UsvThrust::scaleThrustCmd(double cmd)
-{
+double UsvThrust::scaleThrustCmd(double cmd) {
   double val = 0.0;
   if (cmd >= 0.0) {
     val = cmd / param_max_cmd_ * param_max_force_fwd_;
     val = std::min(val, param_max_force_fwd_);
-  }
-  else  // cmd is less than zero
+  } else  // cmd is less than zero
   {
-    val =
-        -1.0 * std::abs(cmd) / param_max_cmd_ * std::abs(param_max_force_rev_);
+    val = -1.0 * std::abs(cmd) / param_max_cmd_ * std::abs(param_max_force_rev_);
     val = std::max(val, param_max_force_rev_);
   }
   return val;
 }
 
-double UsvThrust::glf(
-    double x, float A, float K, float B, float v, float C, float M)
-{
+double UsvThrust::glf(double x, float A, float K, float B, float v, float C, float M) {
   return A + (K - A) / (pow(C + exp(-B * (x - M)), 1.0 / v));
 }
 
-double UsvThrust::glfThrustCmd(double cmd)
-{
+double UsvThrust::glfThrustCmd(double cmd) {
   double val = 0.0;
   if (cmd > 0.01) {
     // original model
     // val = glf(cmd,0.01,59.82,5.0,0.38,0.56,0.28);
     val = glf(cmd, 0.01, 59.82, 5.0, 0.38, 0.56, 0.28) * 10;
     val = std::min(val, param_max_force_fwd_);
-  }
-  else if (cmd < 0.01) {
+  } else if (cmd < 0.01) {
     // originl model
     // val = glf(cmd,0.01,59.82,5.0,0.38,0.56,0.28);
     val = glf(cmd, -199.13, -0.09, 8.84, 5.34, 0.99, -0.57) * 10;
     val = std::max(val, param_max_force_rev_);
-  }
-  else {
+  } else {
     val = 0.0;
   }
   // ROS_INFO_STREAM_THROTTLE(0.5,cmd << ": " << val << " / " <<
@@ -230,8 +199,7 @@ double UsvThrust::glfThrustCmd(double cmd)
   return val;
 }
 
-void UsvThrust::UpdateChild()
-{
+void UsvThrust::UpdateChild() {
   common::Time time_now = this->world_->GetSimTime();
   prev_update_time_ = time_now;
 
@@ -243,9 +211,8 @@ void UsvThrust::UpdateChild()
     last_cmd_drive_right_ = 0.0;
   }
   // Scale commands to thrust and torque forces
-  ROS_DEBUG_STREAM_THROTTLE(
-      1.0, "Last cmd: left:" << last_cmd_drive_left_
-                             << " right: " << last_cmd_drive_right_);
+  ROS_DEBUG_STREAM_THROTTLE(1.0, "Last cmd: left:" << last_cmd_drive_left_
+                                                   << " right: " << last_cmd_drive_right_);
   double thrust_left = 0.0;
   double thrust_right = 0.0;
   switch (param_mapping_type_) {
@@ -269,8 +236,7 @@ void UsvThrust::UpdateChild()
                   0.5 * param_boat_width_ * thrust_left * std::cos(l_theta) -
                   param_boat_length_ * thrust_right * std::sin(r_theta) -
                   param_boat_length_ * thrust_left * std::sin(l_theta);
-  ROS_DEBUG_STREAM_THROTTLE(1.0, "Thrust: left:" << thrust_left
-                                                 << " right: " << thrust_right);
+  ROS_DEBUG_STREAM_THROTTLE(1.0, "Thrust: left:" << thrust_left << " right: " << thrust_right);
 
   // Add torque
   link_->AddRelativeTorque(math::Vector3(0, 0, torque));
@@ -278,9 +244,8 @@ void UsvThrust::UpdateChild()
   // Add input force with offset below vessel
   math::Vector3 relpos(-1.0 * param_boat_length_ / 2.0, 0.0,
                        param_thrust_z_offset_);  // relative pos of thrusters
-  math::Vector3 inputforce3(
-      thrust_right * std::cos(r_theta) + thrust_left * std::cos(l_theta),
-      thrust_right * std::sin(r_theta) + thrust_left * std::sin(l_theta), 0);
+  math::Vector3 inputforce3(thrust_right * std::cos(r_theta) + thrust_left * std::cos(l_theta),
+                            thrust_right * std::sin(r_theta) + thrust_left * std::sin(l_theta), 0);
 
   // Get Pose
   pose_ = link_->GetWorldPose();
@@ -291,15 +256,13 @@ void UsvThrust::UpdateChild()
   link_->AddForceAtRelativePosition(inputforce3, relpos);
 }
 
-void UsvThrust::OnCmdDrive(const robotx_msgs::UsvDriveConstPtr &msg)
-{
+void UsvThrust::OnCmdDrive(const robotx_msgs::UsvDriveConstPtr &msg) {
   last_cmd_drive_time_ = this->world_->GetSimTime();
   last_cmd_drive_left_ = msg->left;
   last_cmd_drive_right_ = msg->right;
 }
 
-void UsvThrust::spin()
-{
+void UsvThrust::spin() {
   while (ros::ok()) ros::spinOnce();
 }
 
