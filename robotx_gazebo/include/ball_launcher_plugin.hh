@@ -12,6 +12,7 @@
 // headers in ROS
 #include <ros/package.h>
 #include <ros/ros.h>
+#include <std_msgs/Empty.h>
 
 namespace gazebo {
   class ball_launcher_plugin : public ModelPlugin {
@@ -25,15 +26,23 @@ namespace gazebo {
    private:
     void spawn_ball();
     void load_ball_urdf();
+    // launch command subscriber
+    void ball_launcher_callback(std_msgs::Empty msg);
+    ros::Subscriber launch_sub_;
+
+    // model parameters
     std::string ball_sdf_path_;
     physics::LinkPtr ball_launcher_link_ptr_;
+    gazebo::math::Pose ball_launcher_link_pose_;
     physics::ModelPtr model_ptr_;
     physics::ModelPtr ball_model_ptr_;
     physics::WorldPtr world_ptr_;
     volatile bool ball_exist_;
     ros::Duration ball_lifetime_;
     event::ConnectionPtr update_connection_;
+    // ROS nodehandle
     ros::NodeHandle nh_;
+    // spanm model service client
     ros::ServiceClient client_;
     std::string ball_urdf_str_;
   };  // class ball_launcher_plugin

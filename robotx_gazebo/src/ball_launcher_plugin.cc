@@ -36,10 +36,22 @@ void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
 
   this->update_connection_ = event::Events::ConnectWorldUpdateBegin(
       boost::bind(&ball_launcher_plugin::OnUpdate, this, _1));
+  launch_sub_ =
+      nh_.subscribe("/ball_launcher/launch_ball", 1,
+                    &ball_launcher_plugin::ball_launcher_callback, this);
   return;
 }
 
-void ball_launcher_plugin::OnUpdate(const common::UpdateInfo& _info) {}
+void ball_launcher_plugin::ball_launcher_callback(std_msgs::Empty /*msg*/)
+{
+  spawn_ball();
+}
+
+void ball_launcher_plugin::OnUpdate(const common::UpdateInfo& /*_info*/)
+{
+  ball_launcher_link_pose_ = ball_launcher_link_ptr_->GetWorldPose();
+}
+
 void ball_launcher_plugin::load_ball_urdf()
 {
   ball_urdf_str_ = "";
