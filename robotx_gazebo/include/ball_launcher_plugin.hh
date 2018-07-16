@@ -25,6 +25,7 @@ namespace gazebo {
 
    private:
     void spawn_ball();
+    void delete_ball();
     void load_ball_urdf();
     // launch command subscriber
     void ball_launcher_callback(std_msgs::Empty msg);
@@ -37,13 +38,16 @@ namespace gazebo {
     physics::ModelPtr model_ptr_;
     physics::ModelPtr ball_model_ptr_;
     physics::WorldPtr world_ptr_;
-    volatile bool ball_exist_;
     ros::Duration ball_lifetime_;
     event::ConnectionPtr update_connection_;
+    volatile bool ball_exist_;
     // ROS nodehandle
     ros::NodeHandle nh_;
     // spanm model service client
-    ros::ServiceClient client_;
+    ros::ServiceClient spawn_client_;
+    ros::Time last_spawm_time_;
+    // delete model service client
+    // ros::ServiceClient delete_client_;
     std::string ball_urdf_str_;
   };  // class ball_launcher_plugin
 }  // namespace gazebo

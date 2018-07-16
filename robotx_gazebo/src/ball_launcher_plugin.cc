@@ -3,6 +3,7 @@
 #include <load_params.hh>
 
 // headers in ROS
+//#include <gazebo_msgs/DeleteModel.h>
 #include <gazebo_msgs/SpawnModel.h>
 #include <ros/ros.h>
 
@@ -15,6 +16,7 @@ ball_launcher_plugin::ball_launcher_plugin() {}
 ball_launcher_plugin::~ball_launcher_plugin() {}
 void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
 {
+  ball_exist_ = false;
   // Read ball sdf file path
   ball_sdf_path_ =
       ros::package::getPath("robotx_gazebo") + "/models/ball/ball.urdf";
@@ -31,8 +33,10 @@ void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
   ball_lifetime_ = ros::Duration(lifetime);
 
   load_ball_urdf();
-  client_ =
+  spawn_client_ =
       nh_.serviceClient<gazebo_msgs::SpawnModel>("/gazebo/spawn_urdf_model");
+  // delete_client_ =
+  // nh_.serviceClient<gazebo_msgs::DeleteModel>("/gazebo/delete_model");
 
   this->update_connection_ = event::Events::ConnectWorldUpdateBegin(
       boost::bind(&ball_launcher_plugin::OnUpdate, this, _1));
@@ -50,6 +54,11 @@ void ball_launcher_plugin::ball_launcher_callback(std_msgs::Empty /*msg*/)
 void ball_launcher_plugin::OnUpdate(const common::UpdateInfo& /*_info*/)
 {
   ball_launcher_link_pose_ = ball_launcher_link_ptr_->GetWorldPose();
+  ros::Time now = ros::Time::now();
+  if ((now - last_spawm_time_) > ball_lifetime_ && ball_exist_ == true) {
+    ROS_ERROR_STREAM("hi");
+    delete_ball();
+  }
 }
 
 void ball_launcher_plugin::load_ball_urdf()
@@ -65,6 +74,22 @@ void ball_launcher_plugin::load_ball_urdf()
   ball_urdf_str_ = str;
   return;
 }
+
+/*
+void ball_launcher_plugin::delete_ball()
+{
+  gazebo_msgs::DeleteModel msg;
+  msg.request.model_name = "ball";
+  if (delete_client_.call(msg)) {
+    ROS_INFO_STREAM(msg.response.status_message);
+    ball_exist_ = false;
+  }
+  else {
+    ROS_ERROR_STREAM("failed to delete ball");
+  }
+  return;
+}
+*/
 
 void ball_launcher_plugin::spawn_ball()
 {
@@ -82,8 +107,11 @@ void ball_launcher_plugin::spawn_ball()
   msg.request.initial_pose.orientation.z = 0;
   msg.request.initial_pose.orientation.w = 1;
   msg.request.robot_namespace = "ball";
-  if (client_.call(msg)) {
+  ROS_ERROR_STREAM(msg.request);
+  if (spawn_client_.call(msg)) {
     ROS_INFO_STREAM(msg.response.status_message);
+    last_spawm_time_ = ros::Time::now();
+    // ball_exist_ = true;
   }
   else {
     ROS_ERROR_STREAM("failed to spawn ball");
