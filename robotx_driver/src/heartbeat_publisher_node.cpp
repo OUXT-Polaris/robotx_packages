@@ -12,8 +12,7 @@
 // headers for ros
 #include <ros/ros.h>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ros::init(argc, argv, "heartbeat_publisher_node");
   heartbeat_publisher publisher;
   ros::spin();

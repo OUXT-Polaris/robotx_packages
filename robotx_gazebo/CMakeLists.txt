@@ -79,6 +79,7 @@ clang_format(usv_gazebo_dynamics_plugin)
 add_library(usv_gazebo_thrust_plugin
   src/usv_gazebo_thrust_plugin.cc
 )
+add_dependencies(usv_gazebo_thrust_plugin robotx_msgs)
 add_dependencies(usv_gazebo_thrust_plugin robotx_msgs_generate_messages_cpp)
 target_link_libraries(usv_gazebo_thrust_plugin
   ${catkin_LIBRARIES}

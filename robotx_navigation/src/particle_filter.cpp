@@ -10,16 +10,14 @@
 particle_filter::particle_filter(int dimensions,
                                  int num_particles,
                                  Eigen::VectorXd init_value,
-                                 std::vector<bool> is_circular)
-{
+                                 std::vector<bool> is_circular) {
   using namespace Eigen;
   std::srand((unsigned int)time(0));
   dimensions_ = dimensions;
   num_partcles_ = num_particles;
-  Eigen::MatrixXd random_values =
-      (MatrixXd::Random(dimensions_, num_partcles_).cwiseAbs() -
-       MatrixXd::Ones(dimensions_, num_partcles_) * 0.5) *
-      0.1;
+  Eigen::MatrixXd random_values = (MatrixXd::Random(dimensions_, num_partcles_).cwiseAbs() -
+                                   MatrixXd::Ones(dimensions_, num_partcles_) * 0.5) *
+                                  0.1;
   states_ = MatrixXd::Ones(dimensions_, num_partcles_);
   for (int i = 0; i < num_partcles_; i++) {
     states_.block(0, i, dimensions_, 1) = init_value;
@@ -29,18 +27,14 @@ particle_filter::particle_filter(int dimensions,
   is_circular_ = is_circular;
 }
 
-particle_filter::particle_filter(int dimensions,
-                                 int num_particles,
-                                 Eigen::VectorXd init_value)
-{
+particle_filter::particle_filter(int dimensions, int num_particles, Eigen::VectorXd init_value) {
   using namespace Eigen;
   std::srand((unsigned int)time(0));
   dimensions_ = dimensions;
   num_partcles_ = num_particles;
-  Eigen::MatrixXd random_values =
-      (MatrixXd::Random(dimensions_, num_partcles_).cwiseAbs() -
-       MatrixXd::Ones(dimensions_, num_partcles_) * 0.5) *
-      0.1;
+  Eigen::MatrixXd random_values = (MatrixXd::Random(dimensions_, num_partcles_).cwiseAbs() -
+                                   MatrixXd::Ones(dimensions_, num_partcles_) * 0.5) *
+                                  0.1;
   states_ = MatrixXd::Ones(dimensions_, num_partcles_);
   for (int i = 0; i < num_partcles_; i++) {
     states_.block(0, i, dimensions_, 1) = init_value;
@@ -53,8 +47,7 @@ particle_filter::particle_filter(int dimensions,
   }
 }
 
-particle_filter::particle_filter(int dimensions, int num_particles)
-{
+particle_filter::particle_filter(int dimensions, int num_particles) {
   using namespace Eigen;
   std::srand((unsigned int)time(0));
   dimensions_ = dimensions;
@@ -68,13 +61,10 @@ particle_filter::particle_filter(int dimensions, int num_particles)
 }
 
 particle_filter::~particle_filter() {}
-void particle_filter::set_weights(Eigen::VectorXd weights)
-{
-  weights_ = weights / weights.sum();
-}
 
-Eigen::VectorXd particle_filter::get_state()
-{
+void particle_filter::set_weights(Eigen::VectorXd weights) { weights_ = weights / weights.sum(); }
+
+Eigen::VectorXd particle_filter::get_state() {
   using namespace Eigen;
   VectorXd normalized_state = VectorXd::Zero(dimensions_);
   for (int i = 0; i < num_partcles_; i++) {
@@ -85,17 +75,14 @@ Eigen::VectorXd particle_filter::get_state()
   return normalized_state;
 }
 
-void particle_filter::clamp(Eigen::VectorXd &target, double max, double min)
-{
+void particle_filter::clamp(Eigen::VectorXd &target, double max, double min) {
   for (int i = 0; i < target.size(); i++) {
     if (is_circular_[i] == false) {
       target(i) = std::min(max, std::max(min, target(i)));
-    }
-    else {
+    } else {
       if (target(i) > min) {
         target(i) = fmod(target(i), max - min) + min;
-      }
-      else {
+      } else {
         while (target(i) < min) {
           target(i) = target(i) + (max - min);
         }
@@ -105,14 +92,12 @@ void particle_filter::clamp(Eigen::VectorXd &target, double max, double min)
   }
 }
 
-void particle_filter::clamp(Eigen::MatrixXd &target, double max, double min)
-{
+void particle_filter::clamp(Eigen::MatrixXd &target, double max, double min) {
   for (int i = 0; i < target.rows(); i++) {
     for (int j = 0; j < target.cols(); j++) {
       if (is_circular_[i] == false) {
         target(i, j) = std::min(max, std::max(min, target(i, j)));
-      }
-      else {
+      } else {
         while (target(i, j) < min) {
           target(i, j) = target(i, j) + (max - min);
         }
@@ -122,8 +107,7 @@ void particle_filter::clamp(Eigen::MatrixXd &target, double max, double min)
   }
 }
 
-void particle_filter::add_system_noise(double variance)
-{
+void particle_filter::add_system_noise(double variance) {
   using namespace Eigen;
   MatrixXd system_noise = MatrixXd::Zero(dimensions_, num_partcles_);
   get_normal_distribution_random_numbers(system_noise, 0, variance);
@@ -131,9 +115,7 @@ void particle_filter::add_system_noise(double variance)
   clamp(states_, 1, 0);
 }
 
-void particle_filter::add_system_noise(Eigen::VectorXd &control_input,
-                                       double variance)
-{
+void particle_filter::add_system_noise(Eigen::VectorXd &control_input, double variance) {
   using namespace Eigen;
   MatrixXd system_noise = MatrixXd::Zero(dimensions_, num_partcles_);
   get_normal_distribution_random_numbers(system_noise, 0, variance);
@@ -145,8 +127,7 @@ void particle_filter::add_system_noise(Eigen::VectorXd &control_input,
   clamp(states_, 1, 0);
 }
 
-void particle_filter::resample(double threshold)
-{
+void particle_filter::resample(double threshold) {
   if (get_ess() <= threshold) {
     using namespace Eigen;
     MatrixXd updated_state = MatrixXd::Zero(dimensions_, num_partcles_);
@@ -163,16 +144,15 @@ void particle_filter::resample(double threshold)
       }
     }
     for (int i = 0; i < num_partcles_; i++) {
-      updated_state.block(0, i, dimensions_, 1) =
-          states_.block(0, indexes[i], dimensions_, 1);
+      updated_state.block(0, i, dimensions_, 1) = states_.block(0, indexes[i], dimensions_, 1);
     }
     states_ = updated_state;
   }
 }
 
-void particle_filter::get_normal_distribution_random_numbers(
-    Eigen::MatrixXd &target, double average, double variance)
-{
+void particle_filter::get_normal_distribution_random_numbers(Eigen::MatrixXd &target,
+                                                             double average,
+                                                             double variance) {
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::normal_distribution<> norm(average, variance);
@@ -183,9 +163,9 @@ void particle_filter::get_normal_distribution_random_numbers(
   }
 }
 
-void particle_filter::get_normal_distribution_random_numbers(
-    Eigen::VectorXd &target, double average, double variance)
-{
+void particle_filter::get_normal_distribution_random_numbers(Eigen::VectorXd &target,
+                                                             double average,
+                                                             double variance) {
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::normal_distribution<> norm(average, variance);
@@ -194,10 +174,7 @@ void particle_filter::get_normal_distribution_random_numbers(
   }
 }
 
-void particle_filter::get_uniform_distribution(Eigen::VectorXd &target,
-                                               double max,
-                                               double min)
-{
+void particle_filter::get_uniform_distribution(Eigen::VectorXd &target, double max, double min) {
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> random_values(0, 10000);
@@ -206,10 +183,7 @@ void particle_filter::get_uniform_distribution(Eigen::VectorXd &target,
   }
 }
 
-void particle_filter::get_uniform_distribution(Eigen::MatrixXd &target,
-                                               double max,
-                                               double min)
-{
+void particle_filter::get_uniform_distribution(Eigen::MatrixXd &target, double max, double min) {
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> random_values(0, 10000);

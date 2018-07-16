@@ -25,9 +25,7 @@ class tcp_client {
   *
   * timeout [sec] = 30 [sec]
   */
-  tcp_client(boost::asio::io_service &io_service,
-             std::string ip_address,
-             int port);
+  tcp_client(boost::asio::io_service &io_service, std::string ip_address, int port);
   /**
    * @brief Construct a new tcp client object
    *
@@ -36,10 +34,7 @@ class tcp_client {
    * @param port tcp/ip server. ex. 8000
    * @param timeout timeout [sec]
    */
-  tcp_client(boost::asio::io_service &io_service,
-             std::string ip_address,
-             int port,
-             int timeout);
+  tcp_client(boost::asio::io_service &io_service, std::string ip_address, int port, int timeout);
   /**
   * @brief destructor
   */
@@ -63,6 +58,7 @@ class tcp_client {
    * @return false : connection failed
    */
   inline bool get_connection_status() { return connection_status_; }
+
  private:
   /**
    * @brief function for start connecting to TCP/IP server.
@@ -85,16 +81,14 @@ class tcp_client {
    * @param error error code for data transfer.
    * @param bytes_transferred number of bytes transferrd.
    */
-  void on_send(const boost::system::error_code &error,
-               size_t bytes_transferred);
+  void on_send(const boost::system::error_code &error, size_t bytes_transferred);
   /**
    * @brief callback function which was called when the server read message.
    *
    * @param error error code for data transfer.
    * @param bytes_transferred number of bytes transferrd.
    */
-  void on_receive(const boost::system::error_code &error,
-                  size_t bytes_transferred);
+  void on_receive(const boost::system::error_code &error, size_t bytes_transferred);
   void start_receive();
   /**
    * @brief callback function when you recieve timer event

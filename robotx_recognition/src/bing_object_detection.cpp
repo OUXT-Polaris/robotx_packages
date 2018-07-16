@@ -4,34 +4,28 @@
 
 #include <algorithm>
 
-bing_object_detection::bing_object_detection() : _it(_nh)
-{
-  _bbox_pub = _nh.advertise<robotx_msgs::RegionOfInterest2DArray>(
-      ros::this_node::getName() + "/bbox", 1);
-  ros::param::param<int>(ros::this_node::getName() + "/max_num_bbox",
-                         _max_num_bbox, 10);
+bing_object_detection::bing_object_detection() : _it(_nh) {
+  _bbox_pub = _nh.advertise<robotx_msgs::RegionOfInterest2DArray>(ros::this_node::getName() + "/bbox", 1);
+  ros::param::param<int>(ros::this_node::getName() + "/max_num_bbox", _max_num_bbox, 10);
   _image_sub = _it.subscribe(ros::this_node::getName() + "/image_raw", 1,
                              &bing_object_detection::_image_callback, this);
 }
 
 bing_object_detection::~bing_object_detection() {}
+
 void bing_object_detection::_detect(cv::Mat image,
                                     std::vector<cv::Vec4i>& bboxs,
-                                    std::vector<float>& objectness_vals)
-{
+                                    std::vector<float>& objectness_vals) {
   setTrainingPath(ros::package::getPath("robotx_recognition") + "/data/bing");
   computeSaliencyImpl(image, bboxs);
   objectness_vals = getobjectnessValues();
 }
 
-void bing_object_detection::_image_callback(
-    const sensor_msgs::ImageConstPtr& msg)
-{
+void bing_object_detection::_image_callback(const sensor_msgs::ImageConstPtr& msg) {
   cv::Mat image;
   try {
     image = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8)->image;
-  }
-  catch (cv_bridge::Exception& e) {
+  } catch (cv_bridge::Exception& e) {
     ROS_ERROR("cv_bridge exception: %s", e.what());
     return;
   }
@@ -62,15 +56,13 @@ void bing_object_detection::_image_callback(
     all_bbox.push_back(single_bbox);
   }
   sort(all_bbox.begin(), all_bbox.end(),
-       [](const robotx_msgs::RegionOfInterest2D& x,
-          const robotx_msgs::RegionOfInterest2D& y) {
+       [](const robotx_msgs::RegionOfInterest2D& x, const robotx_msgs::RegionOfInterest2D& y) {
          return x.objectness > y.objectness;
        });
   if (all_bbox.size() <= _max_num_bbox) {
     // bbox_msg.bounding_boxes = all_bbox;
     bbox_msg.object_rois = all_bbox;
-  }
-  else {
+  } else {
     for (int i = 0; i < _max_num_bbox; i++) {
       bbox_msg.object_rois.push_back(all_bbox[i]);
       // bbox_msg.bounding_boxes.push_back(all_bbox[i]);

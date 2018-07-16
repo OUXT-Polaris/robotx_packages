@@ -42,8 +42,7 @@
 #include <OGRE/OgreTexture.h>
 #include <OGRE/OgreTextureManager.h>
 // see OGRE/OgrePrerequisites.h
-//#define OGRE_VERSION    ((OGRE_VERSION_MAJOR << 16) | (OGRE_VERSION_MINOR <<
-// 8) | OGRE_VERSION_PATCH)
+//#define OGRE_VERSION    ((OGRE_VERSION_MAJOR << 16) | (OGRE_VERSION_MINOR << 8) | OGRE_VERSION_PATCH)
 #if OGRE_VERSION < ((1 << 16) | (9 << 8) | 0)
 #include <OGRE/OgreOverlayContainer.h>
 #include <OGRE/OgreOverlayElement.h>
@@ -60,61 +59,59 @@
 #include <QImage>
 
 namespace ros_ship_visualization {
-  class OverlayObject;
+class OverlayObject;
 
-  class ScopedPixelBuffer {
-   public:
-    ScopedPixelBuffer(Ogre::HardwarePixelBufferSharedPtr pixel_buffer);
-    virtual ~ScopedPixelBuffer();
-    virtual Ogre::HardwarePixelBufferSharedPtr getPixelBuffer();
-    virtual QImage getQImage(unsigned int width, unsigned int height);
-    virtual QImage getQImage(OverlayObject& overlay);
-    virtual QImage getQImage(unsigned int width,
-                             unsigned int height,
-                             QColor& bg_color);
-    virtual QImage getQImage(OverlayObject& overlay, QColor& bg_color);
+class ScopedPixelBuffer {
+ public:
+  ScopedPixelBuffer(Ogre::HardwarePixelBufferSharedPtr pixel_buffer);
+  virtual ~ScopedPixelBuffer();
+  virtual Ogre::HardwarePixelBufferSharedPtr getPixelBuffer();
+  virtual QImage getQImage(unsigned int width, unsigned int height);
+  virtual QImage getQImage(OverlayObject& overlay);
+  virtual QImage getQImage(unsigned int width, unsigned int height, QColor& bg_color);
+  virtual QImage getQImage(OverlayObject& overlay, QColor& bg_color);
 
-   protected:
-    Ogre::HardwarePixelBufferSharedPtr pixel_buffer_;
+ protected:
+  Ogre::HardwarePixelBufferSharedPtr pixel_buffer_;
 
-   private:
-  };
+ private:
+};
 
-  // this is a class for put overlay object on rviz 3D panel.
-  // This class suppose to be instantiated in onInitialize method
-  // of rviz::Display class.
-  class OverlayObject {
-   public:
-    typedef boost::shared_ptr<OverlayObject> Ptr;
+// this is a class for put overlay object on rviz 3D panel.
+// This class suppose to be instantiated in onInitialize method
+// of rviz::Display class.
+class OverlayObject {
+ public:
+  typedef boost::shared_ptr<OverlayObject> Ptr;
 
-    OverlayObject(const std::string& name);
-    virtual ~OverlayObject();
+  OverlayObject(const std::string& name);
+  virtual ~OverlayObject();
 
-    virtual std::string getName();
-    virtual void hide();
-    virtual void show();
-    virtual bool isTextureReady();
-    virtual bool updateTextureSize(unsigned int width, unsigned int height);
-    virtual ScopedPixelBuffer getBuffer();
-    virtual void setPosition(double left, double top);
-    virtual void setDimensions(double width, double height);
-    virtual bool isVisible();
-    virtual unsigned int getTextureWidth();
-    virtual unsigned int getTextureHeight();
+  virtual std::string getName();
+  virtual void hide();
+  virtual void show();
+  virtual bool isTextureReady();
+  virtual bool updateTextureSize(unsigned int width, unsigned int height);
+  virtual ScopedPixelBuffer getBuffer();
+  virtual void setPosition(double left, double top);
+  virtual void setDimensions(double width, double height);
+  virtual bool isVisible();
+  virtual unsigned int getTextureWidth();
+  virtual unsigned int getTextureHeight();
 
-   protected:
-    const std::string name_;
-    Ogre::Overlay* overlay_;
-    Ogre::PanelOverlayElement* panel_;
-    Ogre::MaterialPtr panel_material_;
-    Ogre::TexturePtr texture_;
+ protected:
+  const std::string name_;
+  Ogre::Overlay* overlay_;
+  Ogre::PanelOverlayElement* panel_;
+  Ogre::MaterialPtr panel_material_;
+  Ogre::TexturePtr texture_;
 
-   private:
-  };
+ private:
+};
 
-  // Ogre::Overlay* createOverlay(std::string name);
-  // Ogre::PanelOverlayElement* createOverlayPanel(Ogre::Overlay* overlay);
-  // Ogre::MaterialPtr createOverlayMaterial(Ogre::Overlay* overlay);
+// Ogre::Overlay* createOverlay(std::string name);
+// Ogre::PanelOverlayElement* createOverlayPanel(Ogre::Overlay* overlay);
+// Ogre::MaterialPtr createOverlayMaterial(Ogre::Overlay* overlay);
 }
 
 #endif
