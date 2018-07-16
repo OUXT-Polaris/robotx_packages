@@ -24,6 +24,7 @@ namespace gazebo {
 
    private:
     void spawn_ball();
+    void load_ball_urdf();
     std::string ball_sdf_path_;
     physics::LinkPtr ball_launcher_link_ptr_;
     physics::ModelPtr model_ptr_;
@@ -34,6 +35,7 @@ namespace gazebo {
     event::ConnectionPtr update_connection_;
     ros::NodeHandle nh_;
     ros::ServiceClient client_;
+    std::string ball_urdf_str_;
   };  // class ball_launcher_plugin
 }  // namespace gazebo
 
