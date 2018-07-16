@@ -6,15 +6,15 @@
 #include <object_bbox_extractor.h>
 
 namespace robotx_recognition_nodelet {
-  class object_bbox_extractor_nodelet : public nodelet::Nodelet {
-   public:
-    object_bbox_extractor_nodelet();
-    ~object_bbox_extractor_nodelet();
-    virtual void onInit();
+class object_bbox_extractor_nodelet : public nodelet::Nodelet {
+ public:
+  object_bbox_extractor_nodelet();
+  ~object_bbox_extractor_nodelet();
+  virtual void onInit();
 
-   private:
-    object_bbox_extractor clustering;
-  };
+ private:
+  object_bbox_extractor clustering;
+};
 }
 
 #endif  // EUCLIDEAN_CLUSTERING_NODELET_H_INCLUDED

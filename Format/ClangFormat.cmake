@@ -1,7 +1,8 @@
 ## define format
-set(CODING_FORMAT "{BasedOnStyle: Google, ColumnLimit: 80, BinPackParameters: false, NamespaceIndentation: All, BreakBeforeBraces : Stroustrup}")
+set(CODING_FORMAT "{BasedOnStyle: Google, ColumnLimit: 110, BinPackParameters: false}")
 
 ## functions  
+option(WITH_CLANG_FORMAT OFF)
 find_program(CLANG_FORMAT_EXE clang-format)
 
 function(clang_format target)
@@ -15,6 +16,8 @@ function(clang_format target)
       COMMAND "${CLANG_FORMAT_EXE}" -i -style=${CODING_FORMAT} ${MY_SOURCES} ${HEADERS}
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
-    add_dependencies(${target} "${target}_format-with-clang-format")
+    if(WITH_CLANG_FORMAT)
+      add_dependencies(${target} "${target}_format-with-clang-format")
+    endif()
   endif()
 endfunction()

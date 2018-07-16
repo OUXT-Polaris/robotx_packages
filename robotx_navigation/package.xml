@@ -48,7 +48,6 @@
   <run_depend>map_server</run_depend>
   <run_depend>dwa_local_planner</run_depend>
   <run_depend>nodelet</run_depend>
-  <run_depend>cog_publisher</run_depend>
   <run_depend>yocs_velocity_smoother</run_depend>
   <run_depend>yocs_safety_controller</run_depend>
   <run_depend>yocs_waypoints_navi</run_depend>

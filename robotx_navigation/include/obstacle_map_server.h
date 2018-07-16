@@ -70,29 +70,19 @@ class obstacle_map_server {
      * @brief Construct a new parameters object
      *
      */
-    parameters()
-    {
-      ros::param::param<double>(ros::this_node::getName() + "/margin", margin,
-                                0.2);
-      ros::param::param<double>(ros::this_node::getName() + "/resolution",
-                                resolution, 0.05);
-      ros::param::param<double>(ros::this_node::getName() + "/height_offset",
-                                height_offset, 2.5);
-      ros::param::param<int>(ros::this_node::getName() + "/map_height",
-                             map_height, 400);
-      ros::param::param<int>(ros::this_node::getName() + "/map_width",
-                             map_width, 400);
-      ros::param::param<int>(ros::this_node::getName() + "/buffer_length",
-                             buffer_length, 10);
-      ros::param::param<std::string>(
-          ros::this_node::getName() + "/object_bbox_topic", object_bbox_topic,
-          ros::this_node::getName() + "/object_bbox");
-      ros::param::param<std::string>(
-          ros::this_node::getName() + "/world_frame", world_frame,
-          ros::this_node::getName() + "/world_frame");
-      ros::param::param<std::string>(
-          ros::this_node::getName() + "/robot_frame", robot_frame,
-          ros::this_node::getName() + "/robot_frame");
+    parameters() {
+      ros::param::param<double>(ros::this_node::getName() + "/margin", margin, 0.2);
+      ros::param::param<double>(ros::this_node::getName() + "/resolution", resolution, 0.05);
+      ros::param::param<double>(ros::this_node::getName() + "/height_offset", height_offset, 2.5);
+      ros::param::param<int>(ros::this_node::getName() + "/map_height", map_height, 400);
+      ros::param::param<int>(ros::this_node::getName() + "/map_width", map_width, 400);
+      ros::param::param<int>(ros::this_node::getName() + "/buffer_length", buffer_length, 10);
+      ros::param::param<std::string>(ros::this_node::getName() + "/object_bbox_topic", object_bbox_topic,
+                                     ros::this_node::getName() + "/object_bbox");
+      ros::param::param<std::string>(ros::this_node::getName() + "/world_frame", world_frame,
+                                     ros::this_node::getName() + "/world_frame");
+      ros::param::param<std::string>(ros::this_node::getName() + "/robot_frame", robot_frame,
+                                     ros::this_node::getName() + "/robot_frame");
     }
   };
 
