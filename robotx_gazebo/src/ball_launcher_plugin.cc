@@ -25,7 +25,7 @@ void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
   std::string ball_launcher_link_name;
   LoadParams(sdf, "target_link", ball_launcher_link_name,
              default_ball_launcher_link_name);
-  LoadParams(sdf, "num_balls", num_balls_, 10);
+  LoadParams(sdf, "num_balls", num_balls_, 5);
   ball_remains_ = num_balls_;
   model_ptr_ = _parent;
   ball_launcher_link_ptr_ = model_ptr_->GetLink(ball_launcher_link_name);
@@ -54,8 +54,10 @@ void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
 
 void ball_launcher_plugin::ball_launcher_callback(std_msgs::Empty /*msg*/)
 {
-  spawn_ball(num_balls_ - ball_remains_);
-  ball_remains_ = ball_remains_ - 1;
+  if (ball_remains_ > 0) {
+    spawn_ball(num_balls_ - ball_remains_);
+    ball_remains_ = ball_remains_ - 1;
+  }
 }
 
 void ball_launcher_plugin::OnUpdate(const common::UpdateInfo& /*_info*/)
@@ -117,7 +119,6 @@ void ball_launcher_plugin::spawn_ball(int ball_id)
   msg.request.initial_pose.orientation.z = 0;
   msg.request.initial_pose.orientation.w = 1;
   msg.request.robot_namespace = "ball_" + std::to_string(ball_id);
-  ROS_ERROR_STREAM(msg.request);
   if (spawn_client_.call(msg)) {
     last_spawm_time_ = ros::Time::now();
     // ball_exist_ = true;
