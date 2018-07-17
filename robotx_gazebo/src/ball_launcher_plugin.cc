@@ -17,6 +17,7 @@ ball_launcher_plugin::~ball_launcher_plugin() {}
 void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
 {
   // ball_exist_ = false;
+  count_ = 0;
   // Read ball sdf file path
   ball_sdf_path_ =
       ros::package::getPath("robotx_gazebo") + "/models/ball/ball.urdf";
@@ -25,6 +26,7 @@ void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
   LoadParams(sdf, "target_link", ball_launcher_link_name,
              default_ball_launcher_link_name);
   LoadParams(sdf, "num_balls", num_balls_, 10);
+  ball_remains_ = num_balls_;
   model_ptr_ = _parent;
   ball_launcher_link_ptr_ = model_ptr_->GetLink(ball_launcher_link_name);
 
@@ -32,6 +34,9 @@ void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
   double lifetime;
   LoadParams(sdf, "lifetime", lifetime, 5.0);
   ball_lifetime_ = ros::Duration(lifetime);
+
+  ball_launcher_status_pub_ = nh_.advertise<robotx_msgs::BallLauncherStatus>(
+      "/ball_launcher/status", 10);
 
   load_ball_urdf();
   spawn_client_ =
@@ -49,12 +54,21 @@ void ball_launcher_plugin::Load(physics::ModelPtr _parent, sdf::ElementPtr sdf)
 
 void ball_launcher_plugin::ball_launcher_callback(std_msgs::Empty /*msg*/)
 {
-  spawn_ball(0);
+  spawn_ball(num_balls_ - ball_remains_);
+  ball_remains_ = ball_remains_ - 1;
 }
 
 void ball_launcher_plugin::OnUpdate(const common::UpdateInfo& /*_info*/)
 {
   ball_launcher_link_pose_ = ball_launcher_link_ptr_->GetWorldPose();
+  count_ = count_ + 1;
+  if (count_ % 100 == 0) {
+    robotx_msgs::BallLauncherStatus msg;
+    msg.ball_remains = ball_remains_;
+    msg.ball_launched = num_balls_ - ball_remains_;
+    ball_launcher_status_pub_.publish(msg);
+    count_ = 0;
+  }
 }
 
 void ball_launcher_plugin::load_ball_urdf()

@@ -42,10 +42,14 @@ namespace gazebo {
     ros::Duration ball_lifetime_;
     event::ConnectionPtr update_connection_;
     int num_balls_;
+    int ball_remains_;
+    int count_;
     // volatile bool ball_exist_;
 
     // ROS nodehandle
     ros::NodeHandle nh_;
+    // ROS Publisher
+    ros::Publisher ball_launcher_status_pub_;
     // spanm model service client
     ros::ServiceClient spawn_client_;
     ros::Time last_spawm_time_;
