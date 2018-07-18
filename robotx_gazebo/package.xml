@@ -45,6 +45,7 @@
   <exec_depend>joy</exec_depend>
   <exec_depend>joy_teleop</exec_depend>
   <exec_depend>teleop_twist_keyboard</exec_depend>
+  <exec_depend>cog_publisher</exec_depend>
 
   <export>
     <!-- This tells gazebo to look in the catkin_package path for resources
