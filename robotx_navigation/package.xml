@@ -53,4 +53,5 @@
   <run_depend>yocs_waypoints_navi</run_depend>
   <run_depend>yocs_waypoint_provider</run_depend>
   <run_depend>yaml_cpp_0_3</run_depend>
+  <run_depend>cog_publisher</run_depend>
 </package>
