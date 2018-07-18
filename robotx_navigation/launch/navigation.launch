@@ -16,4 +16,7 @@
   <rosparam command="load" file="$(find robotx_navigation)/config/geographic_map_server.yaml" ns="geographic_map_server_node"/>
   <node name="geographic_map_server_node" pkg="robotx_navigation" type="geographic_map_server_node" args="" output="screen" respawn="true">
   </node>
+
+  <node pkg="cog_publisher" type="cog_publisher_node" name="cog_publisher_node" respawn="true" args="">
+  </node>
 </launch>
