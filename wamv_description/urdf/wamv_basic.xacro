@@ -25,5 +25,5 @@
 
   <!-- Attach cog_publisher plugin -->
   <xacro:include filename="$(find robotx_gazebo)/urdf/gazebo_cog_publisher_plugin.xacro" />
-  <xacro:gazebo_cog_publisher name="gazebo_cog_publisher"/>  
+  <xacro:cog_publisher_gazebo name="gazebo_cog_publisher"/>  
 </robot>
