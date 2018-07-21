@@ -7,3 +7,6 @@ jetson2:
 jetson3:
   build: jetson
   tty: true
+gazebo_sim:
+  build: gazebo_sim
+  tty: true
