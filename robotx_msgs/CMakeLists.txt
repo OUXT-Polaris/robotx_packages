@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   jsk_recognition_msgs
+  geographic_msgs
 )
 
 ################################################
@@ -27,6 +28,9 @@ add_message_files(
   ObjectRegionOfInterest.msg
   ObjectRegionOfInterestArray.msg
   ObjectType.msg
+  GeographicPoint.msg
+  GeographicLine.msg
+  GeographicMap.msg
 )
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
@@ -35,7 +39,8 @@ generate_messages(
   sensor_msgs#
   std_msgs
   jsk_recognition_msgs
-  )
+  geographic_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -45,6 +50,8 @@ catkin_package(CATKIN_DEPENDS
   geometry_msgs
   sensor_msgs
   std_msgs
+  jsk_recognition_msgs
+  geographic_msgs
 )
 
 ###########

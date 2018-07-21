@@ -1,0 +1,2 @@
+frequency: 0.2
+target_service_name: /move_base/clear_costmaps

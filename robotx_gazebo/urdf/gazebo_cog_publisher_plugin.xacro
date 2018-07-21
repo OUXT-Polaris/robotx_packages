@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="cog_publisher_gazebo" params="name">
+    <gazebo>
+      <plugin name="cog_publisher_gazebo_${name}" filename="libgazebo_cog_publisher_plugin.so">
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>

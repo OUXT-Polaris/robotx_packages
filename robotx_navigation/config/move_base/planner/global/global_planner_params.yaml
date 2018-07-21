@@ -1,6 +1,6 @@
 base_global_planner: global_planner/GlobalPlanner
 GlobalPlanner:
-  allow_unknown: false
+  allow_unknown: true
   default_tolerance: 1.0
   visualize_potential: false
   use_dijkstra: true

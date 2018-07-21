@@ -40,4 +40,8 @@
     <param name="frame_id" value="world"/>
   </node>
 
+  <node pkg="robotx_navigation" type="costmap_clear_request_sender_node" name="costmap_clear_request_sender_node" output="screen" respawn="true">
+    <rosparam file="$(find robotx_navigation)/config/costmap_clear_request_sender.yaml" command="load"/>
+  </node>
+
 </launch>

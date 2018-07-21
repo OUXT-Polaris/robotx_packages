@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robotx_tools)
 
+include(../Format/ClangFormat.cmake)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
@@ -72,20 +74,21 @@ endif()
 
 add_definitions(-DQT_NO_KEYWORDS)
 
-add_library(robotx_tools
+add_library(overlay_gps_display
   src/overlay_gps_display.cpp
   src/overlay_utils.cpp
   include/overlay_gps_display.h
   include/overlay_utils.h
 )
 
-target_link_libraries(robotx_tools ${QT_LIBRARIES} ${catkin_LIBRARIES} ${PYTHON_LIBRARY} ${OpenCV_LIBRARIES})
+target_link_libraries(overlay_gps_display ${QT_LIBRARIES} ${catkin_LIBRARIES} ${PYTHON_LIBRARY} ${OpenCV_LIBRARIES})
+clang_format(overlay_gps_display)
 
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS robotx_tools
+install(TARGETS overlay_gps_display
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
