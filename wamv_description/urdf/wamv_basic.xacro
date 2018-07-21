@@ -28,4 +28,9 @@
   <!-- Attach Ball Launcher plugin -->
   <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_ball_launcher_plugin.xacro" />
   <xacro:ball_launcher_gazebo name="wamv_ball_launcher_plugin"/>
+  <xacro:usv_thrust_gazebo name="wamv_thrust_plugin"/> 
+
+  <!-- Attach cog_publisher plugin -->
+  <xacro:include filename="$(find robotx_gazebo)/urdf/gazebo_cog_publisher_plugin.xacro" />
+  <xacro:cog_publisher_gazebo name="gazebo_cog_publisher"/>  
 </robot>

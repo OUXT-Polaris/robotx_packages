@@ -27,12 +27,10 @@ class pcl_object_recognition {
   pcl::PointCloud<pcl::PointXYZ>::Ptr object_pointcloud_;
   std::string pointcloud_topic_;
   void pointcloud_callback(sensor_msgs::PointCloud2 input_cloud);
-  std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> >
-  recognize(object_model* target_object_model);
+  std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > recognize(
+      object_model* target_object_model);
   void publish_messages(
-      std::vector<std::vector<Eigen::Matrix4f,
-                              Eigen::aligned_allocator<Eigen::Matrix4f> > >
-          results,
+      std::vector<std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > > results,
       std_msgs::Header header);
   inline bool check_file_existence(std::string& str);
   void read_parameters();

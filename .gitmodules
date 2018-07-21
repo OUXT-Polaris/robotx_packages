@@ -1,0 +1,3 @@
+[submodule "submodules/cog_publisher"]
+	path = submodules/cog_publisher
+	url = https://github.com/OUXT-Polaris/cog_publisher.git
