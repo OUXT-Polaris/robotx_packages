@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   rviz
   robotx_msgs
+  tf
 )
 
 find_package(PythonLibs)

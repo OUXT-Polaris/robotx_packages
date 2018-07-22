@@ -10,6 +10,10 @@
 // headers in ROS
 #include <ros/ros.h>
 
+// headers in STL
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 class cnn_result_visualizer {
  public:
   struct parameters {
