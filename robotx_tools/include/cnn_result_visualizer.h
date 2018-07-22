@@ -27,6 +27,6 @@ class cnn_result_visualizer {
   ros::NodeHandle nh_;
   ros::Subscriber object_roi_sub_;
   ros::Publisher pictgram_array_pub_;
-  void object_roi_callback(const robotx_msgs::ObjectRegionOfInterestArray::ConstPtr msg);
+  void object_roi_callback(robotx_msgs::ObjectRegionOfInterestArray msg);
 };
 #endif  // CNN_RESULT_VISUALIZER_H_INCLUDED
