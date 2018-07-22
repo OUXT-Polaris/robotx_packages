@@ -40,5 +40,14 @@ void cnn_result_visualizer::object_roi_callback(
         single_pict.character = "WHITE_BUOY";
         break;
     }
+    single_pict.color.r = 0;
+    single_pict.color.g = 0.5;
+    single_pict.color.b = 1.0;
+    single_pict.color.a = 1.0;
+    single_pict.size = 1.0;
+    single_pict.ttl = 0.5;
+    single_pict.speed = 0.0;
+    pictgram_msg.pictograms.push_back(single_pict);
   }
+  pictgram_array_pub_.publish(pictgram_msg);
 }

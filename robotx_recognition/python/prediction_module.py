@@ -31,6 +31,8 @@ class Predicdion():
         if not os.path.isfile(filename):
             print("downloading weight file...")
             import urllib.request
+            #print(datasetInfo['url'])
+            #print(filename)
             urllib.request.urlretrieve(datasetInfo['url'], filename)
             # import urllib
             # urllib.urlretrieve(datasetInfo['url'], filename)
