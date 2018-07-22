@@ -84,11 +84,17 @@ add_library(overlay_gps_display
 target_link_libraries(overlay_gps_display ${QT_LIBRARIES} ${catkin_LIBRARIES} ${PYTHON_LIBRARY} ${OpenCV_LIBRARIES})
 clang_format(overlay_gps_display)
 
+set(cnn_result_visualizer_src src/cnn_result_visualizer.cpp)
+add_executable(cnn_result_visualizer_node src/cnn_result_visualizer_node.cpp ${cnn_result_visualizer_src})
+add_dependencies(cnn_result_visualizer_node robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
+target_link_libraries(cnn_result_visualizer_node ${catkin_LIBRARIES})
+clang_format(cnn_result_visualizer_node)
+
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS overlay_gps_display
+install(TARGETS overlay_gps_display cnn_result_visualizer_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
