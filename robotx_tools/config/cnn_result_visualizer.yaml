@@ -1,0 +1,2 @@
+object_roi_topic: /cnn_prediction_node/object_roi
+z_offset: 1.5

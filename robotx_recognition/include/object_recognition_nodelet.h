@@ -5,15 +5,15 @@
 #include <pcl_object_recognition.h>
 
 namespace robotx_recognition_nodelet {
-  class object_recognition_nodelet : public nodelet::Nodelet {
-   public:
-    object_recognition_nodelet();
-    ~object_recognition_nodelet();
-    virtual void onInit();
+class object_recognition_nodelet : public nodelet::Nodelet {
+ public:
+  object_recognition_nodelet();
+  ~object_recognition_nodelet();
+  virtual void onInit();
 
-   private:
-    pcl_object_recognition object_recognition;
-  };
+ private:
+  pcl_object_recognition object_recognition;
+};
 }
 
 #endif  // OBJECT_RECOGNITION_NODELET_H_INCLUDED

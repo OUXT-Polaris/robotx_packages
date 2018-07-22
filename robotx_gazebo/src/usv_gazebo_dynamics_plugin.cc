@@ -43,8 +43,8 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 using namespace gazebo;
 
 UsvPlugin::UsvPlugin() {}
-UsvPlugin::~UsvPlugin()
-{
+
+UsvPlugin::~UsvPlugin() {
   rosnode_->shutdown();
   spinner_thread_->join();
   delete rosnode_;
@@ -52,27 +52,22 @@ UsvPlugin::~UsvPlugin()
 }
 
 void UsvPlugin::FiniChild() {}
+
 double UsvPlugin::getSdfParamDouble(sdf::ElementPtr sdfPtr,
                                     const std::string &param_name,
-                                    double default_val)
-{
+                                    double default_val) {
   double val = default_val;
-  if (sdfPtr->HasElement(param_name) &&
-      sdfPtr->GetElement(param_name)->GetValue()) {
+  if (sdfPtr->HasElement(param_name) && sdfPtr->GetElement(param_name)->GetValue()) {
     val = sdfPtr->GetElement(param_name)->Get<double>();
-    ROS_INFO_STREAM("Parameter found - setting <" << param_name << "> to <"
-                                                  << val << ">.");
-  }
-  else {
-    ROS_INFO_STREAM("Parameter <" << param_name
-                                  << "> not found: Using default value of <"
-                                  << val << ">.");
+    ROS_INFO_STREAM("Parameter found - setting <" << param_name << "> to <" << val << ">.");
+
+  } else {
+    ROS_INFO_STREAM("Parameter <" << param_name << "> not found: Using default value of <" << val << ">.");
   }
   return val;
 }
 
-void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
-{
+void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
   ROS_INFO("Loading usv_gazebo_dynamics_plugin");
   model_ = _parent;
   world_ = model_->GetWorld();
@@ -102,8 +97,7 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
   param_metacentric_length_ = 0.4;  // From clearpath
   param_metacentric_width_ = 0.4;   // ditto
-  param_boat_area_ =
-      0.48;  // Clearpath: 1.2m in length, 0.2m in width, 2 pontoons.
+  param_boat_area_ = 0.48;          // Clearpath: 1.2m in length, 0.2m in width, 2 pontoons.
 
   //  Enumerating model
   ROS_INFO_STREAM("Enumerating Model...");
@@ -115,17 +109,14 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
   // Get parameters from SDF
   if (_sdf->HasElement("robotNamespace")) {
-    node_namespace_ =
-        _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
+    node_namespace_ = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
   }
 
-  if (!_sdf->HasElement("bodyName") ||
-      !_sdf->GetElement("bodyName")->GetValue()) {
+  if (!_sdf->HasElement("bodyName") || !_sdf->GetElement("bodyName")->GetValue()) {
     link_ = model_->GetLink();
     link_name_ = link_->GetName();
     ROS_INFO_STREAM("Did not find SDF parameter bodyName");
-  }
-  else {
+  } else {
     link_name_ = _sdf->GetElement("bodyName")->Get<std::string>();
     // link_name_ = "thrust_link";
     link_ = model_->GetLink(link_name_);
@@ -133,11 +124,9 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     ROS_INFO_STREAM("Found SDF parameter bodyName as <" << link_name_ << ">");
   }
   if (!link_) {
-    ROS_FATAL("usv_gazebo_dynamics_plugin error: bodyName: %s does not exist\n",
-              link_name_.c_str());
+    ROS_FATAL("usv_gazebo_dynamics_plugin error: bodyName: %s does not exist\n", link_name_.c_str());
     return;
-  }
-  else {
+  } else {
     ROS_INFO_STREAM("USV Model Link Name = " << link_name_);
   }
 
@@ -160,13 +149,10 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
   param_boat_area_ = getSdfParamDouble(_sdf, "boatArea", param_boat_area_);
   param_boat_width_ = getSdfParamDouble(_sdf, "boatWidth", param_boat_width_);
-  param_boat_length_ =
-      getSdfParamDouble(_sdf, "boatLength", param_boat_length_);
+  param_boat_length_ = getSdfParamDouble(_sdf, "boatLength", param_boat_length_);
 
-  param_metacentric_length_ =
-      getSdfParamDouble(_sdf, "metacentricLength", param_metacentric_length_);
-  param_metacentric_width_ =
-      getSdfParamDouble(_sdf, "metacentricWidth", param_metacentric_width_);
+  param_metacentric_length_ = getSdfParamDouble(_sdf, "metacentricLength", param_metacentric_length_);
+  param_metacentric_width_ = getSdfParamDouble(_sdf, "metacentricWidth", param_metacentric_width_);
 
   // Wave parameters
   std::ostringstream buf;
@@ -187,8 +173,7 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     tmpv[0] = tmpm.x;
     tmpv[1] = tmpm.y;
     param_wave_directions_.push_back(tmpv);
-    ROS_INFO_STREAM("Wave Direction " << ii << ": "
-                                      << param_wave_directions_[ii][0] << ", "
+    ROS_INFO_STREAM("Wave Direction " << ii << ": " << param_wave_directions_[ii][0] << ", "
                                       << param_wave_directions_[ii][1]);
   }
 
@@ -199,8 +184,8 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // Report some of the pertinent parameters for verification
   ROS_INFO("USV Dynamics Parameters: From URDF XACRO model definition");
   ROS_INFO_STREAM("Vessel Mass (rigid-body): " << mass);
-  ROS_INFO_STREAM("Vessel Inertia Vector (rigid-body): X:"
-                  << inertia[0] << " Y:" << inertia[1] << " Z:" << inertia[2]);
+  ROS_INFO_STREAM("Vessel Inertia Vector (rigid-body): X:" << inertia[0] << " Y:" << inertia[1]
+                                                           << " Z:" << inertia[2]);
   ROS_INFO("USV Dynamics Parameters: Plugin Parameters");
 
   // initialize time and odometry position
@@ -209,22 +194,19 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   // Initialize the ROS node
   int argc = 0;
   char **argv = NULL;
-  ros::init(
-      argc, argv, "usv_dynamics_gazebo",
-      ros::init_options::NoSigintHandler | ros::init_options::AnonymousName);
+  ros::init(argc, argv, "usv_dynamics_gazebo",
+            ros::init_options::NoSigintHandler | ros::init_options::AnonymousName);
   rosnode_ = new ros::NodeHandle(node_namespace_);
 
   // Listen to the update event. This event is broadcast every
   // simulation iteration.
   this->spinner_thread_ = new std::thread(std::bind(&UsvPlugin::spin, this));
-  this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-      std::bind(&UsvPlugin::UpdateChild, this));
+  this->updateConnection = event::Events::ConnectWorldUpdateBegin(std::bind(&UsvPlugin::UpdateChild, this));
 
   // Initialize Added Mass Matrix
   Ma_ = Eigen::MatrixXd(6, 6);
-  Ma_ << param_X_dot_u_, 0, 0, 0, 0, 0, 0, param_Y_dot_v_, 0, 0, 0, 0, 0, 0,
-      0.1, 0, 0, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0, 0,
-      param_N_dot_r_;
+  Ma_ << param_X_dot_u_, 0, 0, 0, 0, 0, 0, param_Y_dot_v_, 0, 0, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0, 0, 0.1, 0, 0,
+      0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0, 0, param_N_dot_r_;
 
   Cmat_ = Eigen::MatrixXd::Zero(6, 6);
   Dmat_ = Eigen::MatrixXd::Zero(6, 6);
@@ -247,8 +229,7 @@ void UsvPlugin::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   buoy_frac_ = (param_boat_area_ / (NN * NN)) * GRAVITY * water_density_;
 }
 
-void UsvPlugin::UpdateChild()
-{
+void UsvPlugin::UpdateChild() {
   common::Time time_now = this->world_->GetSimTime();
   // common::Time step_time = time_now - prev_update_time_;
   double dt = (time_now - prev_update_time_).Double();
@@ -274,11 +255,11 @@ void UsvPlugin::UpdateChild()
   ROS_DEBUG_STREAM_THROTTLE(0.5, "Accel angular: " << accel_angular_body);
 
   // Create state and derivative of state (accelerations)
-  state_dot_ << accel_linear_body.x, accel_linear_body.y, accel_linear_body.z,
-      accel_angular_body.x, accel_angular_body.y, accel_angular_body.z;
+  state_dot_ << accel_linear_body.x, accel_linear_body.y, accel_linear_body.z, accel_angular_body.x,
+      accel_angular_body.y, accel_angular_body.z;
 
-  state_ << vel_linear_body_.x, vel_linear_body_.y, vel_linear_body_.z,
-      vel_angular_body_.x, vel_angular_body_.y, vel_angular_body_.z;
+  state_ << vel_linear_body_.x, vel_linear_body_.y, vel_linear_body_.z, vel_angular_body_.x,
+      vel_angular_body_.y, vel_angular_body_.z;
 
   // Added Mass
   amassVec_ = -1.0 * Ma_ * state_dot_;
@@ -319,8 +300,7 @@ void UsvPlugin::UpdateChild()
 
   // Add dynamic forces/torques to link at CG
   link_->AddRelativeForce(math::Vector3(forceSum(0), forceSum(1), forceSum(2)));
-  link_->AddRelativeTorque(
-      math::Vector3(forceSum(3), forceSum(4), forceSum(5)));
+  link_->AddRelativeTorque(math::Vector3(forceSum(3), forceSum(4), forceSum(5)));
 
   // Distribute upward buoyancy force
 
@@ -343,18 +323,15 @@ void UsvPlugin::UpdateChild()
       bpnt_w = xform_v * bpnt;
 
       // Debug
-      ROS_DEBUG_STREAM_THROTTLE(1.0, "[" << (*it) << "," << (*jt)
-                                         << "] grid points" << bpnt.x() << ","
+      ROS_DEBUG_STREAM_THROTTLE(1.0, "[" << (*it) << "," << (*jt) << "] grid points" << bpnt.x() << ","
                                          << bpnt.y() << "," << bpnt.z());
       ROS_DEBUG_STREAM_THROTTLE(1.0, "v frame euler " << euler_);
-      ROS_DEBUG_STREAM_THROTTLE(1.0, "in water frame" << bpnt_w.x() << ","
-                                                      << bpnt_w.y() << ","
+      ROS_DEBUG_STREAM_THROTTLE(1.0, "in water frame" << bpnt_w.x() << "," << bpnt_w.y() << ","
                                                       << bpnt_w.z());
 
       // Vertical location of boat grid point in world frame
       ddz = pose_.pos.z + bpnt_w.z();
-      ROS_DEBUG_STREAM("Z, pose: " << pose_.pos.z << ", bpnt: " << bpnt_w.z()
-                                   << ", dd: " << ddz);
+      ROS_DEBUG_STREAM("Z, pose: " << pose_.pos.z << ", bpnt: " << bpnt_w.z() << ", dd: " << ddz);
 
       // Find vertical displacement of wave field
       X.x = pose_.pos.x + bpnt_w.x();  // World location of grid point
@@ -362,8 +339,7 @@ void UsvPlugin::UpdateChild()
       // sum vertical dsplacement over all waves
       dz = 0.0;
       for (int ii = 0; ii < param_wave_n_; ii++) {
-        Ddotx = param_wave_directions_[ii][0] * X.x +
-                param_wave_directions_[ii][1] * X.y;
+        Ddotx = param_wave_directions_[ii][0] * X.x + param_wave_directions_[ii][1] * X.y;
         w = 2.0 * 3.14159 / param_wave_periods_[ii];
         k = w * w / 9.81;
         dz += param_wave_amps_[ii] * cos(k * Ddotx - w * time_now.Float());
@@ -377,15 +353,13 @@ void UsvPlugin::UpdateChild()
       // Apply force at grid point
       // From web, Appears that position is in the link frame
       // and force is in world frame
-      link_->AddForceAtRelativePosition(
-          math::Vector3(0, 0, buoy_force),
-          math::Vector3(bpnt.x(), bpnt.y(), bpnt.z()));
+      link_->AddForceAtRelativePosition(math::Vector3(0, 0, buoy_force),
+                                        math::Vector3(bpnt.x(), bpnt.y(), bpnt.z()));
     }
   }
 }
 
-void UsvPlugin::spin()
-{
+void UsvPlugin::spin() {
   while (ros::ok()) ros::spinOnce();
 }
 

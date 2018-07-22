@@ -14,20 +14,15 @@
 object_model::object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model,
                            std::string object_name,
                            std::string stl_file_path,
-                           std::string marker_mesh_path)
-{
+                           std::string marker_mesh_path) {
   object_name_ = object_name;
   stl_file_path_ = stl_file_path;
   marker_mesh_path_ = marker_mesh_path;
-  model_ =
-      pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
-  model_keypoints_ =
-      pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
-  model_normals_ =
-      pcl::PointCloud<pcl::Normal>::Ptr(new pcl::PointCloud<pcl::Normal>());
+  model_ = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
+  model_keypoints_ = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
+  model_normals_ = pcl::PointCloud<pcl::Normal>::Ptr(new pcl::PointCloud<pcl::Normal>());
   model_ = model;
-  model_descriptors_ =
-      pcl::PointCloud<pcl::SHOT352>::Ptr(new pcl::PointCloud<pcl::SHOT352>());
+  model_descriptors_ = pcl::PointCloud<pcl::SHOT352>::Ptr(new pcl::PointCloud<pcl::SHOT352>());
   //
   //  Compute Normals
   //
@@ -54,27 +49,20 @@ object_model::object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model,
     descr_est.setSearchSurface(model_);
     descr_est.compute(*model_descriptors_);
     // ROS_INFO_STREAM("model description succeed.");
-  }
-  catch (...) {
+  } catch (...) {
     ROS_WARN_STREAM("model description failed.");
   }
 }
 
-object_model::object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model,
-                           std::string object_name)
-{
+object_model::object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model, std::string object_name) {
   object_name_ = object_name;
   stl_file_path_ = "";
   marker_mesh_path_ = "";
-  model_ =
-      pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
-  model_keypoints_ =
-      pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
-  model_normals_ =
-      pcl::PointCloud<pcl::Normal>::Ptr(new pcl::PointCloud<pcl::Normal>());
+  model_ = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
+  model_keypoints_ = pcl::PointCloud<pcl::PointXYZ>::Ptr(new pcl::PointCloud<pcl::PointXYZ>());
+  model_normals_ = pcl::PointCloud<pcl::Normal>::Ptr(new pcl::PointCloud<pcl::Normal>());
   model_ = model;
-  model_descriptors_ =
-      pcl::PointCloud<pcl::SHOT352>::Ptr(new pcl::PointCloud<pcl::SHOT352>());
+  model_descriptors_ = pcl::PointCloud<pcl::SHOT352>::Ptr(new pcl::PointCloud<pcl::SHOT352>());
   //
   //  Compute Normals
   //
@@ -101,29 +89,23 @@ object_model::object_model(pcl::PointCloud<pcl::PointXYZ>::Ptr model,
     descr_est.setSearchSurface(model_);
     descr_est.compute(*model_descriptors_);
     // ROS_INFO_STREAM("model description succeed.");
-  }
-  catch (...) {
+  } catch (...) {
     ROS_WARN_STREAM("model description failed.");
   }
 }
 
-pcl::PointCloud<pcl::SHOT352>::Ptr object_model::get_model_descriptors()
-{
-  return model_descriptors_;
-}
+pcl::PointCloud<pcl::SHOT352>::Ptr object_model::get_model_descriptors() { return model_descriptors_; }
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr object_model::get_model_keypoints()
-{
-  return model_keypoints_;
-}
+pcl::PointCloud<pcl::PointXYZ>::Ptr object_model::get_model_keypoints() { return model_keypoints_; }
 
-pcl::PointCloud<pcl::Normal>::Ptr object_model::get_model_normals()
-{
-  return model_normals_;
-}
+pcl::PointCloud<pcl::Normal>::Ptr object_model::get_model_normals() { return model_normals_; }
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr object_model::get_model() { return model_; }
+
 std::string object_model::get_name() { return object_name_; }
+
 std::string object_model::get_stl_file_path() { return stl_file_path_; }
+
 std::string object_model::get_marker_mesh_path() { return marker_mesh_path_; }
+
 object_model::~object_model() {}

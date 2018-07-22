@@ -4,8 +4,7 @@
 // headers for ros
 #include <ros/ros.h>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ros::init(argc, argv, "costmap_clear_request_sender_node");
   costmap_clear_request_sender sender;
   sender.run();

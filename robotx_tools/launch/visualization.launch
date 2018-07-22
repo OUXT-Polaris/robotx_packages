@@ -17,6 +17,9 @@
   <node name="gps_plotter_node" pkg="robotx_tools" type="gps_plotter.py" args="" output="screen" respawn="true">
   </node>
   -->
+  <rosparam command="load" file="$(find robotx_tools)/config/cnn_result_visualizer.yaml" ns="cnn_result_visualizer_node"/>
+  <node name="cnn_result_visualizer_node" pkg="robotx_tools" type="cnn_result_visualizer_node" args="" output="screen" respawn="true">
+  </node>
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/wam-v.rviz" respawn="false" />
 
