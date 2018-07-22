@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   rviz
+  robotx_msgs
 )
 
 find_package(PythonLibs)
@@ -26,7 +27,6 @@ find_package(OpenCV REQUIRED)
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  
   PlotCharacteristicCurve.srv
 )
 
