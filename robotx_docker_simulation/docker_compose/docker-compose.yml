@@ -1,12 +1,37 @@
-jetson1:
-  build: jetson
-  tty: true
-jetson2:
-  build: jetson
-  tty: true
-jetson3:
-  build: jetson
-  tty: true
-gazebo_sim:
-  build: gazebo_sim
-  tty: true
+version: "2.0"
+
+services:
+  jetson1:
+    build: jetson
+    tty: true
+    networks:
+      wamv_network:
+        ipv4_address: 192.168.10.10
+
+  jetson2:
+    build: jetson
+    tty: true
+    networks:
+      wamv_network:
+        ipv4_address: 192.168.10.11
+
+  jetson3:
+    build: jetson
+    tty: true
+    networks:
+      wamv_network:
+        ipv4_address: 192.168.10.12
+
+  gazebo_sim:
+    build: gazebo_sim
+    tty: true
+    networks:
+      wamv_network:
+        ipv4_address: 192.168.10.100
+
+networks:
+  wamv_network:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 192.168.10.0/25

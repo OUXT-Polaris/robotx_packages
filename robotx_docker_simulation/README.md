@@ -17,12 +17,19 @@ Nvidia GPU (this programs was tested on [GTX 1060 3GB](https://www.kuroutoshikou
 ### how to run
 Scripts in this package does not contains ros API.
 So, you don't have to run roscore before run simulation.
-
+1. change docker-compose directory
+```
+cd (path_to_robotx_docker_simulation)/docker_compose
+```
 1. build docker image (just first time)
 ```
-rosrun robotx_docker_simulation build.py  
+docker-compose build
 ```
 1. bringup docker images
 ```
-rosrun robotx_docker_simulation bringup.py  
+docker-compose up
+```
+1. stop docker images
+```
+docker-compose stop
 ```
