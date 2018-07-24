@@ -1,3 +1,4 @@
+# see https://gist.github.com/qiaoxueshi/5910150
 gource \
     -s .06 \
     -1920x1280 \
