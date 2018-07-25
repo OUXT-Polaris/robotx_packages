@@ -46,6 +46,7 @@ RUN git clone https://github.com/OUXT-Polaris/robotx_packages.git
 WORKDIR /home/$USER_NAME/catkin_ws/src/robotx_packages/
 RUN rm -rf robotx_tools
 RUN rm -rf robotx_gazebo
+RUN rm -rf robotx_docker_simulation
 WORKDIR /home/$USER_NAME/catkin_ws/
 
 RUN sudo apt-get update && \
