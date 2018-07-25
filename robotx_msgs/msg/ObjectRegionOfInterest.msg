@@ -1,4 +1,5 @@
 Header header
 sensor_msgs/RegionOfInterest roi_2d
 jsk_recognition_msgs/BoundingBox roi_3d
-string label
+robotx_msgs/ObjectType object_type
+float32 objectness
