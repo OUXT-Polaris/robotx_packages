@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   wamv_description
   robotx_msgs
+  tf
 )
 
 ## Gazebo
