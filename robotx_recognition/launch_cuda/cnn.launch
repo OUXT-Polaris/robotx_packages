@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="robotx_recognition" type="cnn_prediction_node.py" name="cnn_prediction_node" args="" output="screen" respawn="false">
+    </node>
+</launch>

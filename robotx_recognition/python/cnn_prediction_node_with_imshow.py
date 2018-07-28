@@ -69,9 +69,9 @@ class PredicdionNode:
 
     def buoy_recognition(self, cv_image, rois):
 
-        # colors=[(152,251,152), (0,255,255), (203,192,255), (80,80,80)]
-        # font = cv2.FONT_HERSHEY_PLAIN
-        # cv_image_ = copy.deepcopy(cv_image)
+        colors=[(152,251,152), (0,255,255), (203,192,255), (80,80,80)]
+        font = cv2.FONT_HERSHEY_PLAIN
+        cv_image_ = copy.deepcopy(cv_image)
 
         prediction_result = copy.deepcopy(rois)
 
@@ -91,10 +91,10 @@ class PredicdionNode:
             prediction_result[i].object_type.ID = self.object_dict[self.classes[index]]
             prediction_result[i].objectness = prob
 
-        #     cv2.rectangle(cv_image_, (left, top), (right, bottom), colors[index], thickness=4, lineType=cv2.LINE_4)
+            cv2.rectangle(cv_image_, (left, top), (right, bottom), colors[index], thickness=4, lineType=cv2.LINE_4)
 
-        # cv2.imshow('subscribed_image',cv_image_)
-        # cv2.waitKey(3)
+        cv2.imshow('subscribed_image',cv_image_)
+        cv2.waitKey(3)
 
         self.prediction_pub.publish(prediction_result)
 

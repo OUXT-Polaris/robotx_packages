@@ -26,8 +26,9 @@ add_message_files(
   UsvDrive.msg
   RegionOfInterest2D.msg
   RegionOfInterest2DArray.msg
-  ObjectRegionOfInterest.msg
   ObjectRegionOfInterestArray.msg
+  ObjectRegionOfInterest.msg
+  ObjectType.msg
   GeographicPoint.msg
   GeographicLine.msg
   GeographicMap.msg

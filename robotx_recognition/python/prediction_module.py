@@ -20,14 +20,23 @@ class Predicdion():
         rospack = rospkg.RosPack()
         pkg_path = rospack.get_path('robotx_recognition')
         filename = pkg_path + '/data/trained_model.pb'
-        settingFileName = pkg_path + '/data/trained_weight.json'
-        # import json
-        # import os
-        # import urllib.request
-        # with open(settingFileName, 'r') as f:
-        #     datasetInfo = json.load(f)
-        # if not os.path.isfile(filename):
-        #     urllib.request.urlretrieve('https://drive.google.com/uc?id=' + datasetInfo['id'], filename)
+        settingFileName = pkg_path + '/data/trained_model.json'
+
+        import json
+        import os
+
+        with open(settingFileName, 'r') as f:
+            datasetInfo = json.load(f)
+
+        if not os.path.isfile(filename):
+            print("downloading weight file...")
+            import urllib.request
+            #print(datasetInfo['url'])
+            #print(filename)
+            urllib.request.urlretrieve(datasetInfo['url'], filename)
+            # import urllib
+            # urllib.urlretrieve(datasetInfo['url'], filename)
+            print("file download finished!")
 
         self.graph = tf.Graph()
         graph_def = tf.GraphDef()
@@ -50,6 +59,6 @@ class Predicdion():
         image = image.reshape((1,128,128,3))
 
         y_pred = self.sess.run(self.outLayer.outputs[0],
-                               {self.inLayer.outputs[0]: image,
-                                self.learnPhase.outputs[0]: 0})
+                          {self.inLayer.outputs[0]: image,
+                           self.learnPhase.outputs[0]: 0})
         return y_pred[0]
