@@ -24,8 +24,6 @@
   <depend>controller_manager</depend>
   <depend>controller_interface</depend>
   <depend>robot_state_publisher</depend>
-  <depend>ros_controllers</depend>
-  <depend>ros_control</depend>
   <depend>joint_state_controller</depend>
   <depend>diff_drive_controller</depend>
   <depend>position_controllers</depend>
