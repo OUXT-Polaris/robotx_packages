@@ -135,5 +135,4 @@
       </geometry>
     </collision>
   </xacro:macro>
-
 </robot>

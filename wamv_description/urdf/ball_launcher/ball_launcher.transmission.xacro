@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+
+  <xacro:macro name="ball_launcher_transmission_v0">
+    <transmission name="ball_launcher_yaw_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="ball_launcher_yaw_joint">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="ball_launcher_yaw_actuator">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>30</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="ball_launcher_pitch_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="ball_launcher_pitch_joint">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="ball_launcher_pitch_actuator">
+        <hardwareInterface>PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>30</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+  
+</robot>

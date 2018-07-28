@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <xacro:include filename="$(find wamv_description)/urdf/ball_launcher/ball_launcher.gazebo.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/ball_launcher/ball_launcher.transmission.xacro"/>
+
+  <xacro:macro name="ball_launcher_v0">
+    <link name="ball_launcher_base_link">
+      <!-- Inertial -->
+      <inertial name="ball_launcher_base">
+        <origin xyz="0 0 0"/>
+        <xacro:box_inertial mass="0.1" height="0.2" width="0.2" depth="0.2"/>
+      </inertial>
+    </link>
+    
+    <joint name="ball_launcher_base_joint" type="fixed">
+      <origin xyz="1.1 0 1.2"/>
+      <parent link="base_link"/>
+      <child link="ball_launcher_base_link"/>
+    </joint>
+
+    <link name="ball_launcher_yaw_link">
+      <!-- Inertial -->
+      <inertial name="ball_launcher_base">
+        <origin xyz="0 0 0"/>
+        <xacro:box_inertial mass="0.1" height="0.2" width="0.2" depth="0.2"/>
+      </inertial>
+    </link>
+
+    <joint name="ball_launcher_yaw_joint" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0"/>"
+      <parent link="ball_launcher_base_link"/>
+      <child link="ball_launcher_yaw_link"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7" friction="0.7"/>
+      <limit effort="10.0" lower="${-3*pi/4}" upper="${3*pi/4}" velocity="${pi/2}"/>
+    </joint>
+
+    <link name="ball_launcher_pitch_link">
+      <!-- Inertial -->
+      <inertial name="ball_launcher_base">
+        <origin xyz="0 0 0"/>
+        <xacro:box_inertial mass="0.1" height="0.2" width="0.2" depth="0.2"/>
+      </inertial>
+      <!-- Visual -->
+      <visual>
+        <geometry>
+          <cylinder length="0.2" radius="0.05"/>
+        </geometry>
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
+        <material name="gray"/>
+      </visual>
+    </link>
+
+    <joint name="ball_launcher_pitch_joint" type="revolute">
+      <origin xyz="0 0 0" rpy="${-3*pi/2} 0 0"/>"
+      <parent link="ball_launcher_yaw_link"/>
+      <child link="ball_launcher_pitch_link"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7" friction="0.7"/>
+      <limit effort="10.0" lower="${-3*pi/4}" upper="${3*pi/4}" velocity="${pi/2}"/>
+    </joint>
+
+    <!-- Transmission -->
+    <xacro:ball_launcher_transmission_v0/>
+
+    <!-- Gazebo -->
+    <xacro:ball_launcher_gazebo_v0/>
+  </xacro:macro>
+</robot>

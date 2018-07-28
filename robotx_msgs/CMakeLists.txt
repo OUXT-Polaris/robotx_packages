@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
+  BallLauncherStatus.msg
   Heartbeat.msg
   TechnicalDirectorNetworkStatus.msg
   UsvDrive.msg
