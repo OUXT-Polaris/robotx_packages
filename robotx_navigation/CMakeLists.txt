@@ -23,6 +23,7 @@ find_package(catkin REQUIRED COMPONENTS
   dwa_local_planner
   global_planner
   yaml_cpp_0_3
+  pcl_ros
 )
 
 catkin_package()
@@ -63,6 +64,11 @@ add_executable(costmap_clear_request_sender_node src/costmap_clear_request_sende
 target_link_libraries(costmap_clear_request_sender_node ${catkin_LIBRARIES})
 add_document(costmap_clear_request_sender_node)
 clang_format(costmap_clear_request_sender_node)
+
+add_executable(ndt_mapping_node src/ndt_mapping_node.cpp src/ndt_mapping.cpp)
+target_link_libraries(ndt_mapping_node ${catkin_LIBRARIES})
+add_document(ndt_mapping_node)
+clang_format(ndt_mapping_node)
 
 #############
 ## Install ##
