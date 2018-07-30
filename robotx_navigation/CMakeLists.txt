@@ -24,6 +24,7 @@ find_package(catkin REQUIRED COMPONENTS
   global_planner
   yaml_cpp_0_3
   pcl_ros
+  message_filters
 )
 
 catkin_package()

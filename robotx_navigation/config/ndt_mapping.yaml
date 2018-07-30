@@ -1,0 +1,2 @@
+odom_topic: odom
+pointcloud_topic: /pointcloud_merger_node/merged_points

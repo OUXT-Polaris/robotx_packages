@@ -27,6 +27,7 @@
   <build_depend>jsk_recognition_msgs</build_depend>
   <build_depend>nodelet</build_depend>
   <build_depend>yaml_cpp_0_3</build_depend>
+  <build_depend>message_filters</build_depend>
 
   <run_depend>geometry_msgs</run_depend>
   <run_depend>roscpp</run_depend>
@@ -52,5 +53,6 @@
   <run_depend>yocs_waypoints_navi</run_depend>
   <run_depend>yocs_waypoint_provider</run_depend>
   <run_depend>yaml_cpp_0_3</run_depend>
+  <run_depend>message_filters</run_depend>
   <run_depend>cog_publisher</run_depend>
 </package>
