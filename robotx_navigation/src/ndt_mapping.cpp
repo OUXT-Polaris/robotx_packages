@@ -2,6 +2,10 @@
 
 ndt_mapping::ndt_mapping()
     : params_(), sync_(odom_sub_, pointcloud_sub_, 10), pointcloud_buf_(2), odom_buf_(2) {
+  ndt_.setTransformationEpsilon(0.01);
+  ndt_.setStepSize(0.1);
+  ndt_.setResolution(1.0);
+  ndt_.setMaximumIterations(35);
   sync_.registerCallback(boost::bind(&ndt_mapping::callback_, this, _1, _2));
 }
 

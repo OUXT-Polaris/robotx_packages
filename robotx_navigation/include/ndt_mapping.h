@@ -9,11 +9,8 @@
 #include <sensor_msgs/PointCloud2.h>
 
 // headers in pcl
-#include <pcl/features/moment_of_inertia_estimation.h>
-#include <pcl/features/normal_3d.h>
-#include <pcl/filters/voxel_grid.h>
-#include <pcl/kdtree/kdtree.h>
 #include <pcl/point_types.h>
+#include <pcl/registration/ndt.h>
 #include <pcl_conversions/pcl_conversions.h>
 
 // headers in boost
@@ -43,5 +40,6 @@ class ndt_mapping {
                  const sensor_msgs::PointCloud2ConstPtr& pointcloud_msg);
   boost::circular_buffer<pcl::PointCloud<pcl::PointXYZ> > pointcloud_buf_;
   boost::circular_buffer<nav_msgs::Odometry> odom_buf_;
+  pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ> ndt_;
 };
 #endif  // NDT_MAPPING_H_INCLUDED
