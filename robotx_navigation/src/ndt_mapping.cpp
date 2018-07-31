@@ -38,6 +38,7 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr &odom_msg,
                                     odom_buf_[1].pose.pose.position.y - odom_buf_[0].pose.pose.position.y, 0);
     Eigen::Matrix4f init_guess = (odom_trans * odom_rot).matrix();
     ndt_.align(*map_pointcloud_, init_guess);
+    pcl::transformPointCloud(*pointcloud_buf_[0], *pointcloud_buf_[1], ndt_.getFinalTransformation());
     pointcloud_buf_[1] = map_pointcloud_;
     sensor_msgs::PointCloud2 output_msg;
     pcl::toROSMsg(*map_pointcloud_, output_msg);
