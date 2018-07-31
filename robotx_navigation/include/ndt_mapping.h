@@ -7,6 +7,8 @@
 #include <nav_msgs/Odometry.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
+#include <tf/LinearMath/Matrix3x3.h>
+#include <tf/LinearMath/Quaternion.h>
 
 // headers in pcl
 #include <pcl/point_types.h>
@@ -77,8 +79,8 @@ class ndt_mapping {
    *
    * see also http://pointclouds.org/documentation/tutorials/normal_distributions_transform.php
    */
-  void callback_(const nav_msgs::OdometryConstPtr& odom_msg,
-                 const sensor_msgs::PointCloud2ConstPtr& pointcloud_msg);
+  void callback_(const nav_msgs::OdometryConstPtr &odom_msg,
+                 const sensor_msgs::PointCloud2ConstPtr &pointcloud_msg);
   /**
    * @brief circuler buffer for pointcloud datas
    *
@@ -94,5 +96,21 @@ class ndt_mapping {
    *
    */
   pcl::NormalDistributionsTransform<pcl::PointXYZ, pcl::PointXYZ> ndt_;
+  /**
+   * @brief Get the rpy object from geometry_msgs::Quaternion message
+   *
+   * @param q Quaternion
+   * @param roll roll (rad)
+   * @param pitch pitch angle (rad)
+   * @param yaw yaw angle (rad)
+   */
+  void get_rpy_(geometry_msgs::Quaternion &q, double &roll, double &pitch, double &yaw);
+  /**
+   * @brief map_pointcloud_
+   *
+   * @param pcl::PointCloud<pcl::PointXYZ>
+   * @return pcl::PointCloud<pcl::PointXYZ>::Ptr
+   */
+  pcl::PointCloud<pcl::PointXYZ>::Ptr map_pointcloud_;
 };
 #endif  // NDT_MAPPING_H_INCLUDED

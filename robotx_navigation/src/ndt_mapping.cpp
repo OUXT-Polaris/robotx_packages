@@ -1,7 +1,13 @@
 #include <ndt_mapping.h>
 
 ndt_mapping::ndt_mapping()
-    : params_(), sync_(odom_sub_, pointcloud_sub_, 10), pointcloud_buf_(2), odom_buf_(2) {
+    : params_(),
+      odom_sub_(nh_, params_.odom_topic, 1),
+      pointcloud_sub_(nh_, params_.pointcloud_topic, 1),
+      sync_(odom_sub_, pointcloud_sub_, 10),
+      pointcloud_buf_(2),
+      odom_buf_(2),
+      map_pointcloud_(new pcl::PointCloud<pcl::PointXYZ>) {
   ndt_.setTransformationEpsilon(0.01);
   ndt_.setStepSize(0.1);
   ndt_.setResolution(1.0);
@@ -11,8 +17,8 @@ ndt_mapping::ndt_mapping()
 
 ndt_mapping::~ndt_mapping() {}
 
-void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr& odom_msg,
-                            const sensor_msgs::PointCloud2ConstPtr& pointcloud_msg) {
+void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr &odom_msg,
+                            const sensor_msgs::PointCloud2ConstPtr &pointcloud_msg) {
   pcl::PCLPointCloud2 pcl_pc2;
   pcl_conversions::toPCL(*pointcloud_msg, pcl_pc2);
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_pointcloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -22,5 +28,18 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr& odom_msg,
   if (odom_buf_.size() == 2 && pointcloud_buf_.size() == 2) {
     ndt_.setInputTarget(pointcloud_buf_[0]);
     ndt_.setInputSource(pointcloud_buf_[1]);
+    double r0, p0, y0;
+    double r1, p1, y1;
+    get_rpy_(odom_buf_[0].pose.pose.orientation, r0, p0, y0);
+    get_rpy_(odom_buf_[1].pose.pose.orientation, r1, p1, y1);
+    Eigen::AngleAxisf odom_rot(y1 - y0, Eigen::Vector3f::UnitZ());
+    Eigen::Translation3f odom_trans(odom_buf_[1].pose.pose.position.x - odom_buf_[0].pose.pose.position.x,
+                                    odom_buf_[1].pose.pose.position.y - odom_buf_[0].pose.pose.position.y, 0);
+    Eigen::Matrix4f init_guess = (odom_trans * odom_rot).matrix();
   }
+}
+
+void ndt_mapping::get_rpy_(geometry_msgs::Quaternion &q, double &roll, double &pitch, double &yaw) {
+  tf::Quaternion quat(q.x, q.y, q.z, q.w);
+  tf::Matrix3x3(quat).getRPY(roll, pitch, yaw);
 }
