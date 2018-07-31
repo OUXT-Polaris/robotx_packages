@@ -17,6 +17,10 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr& odom_msg,
   pcl_conversions::toPCL(*pointcloud_msg, pcl_pc2);
   pcl::PointCloud<pcl::PointXYZ>::Ptr pcl_pointcloud(new pcl::PointCloud<pcl::PointXYZ>);
   pcl::fromPCLPointCloud2(pcl_pc2, *pcl_pointcloud);
-  pointcloud_buf_.push_back(*pcl_pointcloud);
+  pointcloud_buf_.push_back(pcl_pointcloud);
   odom_buf_.push_back(*odom_msg);
+  if (odom_buf_.size() == 2 && pointcloud_buf_.size() == 2) {
+    ndt_.setInputTarget(pointcloud_buf_[0]);
+    ndt_.setInputSource(pointcloud_buf_[1]);
+  }
 }
