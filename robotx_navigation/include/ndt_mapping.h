@@ -82,6 +82,11 @@ class ndt_mapping {
   void callback_(const nav_msgs::OdometryConstPtr &odom_msg,
                  const sensor_msgs::PointCloud2ConstPtr &pointcloud_msg);
   /**
+   * @brief ROS publisher for ndt_map
+   *
+   */
+  ros::Publisher pointcloud_pub_;
+  /**
    * @brief circuler buffer for pointcloud datas
    *
    */

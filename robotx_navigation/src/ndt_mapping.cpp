@@ -12,6 +12,7 @@ ndt_mapping::ndt_mapping()
   ndt_.setStepSize(0.1);
   ndt_.setResolution(1.0);
   ndt_.setMaximumIterations(35);
+  pointcloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(ros::this_node::getName() + "/map", 1);
   sync_.registerCallback(boost::bind(&ndt_mapping::callback_, this, _1, _2));
 }
 
@@ -36,6 +37,11 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr &odom_msg,
     Eigen::Translation3f odom_trans(odom_buf_[1].pose.pose.position.x - odom_buf_[0].pose.pose.position.x,
                                     odom_buf_[1].pose.pose.position.y - odom_buf_[0].pose.pose.position.y, 0);
     Eigen::Matrix4f init_guess = (odom_trans * odom_rot).matrix();
+    ndt_.align(*map_pointcloud_, init_guess);
+    pointcloud_buf_[1] = map_pointcloud_;
+    sensor_msgs::PointCloud2 output_msg;
+    pcl::toROSMsg(*map_pointcloud_, output_msg);
+    pointcloud_pub_.publish(output_msg);
   }
 }
 
