@@ -117,5 +117,11 @@ class ndt_mapping {
    * @return pcl::PointCloud<pcl::PointXYZ>::Ptr
    */
   pcl::PointCloud<pcl::PointXYZ>::Ptr map_pointcloud_;
+  /**
+   * @brief merge 2 pointcloud
+   *
+   */
+  pcl::PointCloud<pcl::PointXYZ>::Ptr merge_cloud_(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1,
+                                                   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2);
 };
 #endif  // NDT_MAPPING_H_INCLUDED

@@ -38,7 +38,9 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr &odom_msg,
                                     odom_buf_[1].pose.pose.position.y - odom_buf_[0].pose.pose.position.y, 0);
     Eigen::Matrix4f init_guess = (odom_trans * odom_rot).matrix();
     ndt_.align(*map_pointcloud_, init_guess);
-    pcl::transformPointCloud(*pointcloud_buf_[0], *pointcloud_buf_[1], ndt_.getFinalTransformation());
+    pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::transformPointCloud(*pointcloud_buf_[0], *transformed_cloud, ndt_.getFinalTransformation());
+    map_pointcloud_ = merge_cloud_(map_pointcloud_, transformed_cloud);
     pointcloud_buf_[1] = map_pointcloud_;
     sensor_msgs::PointCloud2 output_msg;
     pcl::toROSMsg(*map_pointcloud_, output_msg);
@@ -49,4 +51,13 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr &odom_msg,
 void ndt_mapping::get_rpy_(geometry_msgs::Quaternion &q, double &roll, double &pitch, double &yaw) {
   tf::Quaternion quat(q.x, q.y, q.z, q.w);
   tf::Matrix3x3(quat).getRPY(roll, pitch, yaw);
+}
+
+pcl::PointCloud<pcl::PointXYZ>::Ptr ndt_mapping::merge_cloud_(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1,
+                                                              pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2) {
+  pcl::PointCloud<pcl::PointXYZ> cloud_merged;
+  cloud_merged = *cloud1;
+  cloud_merged += *cloud2;
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_merged_ptr(&cloud_merged);
+  return cloud_merged_ptr;
 }
