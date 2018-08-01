@@ -12,6 +12,8 @@ ndt_mapping::ndt_mapping()
   ndt_.setStepSize(0.1);
   ndt_.setResolution(1.0);
   ndt_.setMaximumIterations(35);
+  approximate_voxel_filter_.setLeafSize(params_.map_resolution, params_.map_resolution,
+                                        params_.map_resolution);
   pointcloud_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(ros::this_node::getName() + "/map", 1);
   sync_.registerCallback(boost::bind(&ndt_mapping::callback_, this, _1, _2));
 }
@@ -40,7 +42,9 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr &odom_msg,
     ndt_.align(*map_pointcloud_, init_guess);
     pcl::PointCloud<pcl::PointXYZ>::Ptr transformed_cloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::transformPointCloud(*pointcloud_buf_[0], *transformed_cloud, ndt_.getFinalTransformation());
-    map_pointcloud_ = merge_cloud_(map_pointcloud_, transformed_cloud);
+    *map_pointcloud_ += *transformed_cloud;
+    approximate_voxel_filter_.setInputCloud(map_pointcloud_);
+    approximate_voxel_filter_.filter(*map_pointcloud_);
     pointcloud_buf_[1] = map_pointcloud_;
     sensor_msgs::PointCloud2 output_msg;
     pcl::toROSMsg(*map_pointcloud_, output_msg);
@@ -51,13 +55,4 @@ void ndt_mapping::callback_(const nav_msgs::OdometryConstPtr &odom_msg,
 void ndt_mapping::get_rpy_(geometry_msgs::Quaternion &q, double &roll, double &pitch, double &yaw) {
   tf::Quaternion quat(q.x, q.y, q.z, q.w);
   tf::Matrix3x3(quat).getRPY(roll, pitch, yaw);
-}
-
-pcl::PointCloud<pcl::PointXYZ>::Ptr ndt_mapping::merge_cloud_(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1,
-                                                              pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2) {
-  pcl::PointCloud<pcl::PointXYZ> cloud_merged;
-  cloud_merged = *cloud1;
-  cloud_merged += *cloud2;
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_merged_ptr(&cloud_merged);
-  return cloud_merged_ptr;
 }

@@ -11,6 +11,7 @@
 #include <tf/LinearMath/Quaternion.h>
 
 // headers in pcl
+#include <pcl/filters/approximate_voxel_grid.h>
 #include <pcl/point_types.h>
 #include <pcl/registration/ndt.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -27,10 +28,12 @@ class ndt_mapping {
   struct parameters {
     std::string pointcloud_topic;
     std::string odom_topic;
+    double map_resolution;
     parameters() {
       ros::param::param<std::string>(ros::this_node::getName() + "/pointcloud_topic", pointcloud_topic,
                                      ros::this_node::getName() + "/input_pointcloud");
       ros::param::param<std::string>(ros::this_node::getName() + "/odom_topic", odom_topic, "/odom");
+      ros::param::param<double>(ros::this_node::getName() + +"/map_resolution", map_resolution, 0.01);
     }
   };
   /**
@@ -118,10 +121,9 @@ class ndt_mapping {
    */
   pcl::PointCloud<pcl::PointXYZ>::Ptr map_pointcloud_;
   /**
-   * @brief merge 2 pointcloud
+   * @brief Voxelgrid filter class
    *
    */
-  pcl::PointCloud<pcl::PointXYZ>::Ptr merge_cloud_(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1,
-                                                   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud2);
+  pcl::ApproximateVoxelGrid<pcl::PointXYZ> approximate_voxel_filter_;
 };
 #endif  // NDT_MAPPING_H_INCLUDED
