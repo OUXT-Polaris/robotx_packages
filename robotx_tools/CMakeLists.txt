@@ -22,6 +22,8 @@ find_package(PythonLibs)
 
 find_package(OpenCV REQUIRED)
 
+find_package(Boost REQUIRED)
+
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################
@@ -90,6 +92,11 @@ add_executable(cnn_result_visualizer_node src/cnn_result_visualizer_node.cpp ${c
 add_dependencies(cnn_result_visualizer_node robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
 target_link_libraries(cnn_result_visualizer_node ${catkin_LIBRARIES})
 clang_format(cnn_result_visualizer_node)
+
+set(fake_technical_director_network_src src/fake_technical_director_network_main.cpp src/fake_technical_director_network.cpp src/tcp_server.cpp)
+add_executable(fake_technical_director_network ${fake_technical_director_network_src})
+#target_link_libraries(fake_technical_director_network )
+clang_format(fake_technical_director_network)
 
 #############
 ## Install ##
