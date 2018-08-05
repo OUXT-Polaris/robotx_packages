@@ -22,7 +22,7 @@ find_package(PythonLibs)
 
 find_package(OpenCV REQUIRED)
 
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED COMPONENTS thread system chrono)
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -95,7 +95,7 @@ clang_format(cnn_result_visualizer_node)
 
 set(fake_technical_director_network_src src/fake_technical_director_network_main.cpp src/fake_technical_director_network.cpp src/tcp_server.cpp)
 add_executable(fake_technical_director_network ${fake_technical_director_network_src})
-#target_link_libraries(fake_technical_director_network )
+target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
 clang_format(fake_technical_director_network)
 
 #############
