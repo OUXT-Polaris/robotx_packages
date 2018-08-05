@@ -1,3 +1,6 @@
 [submodule "submodules/cog_publisher"]
 	path = submodules/cog_publisher
 	url = https://github.com/OUXT-Polaris/cog_publisher.git
+[submodule "submodules/opencv_apps"]
+	path = submodules/opencv_apps
+	url = https://github.com/OUXT-Polaris/opencv_apps.git
