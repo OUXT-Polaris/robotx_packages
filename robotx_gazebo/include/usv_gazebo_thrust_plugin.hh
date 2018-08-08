@@ -3,7 +3,8 @@
 Copyright (c) 2017, Brian Bingham
 All rights reserved
 
-This file is part of the usv_gazebo_dynamics_plugin package, known as this Package.
+This file is part of the usv_gazebo_dynamics_plugin package, known as this
+Package.
 
 This Package free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +23,7 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @brief gazebo plugin for USV thrust simulation
- * 
+ *
  * @file usv_gazebo_thrust_plugin.hh
  * @author Brian Bingham
  * @date 2017
@@ -32,21 +33,21 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 #define USV_GAZEBO_THRUST_H
 
 // C++
-#include <algorithm>  // min/mzx
 #include <math.h>
+#include <algorithm>  // min/mzx
 
 // Gazebo
 #include <gazebo/common/common.hh>
 #include <gazebo/physics/physics.hh>
 //#include <gazebo_plugins/gazebo_ros_utils.h>
 
-//ROS
+// ROS
 #include <robotx_msgs/UsvDrive.h>
 #include <ros/ros.h>
 
 // Custom Callback Queue
-#include <ros/callback_queue.h>
 #include <ros/advertise_options.h>
+#include <ros/callback_queue.h>
 
 namespace gazebo
 {

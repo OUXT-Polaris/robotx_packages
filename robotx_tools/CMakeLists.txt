@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(robotx_tools)
 
+include(../Format/ClangFormat.cmake)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
@@ -12,11 +14,15 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   rviz
+  robotx_msgs
+  tf
 )
 
 find_package(PythonLibs)
 
 find_package(OpenCV REQUIRED)
+
+find_package(Boost REQUIRED COMPONENTS thread system chrono)
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -24,7 +30,6 @@ find_package(OpenCV REQUIRED)
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  
   PlotCharacteristicCurve.srv
 )
 
@@ -72,20 +77,32 @@ endif()
 
 add_definitions(-DQT_NO_KEYWORDS)
 
-add_library(robotx_tools
+add_library(overlay_gps_display
   src/overlay_gps_display.cpp
   src/overlay_utils.cpp
   include/overlay_gps_display.h
   include/overlay_utils.h
 )
 
-target_link_libraries(robotx_tools ${QT_LIBRARIES} ${catkin_LIBRARIES} ${PYTHON_LIBRARY} ${OpenCV_LIBRARIES})
+target_link_libraries(overlay_gps_display ${QT_LIBRARIES} ${catkin_LIBRARIES} ${PYTHON_LIBRARY} ${OpenCV_LIBRARIES})
+clang_format(overlay_gps_display)
+
+set(cnn_result_visualizer_src src/cnn_result_visualizer.cpp)
+add_executable(cnn_result_visualizer_node src/cnn_result_visualizer_node.cpp ${cnn_result_visualizer_src})
+add_dependencies(cnn_result_visualizer_node robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
+target_link_libraries(cnn_result_visualizer_node ${catkin_LIBRARIES})
+clang_format(cnn_result_visualizer_node)
+
+set(fake_technical_director_network_src src/fake_technical_director_network_main.cpp src/tcp_server.cpp)
+add_executable(fake_technical_director_network ${fake_technical_director_network_src})
+target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
+clang_format(fake_technical_director_network)
 
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS robotx_tools
+install(TARGETS overlay_gps_display cnn_result_visualizer_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

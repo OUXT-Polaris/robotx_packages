@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   jsk_recognition_msgs
+  geographic_msgs
 )
 
 ################################################
@@ -19,13 +20,18 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
+  BallLauncherStatus.msg
   Heartbeat.msg
   TechnicalDirectorNetworkStatus.msg
   UsvDrive.msg
   RegionOfInterest2D.msg
   RegionOfInterest2DArray.msg
-  ObjectRegionOfInterest.msg
   ObjectRegionOfInterestArray.msg
+  ObjectRegionOfInterest.msg
+  ObjectType.msg
+  GeographicPoint.msg
+  GeographicLine.msg
+  GeographicMap.msg
 )
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
@@ -34,7 +40,8 @@ generate_messages(
   sensor_msgs#
   std_msgs
   jsk_recognition_msgs
-  )
+  geographic_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -44,6 +51,8 @@ catkin_package(CATKIN_DEPENDS
   geometry_msgs
   sensor_msgs
   std_msgs
+  jsk_recognition_msgs
+  geographic_msgs
 )
 
 ###########

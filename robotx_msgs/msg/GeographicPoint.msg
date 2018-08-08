@@ -1,0 +1,2 @@
+geographic_msgs/GeoPoint geographic_point
+uint64 node_id
