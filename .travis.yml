@@ -24,4 +24,4 @@ install:
 script:		
   - source .ci_config/travis.sh 
 git:
-  submodules: true
+  submodules: false
