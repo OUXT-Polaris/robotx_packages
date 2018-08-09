@@ -25,8 +25,8 @@ addons:
     - mosquitto 
     - mosquitto-clients
 install:	
-  - git submodule update submodules/cog_publisher
-  - git submodule update submodules/mqtt_bridge
+  - git submodule init submodules/cog_publisher
+  - git submodule init submodules/mqtt_bridge
   - sudo pip install -r submodules/mqtt_bridge/requirements.txt
   - git clone https://github.com/ros-industrial/industrial_ci.git .ci_config		
 script:		
