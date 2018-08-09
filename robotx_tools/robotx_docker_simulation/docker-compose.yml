@@ -1,9 +1,0 @@
-jetson1:
-  build: jetson
-  tty: true
-jetson2:
-  build: jetson
-  tty: true
-jetson3:
-  build: jetson
-  tty: true

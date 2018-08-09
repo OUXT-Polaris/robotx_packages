@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>robotx_driver</name>
+  <name>robotx_docker_simulation</name>
   <version>0.0.0</version>
-  <description>The robotx_driver package</description>
+  <description>The robotx_docker_simulation package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/robotx_driver</url> -->
+  <!-- <url type="website">http://wiki.ros.org/robotx_docker_simulation</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -49,41 +49,11 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>joy</build_depend>
-  <build_depend>robotx_msgs</build_depend>
-  <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
-  <build_depend>sensor_msgs</build_depend>
-  <build_depend>std_msgs</build_depend>
-  <build_depend>diagnostic_msgs</build_depend>
-  <build_depend>diagnostic_updater</build_depend>
-  <build_export_depend>joy</build_export_depend>
-  <build_export_depend>robotx_msgs</build_export_depend>
-  <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
-  <build_export_depend>sensor_msgs</build_export_depend>
-  <build_export_depend>std_msgs</build_export_depend>
-  <build_export_depend>diagnostic_msgs</build_export_depend>
-  <build_export_depend>diagnostic_updater</build_export_depend>
-  <exec_depend>joy</exec_depend>
-  <exec_depend>robotx_msgs</exec_depend>
-  <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
-  <exec_depend>sensor_msgs</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
-  <exec_depend>diagnostic_msgs</exec_depend>
-  <exec_depend>diagnostic_updater</exec_depend>
-  <exec_depend>diagnostic_aggregator</exec_depend>
-  <exec_depend>diagnostic_common_diagnostics</exec_depend>
-  <exec_depend>velodyne_pointcloud</exec_depend>
-  <exec_depend>nmea_navsat_driver</exec_depend>
-  <exec_depend>dynamixel_workbench</exec_depend>
-  <exec_depend>dynamixel_workbench_controllers</exec_depend>
-  <exec_depend>multimaster_fkie</exec_depend>
-  <exec_depend>cv_camera</exec_depend>
-  <exec_depend>uvc_camera</exec_depend>
-  <exec_depend>opencv_apps</exec_depend>
+
+
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->

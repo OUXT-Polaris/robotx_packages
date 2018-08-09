@@ -23,6 +23,8 @@ find_package(catkin REQUIRED COMPONENTS
   dwa_local_planner
   global_planner
   yaml_cpp_0_3
+  pcl_ros
+  message_filters
 )
 
 catkin_package()
@@ -64,11 +66,22 @@ target_link_libraries(costmap_clear_request_sender_node ${catkin_LIBRARIES})
 add_document(costmap_clear_request_sender_node)
 clang_format(costmap_clear_request_sender_node)
 
+add_executable(ndt_mapping_node src/ndt_mapping_node.cpp src/ndt_mapping.cpp)
+target_link_libraries(ndt_mapping_node ${catkin_LIBRARIES})
+add_document(ndt_mapping_node)
+clang_format(ndt_mapping_node)
+
 #############
 ## Install ##
 #############
 # CPP codes
-set(NODE_FILES twist_from_fix_velocity_node geographic_map_server_node obstacle_map_server_node robotx_localization_node costmap_clear_request_sender_node)
+set(NODE_FILES 
+  twist_from_fix_velocity_node 
+  geographic_map_server_node 
+  obstacle_map_server_node 
+  robotx_localization_node 
+  costmap_clear_request_sender_node 
+  ndt_mapping_node)
 foreach(nodes ${NODE_FILES})
   install(TARGETS ${nodes}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

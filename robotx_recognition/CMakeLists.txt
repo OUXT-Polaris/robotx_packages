@@ -41,7 +41,6 @@ find_package(Eigen3 REQUIRED)
 ## catkin specific configuration ##
 ###################################
 catkin_package(
-  DEPENDS Eigen3
 )
 
 ###########

@@ -1,0 +1,2 @@
+int8 ball_remains
+int8 ball_launched

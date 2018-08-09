@@ -80,11 +80,15 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
   }
 
   // Get parameters from SDF
-  if (_sdf->HasElement("robotNamespace")) {
+  // robotNamespace
+  if (_sdf->HasElement("robotNamespace"))
+  {
     node_namespace_ = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
   }
 
-  if (!_sdf->HasElement("bodyName") || !_sdf->GetElement("bodyName")->GetValue()) {
+  // bodyName
+  if (!_sdf->HasElement("bodyName") || !_sdf->GetElement("bodyName")->GetValue())
+  {
     link_ = model_->GetLink();
     link_name_ = link_->GetName();
     ROS_INFO_STREAM("Did not find SDF parameter bodyName");
@@ -102,26 +106,69 @@ void UsvThrust::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf) {
     ROS_INFO_STREAM("USV Model Link Name = " << link_name_);
   }
 
-  LoadParams(_sdf, std::string("leftThrusterJoint"), left_thruster_joint_name_,
-             std::string("left_thruster_joint"));
-  LoadParams(_sdf, std::string("rightThrusterJoint"), right_thruster_joint_name_,
-             std::string("right_thruster_joint"));
-  left_thruster_joint_ = model_->GetJoint(left_thruster_joint_name_);
-  right_thruster_joint_ = model_->GetJoint(right_thruster_joint_name_);
-  if (!left_thruster_joint_) {
-    ROS_FATAL(
-        "usv_gazebo_thrust_plugin error: leftThrusterJoint: %s does not "
-        "exist\n",
-        left_thruster_joint_name_.c_str());
+
+  // leftThrusterName
+  if (!_sdf->HasElement("leftThrusterNme") || !_sdf->GetElement("leftThrusterName")->GetValue())
+  {
+    left_thruster_link_ = model_->GetLink();
+    left_thruster_link_name_ = left_thruster_link_->GetName();
+    ROS_INFO_STREAM("Did not find SDF parameter leftThrusterName");
+  }
+  else {
+    left_thruster_link_name_ = _sdf->GetElement("leftThrusterName")->Get<std::string>();
+    left_thruster_link_ = model_->GetLink(left_thruster_link_name_);
+
+    ROS_INFO_STREAM("Found SDF parameter leftThrusterName as <"<<left_thruster_link_name_<<">");
+  }
+  if (!left_thruster_link_)
+  {
+    ROS_FATAL("usv_gazebo_thrust_plugin error: leftThrusterName: %s does not exist\n", left_thruster_link_name_.c_str());
     return;
   }
-  if (!right_thruster_joint_) {
-    ROS_FATAL(
-        "usv_gazebo_thrust_plugin error: rightThrusterJoint: %s does not "
-        "exist\n",
-        right_thruster_joint_name_.c_str());
+  else
+  {
+    ROS_INFO_STREAM("Left Thruster Link Name = " << left_thruster_link_name_);
+  }
+
+  // rightThrusterName
+  if (!_sdf->HasElement("rightThrusterNme") || !_sdf->GetElement("rightThrusterName")->GetValue())
+  {
+    right_thruster_link_ = model_->GetLink();
+    right_thruster_link_name_ = right_thruster_link_->GetName();
+    ROS_INFO_STREAM("Did not find SDF parameter rightThrusterName");
+  }
+  else {
+    right_thruster_link_name_ = _sdf->GetElement("rightThrusterName")->Get<std::string>();
+    right_thruster_link_ = model_->GetLink(right_thruster_link_name_);
+
+    ROS_INFO_STREAM("Found SDF parameter rightThrusterName as <"<<right_thruster_link_name_<<">");
+  }
+  if (!right_thruster_link_)
+  {
+    ROS_FATAL("usv_gazebo_thrust_plugin error: rightThrusterName: %s does not exist\n", right_thruster_link_name_.c_str());
     return;
   }
+  else
+  {
+    ROS_INFO_STREAM("Right Thruster Link Name = " << right_thruster_link_name_);
+  }
+
+
+  
+  // LoadParams(_sdf,std::string("leftThrusterJoint"),left_thruster_joint_name_,std::string("left_thruster_joint"));
+  // LoadParams(_sdf,std::string("rightThrusterJoint"),right_thruster_joint_name_,std::string("right_thruster_joint"));
+  // left_thruster_joint_ = model_->GetJoint(left_thruster_joint_name_);
+  // right_thruster_joint_ = model_->GetJoint(right_thruster_joint_name_);
+  // if(!left_thruster_joint_)
+  // {
+  //   ROS_FATAL("usv_gazebo_thrust_plugin error: leftThrusterJoint: %s does not exist\n", left_thruster_joint_name_.c_str());
+  //   return;
+  // }
+  // if(!right_thruster_joint_)
+  // {
+  //   ROS_FATAL("usv_gazebo_thrust_plugin error: rightThrusterJoint: %s does not exist\n", right_thruster_joint_name_.c_str());
+  //   return;
+  // }
 
   cmd_timeout_ = getSdfParamDouble(_sdf, "cmdTimeout", cmd_timeout_);
   if (_sdf->HasElement("mappingType") && _sdf->GetElement("mappingType")->GetValue()) {
@@ -211,44 +258,87 @@ void UsvThrust::UpdateChild() {
     last_cmd_drive_right_ = 0.0;
   }
   // Scale commands to thrust and torque forces
-  ROS_DEBUG_STREAM_THROTTLE(1.0, "Last cmd: left:" << last_cmd_drive_left_
-                                                   << " right: " << last_cmd_drive_right_);
+
+  ROS_DEBUG_STREAM_THROTTLE(1.0,"Last cmd: left:" << last_cmd_drive_left_
+                            << " right: " << last_cmd_drive_right_);
   double thrust_left = 0.0;
   double thrust_right = 0.0;
-  switch (param_mapping_type_) {
-    case 0:  // Simplest, linear
-      thrust_left = scaleThrustCmd(last_cmd_drive_left_);
-      thrust_right = scaleThrustCmd(last_cmd_drive_right_);
-      break;
-    case 1:  // GLF
-      thrust_left = glfThrustCmd(last_cmd_drive_left_);
-      thrust_right = glfThrustCmd(last_cmd_drive_right_);
-      break;
-    default:
-      ROS_FATAL_STREAM("Cannot use mappingType=" << param_mapping_type_);
-      break;
+  switch(param_mapping_type_){
+  case 0: // Simplest, linear
+    thrust_left = scaleThrustCmd(last_cmd_drive_left_);
+    thrust_right = scaleThrustCmd(last_cmd_drive_right_);
+    break;
+  case 1: // GLF
+    thrust_left = glfThrustCmd(last_cmd_drive_left_);
+    thrust_right = glfThrustCmd(last_cmd_drive_right_);
+    break;
+  default:
+    ROS_FATAL_STREAM("Cannot use mappingType="<<param_mapping_type_);
+    break;
 
-  }  // eo switch
 
-  double l_theta = left_thruster_joint_->GetAngle(0).Degree() * M_PI / 180;
-  double r_theta = right_thruster_joint_->GetAngle(0).Degree() * M_PI / 180;
-  double torque = 0.5 * param_boat_width_ * thrust_right * std::cos(r_theta) -
-                  0.5 * param_boat_width_ * thrust_left * std::cos(l_theta) -
-                  param_boat_length_ * thrust_right * std::sin(r_theta) -
-                  param_boat_length_ * thrust_left * std::sin(l_theta);
-  ROS_DEBUG_STREAM_THROTTLE(1.0, "Thrust: left:" << thrust_left << " right: " << thrust_right);
-
-  // Add torque
-  link_->AddRelativeTorque(math::Vector3(0, 0, torque));
+  } // eo switch
 
   // Add input force with offset below vessel
-  math::Vector3 relpos(-1.0 * param_boat_length_ / 2.0, 0.0,
-                       param_thrust_z_offset_);  // relative pos of thrusters
-  math::Vector3 inputforce3(thrust_right * std::cos(r_theta) + thrust_left * std::cos(l_theta),
-                            thrust_right * std::sin(r_theta) + thrust_left * std::sin(l_theta), 0);
+  math::Vector3 left_pos(-2.5045, 1.02714, param_thrust_z_offset_);
+  math::Vector3 right_pos(-2.5045, -1.02714, param_thrust_z_offset_);
+  math::Vector3 left_inputforce3(thrust_left*10, 0, 0);
+  math::Vector3 right_inputforce3(thrust_right*10, 0, 0);
+  
+
+  // ROS_DEBUG_STREAM_THROTTLE(1.0, "Last cmd: left:" << last_cmd_drive_left_
+  //                                                  << " right: " << last_cmd_drive_right_);
+  // double thrust_left = 0.0;
+  // double thrust_right = 0.0;
+  // switch (param_mapping_type_) {
+  //   case 0:  // Simplest, linear
+  //     thrust_left = scaleThrustCmd(last_cmd_drive_left_);
+  //     thrust_right = scaleThrustCmd(last_cmd_drive_right_);
+  //     break;
+  //   case 1:  // GLF
+  //     thrust_left = glfThrustCmd(last_cmd_drive_left_);
+  //     thrust_right = glfThrustCmd(last_cmd_drive_right_);
+  //     break;
+  //   default:
+  //     ROS_FATAL_STREAM("Cannot use mappingType=" << param_mapping_type_);
+  //     break;
+
+  // }  // eo switch
+
+  // double l_theta = left_thruster_joint_->GetAngle(0).Degree() * M_PI / 180;
+  // double r_theta = right_thruster_joint_->GetAngle(0).Degree() * M_PI / 180;
+  // double torque = 0.5 * param_boat_width_ * thrust_right * std::cos(r_theta) -
+  //                 0.5 * param_boat_width_ * thrust_left * std::cos(l_theta) -
+  //                 param_boat_length_ * thrust_right * std::sin(r_theta) -
+  //                 param_boat_length_ * thrust_left * std::sin(l_theta);
+  // ROS_DEBUG_STREAM_THROTTLE(1.0, "Thrust: left:" << thrust_left << " right: " << thrust_right);
+
+  // // Add torque
+  // link_->AddRelativeTorque(math::Vector3(0, 0, torque));
+
+  // // Add input force with offset below vessel
+  // math::Vector3 relpos(-1.0 * param_boat_length_ / 2.0, 0.0,
+  //                      param_thrust_z_offset_);  // relative pos of thrusters
+  // math::Vector3 inputforce3(thrust_right * std::cos(r_theta) + thrust_left * std::cos(l_theta),
+  //                           thrust_right * std::sin(r_theta) + thrust_left * std::sin(l_theta), 0);
+
 
   // Get Pose
-  pose_ = link_->GetWorldPose();
+  //  pose_ = link_->GetWorldPose();
+  // link_->AddLinkForce(inputforce3,relpos);
+  // inputforce3 = pose_.rot.RotateVector(inputforce3);
+  // link_->AddForceAtRelativePosition(inputforce3,relpos);
+
+  
+  // Set Force
+  std::cout << "==================" << std::endl;
+  std::cout << "left : " << thrust_left << std::endl;
+  std::cout << "right : " << thrust_right << std::endl;
+  std::cout << "==================" << std::endl;
+  // left_thruster_link_->AddRelativeForce(left_inputforce3);
+  // right_thruster_link_->AddRelativeForce(right_inputforce3);
+  left_thruster_link_->AddLinkForce(left_inputforce3);//, left_pos);
+  right_thruster_link_->AddLinkForce(right_inputforce3);//, right_pos);
 
   // link_->AddLinkForce(inputforce3,relpos);
   inputforce3 = pose_.rot.RotateVector(inputforce3);

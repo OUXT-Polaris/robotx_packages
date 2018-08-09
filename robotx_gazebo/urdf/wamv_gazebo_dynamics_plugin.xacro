@@ -23,10 +23,12 @@
 	<nR>400.0</nR>
 	<nRR>0.0</nRR>
 	<!-- General dimensions -->
-	<boatArea>2.2</boatArea>
+    <boatArea>11.76</boatArea>
 	<boatWidth>2.4</boatWidth>
 	<boatLength>4.9</boatLength>
-	<thrustOffsetZ>-0.04</thrustOffsetZ>
+	<thrustOffsetZ>-0.5</thrustOffsetZ>
+	<metacentricLength>2.0</metacentricLength>
+	<metacentricWidth>1.0</metacentricWidth>
 	<metacentricLength>0.4</metacentricLength>
 	<metacentricWidth>0.4</metacentricWidth>
 	

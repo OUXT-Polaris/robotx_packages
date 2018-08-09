@@ -1,0 +1,4 @@
+- git:
+    local-name: cog_publisher
+    uri: https://github.com/OUXT-Polaris/cog_publisher.git
+    version: master
