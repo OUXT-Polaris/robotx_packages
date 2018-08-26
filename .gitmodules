@@ -1,6 +1,9 @@
 [submodule "submodules/cog_publisher"]
 	path = submodules/cog_publisher
 	url = https://github.com/OUXT-Polaris/cog_publisher.git
+[submodule "submodules/mqtt_bridge"]
+	path = submodules/mqtt_bridge
+	url = https://github.com/OUXT-Polaris/mqtt_bridge.git
 [submodule "submodules/tensorflow_catkin"]
 	path = submodules/tensorflow_catkin
 	url = https://github.com/OUXT-Polaris/tensorflow_catkin.git

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="use_tls" default="false" />
+    <node name="mqtt_bridge" pkg="mqtt_bridge" type="mqtt_bridge_node.py" output="screen">
+        <rosparam file="$(find robotx_driver)/config/mqtt_bridge.yaml" command="load" />
+        <rosparam if="$(arg use_tls)" file="$(find mqtt_bridge)/config/tls_params.yaml" command="load" ns="mqtt" />
+    </node>
+</launch>
