@@ -56,7 +56,8 @@ link_directories(
 add_library(buoyancy_gazebo_plugin
   SHARED
   src/buoyancy_gazebo_plugin.cc
- )
+)
+add_dependencies(buoyancy_gazebo_plugin robotx_msgs_generate_messages_cpp)
 target_link_libraries(buoyancy_gazebo_plugin
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
@@ -70,6 +71,7 @@ add_library(usv_gazebo_dynamics_plugin
   SHARED
   src/usv_gazebo_dynamics_plugin.cc
 )
+add_dependencies(usv_gazebo_dynamics_plugin robotx_msgs_generate_messages_cpp)
 target_link_libraries(usv_gazebo_dynamics_plugin
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
@@ -97,6 +99,7 @@ add_library(usv_gazebo_wind_plugin
   SHARED
   src/usv_gazebo_wind_plugin.cc
 )
+add_dependencies(usv_gazebo_wind_plugin robotx_msgs_generate_messages_cpp)
 target_link_libraries(usv_gazebo_wind_plugin
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
@@ -110,6 +113,7 @@ add_library(usv_twist_sensor_plugin
   SHARED
   src/usv_twist_sensor_plugin.cc
 )
+add_dependencies(usv_twist_sensor_plugin robotx_msgs_generate_messages_cpp)
 target_link_libraries(usv_twist_sensor_plugin
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
@@ -123,6 +127,7 @@ add_library(ball_launcher_plugin
   SHARED
   src/ball_launcher_plugin.cc
 )
+add_dependencies(ball_launcher_plugin robotx_msgs_generate_messages_cpp)
 target_link_libraries(ball_launcher_plugin
   ${catkin_LIBRARIES}
   ${GAZEBO_LIBRARIES}
