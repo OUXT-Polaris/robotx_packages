@@ -140,6 +140,13 @@ install(DIRECTORY include/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
+# Python scripts
+set(PYTHON_SCRIPTS scripts/cnn_prediction_node_with_imshow.py scripts/cnn_prediction_node.py scripts/prediction_module.py)
+foreach(scripts ${PYTHON_SCRIPTS})
+  catkin_install_python(PROGRAMS ${scripts}
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+endforeach(scripts)
+
 # Install all files
 foreach(dir config data launch)
   install(DIRECTORY ${dir}/
