@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+  <!-- Defines the base vehicle -->
+  <xacro:include filename="$(find wamv_description)/urdf/base/base.urdf.xacro" />
+  <xacro:include filename="$(find wamv_description)/urdf/thruster/thruster.urdf.xacro"/>
+  <xacro:include filename="$(find wamv_description)/urdf/ball_launcher/ball_launcher.urdf.xacro" />
+  <xacro:base_v0/>
+  <xacro:thruster_v0 prefix="left" prefix_factor="1"/>
+  <xacro:thruster_v0 prefix="right" prefix_factor="-1"/>
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    </plugin>
+  </gazebo>
+  <xacro:ball_launcher_v0/>
+  
+  <!-- Attach hydrodynamics plugin -->
+  <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_dynamics_plugin.xacro" />
+  <xacro:usv_dynamics_gazebo name="wamv_dynamics_plugin"/>
+  
+  <!-- Attach wind plugin -->
+  <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_wind_plugin.xacro" />
+  <xacro:usv_wind_gazebo name="wamv_wind_plugin"/>
+
+  <!-- Attach thrust plugin -->
+  <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_thrust_plugin.xacro" />
+  <xacro:usv_thrust_gazebo name="wamv_thrust_plugin"/>
+
+  <!-- Attach Ball Launcher plugin -->
+  <xacro:include filename="$(find robotx_gazebo)/urdf/wamv_gazebo_ball_launcher_plugin.xacro" />
+  <xacro:ball_launcher_gazebo name="wamv_ball_launcher_plugin"/>
+  <xacro:usv_thrust_gazebo name="wamv_thrust_plugin"/> 
+
+  <!-- Attach cog_publisher plugin -->
+  <xacro:include filename="$(find robotx_gazebo)/urdf/gazebo_cog_publisher_plugin.xacro" />
+  <xacro:cog_publisher_gazebo name="gazebo_cog_publisher"/>  
+</robot>

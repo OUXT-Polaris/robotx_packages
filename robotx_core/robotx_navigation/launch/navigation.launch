@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <include file="$(find robotx_navigation)/launch/move_base.launch">
+  </include>
+
+<!--
+  <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_map_server.yaml" ns="obstacle_map_server_node"/>
+  <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
+  </node>
+-->
+
+  <rosparam command="load" file="$(find robotx_navigation)/config/robotx_localization.yaml" ns="robotx_localization_node"/>
+  <node name="robotx_localization_node" pkg="robotx_navigation" type="robotx_localization_node" args="" output="screen" respawn="true">
+  </node>
+  
+  <rosparam command="load" file="$(find robotx_navigation)/config/geographic_map_server.yaml" ns="geographic_map_server_node"/>
+  <node name="geographic_map_server_node" pkg="robotx_navigation" type="geographic_map_server_node" args="" output="screen" respawn="true">
+  </node>
+  
+<!--
+  <rosparam command="load" file="$(find robotx_navigation)/config/ndt_mapping.yaml" ns="ndt_mapping_node"/>
+  <node name="ndt_mapping_node" pkg="robotx_navigation" type="ndt_mapping_node" args="" output="screen" respawn="true">
+  </node>
+
+  <rosparam command="load" file="$(find robotx_navigation)/config/cog_publisher.yaml" ns="cog_publisher_node"/>
+  <node name="cog_publisher_node" pkg="cog_publisher" type="cog_publisher_node" args="" output="screen" respawn="true">
+  </node>
+-->
+</launch>
