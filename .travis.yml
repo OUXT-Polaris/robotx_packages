@@ -25,6 +25,7 @@ addons:
     - mosquitto 
     - mosquitto-clients
 install:	
+  - git submodule update --init robotx_core
   - git submodule update --init submodules/cog_publisher
   - git submodule update --init submodules/mqtt_bridge
   - sudo pip install -r submodules/mqtt_bridge/requirements.txt

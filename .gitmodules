@@ -4,3 +4,6 @@
 [submodule "submodules/mqtt_bridge"]
 	path = submodules/mqtt_bridge
 	url = https://github.com/OUXT-Polaris/mqtt_bridge.git
+[submodule "robotx_core"]
+	path = robotx_core
+	url = https://github.com/OUXT-Polaris/robotx_core.git
