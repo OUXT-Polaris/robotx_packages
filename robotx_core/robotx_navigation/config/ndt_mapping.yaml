@@ -1,3 +1,0 @@
-odom_topic: odom
-pointcloud_topic: /pointcloud_merger_node/merged_points
-map_resolution: 0.01
