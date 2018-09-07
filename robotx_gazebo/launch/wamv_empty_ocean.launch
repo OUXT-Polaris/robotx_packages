@@ -38,7 +38,7 @@
   <arg name="t_config" value="$(eval int((thrust_config)=='T'))"/>
   <arg name="x_config" value="$(eval int((thrust_config)=='X'))"/>
   
-  <arg if="$(arg h_config)" name="urdf" default="$(find wamv_gazebo)/urdf/wamv_gazebo.urdf"/>
+  <arg if="$(arg h_config)" name="urdf" default="$(find wamv_gazebo)/urdf/wamv_robotx.gazebo.urdf"/>
   <arg if="$(arg t_config)" name="urdf" default="$(find wamv_gazebo)/urdf/wamv_gazebo_t.urdf"/>
   <arg if="$(arg x_config)" name="urdf" default="$(find wamv_gazebo)/urdf/wamv_gazebo_x.urdf"/>
   
