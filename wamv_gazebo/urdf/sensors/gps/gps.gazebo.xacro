@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+
+  <xacro:macro name="gps_gazebo_v0">
+    <gazebo>
+      <plugin name="gps_sim" filename="libhector_gazebo_ros_gps.so">
+        <alwaysOn>1</alwaysOn>
+        <updateRate>10.0</updateRate>
+        <bodyName>gps</bodyName>
+        <topicName>fix</topicName>
+        <velocityTopicName>fix_velocity</velocityTopicName>
+        <drift>0.1 0.1 0.1</drift>
+        <gaussianNoise>0.1 0.1 0.1</gaussianNoise>
+        <velocityDrift>0 0 0</velocityDrift>
+        <velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+        <referenceLatitude>21.31</referenceLatitude>
+        <referenceLongitude>-157.90</referenceLongitude>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+  
+</robot>
