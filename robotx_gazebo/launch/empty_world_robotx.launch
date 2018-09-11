@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find robotx_gazebo)/config/custom_rosconsole.conf"/>
+  <!-- Gazebo world to load -->
+  <arg name="world" default="worlds/empty.world" />
+  <!-- If true, run gazebo GUI -->
+  <arg name="gui" default="true" />
+  <!-- If true, run gazebo in verbose mode -->
+  <arg name="verbose" default="false"/>
+
+  <!-- Initial USV location and attitude-->
+  <arg name="x" default="0" />
+  <arg name="y" default="0" />
+  <arg name="z" default="0.1" />
+  <arg name="P" default="0" />
+  <arg name="R" default="0" />
+  <arg name="Y" default="0" />
+
+      
+  <!-- Start Gazebo with the world file -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/>
+    <arg name="verbose" value="$(arg verbose)"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="$(arg gui)" />
+  </include>
+
+  <!-- Load robot model -->
+  <!-- Allow user specified thruster configurations
+       H = stern trusters on each hull
+       T = H with a lateral thruster
+       X = "holonomic" configuration -->
+  <arg name="thrust_config" default="H" />
+  <!-- Determine which model -->
+  <arg name="h_config" value="$(eval int((thrust_config)=='H'))"/>
+  
+  <arg if="$(arg h_config)" name="urdf" default="$(find wamv_gazebo)/urdf/wamv_robotx.gazebo.urdf"/>
+  
+  <param name="robot_description" textfile="$(arg urdf)"/>
+
+  <!-- Spawn model in Gazebo -->
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+  args="-x $(arg x) -y $(arg y) -z $(arg z)
+        -R $(arg R) -P $(arg P) -Y $(arg Y)
+        -urdf -param robot_description -model wamv"/>
+
+  <!-- Joint Controller -->
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find robotx_gazebo)/config/joint_control.yaml" command="load"/>
+  <!-- load the controllers -->
+  <node name="wamv_controller_spawner" pkg="controller_manager"
+    	type="spawner" output="screen"
+    	args="joint_state_controller
+    		  left_engine_position_controller
+              right_engine_position_controller"/>
+  
+</launch>
