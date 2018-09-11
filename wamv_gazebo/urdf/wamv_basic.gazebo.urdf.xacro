@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="WAM-V">
 
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    </plugin>
+  </gazebo>
+  
   <!-- Thruster Config -->
   <xacro:arg name="thruster_config" default="H"/>
   <xacro:property name="th_config" value="$(arg thruster_config)"/>
