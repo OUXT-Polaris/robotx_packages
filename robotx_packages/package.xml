@@ -18,7 +18,7 @@
   <depend>robotx_gazebo</depend>
   <depend>robotx_tools</depend>
   <depend>cog_publisher</depend>
-  <depend>mqtt_bridte</depend>
+  <depend>mqtt_bridge</depend>
   <depend>usv_gazebo_plugins</depend>
   <depend>wamv_gazebo</depend>
   
