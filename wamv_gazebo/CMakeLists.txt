@@ -24,7 +24,7 @@ xacro_add_files(
 #############
 ## Install ##
 #############
-foreach(dir launch mesh urdf)
+foreach(dir launch urdf)
   install(DIRECTORY ${dir}/
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)
