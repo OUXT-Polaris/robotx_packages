@@ -16,6 +16,16 @@
   <depend>xacro</depend>
   <depend>gazebo_dev</depend>
   <depend>std_msgs</depend>
+  <depend>gazebo_plugins</depend>
+  <depend>gazebo_ros_control</depend>
+  <depend>geometry_msgs</depend>
+  <depend>controller_manager</depend>
+  <depend>controller_interface</depend>
+  <depend>joint_state_controller</depend>
+  <depend>diff_drive_controller</depend>
+  <depend>velocity_controllers</depend>
+  <depend>wamv_description</depend>
+  
   <export>
     <gazebo_ros gazebo_model_path="${prefix}/models"/>
     <gazebo_ros gazebo_media_path="${prefix}"/>
