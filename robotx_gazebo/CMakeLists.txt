@@ -130,4 +130,6 @@ if (CATKIN_ENABLE_TESTING)
                     test/sandisland.test
                     test/sandisland.cc)
   target_link_libraries(sandisland_test ${catkin_LIBRARIES})
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch)
 endif()
