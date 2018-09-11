@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="WAM-V">
+
+  <!-- Include sensor macros -->
+  <!-- OUXT-Polaris original macros -->
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/camera/camera.gazebo.xacro" />
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/gps/gps.gazebo.xacro" />
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/imu/imu.gazebo.xacro" />
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/stereo_camera/stereo_camera.gazebo.xacro"/>
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/twist/twist.gazebo.xacro"/>
+  <!-- OSRF default macros -->
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/3d_lidar/wamv_3d_lidar.xacro" />
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/p3d/wamv_p3d.xacro" />
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/multi_beam_laser/wamv_planar_lidar.xacro" />
+
+  <!-- Enable Flag -->
+  <xacro:arg name="camera_enabled" default="true" />
+  <xacro:arg name="gps_enabled" default="true" />
+  <xacro:arg name="imu_enabled" default="true" />
+  <xacro:arg name="stereo_camera_enabled" default="true" />
+  <xacro:arg name="twist_enabled" default="true"/>
+  <xacro:arg name="3dlidar_enabled" default="false" />
+  <xacro:arg name="p3d_enabled" default="false" />
+  <xacro:arg name="multi_beam_laser_enabled" default="false"/>
+  
+  <!-- ADD SENSORS -->
+  <!-- front camera -->
+  <xacro:if value="$(arg camera_enabled)">
+    <xacro:camera_gazebo_v0 prefix="front"/>
+  </xacro:if>
+  <!-- GPS -->
+  <xacro:if value="$(arg gps_enabled)">
+    <xacro:gps_gazebo_v0/>
+  </xacro:if>
+  <!-- IMU -->
+  <xacro:if value="$(arg imu_enabled)">
+    <xacro:imu_gazebo_v0/>
+  </xacro:if>
+  <!-- Stereo Camera -->
+  <xacro:if value="$(arg stereo_camera_enabled)">
+    <xacro:stereo_camera_gazebo_v0 prefix="front"/>
+  </xacro:if>
+  <!-- Twist -->
+  <xacro:if value="$(arg twist_enabled)">
+    <xacro:twist_gazebo_v0/>
+  </xacro:if>
+
+  <!-- 3D LIDAR -->
+  <xacro:if value="$(arg 3dlidar_enabled)">
+    <xacro:wamv_3d_lidar name="lidar_wamv" y="-0.3" />
+  </xacro:if>
+  <!-- P3D ground truth -->
+  <xacro:if value="$(arg p3d_enabled)">
+    <xacro:wamv_p3d name="p3d_wamv"/>
+  </xacro:if>
+  <!-- Multi Beam Laser -->
+  <xacro:if value="$(arg multi_beam_laser_enabled)">
+    <xacro:wamv_multibeam_laser name="multi_beam_laser_wamv"/>
+  </xacro:if>
+  
+</robot>

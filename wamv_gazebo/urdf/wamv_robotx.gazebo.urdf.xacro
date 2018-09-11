@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="WAM-V">
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    </plugin>
+  </gazebo>
+  
+  <!-- Thruster Config -->
+  <xacro:arg name="thruster_config" default="H"/>
+  <xacro:property name="th_config" value="$(arg thruster_config)"/>
+
+  <!-- Thruster Layout -->
+  <xacro:if value="${th_config == 'H'}">
+    <xacro:property name="thruster_layout" value="$(find wamv_gazebo)/urdf/thruster_layouts/wamv_aft_thrusters.gazebo.xacro"/>
+  </xacro:if>
+  <xacro:if value="${th_config == 'T'}">
+    <xacro:property name="thruster_layout" value="$(find wamv_gazebo)/urdf/thruster_layouts/wamv_t_thrusters.gazebo.xacro"/>
+  </xacro:if>
+  <xacro:if value="${th_config == 'X'}">
+    <xacro:property name="thruster_layout" value="$(find wamv_gazebo)/urdf/thruster_layouts/wamv_x_thrusters.gazebo.xacro"/>
+  </xacro:if>
+  
+  <!-- Include Dynamics  -->
+  <xacro:include filename="$(find wamv_gazebo)/urdf/dynamics/dynamics.xacro"/>
+
+  <!-- Include Sensors -->
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/sensors.xacro"/>
+
+  <!-- Include Ball Launcher -->
+  <xacro:include filename="$(find wamv_gazebo)/urdf/ball_launcher/ball_launcher.gazebo.xacro"/>
+  
+  <!-- Defines the robotx wamv -->
+  <xacro:include filename="$(find wamv_description)/urdf/wamv_robotx.urdf.xacro">
+    <xacro:thruster_config value="$(arg thruster_config)"/>
+  </xacro:include>
+  
+  <!-- Thruster Layout -->
+  <xacro:include filename="${thruster_layout}"/>
+</robot>

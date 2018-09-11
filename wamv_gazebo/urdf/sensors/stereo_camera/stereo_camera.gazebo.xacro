@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wam-v">
+
+  <xacro:include filename="$(find wamv_gazebo)/urdf/sensors/camera/camera.gazebo.xacro"/>
+  
+  <xacro:macro name="stereo_camera_gazebo_v0" params="prefix">
+    <xacro:camera_gazebo_v0 prefix="${prefix}_stereo_left"/>
+    <xacro:camera_gazebo_v0 prefix="${prefix}_stereo_right"/>
+  </xacro:macro>
+  
+</robot>
