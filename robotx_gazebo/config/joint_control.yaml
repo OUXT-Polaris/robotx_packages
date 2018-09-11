@@ -1,0 +1,21 @@
+# Publish all joint states -----------------------------------
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50    
+# Position Controllers ---------------------------------------
+left_engine_position_controller:
+  type: velocity_controllers/JointPositionController
+  joint: left_chasis_engine_joint
+  pid: {p: 100, i: 10, d: 0, i_clamp: 100}
+right_engine_position_controller:
+  type: velocity_controllers/JointPositionController
+  joint: right_chasis_engine_joint
+  pid: {p: 100, i: 10, d: 0, i_clamp: 100}
+ball_launcher_yaw_position_controller:
+  type: position_controllers/JointPositionController
+  joint: ball_launcher_yaw_joint
+  pid: {p: 100, i: 10, d: 0, i_clamp: 100}
+ball_launcher_pitch_position_controller:
+  type: position_controllers/JointPositionController
+  joint: ball_launcher_pitch_joint
+pid: {p: 100, i: 10, d: 0, i_clamp: 100}
