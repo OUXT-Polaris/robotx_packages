@@ -2,8 +2,8 @@
 <!-- World containing sandisland model and some course challenges -->
 <sdf version="1.6" xmlns:xacro="http://ros.org/wiki/xacro">
   <world name="robotx_example_course">
-    <xacro:include filename="$(find robotx_gazebo)/worlds/sandisland.xacro" />
-    <xacro:sandisland />
+    <xacro:include filename="$(find robotx_gazebo)/worlds/ocean.xacro" />
+    <xacro:ocean />
 
     <include>
       <uri>model://robotx_navigation_challenge</uri>
