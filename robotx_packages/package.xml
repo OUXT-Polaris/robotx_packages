@@ -13,14 +13,14 @@
   <author email="groadpg@gmail.com">Ryodo Tanaka</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>robotx_core</depend>
-  <depend>robotx_docker_simulation</depend>
-  <depend>robotx_gazebo</depend>
-  <depend>robotx_tools</depend>
-  <depend>cog_publisher</depend>
-  <depend>mqtt_bridge</depend>
-  <depend>usv_gazebo_plugins</depend>
-  <depend>wamv_gazebo</depend>
+  <exec_depend>robotx_core</exec_depend>
+  <exec_depend>robotx_docker_simulation</exec_depend>
+  <exec_depend>robotx_gazebo</exec_depend>
+  <exec_depend>robotx_tools</exec_depend>
+  <exec_depend>cog_publisher</exec_depend>
+  <exec_depend>mqtt_bridge</exec_depend>
+  <exec_depend>usv_gazebo_plugins</exec_depend>
+  <exec_depend>wamv_gazebo</exec_depend>
   
   <export>
     <metapackage/>
