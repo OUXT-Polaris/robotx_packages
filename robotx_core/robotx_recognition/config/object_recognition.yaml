@@ -1,5 +1,0 @@
-input_cloud: /velodyne_points
-target_objects:
-  buoy:
-    stl_filename: BUOY.stl
-    marker_filename: BUOY.dae

@@ -1,6 +1,0 @@
-image_topic: /wam_v/front_camera/front_image_raw
-camera_link: front_camera_link
-euclidean_cluster_topic: /euclidean_clustering_node/bbox
-publish_rect_image: true
-horizontal_fov: 1.3962634
-enable_roi_image_publisher: false

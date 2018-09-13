@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<robot xmlns:xacro="http://ros.org/wiki/xacro" name="WAM-V">
-  <!-- Defines the basic WAM-V -->
-  <xacro:include filename="$(find wamv_description)/urdf/wamv_basic.xacro"/>
-
-  <!-- Defines Sensors -->
-  <xacro:include filename="$(find wamv_description)/urdf/sensors/sensors.urdf.xacro"/>
-</robot>

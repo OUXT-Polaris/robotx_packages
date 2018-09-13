@@ -1,3 +1,0 @@
-sensor_msgs/RegionOfInterest roi
-string label
-float32 objectness
