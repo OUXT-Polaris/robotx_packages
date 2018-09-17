@@ -5,5 +5,4 @@
   <include file="$(find robotx_tools)/launch/visualization.launch"/>
   <!-- <include file="$(find robotx_driver)/launch/simulation.launch"/> -->
   <include file="$(find robotx_navigation)/launch/navigation.launch"/>
-  <include file="$(find robotx_twist_controller)/launch/twist_controller.launch"/>
 </launch>
