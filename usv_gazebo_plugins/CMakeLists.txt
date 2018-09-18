@@ -94,3 +94,21 @@ install(TARGETS usv_gazebo_twist_sensor_plugin
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
+
+## Declare a C++ library
+#[[
+add_library(ball_launcher_plugin
+  src/ball_launcher_plugin.cc
+)
+target_link_libraries(ball_launcher_plugin
+  ${catkin_LIBRARIES}
+  ${GAZEBO_LIBRARIES}
+  ${Eigen_LIBRARIES}
+)
+install(TARGETS ball_launcher_plugin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+add_dependencies(ball_launcher_plugin robotx_msgs_generate_messages_cpp)
+]]
