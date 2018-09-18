@@ -1,6 +1,6 @@
 [submodule "submodules/cog_publisher"]
 	path = submodules/cog_publisher
-	url = https://github.com:OUXT-Polaris/cog_publisher.git
+	url = https://github.com/OUXT-Polaris/cog_publisher.git
 [submodule "submodules/mqtt_bridge"]
 	path = submodules/mqtt_bridge
 	url = https://github.com:OUXT-Polaris/mqtt_bridge.git
