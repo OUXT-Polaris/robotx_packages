@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(usv_gazebo_plugins)
-find_package(catkin REQUIRED COMPONENTS gazebo_dev roscpp message_generation)
+find_package(catkin REQUIRED COMPONENTS gazebo_dev roscpp message_generation robotx_msgs)
 find_package(Eigen3 REQUIRED)
 
 ###################################
@@ -96,7 +96,6 @@ install(TARGETS usv_gazebo_twist_sensor_plugin
 )
 
 ## Declare a C++ library
-#[[
 add_library(ball_launcher_plugin
   src/ball_launcher_plugin.cc
 )
@@ -111,4 +110,3 @@ install(TARGETS ball_launcher_plugin
   RUNTIME DESTINATION bin
 )
 add_dependencies(ball_launcher_plugin robotx_msgs_generate_messages_cpp)
-]]

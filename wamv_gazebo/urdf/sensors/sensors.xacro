@@ -17,7 +17,7 @@
   <xacro:arg name="camera_enabled" default="true" />
   <xacro:arg name="gps_enabled" default="true" />
   <xacro:arg name="imu_enabled" default="true" />
-  <xacro:arg name="stereo_camera_enabled" default="true" />
+  <xacro:arg name="stereo_camera_enabled" default="false" />
   <xacro:arg name="twist_enabled" default="true"/>
   <xacro:arg name="3dlidar_enabled" default="false" />
   <xacro:arg name="p3d_enabled" default="false" />

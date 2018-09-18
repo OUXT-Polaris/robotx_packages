@@ -1,6 +1,6 @@
 // headers in this package
 #include <usv_gazebo_plugins/ball_launcher_plugin.hh>
-#include <load_params.hh>
+#include <usv_gazebo_plugins/load_params.hh>
 
 // headers in ROS
 //#include <gazebo_msgs/DeleteModel.h>
