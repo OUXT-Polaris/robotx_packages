@@ -3,6 +3,6 @@
   <include file="$(find robotx_gazebo)/launch/vmrc.launch"/>
   <include file="$(find robotx_recognition)/launch/recognition.launch"/>
   <include file="$(find robotx_tools)/launch/visualization.launch"/>
-  <include file="$(find robotx_driver)/launch/simulation.launch"/>
+  <!-- <include file="$(find robotx_driver)/launch/simulation.launch"/> -->
   <include file="$(find robotx_navigation)/launch/navigation.launch"/>
 </launch>
