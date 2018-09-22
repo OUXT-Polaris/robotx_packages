@@ -57,8 +57,5 @@
     	args="joint_state_controller
     		  left_engine_position_controller
               right_engine_position_controller"/>
-
-  <!-- Load twist_controller -->
-  <include file="$(find robotx_twist_controller)/launch/twist_controller.launch"/>
   
 </launch>

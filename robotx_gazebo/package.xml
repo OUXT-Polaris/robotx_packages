@@ -31,7 +31,6 @@
   <exec_depend>robotx_navigation</exec_depend>
   <exec_depend>robotx_recognition</exec_depend>
   <exec_depend>wamv_description</exec_depend>
-  <exec_depend>robotx_twist_controller</exec_depend>
   
   <export>
     <gazebo_ros gazebo_model_path="${prefix}/models"/>
