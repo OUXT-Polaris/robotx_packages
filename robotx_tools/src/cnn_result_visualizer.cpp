@@ -71,5 +71,8 @@ void cnn_result_visualizer::object_roi_callback(
     single_pict.speed = 0.0;
     pictgram_msg.pictograms.push_back(single_pict);
   }
-  pictgram_array_pub_.publish(pictgram_msg);
+  if(msg->object_rois.size() != 0)
+  {
+    pictgram_array_pub_.publish(pictgram_msg);
+  }
 }
