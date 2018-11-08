@@ -1,0 +1,4 @@
+- git:
+    local-name: robotx_core
+    uri: https://github.com/OUXT-Polaris/robotx_core.git
+    version: develop
