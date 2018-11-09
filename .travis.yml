@@ -16,6 +16,7 @@ env:
   global:		
     - CATKIN_PARALLEL_TEST_JOBS=-p1
     - ROS_PARALLEL_TEST_JOBS=-j`nproc`
+    - ROSINSTALL_FILENAME=dependencies.rosinstall
     
   matrix:		
     - ROS_DISTRO=kinetic ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu
