@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="robotx_tools" type="pcl_plane_removal_node" name="plane_removal_node" output="screen">
+        <param name="/Probability" value="0.5" />
+        <param name="/MaxIterations" value="100" />
+        <param name="/DistanceThreshold" value="0.99" />
+        <remap from="/plane_removal_node/input_pcl" to="/velodyne_points"/>
+    </node>
+</launch>

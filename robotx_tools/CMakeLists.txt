@@ -16,6 +16,9 @@ find_package(catkin REQUIRED COMPONENTS
   rviz
   robotx_msgs
   tf
+  pcl_conversions
+  pcl_msgs
+  pcl_ros
 )
 
 find_package(PythonLibs)
@@ -24,6 +27,7 @@ find_package(OpenCV REQUIRED)
 
 find_package(Boost REQUIRED COMPONENTS thread system chrono)
 
+# include_directories(${PCL_INCLUDE_DIRS})
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################
@@ -56,7 +60,9 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-link_directories(${catkin_LIBRARY_DIRS})
+link_directories(
+  ${catkin_LIBRARY_DIRS}
+)
 
 ## This setting causes Qt's "MOC" generation to happen automatically.
 set(CMAKE_AUTOMOC ON)
@@ -93,6 +99,11 @@ add_dependencies(cnn_result_visualizer_node robotx_msgs_generate_messages_cpp ${
 target_link_libraries(cnn_result_visualizer_node ${catkin_LIBRARIES})
 clang_format(cnn_result_visualizer_node)
 
+set(pcl_plane_removal_src src/pcl_plane_removal.cpp)
+add_executable(pcl_plane_removal_node src/pcl_plane_removal_node.cpp ${pcl_plane_removal_src})
+target_link_libraries(pcl_plane_removal_node ${catkin_LIBRARIES})
+
+
 set(fake_technical_director_network_src src/fake_technical_director_network_main.cpp src/tcp_server.cpp)
 add_executable(fake_technical_director_network ${fake_technical_director_network_src})
 target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
@@ -102,7 +113,7 @@ clang_format(fake_technical_director_network)
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS overlay_gps_display cnn_result_visualizer_node
+install(TARGETS overlay_gps_display cnn_result_visualizer_node pcl_plane_removal_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
