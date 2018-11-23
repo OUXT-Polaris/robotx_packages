@@ -98,11 +98,16 @@ add_executable(fake_technical_director_network ${fake_technical_director_network
 target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
 clang_format(fake_technical_director_network)
 
+set(map_editor_src src/map_editor_node.cpp src/map_editor.cpp)
+add_executable(map_editor_node ${map_editor_src})
+target_link_libraries(map_editor_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+clang_format(map_editor_node)
+
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS overlay_gps_display cnn_result_visualizer_node
+install(TARGETS overlay_gps_display cnn_result_visualizer_node map_editor_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

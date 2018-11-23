@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="robotx_tools" type="map_editor_node" name="map_editor_node" output="log" respawn="true" respawn_delay="0">
+    </node>
+
+    <include file="$(find robotx_navigation)/launch/geographic_map.launch"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/map_editor.rviz" respawn="false" />
+</launch>
