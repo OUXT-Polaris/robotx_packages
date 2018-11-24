@@ -58,8 +58,8 @@ namespace robotx_tools
       lat_marker.pose.position.z = 0;
       tf::Quaternion quaternion_lat = tf::createQuaternionFromRPY(0,M_PI/2,0);
       tf::quaternionTFToMsg(quaternion_lat, lat_marker.pose.orientation);
-      lat_marker.scale.x = 10.0;
-      lat_marker.scale.y = 10.0;
+      lat_marker.scale.x = 1.0;
+      lat_marker.scale.y = 1.0;
       lat_marker.scale.z = 1000.0;
       lat_marker.color.r = 0;
       lat_marker.color.g = 1.0;
@@ -79,8 +79,8 @@ namespace robotx_tools
       lon_marker.pose.position.z = 0;
       tf::Quaternion quaternion_lon = tf::createQuaternionFromRPY(M_PI/2,0,0);
       tf::quaternionTFToMsg(quaternion_lon, lon_marker.pose.orientation);
-      lon_marker.scale.x = 10.0;
-      lon_marker.scale.y = 10.0;
+      lon_marker.scale.x = 1.0;
+      lon_marker.scale.y = 1.0;
       lon_marker.scale.z = 1000.0;
       lon_marker.color.r = 0;
       lon_marker.color.g = 1.0;

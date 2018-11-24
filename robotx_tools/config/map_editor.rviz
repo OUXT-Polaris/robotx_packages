@@ -74,6 +74,7 @@ Visualization Manager:
       Name: MarkerArray
       Namespaces:
         latitude: true
+        longitude: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -120,7 +121,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 0.588765979
+      Scale: 3.92822838
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 5.00000143
