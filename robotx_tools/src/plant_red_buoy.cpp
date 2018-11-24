@@ -39,7 +39,7 @@
 #include <rviz/geometry.h>
 #include <rviz/properties/vector_property.h>
 
-#include <plant_green_buoy.h>
+#include <plant_red_buoy.h>
 
 namespace robotx_tools
 {
@@ -53,19 +53,19 @@ namespace robotx_tools
 //
 // Here we set the "shortcut_key_" member variable defined in the
 // superclass to declare which key will activate the tool.
-PlantGreenBuoyTool::PlantGreenBuoyTool()
+PlantRedBuoyTool::PlantRedBuoyTool()
   : moving_flag_node_( NULL )
   , current_flag_property_( NULL )
 {
   shortcut_key_ = 'l';
-  point_pub_ = nh_.advertise<geometry_msgs::PointStamped>("/green_buoy/plant/point", 1);
+  point_pub_ = nh_.advertise<geometry_msgs::PointStamped>("/red_buoy/plant/point", 1);
 }
 
 // The destructor destroys the Ogre scene nodes for the flags so they
 // disappear from the 3D scene.  The destructor for a Tool subclass is
 // only called when the tool is removed from the toolbar with the "-"
 // button.
-PlantGreenBuoyTool::~PlantGreenBuoyTool()
+PlantRedBuoyTool::~PlantRedBuoyTool()
 {
   for( unsigned i = 0; i < flag_nodes_.size(); i++ )
   {
@@ -84,13 +84,13 @@ PlantGreenBuoyTool::~PlantGreenBuoyTool()
 // In this case we load a mesh object with the shape and appearance of
 // the flag, create an Ogre::SceneNode for the moving flag, and then
 // set it invisible.
-void PlantGreenBuoyTool::onInitialize()
+void PlantRedBuoyTool::onInitialize()
 {
-  flag_resource_ = "package://robotx_gazebo/models/surmark950400/mesh/surmark950400.dae";
+  flag_resource_ = "package://robotx_gazebo/models/surmark950410/mesh/surmark950410.dae";
 
   if( rviz::loadMeshFromResource( flag_resource_ ).isNull() )
   {
-    ROS_ERROR( "PlantGreenBuoyTool: failed to load model resource '%s'.", flag_resource_.c_str() );
+    ROS_ERROR( "PlantRedBuoyTool: failed to load model resource '%s'.", flag_resource_.c_str() );
     return;
   }
 
@@ -117,7 +117,7 @@ void PlantGreenBuoyTool::onInitialize()
 // if it were writable the flag should really change position when the
 // user edits the property.  This is a fine idea, and is possible, but
 // is left as an exercise for the reader.
-void PlantGreenBuoyTool::activate()
+void PlantRedBuoyTool::activate()
 {
   if( moving_flag_node_ )
   {
@@ -137,7 +137,7 @@ void PlantGreenBuoyTool::activate()
 // property, so that doesn't need to be done in a separate step.  If
 // we didn't delete it here, it would stay in the list of flags when
 // we switch to another tool.
-void PlantGreenBuoyTool::deactivate()
+void PlantRedBuoyTool::deactivate()
 {
   if( moving_flag_node_ )
   {
@@ -162,7 +162,7 @@ void PlantGreenBuoyTool::deactivate()
 // place and drop the pointer to the VectorProperty.  Dropping the
 // pointer means when the tool is deactivated the VectorProperty won't
 // be deleted, which is what we want.
-int PlantGreenBuoyTool::processMouseEvent( rviz::ViewportMouseEvent& event )
+int PlantRedBuoyTool::processMouseEvent( rviz::ViewportMouseEvent& event )
 {
   if( !moving_flag_node_ )
   {
@@ -193,7 +193,7 @@ int PlantGreenBuoyTool::processMouseEvent( rviz::ViewportMouseEvent& event )
 }
 
 // This is a helper function to create a new flag in the Ogre scene and save its scene node in a list.
-void PlantGreenBuoyTool::makeFlag( const Ogre::Vector3& position )
+void PlantRedBuoyTool::makeFlag( const Ogre::Vector3& position )
 {
   Ogre::SceneNode* node = scene_manager_->getRootSceneNode()->createChildSceneNode();
   Ogre::Entity* entity = scene_manager_->createEntity( flag_resource_ );
@@ -219,7 +219,7 @@ void PlantGreenBuoyTool::makeFlag( const Ogre::Vector3& position )
 // We first save the class ID to the config object so the
 // rviz::ToolManager will know what to instantiate when the config
 // file is read back in.
-void PlantGreenBuoyTool::save( rviz::Config config ) const
+void PlantRedBuoyTool::save( rviz::Config config ) const
 {
   config.mapSetValue( "Class", getClassId() );
 
@@ -249,7 +249,7 @@ void PlantGreenBuoyTool::save( rviz::Config config ) const
 // In a tool's load() function, we don't need to read its class
 // because that has already been read and used to instantiate the
 // object before this can have been called.
-void PlantGreenBuoyTool::load( const rviz::Config& config )
+void PlantRedBuoyTool::load( const rviz::Config& config )
 {
   // Here we get the "Flags" sub-config from the tool config and loop over its entries:
   rviz::Config flags_config = config.mapGetChild( "Flags" );
@@ -290,5 +290,5 @@ void PlantGreenBuoyTool::load( const rviz::Config& config )
 } // end namespace robotx_tools
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS(robotx_tools::PlantGreenBuoyTool,rviz::Tool )
+PLUGINLIB_EXPORT_CLASS(robotx_tools::PlantRedBuoyTool,rviz::Tool )
 // END_TUTORIAL

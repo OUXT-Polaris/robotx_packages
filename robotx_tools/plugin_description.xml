@@ -4,4 +4,10 @@
       Tool for plant green buoy
     </description>
   </class>
+
+  <class name="robotx_tools/PlantRedBuoyTool" type="robotx_tools::PlantRedBuoyTool" base_class_type="rviz::Tool">
+    <description>
+      Tool for plant red buoy
+    </description>
+  </class>
 </library>

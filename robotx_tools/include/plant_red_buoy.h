@@ -26,8 +26,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef PLANT_GREEN_BUOY_TOOL_H
-#define PLANT_GREEN_BUOY_TOOL_H
+#ifndef PLANT_RED_BUOY_TOOL_H
+#define PLANT_RED_BUOY_TOOL_H
 
 #include <ros/ros.h>
 #include <geometry_msgs/PointStamped.h>
@@ -53,12 +53,12 @@ namespace robotx_tools
 // Here we declare our new subclass of rviz::Tool.  Every tool
 // which can be added to the tool bar is a subclass of
 // rviz::Tool.
-class PlantGreenBuoyTool: public rviz::Tool
+class PlantRedBuoyTool: public rviz::Tool
 {
 Q_OBJECT
 public:
-  PlantGreenBuoyTool();
-  ~PlantGreenBuoyTool();
+  PlantRedBuoyTool();
+  ~PlantRedBuoyTool();
 
   virtual void onInitialize();
 
@@ -84,4 +84,4 @@ private:
 
 } // end namespace robotx_tools
 
-#endif // PLANT_GREEN_BUOY_TOOL_H
+#endif // PLANT_RED_BUOY_TOOL_H
