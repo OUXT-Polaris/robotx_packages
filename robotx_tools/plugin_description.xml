@@ -10,4 +10,10 @@
       Tool for plant red buoy
     </description>
   </class>
+
+  <class name="robotx_tools/PlantWhiteBuoyTool" type="robotx_tools::PlantWhiteBuoyTool" base_class_type="rviz::Tool">
+    <description>
+      Tool for plant red buoy
+    </description>
+  </class>
 </library>

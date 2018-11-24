@@ -88,7 +88,10 @@ add_executable(fake_technical_director_network ${fake_technical_director_network
 target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
 clang_format(fake_technical_director_network)
 
-add_library(map_editor_plugin src/plant_green_buoy.cpp include/plant_green_buoy.h src/plant_red_buoy.cpp include/plant_red_buoy.h)
+add_library(map_editor_plugin 
+  src/plant_green_buoy.cpp include/plant_green_buoy.h 
+  src/plant_red_buoy.cpp include/plant_red_buoy.h
+  src/plant_white_buoy.cpp include/plant_white_buoy.h)
 target_link_libraries(map_editor_plugin ${catkin_LIBRARIES} ${QT_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
 
 #############
