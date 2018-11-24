@@ -16,4 +16,10 @@
       Tool for plant red buoy
     </description>
   </class>
+
+  <class name="robotx_tools/MapEditorPanel" type="robotx_tools::MapEditorPanel" base_class_type="rviz::Panel">
+    <description>
+      Map editor panel
+    </description>
+  </class>
 </library>

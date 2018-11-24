@@ -88,17 +88,21 @@ add_executable(fake_technical_director_network ${fake_technical_director_network
 target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
 clang_format(fake_technical_director_network)
 
-add_library(map_editor_plugin 
-  src/plant_green_buoy.cpp include/plant_green_buoy.h 
+add_library(map_editor_plugin
+  src/plant_green_buoy.cpp include/plant_green_buoy.h
   src/plant_red_buoy.cpp include/plant_red_buoy.h
-  src/plant_white_buoy.cpp include/plant_white_buoy.h)
+  src/plant_white_buoy.cpp include/plant_white_buoy.h
+  src/map_editor_panel.cpp include/map_editor_panel.h)
 target_link_libraries(map_editor_plugin ${catkin_LIBRARIES} ${QT_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
+
+add_executable(map_saver_node src/map_saver_node.cpp src/map_saver.cpp)
+target_link_libraries(map_saver_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS cnn_result_visualizer_node map_editor_plugin
+install(TARGETS cnn_result_visualizer_node map_editor_plugin map_saver_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
