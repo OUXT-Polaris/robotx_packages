@@ -94,11 +94,15 @@ add_library(map_editor_plugin
   src/plant_white_buoy.cpp include/plant_white_buoy.h)
 target_link_libraries(map_editor_plugin ${catkin_LIBRARIES} ${QT_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
 
+add_executable(navi_sim_node src/navi_sim.cpp src/navi_sim_node.cpp)
+target_link_libraries(navi_sim_node ${catkin_LIBRARIES})
+
+
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS cnn_result_visualizer_node map_editor_plugin
+install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

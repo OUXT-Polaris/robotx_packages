@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/navi_sim.rviz" respawn="false" />
+
+    <node name="navi_sim" pkg="robotx_tools" type="navi_sim" args="" respawn="false">
+    </node>
+
+    <include file="$(find robotx_navigation)/launch/geographic_map.launch" />
+</launch>
