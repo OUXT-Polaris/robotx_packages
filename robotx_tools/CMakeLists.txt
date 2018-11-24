@@ -95,7 +95,7 @@ add_library(map_editor_plugin
   src/lat_lon_ruler.cpp include/lat_lon_ruler.h include/UTM.h src/UTM.cpp)
 target_link_libraries(map_editor_plugin ${catkin_LIBRARIES} ${QT_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
 
-add_executable(navi_sim_node src/navi_sim.cpp src/navi_sim_node.cpp)
+add_executable(navi_sim_node src/navi_sim.cpp src/navi_sim_node.cpp src/UTM.cpp)
 target_link_libraries(navi_sim_node ${catkin_LIBRARIES})
 
 

@@ -2,8 +2,17 @@
 <launch>
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/navi_sim.rviz" respawn="false" />
 
-    <node name="navi_sim" pkg="robotx_tools" type="navi_sim" args="" respawn="false">
+    <node name="navi_sim_node" pkg="robotx_tools" type="navi_sim_node" args="" output="screen" respawn="false">
+        <rosparam command="load" file="$(find robotx_tools)/config/navi_sim.yaml"/>
     </node>
 
     <include file="$(find robotx_navigation)/launch/geographic_map.launch" />
+
+    <node name="obstacle_avoid_node" pkg="robotx_navigation" type="obstacle_avoid_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_avoid.yaml"/>
+    </node>
+
+    <node name="world_pose_publisher_node" pkg="robotx_navigation" type="world_pose_publisher_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/world_pose_publisher.yaml"/>
+    </node>
 </launch>
