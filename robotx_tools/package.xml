@@ -42,6 +42,7 @@
   <run_depend>rqt_runtime_monitor</run_depend>
   <run_depend>rosbag</run_depend>
   <run_depend>multimaster_fkie</run_depend>
+  <run_depend>robotx_navigation</run_depend>
 
   <export>
     <rviz plugin="${prefix}/plugin_description.xml"/>
