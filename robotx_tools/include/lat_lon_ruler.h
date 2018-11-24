@@ -11,6 +11,11 @@
 
 #include <UTM.h>
 #include <geometry_msgs/PointStamped.h>
+#include <visualization_msgs/MarkerArray.h>
+#include <tf/tf.h>
+
+//headers in Boost
+#include <boost/optional.hpp>
 
 namespace robotx_tools
 {
@@ -25,6 +30,15 @@ namespace robotx_tools
         virtual void save( rviz::Config config ) const;
     private:
         ros::NodeHandle nh_;
+        void draw_line_();
+        QLineEdit* lat_box_;
+        QLineEdit* lon_box_;
+        boost::optional<double> lat_;
+        boost::optional<double> lon_;
+        ros::Publisher ruler_pub_;
+    protected Q_SLOTS:
+        void update_lat_();
+        void update_lon_();
     };
 }
 

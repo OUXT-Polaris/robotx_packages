@@ -92,7 +92,7 @@ add_library(map_editor_plugin
   src/plant_green_buoy.cpp include/plant_green_buoy.h
   src/plant_red_buoy.cpp include/plant_red_buoy.h
   src/plant_white_buoy.cpp include/plant_white_buoy.h
-  src/lat_lon_ruler.cpp include/lat_lon_ruler.h)
+  src/lat_lon_ruler.cpp include/lat_lon_ruler.h include/UTM.h src/UTM.cpp)
 target_link_libraries(map_editor_plugin ${catkin_LIBRARIES} ${QT_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
 
 #############
