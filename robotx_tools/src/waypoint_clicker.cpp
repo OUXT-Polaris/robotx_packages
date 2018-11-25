@@ -45,7 +45,26 @@ void waypoint_clicker::publish_marker_()
             single_marker.color.g = 1;
             single_marker.color.b = 0;
             single_marker.color.a = 1;
+            single_marker.ns = "waypoint";
             marker_msg.markers.push_back(single_marker);
+            visualization_msgs::Marker id_marker;
+            id_marker.type = id_marker.TEXT_VIEW_FACING;
+            id_marker.id = i;
+            id_marker.action = id_marker.ADD;
+            id_marker.pose = pose_itr->pose;
+            id_marker.header.frame_id = waypoint_frame_;
+            id_marker.header.stamp = now;
+            id_marker.scale.x = 1;
+            id_marker.scale.y = 1;
+            id_marker.scale.z = 10;
+            id_marker.frame_locked = true;
+            id_marker.color.r = 1;
+            id_marker.color.g = 1;
+            id_marker.color.b = 1;
+            id_marker.color.a = 1;
+            id_marker.ns = "id";
+            id_marker.text = std::to_string(i);
+            marker_msg.markers.push_back(id_marker);
             i++;
         }
         marker_pub_.publish(marker_msg);
