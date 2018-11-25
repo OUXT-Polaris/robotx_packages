@@ -3,6 +3,7 @@
 
 //headers in ROS
 #include <ros/ros.h>
+#include <ros/package.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <tf2_ros/transform_listener.h>
@@ -12,6 +13,9 @@
 
 //headers in boost
 #include <boost/thread.hpp>
+
+//headers in STL
+#include <fstream>
 
 class waypoint_clicker
 {
@@ -30,6 +34,7 @@ private:
     tf2_ros::Buffer tf_buffer_;
     tf2_ros::TransformListener tf_listener_;
     std::vector<geometry_msgs::PoseStamped> target_poses_;
+    std::vector<geometry_msgs::Pose2D> target_poses_2d_;
 };
 
 #endif  //WAYPOINT_CLICERK_H_INCLUDED

@@ -43,7 +43,8 @@
   <run_depend>rqt_runtime_monitor</run_depend>
   <run_depend>rosbag</run_depend>
   <run_depend>multimaster_fkie</run_depend>
-  <run_depend>robotx_core</run_depend>
+  <run_depend>robotx_navigation</run_depend>
+  <run_depend>robotx_decision_maker</run_depend>
   <run_depend>geodesy</run_depend>
 
   <export>

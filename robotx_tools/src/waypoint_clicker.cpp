@@ -5,6 +5,8 @@ waypoint_clicker::waypoint_clicker(ros::NodeHandle nh, ros::NodeHandle pnh) : tf
     nh_ = nh;
     pnh_ = pnh;
     pnh_.param<std::string>("waypoint_frame", waypoint_frame_, "map");
+    marker_pub_ = pnh_.advertise<visualization_msgs::MarkerArray>("marker",1);
+    goal_pose_sub_ = nh_.subscribe("/move_base_simple/goal",1,&waypoint_clicker::goal_pose_callback_,this);
 }
 
 waypoint_clicker::~waypoint_clicker()
@@ -14,8 +16,6 @@ waypoint_clicker::~waypoint_clicker()
 
 void waypoint_clicker::run()
 {
-    marker_pub_ = pnh_.advertise<visualization_msgs::MarkerArray>("marker",1);
-    goal_pose_sub_ = nh_.subscribe("/move_base_simple/goal",1,&waypoint_clicker::goal_pose_callback_,this);
     boost::thread marker_thread_(&waypoint_clicker::publish_marker_,this);
     return;
 }
@@ -103,5 +103,16 @@ void waypoint_clicker::goal_pose_callback_(const geometry_msgs::PoseStamped::Con
         transformed_pose.pose.orientation.z,transformed_pose.pose.orientation.w);
     tf::Matrix3x3(quat).getRPY(r, p, y);
     pose2d.theta = y;
+    target_poses_2d_.push_back(pose2d);
+    std::ofstream csv_file;
+    std::string filename = ros::package::getPath("robotx_navigation") +"/data/waypoints.csv";
+    csv_file.open(filename, std::ios::trunc);
+    for(auto pose_2d_itr = target_poses_2d_.begin(); pose_2d_itr != target_poses_2d_.end(); pose_2d_itr++)
+    {
+        std::string line_str = waypoint_frame_ + "," + std::to_string(pose_2d_itr->x) + "," 
+            + std::to_string(pose_2d_itr->y) + "," + std::to_string(pose_2d_itr->theta);
+        csv_file << line_str << std::endl;
+    }
+    csv_file.close();
     return;
 }
