@@ -17,6 +17,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     fix_pub_ = nh_.advertise<sensor_msgs::NavSatFix>(fix_topic_,1);
     true_course_pub_ = nh_.advertise<geometry_msgs::QuaternionStamped>(true_course_topic_,1);
     gps_twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>(gps_twist_topic_,1);
+    true_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose/truth",1);
     navigation_trigger_event_pub_ = nh_.advertise<robotx_msgs::Event>("/robotx_state_machine_node/navigation_state_machine/trigger_event",1);
     twist_cmd_sub_ = nh_.subscribe("/cmd_vel",1,&navi_sim::cmd_vel_callback,this);
     init_pose_sub_ = nh_.subscribe("/initialpose",1,&navi_sim::init_pose_callback_,this);
@@ -24,7 +25,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
 
 navi_sim::~navi_sim()
 {
-    
+
 }
 
 void navi_sim::cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg)
@@ -36,7 +37,7 @@ void navi_sim::cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg)
 }
 
 void navi_sim::init_pose_callback_(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr msg)
-{   
+{
     mtx_.lock();
     current_twist_ = geometry_msgs::Twist();
     geometry_msgs::PoseStamped pose_msg;
@@ -130,11 +131,19 @@ void navi_sim::update_pose_()
         mtx_.lock();
         if(current_pose_)
         {
+            geometry_msgs::PoseStamped pose3d;
             geometry_msgs::Pose2D new_pose;
             double d_theta = twist_cmd_.angular.z / update_rate_;
             new_pose.theta = current_pose_->theta + d_theta;
             new_pose.x = current_pose_->x + twist_cmd_.linear.x * std::cos((current_pose_->theta + d_theta)/2) / update_rate_;
             new_pose.y = current_pose_->y + twist_cmd_.linear.x * std::sin((current_pose_->theta + d_theta)/2) / update_rate_;
+            pose3d.pose.position.x = new_pose.x;
+            pose3d.pose.position.y = new_pose.y;
+            pose3d.header.frame_id = world_frame_;
+            pose3d.header.stamp = ros::Time::now();
+            tf::Quaternion quat=tf::createQuaternionFromRPY(0,0,current_pose_->theta);
+            tf::quaternionTFToMsg(quat,pose3d.pose.orientation);
+            true_pose_pub_.publish(pose3d);
             current_pose_ = new_pose;
         }
         mtx_.unlock();

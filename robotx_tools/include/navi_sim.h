@@ -38,6 +38,7 @@ private:
     ros::Publisher true_course_pub_;
     ros::Publisher gps_twist_pub_;
     ros::Publisher navigation_trigger_event_pub_;
+    ros::Publisher true_pose_pub_;
     boost::optional<geometry_msgs::Pose2D> current_pose_;
     geometry_msgs::Twist current_twist_;
     std::string gps_frame_;
