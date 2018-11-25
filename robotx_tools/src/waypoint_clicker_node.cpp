@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
   waypoint_clicker clicker(nh,pnh);
+  clicker.run();
   ros::spin();
   return 0;
 }

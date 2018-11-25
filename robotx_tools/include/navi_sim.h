@@ -14,9 +14,6 @@
 #include <tf/tf.h>
 #include <geodesy/utm.h>
 
-//headers in this package
-//#include <UTM.h>
-
 //headers in STL
 #include <mutex>
 

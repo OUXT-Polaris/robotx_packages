@@ -63,8 +63,6 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
-          Value: true
         map:
           Value: true
         world:
@@ -76,11 +74,17 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          base_link:
-            {}
           map:
             {}
       Update Interval: 0
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /waypoint_clicker_node/marker
+      Name: MarkerArray
+      Namespaces:
+        "": true
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -116,7 +120,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 2.97997093
+      Scale: 4.05593634
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 5.00000238
