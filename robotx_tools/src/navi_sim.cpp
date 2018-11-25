@@ -10,9 +10,11 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     pnh_.param<std::string>("gps_frame", gps_frame_, "gps");
     pnh_.param<std::string>("world_frame", world_frame_, "world");
     pnh_.param<std::string>("fix_topic", fix_topic_, "/fix");
+    pnh_.param<std::string>("gps_twist_topic", gps_twist_topic_, "/fix/twist");
     pnh_.param<std::string>("true_course_topic", true_course_topic_, "/true_course");
     fix_pub_ = nh_.advertise<sensor_msgs::NavSatFix>(fix_topic_,1);
     true_course_pub_ = nh_.advertise<geometry_msgs::QuaternionStamped>(true_course_topic_,1);
+    gps_twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>(gps_twist_topic_,1);
     twist_cmd_sub_ = nh_.subscribe("/cmd_vel",1,&navi_sim::cmd_vel_callback,this);
     init_pose_sub_ = nh_.subscribe("/initialpose",1,&navi_sim::init_pose_callback_,this);
 }
@@ -33,6 +35,7 @@ void navi_sim::cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg)
 void navi_sim::init_pose_callback_(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr msg)
 {   
     mtx_.lock();
+    current_twist_ = geometry_msgs::Twist();
     geometry_msgs::PoseStamped pose_msg;
     pose_msg.header = msg->header;
     pose_msg.pose = msg->pose.pose;
@@ -68,7 +71,7 @@ void navi_sim::init_pose_callback_(const geometry_msgs::PoseWithCovarianceStampe
     return;
 }
 
-void navi_sim::update_()
+void navi_sim::update_gps_()
 {
     ros::Rate rate(update_rate_);
     while(ros::ok())
@@ -77,19 +80,35 @@ void navi_sim::update_()
         double lat,lon;
         if(current_pose_)
         {
-            UTMXYToLatLon(current_pose_->x, current_pose_->y, utm_zone_, southhemi_, lat, lon);
+            ros::Time now = ros::Time::now();
+            double x = current_pose_->x;
+            double y = current_pose_->y;
+            geodesy::UTMPoint utm_point;
+            utm_point.northing = current_pose_->y;
+            utm_point.easting = current_pose_->x;
+            utm_point.altitude = 0;
+            utm_point.zone = utm_zone_;
+            utm_point.band = 'Q';
+            geographic_msgs::GeoPoint geopoint = geodesy::toMsg(utm_point);
+            lat = geopoint.latitude;
+            lon = geopoint.longitude;
             sensor_msgs::NavSatFix fix_msg;
             fix_msg.header.frame_id = gps_frame_;
-            fix_msg.header.stamp = ros::Time::now();
+            fix_msg.header.stamp = now;
             fix_msg.latitude = lat;
             fix_msg.longitude = lon;
             fix_pub_.publish(fix_msg);
             geometry_msgs::QuaternionStamped quat_msg;
             quat_msg.header.frame_id = gps_frame_;
-            quat_msg.header.stamp = ros::Time::now();
+            quat_msg.header.stamp = now;
             tf::Quaternion quat = tf::createQuaternionFromRPY(0,0,current_pose_->theta);
             quaternionTFToMsg(quat, quat_msg.quaternion);
             true_course_pub_.publish(quat_msg);
+            geometry_msgs::TwistStamped gps_twist;
+            gps_twist.header.frame_id = gps_frame_;
+            gps_twist.header.stamp = now;
+            gps_twist.twist = current_twist_;
+            gps_twist_pub_.publish(gps_twist);
         }
         mtx_.unlock();
         rate.sleep();
@@ -99,6 +118,6 @@ void navi_sim::update_()
 
 void navi_sim::run()
 {
-    boost::thread update_thread_(&navi_sim::update_,this);
+    boost::thread update_gps_thread_(&navi_sim::update_gps_,this);
     return;
 }

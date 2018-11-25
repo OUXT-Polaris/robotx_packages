@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   rviz
   robotx_msgs
   tf
+  geodesy
 )
 
 find_package(PythonLibs)

@@ -1,5 +1,6 @@
 fix_topic : /sc30_driver_node/fix
 true_course_topic : /sc30_driver_node/true_course
+gps_twist_topic : /sc30_driver_node/twist
 utm_zone : 4
 southhemi : false
 gps_frame : gps
