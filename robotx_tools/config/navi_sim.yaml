@@ -5,5 +5,6 @@ utm_zone : 4
 southhemi : false
 gps_frame : base_link
 world_frame : world
+robot_frame : base_link
 update_rate: 10
 gps_update_rate : 1

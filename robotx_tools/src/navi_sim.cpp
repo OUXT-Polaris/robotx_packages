@@ -10,6 +10,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     pnh_.param<bool>("southhemi", southhemi_, false);
     pnh_.param<std::string>("gps_frame", gps_frame_, "gps");
     pnh_.param<std::string>("world_frame", world_frame_, "world");
+    pnh_.param<std::string>("robot_frame", robot_frame_, "base_link");
     pnh_.param<std::string>("fix_topic", fix_topic_, "/fix");
     pnh_.param<std::string>("gps_twist_topic", gps_twist_topic_, "/fix/twist");
     pnh_.param<std::string>("true_course_topic", true_course_topic_, "/true_course");
@@ -121,21 +122,30 @@ void navi_sim::update_gps_()
     return;
 }
 
-void navi_sim::update_position_()
+void navi_sim::update_pose_()
 {
+    ros::Rate rate(update_rate_);
     while(ros::ok())
     {
         mtx_.lock();
         if(current_pose_)
         {
+            geometry_msgs::Pose2D new_pose;
+            double d_theta = twist_cmd_.angular.z / update_rate_;
+            new_pose.theta = current_pose_->theta + d_theta;
+            new_pose.x = current_pose_->x + twist_cmd_.linear.x * std::cos((current_pose_->theta + d_theta)/2) / update_rate_;
+            new_pose.y = current_pose_->y + twist_cmd_.linear.x * std::sin((current_pose_->theta + d_theta)/2) / update_rate_;
+            current_pose_ = new_pose;
         }
         mtx_.unlock();
+        rate.sleep();
     }
     return;
 }
 
 void navi_sim::run()
 {
+    boost::thread update_pose_thread_(&navi_sim::update_pose_,this);
     boost::thread update_gps_thread_(&navi_sim::update_gps_,this);
     return;
 }

@@ -42,6 +42,7 @@ private:
     geometry_msgs::Twist current_twist_;
     std::string gps_frame_;
     std::string world_frame_;
+    std::string robot_frame_;
     std::string fix_topic_;
     std::string gps_twist_topic_;
     std::string true_course_topic_;
@@ -49,7 +50,7 @@ private:
     int utm_zone_;
     double update_rate_;
     double gps_update_rate_;
-    void update_position_();
+    void update_pose_();
     void update_gps_();
     void cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg);
     void init_pose_callback_(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr msg);
