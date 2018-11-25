@@ -96,5 +96,12 @@ void waypoint_clicker::goal_pose_callback_(const geometry_msgs::PoseStamped::Con
     }
     geometry_msgs::Pose2D pose2d;
     target_poses_.push_back(transformed_pose);
+    pose2d.x = transformed_pose.pose.position.x;
+    pose2d.y = transformed_pose.pose.position.y;
+    double r,p,y;
+    tf::Quaternion quat(transformed_pose.pose.orientation.x, transformed_pose.pose.orientation.y,
+        transformed_pose.pose.orientation.z,transformed_pose.pose.orientation.w);
+    tf::Matrix3x3(quat).getRPY(r, p, y);
+    pose2d.theta = y;
     return;
 }
