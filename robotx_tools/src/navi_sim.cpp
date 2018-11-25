@@ -16,6 +16,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     fix_pub_ = nh_.advertise<sensor_msgs::NavSatFix>(fix_topic_,1);
     true_course_pub_ = nh_.advertise<geometry_msgs::QuaternionStamped>(true_course_topic_,1);
     gps_twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>(gps_twist_topic_,1);
+    navigation_trigger_event_pub_ = nh_.advertise<robotx_msgs::Event>("/robotx_state_machine_node/navigation_state_machine/trigger_event",1);
     twist_cmd_sub_ = nh_.subscribe("/cmd_vel",1,&navi_sim::cmd_vel_callback,this);
     init_pose_sub_ = nh_.subscribe("/initialpose",1,&navi_sim::init_pose_callback_,this);
 }
@@ -68,6 +69,9 @@ void navi_sim::init_pose_callback_(const geometry_msgs::PoseWithCovarianceStampe
     pose.x = transformed_pose.pose.position.x;
     pose.y = transformed_pose.pose.position.y;
     current_pose_ = pose;
+    robotx_msgs::Event event_msg;
+    event_msg.trigger_event_name = "navigation_start";
+    navigation_trigger_event_pub_.publish(event_msg);
     mtx_.unlock();
     return;
 }

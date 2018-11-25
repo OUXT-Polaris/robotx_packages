@@ -6,8 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /Grid1
-        - /TF1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -50,19 +48,13 @@ Visualization Manager:
       Plane Cell Count: 100
       Reference Frame: <Fixed Frame>
       Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /coast_line_publisher_node/marker
-      Name: MarkerArray
-      Namespaces:
-        coast_line: true
-      Queue Size: 100
-      Value: true
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_link:
+          Value: true
         map:
           Value: true
         world:
@@ -74,6 +66,8 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
+          base_link:
+            {}
           map:
             {}
       Update Interval: 0
@@ -81,9 +75,26 @@ Visualization Manager:
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /waypoint_clicker_node/marker
-      Name: MarkerArray
+      Name: ClickedWaypoints
       Namespaces:
-        "": true
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /coast_line_publisher_node/marker
+      Name: CoastLine
+      Namespaces:
+        coast_line: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /waypoint_server_node/marker
+      Name: Waypoint
+      Namespaces:
+        id: true
+        waypoint: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -120,7 +131,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 4.05593634
+      Scale: 4.16402483
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 5.00000238

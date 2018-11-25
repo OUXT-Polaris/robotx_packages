@@ -24,6 +24,10 @@
     <rosparam command="load" file="$(find robotx_navigation)/config/carrot_planner.yaml"/>
     </node>
 
+    <node name="waypoint_server_node" pkg="robotx_navigation" type="waypoint_server_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/waypoint_server.yaml"/>
+    </node>
+
     <include file="$(find robotx_decision_maker)/launch/decision_maker.launch">
     </include>
 </launch>

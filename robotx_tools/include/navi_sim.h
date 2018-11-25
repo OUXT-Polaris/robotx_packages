@@ -3,6 +3,7 @@
 
 //headers in ROS
 #include <ros/ros.h>
+#include <robotx_msgs/Event.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/PoseStamped.h>
@@ -36,6 +37,7 @@ private:
     ros::Publisher fix_pub_;
     ros::Publisher true_course_pub_;
     ros::Publisher gps_twist_pub_;
+    ros::Publisher navigation_trigger_event_pub_;
     boost::optional<geometry_msgs::Pose2D> current_pose_;
     geometry_msgs::Twist current_twist_;
     std::string gps_frame_;

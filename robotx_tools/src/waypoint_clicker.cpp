@@ -105,7 +105,7 @@ void waypoint_clicker::goal_pose_callback_(const geometry_msgs::PoseStamped::Con
     pose2d.theta = y;
     target_poses_2d_.push_back(pose2d);
     std::ofstream csv_file;
-    std::string filename = ros::package::getPath("robotx_navigation") +"/data/waypoints.csv";
+    std::string filename = ros::package::getPath("robotx_navigation") +"/data/clicked_waypoints.csv";
     csv_file.open(filename, std::ios::trunc);
     for(auto pose_2d_itr = target_poses_2d_.begin(); pose_2d_itr != target_poses_2d_.end(); pose_2d_itr++)
     {
