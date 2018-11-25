@@ -93,18 +93,20 @@ add_library(map_editor_plugin
   src/plant_green_buoy.cpp include/plant_green_buoy.h
   src/plant_red_buoy.cpp include/plant_red_buoy.h
   src/plant_white_buoy.cpp include/plant_white_buoy.h
-  src/lat_lon_ruler.cpp include/lat_lon_ruler.h include/UTM.h src/UTM.cpp)
+  src/lat_lon_ruler.cpp include/lat_lon_ruler.h include/UTM.h)
 target_link_libraries(map_editor_plugin ${catkin_LIBRARIES} ${QT_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
 
-add_executable(navi_sim_node src/navi_sim.cpp src/navi_sim_node.cpp src/UTM.cpp)
+add_executable(navi_sim_node src/navi_sim.cpp src/navi_sim_node.cpp)
 target_link_libraries(navi_sim_node ${catkin_LIBRARIES})
 
+add_executable(waypoint_clicker_node src/waypoint_clicker.cpp src/waypoint_clicker_node.cpp)
+target_link_libraries(waypoint_clicker_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node
+install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

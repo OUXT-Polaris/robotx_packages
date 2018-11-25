@@ -6,6 +6,10 @@
         <rosparam command="load" file="$(find robotx_tools)/config/navi_sim.yaml"/>
     </node>
 
+    <node name="waypoint_clicker_node" pkg="robotx_tools" type="waypoint_clicker_node" args="" output="screen" respawn="false">
+        <rosparam command="load" file="$(find robotx_tools)/config/waypoiont_clicker.yaml"/>
+    </node>
+
     <include file="$(find robotx_navigation)/launch/geographic_map.launch" />
 
     <node name="obstacle_avoid_node" pkg="robotx_navigation" type="obstacle_avoid_node" args="" output="screen" respawn="true">
