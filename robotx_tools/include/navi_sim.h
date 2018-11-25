@@ -49,6 +49,8 @@ private:
     bool southhemi_;
     int utm_zone_;
     double update_rate_;
+    double gps_update_rate_;
+    void update_position_();
     void update_gps_();
     void cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg);
     void init_pose_callback_(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr msg);

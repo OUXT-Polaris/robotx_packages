@@ -6,6 +6,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     pnh_ = ros::NodeHandle("~");
     pnh_.param<int>("utm_zone", utm_zone_, 0);
     pnh_.param<double>("update_rate", update_rate_, 10);
+    pnh_.param<double>("gps_update_rate", gps_update_rate_, 1);
     pnh_.param<bool>("southhemi", southhemi_, false);
     pnh_.param<std::string>("gps_frame", gps_frame_, "gps");
     pnh_.param<std::string>("world_frame", world_frame_, "world");
@@ -73,7 +74,7 @@ void navi_sim::init_pose_callback_(const geometry_msgs::PoseWithCovarianceStampe
 
 void navi_sim::update_gps_()
 {
-    ros::Rate rate(update_rate_);
+    ros::Rate rate(gps_update_rate_);
     while(ros::ok())
     {
         mtx_.lock();
@@ -112,6 +113,19 @@ void navi_sim::update_gps_()
         }
         mtx_.unlock();
         rate.sleep();
+    }
+    return;
+}
+
+void navi_sim::update_position_()
+{
+    while(ros::ok())
+    {
+        mtx_.lock();
+        if(current_pose_)
+        {
+        }
+        mtx_.unlock();
     }
     return;
 }

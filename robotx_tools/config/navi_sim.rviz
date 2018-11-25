@@ -7,6 +7,7 @@ Panels:
         - /Global Options1
         - /Status1
         - /Grid1
+        - /TF1
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -62,17 +63,21 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_link:
+          Value: true
         map:
           Value: true
         world:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 10
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
         world:
+          base_link:
+            {}
           map:
             {}
       Update Interval: 0
@@ -111,7 +116,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 2.55430388
+      Scale: 2.97997093
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 5.00000238

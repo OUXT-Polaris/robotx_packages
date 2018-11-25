@@ -15,4 +15,11 @@
     <node name="world_pose_publisher_node" pkg="robotx_navigation" type="world_pose_publisher_node" args="" output="screen" respawn="true">
         <rosparam command="load" file="$(find robotx_navigation)/config/world_pose_publisher.yaml"/>
     </node>
+
+    <node name="carrot_planner_node" pkg="robotx_navigation" type="carrot_planner_node" args="" output="screen" respawn="true">
+    <rosparam command="load" file="$(find robotx_navigation)/config/carrot_planner.yaml"/>
+    </node>
+
+    <include file="$(find robotx_decision_maker)/launch/decision_maker.launch">
+    </include>
 </launch>

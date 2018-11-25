@@ -2,9 +2,5 @@
 <launch>
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/map_editor.rviz" respawn="false" />
 
-    <node pkg="robotx_tools" type="map_saver_node" name="map_saver_node" output="log" respawn="true" respawn_delay="0">
-        <rosparam file="$(find robotx_tools)/config/map_saver.yaml" command="load"/>
-    </node>
-
     <include file="$(find robotx_navigation)/launch/geographic_map.launch" />
 </launch>

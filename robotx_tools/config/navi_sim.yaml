@@ -3,6 +3,7 @@ true_course_topic : /sc30_driver_node/true_course
 gps_twist_topic : /sc30_driver_node/twist
 utm_zone : 4
 southhemi : false
-gps_frame : gps
+gps_frame : base_link
 world_frame : world
 update_rate: 10
+gps_update_rate : 1
