@@ -9,6 +9,7 @@ Panels:
         - /TF1
         - /Waypoint1
         - /Pose1
+        - /OverlayText1
       Splitter Ratio: 0.5
     Tree Height: 1725
   - Class: rviz/Selection
@@ -115,6 +116,24 @@ Visualization Manager:
       Topic: /robot_pose/truth
       Unreliable: false
       Value: true
+    - Background Alpha: 0.800000012
+      Background Color: 0; 0; 0
+      Class: jsk_rviz_plugin/OverlayText
+      Enabled: true
+      Foreground Alpha: 0.800000012
+      Foreground Color: 25; 255; 240
+      Name: OverlayText
+      Overtake Color Properties: false
+      Overtake Position Properties: false
+      Topic: /state_visualizer_node/text
+      Value: true
+      font: DejaVu Sans Mono
+      height: 128
+      left: 0
+      line width: 2
+      text size: 12
+      top: 0
+      width: 128
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

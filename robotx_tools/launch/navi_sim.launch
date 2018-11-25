@@ -10,6 +10,9 @@
         <rosparam command="load" file="$(find robotx_tools)/config/waypoiont_clicker.yaml"/>
     </node>
 
+    <node name="state_visualizer_node" pkg="robotx_tools" type="state_visualizer_node" args="" output="screen" respawn="false">
+    </node>
+
     <include file="$(find robotx_navigation)/launch/geographic_map.launch" />
 
     <node name="obstacle_avoid_node" pkg="robotx_navigation" type="obstacle_avoid_node" args="" output="screen" respawn="true">
