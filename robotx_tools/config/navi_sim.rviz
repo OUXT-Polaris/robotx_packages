@@ -9,7 +9,6 @@ Panels:
         - /TF1
         - /Waypoint1
         - /Pose1
-        - /OverlayText1
       Splitter Ratio: 0.5
     Tree Height: 1725
   - Class: rviz/Selection
@@ -134,6 +133,21 @@ Visualization Manager:
       text size: 12
       top: 0
       width: 128
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.100000001
+      Class: rviz/Pose
+      Color: 255; 170; 0
+      Enabled: true
+      Head Length: 3
+      Head Radius: 5
+      Name: NextWaypoint
+      Shaft Length: 10
+      Shaft Radius: 1
+      Shape: Arrow
+      Topic: /waypoint_server_node/next_waypoint
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48

@@ -135,8 +135,8 @@ void navi_sim::update_pose_()
             geometry_msgs::Pose2D new_pose;
             double d_theta = twist_cmd_.angular.z / update_rate_;
             new_pose.theta = current_pose_->theta + d_theta;
-            new_pose.x = current_pose_->x + twist_cmd_.linear.x * std::cos((current_pose_->theta + d_theta)/2) / update_rate_;
-            new_pose.y = current_pose_->y + twist_cmd_.linear.x * std::sin((current_pose_->theta + d_theta)/2) / update_rate_;
+            new_pose.x = current_pose_->x + twist_cmd_.linear.x * std::cos(current_pose_->theta + d_theta/2) / update_rate_;
+            new_pose.y = current_pose_->y + twist_cmd_.linear.x * std::sin(current_pose_->theta + d_theta/2) / update_rate_;
             pose3d.pose.position.x = new_pose.x;
             pose3d.pose.position.y = new_pose.y;
             pose3d.header.frame_id = world_frame_;
