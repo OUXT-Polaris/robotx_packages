@@ -114,7 +114,7 @@ target_link_libraries(state_visualizer_node ${catkin_LIBRARIES})
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node
+install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node field_map_clicker_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
