@@ -89,6 +89,11 @@ add_executable(fake_technical_director_network ${fake_technical_director_network
 target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
 clang_format(fake_technical_director_network)
 
+add_executable(field_map_clicker_node src/field_map_clicker_node.cpp src/field_map_clicker_node.cpp)
+add_dependencies(field_map_clicker_node robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
+target_link_libraries(field_map_clicker_node ${catkin_LIBRARIES})
+clang_format(field_map_clicker_node)
+
 add_library(map_editor_plugin
   src/plant_green_buoy.cpp include/plant_green_buoy.h
   src/plant_red_buoy.cpp include/plant_red_buoy.h

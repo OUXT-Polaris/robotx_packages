@@ -6,6 +6,10 @@
         <rosparam command="load" file="$(find robotx_tools)/config/navi_sim.yaml"/>
     </node>
 
+    <node name="field_map_clicker_node" pkg="robotx_tools" type="field_map_clicker_node" args="" output="screen" respawn="false">
+        <rosparam command="load" file="$(find robotx_tools)/config/field_map_clicker.yaml"/>
+    </node>
+
     <node name="waypoint_clicker_node" pkg="robotx_tools" type="waypoint_clicker_node" args="" output="screen" respawn="false">
         <rosparam command="load" file="$(find robotx_tools)/config/waypoiont_clicker.yaml"/>
     </node>
