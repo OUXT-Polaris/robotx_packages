@@ -40,6 +40,61 @@ void field_map_clicker::green_buoy_callback_(const geometry_msgs::PointStamped::
         transformed_point = *msg;
     }
     field_map_.green_buoys.push_back(transformed_point.point);
+    save_and_publish_();
+    return;
+}
+
+void field_map_clicker::red_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg)
+{
+    field_map_.header.stamp = msg->header.stamp;
+    geometry_msgs::PointStamped transformed_point;
+    geometry_msgs::TransformStamped transform_stamped;
+    if(msg->header.frame_id != map_frame_)
+    {
+        try
+        {
+            transform_stamped = tf_buffer_.lookupTransform(map_frame_, msg->header.frame_id, ros::Time(0));
+        }
+        catch (tf2::TransformException &ex)
+        {
+            ROS_WARN("%s",ex.what());
+            return;
+        }
+        tf2::doTransform(*msg,transformed_point,transform_stamped);
+    }
+    else
+    {
+        transformed_point = *msg;
+    }
+    field_map_.red_buoys.push_back(transformed_point.point);
+    save_and_publish_();
+    return;
+}
+
+void field_map_clicker::white_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg)
+{
+    field_map_.header.stamp = msg->header.stamp;
+    geometry_msgs::PointStamped transformed_point;
+    geometry_msgs::TransformStamped transform_stamped;
+    if(msg->header.frame_id != map_frame_)
+    {
+        try
+        {
+            transform_stamped = tf_buffer_.lookupTransform(map_frame_, msg->header.frame_id, ros::Time(0));
+        }
+        catch (tf2::TransformException &ex)
+        {
+            ROS_WARN("%s",ex.what());
+            return;
+        }
+        tf2::doTransform(*msg,transformed_point,transform_stamped);
+    }
+    else
+    {
+        transformed_point = *msg;
+    }
+    field_map_.white_buoys.push_back(transformed_point.point);
+    save_and_publish_();
     return;
 }
 
@@ -70,57 +125,6 @@ void field_map_clicker::save_and_publish_()
         csv_file << line_str << std::endl;
     }
     csv_file.close();
-    return;
-}
-
-void field_map_clicker::red_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg)
-{
-    field_map_.header.stamp = msg->header.stamp;
-    geometry_msgs::PointStamped transformed_point;
-    geometry_msgs::TransformStamped transform_stamped;
-    if(msg->header.frame_id != map_frame_)
-    {
-        try
-        {
-            transform_stamped = tf_buffer_.lookupTransform(map_frame_, msg->header.frame_id, ros::Time(0));
-        }
-        catch (tf2::TransformException &ex)
-        {
-            ROS_WARN("%s",ex.what());
-            return;
-        }
-        tf2::doTransform(*msg,transformed_point,transform_stamped);
-    }
-    else
-    {
-        transformed_point = *msg;
-    }
-    field_map_.red_buoys.push_back(transformed_point.point);
-    return;
-}
-
-void field_map_clicker::white_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg)
-{
-    field_map_.header.stamp = msg->header.stamp;
-    geometry_msgs::PointStamped transformed_point;
-    geometry_msgs::TransformStamped transform_stamped;
-    if(msg->header.frame_id != map_frame_)
-    {
-        try
-        {
-            transform_stamped = tf_buffer_.lookupTransform(map_frame_, msg->header.frame_id, ros::Time(0));
-        }
-        catch (tf2::TransformException &ex)
-        {
-            ROS_WARN("%s",ex.what());
-            return;
-        }
-        tf2::doTransform(*msg,transformed_point,transform_stamped);
-    }
-    else
-    {
-        transformed_point = *msg;
-    }
-    field_map_.white_buoys.push_back(transformed_point.point);
+    field_map_pub_.publish(field_map_);
     return;
 }
