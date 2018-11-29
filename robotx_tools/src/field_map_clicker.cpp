@@ -6,7 +6,6 @@ field_map_clicker::field_map_clicker() : tf_listener_(tf_buffer_)
     pnh_ = ros::NodeHandle("~");
     pnh_.param<std::string>("map_frame", map_frame_, "map");
     field_map_.header.frame_id = map_frame_;
-    field_map_pub_ = nh_.advertise<robotx_msgs::FieldMap>("/field_map",10);
     green_buoy_sub_ = nh_.subscribe("/green_buoy/plant/point",10,&field_map_clicker::green_buoy_callback_,this);
     red_buoy_sub_ = nh_.subscribe("/red_buoy/plant/point",10,&field_map_clicker::red_buoy_callback_,this);
     white_buoy_sub_ = nh_.subscribe("/white_buoy/plant/point",10,&field_map_clicker::white_buoy_callback_,this);
@@ -40,7 +39,7 @@ void field_map_clicker::green_buoy_callback_(const geometry_msgs::PointStamped::
         transformed_point = *msg;
     }
     field_map_.green_buoys.push_back(transformed_point.point);
-    save_and_publish_();
+    save_();
     return;
 }
 
@@ -67,7 +66,7 @@ void field_map_clicker::red_buoy_callback_(const geometry_msgs::PointStamped::Co
         transformed_point = *msg;
     }
     field_map_.red_buoys.push_back(transformed_point.point);
-    save_and_publish_();
+    save_();
     return;
 }
 
@@ -94,11 +93,11 @@ void field_map_clicker::white_buoy_callback_(const geometry_msgs::PointStamped::
         transformed_point = *msg;
     }
     field_map_.white_buoys.push_back(transformed_point.point);
-    save_and_publish_();
+    save_();
     return;
 }
 
-void field_map_clicker::save_and_publish_()
+void field_map_clicker::save_()
 {
     std::ofstream csv_file;
     std::string green_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/green_buoys.csv";
@@ -125,6 +124,5 @@ void field_map_clicker::save_and_publish_()
         csv_file << line_str << std::endl;
     }
     csv_file.close();
-    field_map_pub_.publish(field_map_);
     return;
 }

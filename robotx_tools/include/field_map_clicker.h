@@ -25,7 +25,6 @@ private:
     ros::NodeHandle pnh_;
     tf2_ros::Buffer tf_buffer_;
     tf2_ros::TransformListener tf_listener_;
-    ros::Publisher field_map_pub_;
     ros::Subscriber green_buoy_sub_;
     void green_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg);
     std::vector<geometry_msgs::Point> green_buoy_positions_;
@@ -35,7 +34,7 @@ private:
     ros::Subscriber white_buoy_sub_;
     void white_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg);
     std::vector<geometry_msgs::Point> white_buoy_positions_;
-    void save_and_publish_();
+    void save_();
     robotx_msgs::FieldMap field_map_;
 };
 
