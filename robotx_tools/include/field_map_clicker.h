@@ -17,7 +17,7 @@
 class field_map_clicker
 {
 public:
-    field_map_clicker();
+    field_map_clicker(ros::NodeHandle nh,ros::NodeHandle pnh);
     ~field_map_clicker();
 private:
     std::string map_frame_;

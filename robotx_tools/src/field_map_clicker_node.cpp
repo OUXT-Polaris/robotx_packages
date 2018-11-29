@@ -6,7 +6,9 @@
 
 int main(int argc, char *argv[]) {
   ros::init(argc, argv, "field_map_clicker_node");
-  field_map_clicker clicker();
+  ros::NodeHandle nh = ros::NodeHandle();
+  ros::NodeHandle pnh = ros::NodeHandle("~");
+  field_map_clicker clicker(nh,pnh);
   ros::spin();
   return 0;
 }

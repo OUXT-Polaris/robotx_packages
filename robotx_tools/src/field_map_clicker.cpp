@@ -1,9 +1,9 @@
 #include <field_map_clicker.h>
 
-field_map_clicker::field_map_clicker() : tf_listener_(tf_buffer_)
+field_map_clicker::field_map_clicker(ros::NodeHandle nh,ros::NodeHandle pnh) : tf_listener_(tf_buffer_)
 {
-    nh_ = ros::NodeHandle();
-    pnh_ = ros::NodeHandle("~");
+    nh_ = nh;
+    pnh_ = pnh;;
     pnh_.param<std::string>("map_frame", map_frame_, "map");
     field_map_.header.frame_id = map_frame_;
     green_buoy_sub_ = nh_.subscribe("/green_buoy/plant/point",10,&field_map_clicker::green_buoy_callback_,this);
@@ -100,7 +100,7 @@ void field_map_clicker::white_buoy_callback_(const geometry_msgs::PointStamped::
 void field_map_clicker::save_()
 {
     std::ofstream csv_file;
-    std::string green_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/green_buoys.csv";
+    std::string green_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/tmp/green_buoys.csv";
     csv_file.open(green_buoy_csv, std::ios::trunc);
     for(auto buoy_itr = field_map_.green_buoys.begin(); buoy_itr != field_map_.green_buoys.end(); buoy_itr++)
     {
@@ -108,7 +108,7 @@ void field_map_clicker::save_()
         csv_file << line_str << std::endl;
     }
     csv_file.close();
-    std::string red_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/red_buoys.csv";
+    std::string red_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/tmp/red_buoys.csv";
     csv_file.open(red_buoy_csv, std::ios::trunc);
     for(auto buoy_itr = field_map_.red_buoys.begin(); buoy_itr != field_map_.red_buoys.end(); buoy_itr++)
     {
@@ -116,7 +116,7 @@ void field_map_clicker::save_()
         csv_file << line_str << std::endl;
     }
     csv_file.close();
-    std::string white_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/white_buoys.csv";
+    std::string white_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/tmp/white_buoys.csv";
     csv_file.open(white_buoy_csv, std::ios::trunc);
     for(auto buoy_itr = field_map_.white_buoys.begin(); buoy_itr != field_map_.white_buoys.end(); buoy_itr++)
     {
