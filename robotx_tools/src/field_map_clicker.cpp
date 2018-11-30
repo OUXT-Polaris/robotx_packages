@@ -108,6 +108,7 @@ void field_map_clicker::save_()
         csv_file << line_str << std::endl;
     }
     csv_file.close();
+    ROS_INFO_STREAM("save file to : " << green_buoy_csv);
     std::string red_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/tmp/red_buoys.csv";
     csv_file.open(red_buoy_csv, std::ios::trunc);
     for(auto buoy_itr = field_map_.red_buoys.begin(); buoy_itr != field_map_.red_buoys.end(); buoy_itr++)
@@ -116,6 +117,7 @@ void field_map_clicker::save_()
         csv_file << line_str << std::endl;
     }
     csv_file.close();
+    ROS_INFO_STREAM("save file to : " << red_buoy_csv);
     std::string white_buoy_csv = ros::package::getPath("robotx_navigation") +"/data/tmp/white_buoys.csv";
     csv_file.open(white_buoy_csv, std::ios::trunc);
     for(auto buoy_itr = field_map_.white_buoys.begin(); buoy_itr != field_map_.white_buoys.end(); buoy_itr++)
@@ -124,5 +126,6 @@ void field_map_clicker::save_()
         csv_file << line_str << std::endl;
     }
     csv_file.close();
+    ROS_INFO_STREAM("save file to : " << white_buoy_csv);
     return;
 }
