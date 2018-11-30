@@ -182,6 +182,13 @@ int PlantRedBuoyTool::processMouseEvent( rviz::ViewportMouseEvent& event )
     {
       makeFlag( intersection );
       current_flag_property_ = NULL; // Drop the reference so that deactivate() won't remove it.
+      geometry_msgs::PointStamped ps;
+      ps.header.stamp = ros::Time::now();
+      ps.header.frame_id = context_->getFrameManager()->getFixedFrame();
+      ps.point.x = intersection.x;//event.x;
+      ps.point.y = intersection.y;//event.y;
+      ps.point.z = intersection.z;//0;
+      point_pub_.publish(ps);
       return Render | Finished;
     }
   }

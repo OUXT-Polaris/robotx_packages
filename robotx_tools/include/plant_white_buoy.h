@@ -32,6 +32,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/PointStamped.h>
 #include <rviz/tool.h>
+#include <rviz/frame_manager.h>
 
 namespace Ogre
 {
