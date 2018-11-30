@@ -8,3 +8,4 @@ world_frame : world
 robot_frame : base_link
 update_rate: 10
 gps_update_rate : 1
+detection_range : 10

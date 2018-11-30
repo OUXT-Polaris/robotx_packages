@@ -39,6 +39,11 @@
         <rosparam command="load" file="$(find robotx_navigation)/config/field_map_server.yaml"/>
     </node>
 
+    <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_map_server.yaml"/>
+    </node>
+
     <include file="$(find robotx_decision_maker)/launch/decision_maker.launch">
     </include>
+
 </launch>

@@ -7,6 +7,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     pnh_.param<int>("utm_zone", utm_zone_, 0);
     pnh_.param<double>("update_rate", update_rate_, 10);
     pnh_.param<double>("gps_update_rate", gps_update_rate_, 1);
+    pnh_.param<double>("detection_range", detection_range_, 10.0);
     pnh_.param<bool>("southhemi", southhemi_, false);
     pnh_.param<std::string>("gps_frame", gps_frame_, "gps");
     pnh_.param<std::string>("world_frame", world_frame_, "world");
@@ -19,13 +20,21 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     gps_twist_pub_ = nh_.advertise<geometry_msgs::TwistStamped>(gps_twist_topic_,1);
     true_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose/truth",1);
     navigation_trigger_event_pub_ = nh_.advertise<robotx_msgs::Event>("/robotx_state_machine_node/navigation_state_machine/trigger_event",1);
+    obstacles_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>("/euclidean_clustering_node/bbox",1);
     twist_cmd_sub_ = nh_.subscribe("/cmd_vel",1,&navi_sim::cmd_vel_callback,this);
     init_pose_sub_ = nh_.subscribe("/initialpose",1,&navi_sim::init_pose_callback_,this);
+    field_map_sub_ = nh_.subscribe("/field_map",1,&navi_sim::field_map_callback_,this);
 }
 
 navi_sim::~navi_sim()
 {
 
+}
+
+void navi_sim::field_map_callback_(const robotx_msgs::FieldMap::ConstPtr msg)
+{
+    field_map_ = *msg;
+    return;
 }
 
 void navi_sim::cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg)
@@ -146,6 +155,10 @@ void navi_sim::update_pose_()
             true_pose_pub_.publish(pose3d);
             current_pose_ = new_pose;
         }
+        if(field_map_)
+        {
+            jsk_recognition_msgs::BoundingBoxArray obstacles = get_obstacles_();
+        }
         mtx_.unlock();
         rate.sleep();
     }
@@ -157,4 +170,10 @@ void navi_sim::run()
     boost::thread update_pose_thread_(&navi_sim::update_pose_,this);
     boost::thread update_gps_thread_(&navi_sim::update_gps_,this);
     return;
+}
+
+jsk_recognition_msgs::BoundingBoxArray navi_sim::get_obstacles_()
+{
+    jsk_recognition_msgs::BoundingBoxArray obstacles;
+    return obstacles;
 }

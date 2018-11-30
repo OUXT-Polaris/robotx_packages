@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   robotx_msgs
   tf
   geodesy
+  jsk_recognition_msgs
 )
 
 find_package(PythonLibs)
