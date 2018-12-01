@@ -22,6 +22,7 @@
 
 //headers in boost
 #include <boost/optional.hpp>
+#include <boost/circular_buffer.hpp>
 
 //headers in robotx_msgs
 #include <robotx_msgs/FieldMap.h>
@@ -69,8 +70,10 @@ private:
     void cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg);
     void field_map_callback_(const robotx_msgs::FieldMap::ConstPtr msg);
     void init_pose_callback_(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr msg);
+    double get_diff_angle_(double from,double to);
     boost::optional<jsk_recognition_msgs::BoundingBoxArray> get_obstacles_();
     tf2_ros::Buffer tf_buffer_;
     tf2_ros::TransformListener tf_listener_;
+    boost::circular_buffer<double> true_course_buf_;
 };
 #endif  //NAVI_SIM_H_INCLUDED

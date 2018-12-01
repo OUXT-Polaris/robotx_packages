@@ -90,6 +90,23 @@ void navi_sim::init_pose_callback_(const geometry_msgs::PoseWithCovarianceStampe
     return;
 }
 
+double navi_sim::get_diff_angle_(double from,double to)
+{
+    double ans = 0;
+    double inner_prod = std::cos(from)*std::cos(to)+std::sin(from)*std::sin(to);
+    double theta = std::acos(inner_prod);
+    double outer_prod = std::cos(from)*std::sin(to)-std::sin(from)*std::cos(to);
+    if(outer_prod > 0)
+    {
+        ans = theta;
+    }
+    else
+    {
+        ans = -1 * theta;
+    }
+    return ans;
+}
+
 void navi_sim::update_gps_()
 {
     ros::Rate rate(gps_update_rate_);
@@ -121,12 +138,18 @@ void navi_sim::update_gps_()
             quat_msg.header.frame_id = gps_frame_;
             quat_msg.header.stamp = now;
             tf::Quaternion quat = tf::createQuaternionFromRPY(0,0,current_pose_->theta);
+            true_course_buf_.push_back(current_pose_->theta);
             quaternionTFToMsg(quat, quat_msg.quaternion);
             true_course_pub_.publish(quat_msg);
             geometry_msgs::TwistStamped gps_twist;
             gps_twist.header.frame_id = gps_frame_;
             gps_twist.header.stamp = now;
             gps_twist.twist.linear.x = current_twist_.linear.x;
+            if(true_course_buf_.size() == 2)
+            {
+                ROS_ERROR_STREAM(true_course_buf_[1] << "," << true_course_buf_[0]);
+                gps_twist.twist.angular.z = get_diff_angle_(true_course_buf_[1],true_course_buf_[0])/gps_update_rate_;
+            }
             gps_twist_pub_.publish(gps_twist);
         }
         mtx_.unlock();

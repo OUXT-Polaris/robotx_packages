@@ -48,6 +48,7 @@
   <run_depend>robotx_decision_maker</run_depend>
   <run_depend>geodesy</run_depend>
   <run_depend>jsk_recognition_msgs</run_depend>
+  <run_depend>robot_pose_ekf</run_depend>
 
   <export>
     <rviz plugin="${prefix}/plugin_description.xml"/>
