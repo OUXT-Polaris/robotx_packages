@@ -126,7 +126,7 @@ void navi_sim::update_gps_()
             geometry_msgs::TwistStamped gps_twist;
             gps_twist.header.frame_id = gps_frame_;
             gps_twist.header.stamp = now;
-            gps_twist.twist = current_twist_;
+            gps_twist.twist.linear.x = current_twist_.linear.x;
             gps_twist_pub_.publish(gps_twist);
         }
         mtx_.unlock();
