@@ -22,4 +22,10 @@
       Lat Lon Ruler Panel
     </description>
   </class>
+
+  <class name="robotx_tools/WaypointClickerPanel" type="robotx_tools::WaypointClickerPanel" base_class_type="rviz::Panel">
+    <description>
+      Waypoint Clicker Panel
+    </description>
+  </class>
 </library>

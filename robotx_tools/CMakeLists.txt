@@ -96,6 +96,7 @@ target_link_libraries(field_map_clicker_node ${catkin_LIBRARIES})
 clang_format(field_map_clicker_node)
 
 add_library(map_editor_plugin
+  src/waypoint_clicker_plugin.cpp include/waypoint_clicker_plugin.h
   src/plant_green_buoy.cpp include/plant_green_buoy.h
   src/plant_red_buoy.cpp include/plant_red_buoy.h
   src/plant_white_buoy.cpp include/plant_white_buoy.h
