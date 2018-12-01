@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="baselink_to_velodyne" args="1 0 0 0 0 0 1 base_link velodyne" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/navi_sim.rviz" respawn="false" />
+
+    <node name="navi_sim_node" pkg="robotx_tools" type="navi_sim_node" args="" output="screen" respawn="false">
+        <rosparam command="load" file="$(find robotx_tools)/config/navi_sim.yaml"/>
+    </node>
+
+    <node name="field_map_clicker_node" pkg="robotx_tools" type="field_map_clicker_node" args="" output="screen" respawn="false">
+        <rosparam command="load" file="$(find robotx_tools)/config/field_map_clicker.yaml"/>
+    </node>
+
+    <node name="waypoint_clicker_node" pkg="robotx_tools" type="waypoint_clicker_node" args="" output="screen" respawn="false">
+        <rosparam command="load" file="$(find robotx_tools)/config/waypoiont_clicker.yaml"/>
+    </node>
+
+    <node name="state_visualizer_node" pkg="robotx_tools" type="state_visualizer_node" args="" output="screen" respawn="false">
+    </node>
+
+    <include file="$(find robotx_navigation)/launch/geographic_map.launch" />
+
+    <node name="obstacle_avoid_node" pkg="robotx_navigation" type="obstacle_avoid_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_avoid.yaml"/>
+    </node>
+
+    <node name="world_pose_publisher_node" pkg="robotx_navigation" type="world_pose_publisher_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/world_pose_publisher.yaml"/>
+    </node>
+
+    <node name="carrot_planner_node" pkg="robotx_navigation" type="carrot_planner_node" args="" output="screen" respawn="true">
+    <rosparam command="load" file="$(find robotx_navigation)/config/carrot_planner.yaml"/>
+    </node>
+
+    <node name="waypoint_server_node" pkg="robotx_navigation" type="waypoint_server_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/waypoint_server.yaml"/>
+    </node>
+
+    <node name="field_map_server_node" pkg="robotx_navigation" type="field_map_server_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/field_map_server.yaml"/>
+    </node>
+
+    <node name="obstacle_map_server_node" pkg="robotx_navigation" type="obstacle_map_server_node" args="" output="screen" respawn="true">
+        <rosparam command="load" file="$(find robotx_navigation)/config/obstacle_map_server.yaml"/>
+    </node>
+
+    <include file="$(find robotx_decision_maker)/launch/decision_maker.launch">
+    </include>
+
+</launch>

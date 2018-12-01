@@ -16,6 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   rviz
   robotx_msgs
   tf
+  geodesy
+  jsk_recognition_msgs
 )
 
 find_package(PythonLibs)
@@ -42,7 +44,9 @@ generate_messages(
 ###################################
 ## catkin specific configuration ##
 ###################################
-catkin_package()
+catkin_package(
+  DEPENDS rviz
+)
 
 ###########
 ## Build ##
@@ -58,9 +62,6 @@ include_directories(
 
 link_directories(${catkin_LIBRARY_DIRS})
 
-## This setting causes Qt's "MOC" generation to happen automatically.
-set(CMAKE_AUTOMOC ON)
-
 ## This plugin includes Qt widgets, so we must include Qt.
 ## We'll use the version that rviz used so they are compatible.
 if(rviz_QT_VERSION VERSION_LESS "5")
@@ -75,17 +76,8 @@ else()
   set(QT_LIBRARIES Qt5::Widgets)
 endif()
 
-add_definitions(-DQT_NO_KEYWORDS)
-
-add_library(overlay_gps_display
-  src/overlay_gps_display.cpp
-  src/overlay_utils.cpp
-  include/overlay_gps_display.h
-  include/overlay_utils.h
-)
-
-target_link_libraries(overlay_gps_display ${QT_LIBRARIES} ${catkin_LIBRARIES} ${PYTHON_LIBRARY} ${OpenCV_LIBRARIES})
-clang_format(overlay_gps_display)
+add_definitions(-DQT_NO_KEYWORDS -g)
+set(CMAKE_AUTOMOC ON)
 
 set(cnn_result_visualizer_src src/cnn_result_visualizer.cpp)
 add_executable(cnn_result_visualizer_node src/cnn_result_visualizer_node.cpp ${cnn_result_visualizer_src})
@@ -98,11 +90,32 @@ add_executable(fake_technical_director_network ${fake_technical_director_network
 target_link_libraries(fake_technical_director_network ${Boost_LIBRARIES})
 clang_format(fake_technical_director_network)
 
+add_executable(field_map_clicker_node src/field_map_clicker.cpp src/field_map_clicker_node.cpp)
+add_dependencies(field_map_clicker_node robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES})
+target_link_libraries(field_map_clicker_node ${catkin_LIBRARIES})
+clang_format(field_map_clicker_node)
+
+add_library(map_editor_plugin
+  src/plant_green_buoy.cpp include/plant_green_buoy.h
+  src/plant_red_buoy.cpp include/plant_red_buoy.h
+  src/plant_white_buoy.cpp include/plant_white_buoy.h
+  src/lat_lon_ruler.cpp include/lat_lon_ruler.h src/UTM.cpp include/UTM.h)
+target_link_libraries(map_editor_plugin ${catkin_LIBRARIES} ${QT_LIBRARIES} ${rviz_DEFAULT_PLUGIN_LIBRARIES})
+
+add_executable(navi_sim_node src/navi_sim.cpp src/navi_sim_node.cpp)
+target_link_libraries(navi_sim_node ${catkin_LIBRARIES})
+
+add_executable(waypoint_clicker_node src/waypoint_clicker.cpp src/waypoint_clicker_node.cpp)
+target_link_libraries(waypoint_clicker_node ${catkin_LIBRARIES})
+
+add_executable(state_visualizer_node src/state_visualizer.cpp src/state_visualizer_node.cpp)
+target_link_libraries(state_visualizer_node ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS overlay_gps_display cnn_result_visualizer_node
+install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node field_map_clicker_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
