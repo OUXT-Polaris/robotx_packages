@@ -4,6 +4,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
 {
     nh_ = ros::NodeHandle();
     pnh_ = ros::NodeHandle("~");
+    true_course_buf_ = boost::circular_buffer<double>(2);
     pnh_.param<int>("utm_zone", utm_zone_, 0);
     pnh_.param<double>("update_rate", update_rate_, 10);
     pnh_.param<double>("gps_update_rate", gps_update_rate_, 1);
@@ -147,7 +148,6 @@ void navi_sim::update_gps_()
             gps_twist.twist.linear.x = current_twist_.linear.x;
             if(true_course_buf_.size() == 2)
             {
-                ROS_ERROR_STREAM(true_course_buf_[1] << "," << true_course_buf_[0]);
                 gps_twist.twist.angular.z = get_diff_angle_(true_course_buf_[1],true_course_buf_[0])/gps_update_rate_;
             }
             gps_twist_pub_.publish(gps_twist);
