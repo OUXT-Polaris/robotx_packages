@@ -1,7 +1,25 @@
-<library path="lib/liboverlay_gps_display">
-  <class name="robotx_visualization/OverlayGpsDisplay" type="robotx_visualization::OverlayGpsDisplay" base_class_type="rviz::Display">
+<library path="lib/libmap_editor_plugin">
+  <class name="robotx_tools/PlantGreenBuoyTool" type="robotx_tools::PlantGreenBuoyTool" base_class_type="rviz::Tool">
     <description>
-      display sensor_msgs/NavSatFix message
+      Tool for plant green buoy
+    </description>
+  </class>
+
+  <class name="robotx_tools/PlantRedBuoyTool" type="robotx_tools::PlantRedBuoyTool" base_class_type="rviz::Tool">
+    <description>
+      Tool for plant red buoy
+    </description>
+  </class>
+
+  <class name="robotx_tools/PlantWhiteBuoyTool" type="robotx_tools::PlantWhiteBuoyTool" base_class_type="rviz::Tool">
+    <description>
+      Tool for plant red buoy
+    </description>
+  </class>
+
+  <class name="robotx_tools/LatLonRulerPanel" type="robotx_tools::LatLonRulerPanel" base_class_type="rviz::Panel">
+    <description>
+      Lat Lon Ruler Panel
     </description>
   </class>
 </library>
