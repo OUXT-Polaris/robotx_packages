@@ -7,11 +7,14 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     pnh_.param<int>("utm_zone", utm_zone_, 0);
     pnh_.param<double>("update_rate", update_rate_, 10);
     pnh_.param<double>("gps_update_rate", gps_update_rate_, 1);
+    pnh_.param<double>("velodyne_rate", velodyne_rate_, 10.0);
     pnh_.param<double>("detection_range", detection_range_, 10.0);
+    pnh_.param<double>("buoy_bbox_size", buoy_bbox_size_, 1.0);
     pnh_.param<bool>("southhemi", southhemi_, false);
     pnh_.param<std::string>("gps_frame", gps_frame_, "gps");
     pnh_.param<std::string>("world_frame", world_frame_, "world");
     pnh_.param<std::string>("robot_frame", robot_frame_, "base_link");
+    pnh_.param<std::string>("velodyne_frame", velodyne_frame_, "velodyne");
     pnh_.param<std::string>("fix_topic", fix_topic_, "/fix");
     pnh_.param<std::string>("gps_twist_topic", gps_twist_topic_, "/fix/twist");
     pnh_.param<std::string>("true_course_topic", true_course_topic_, "/true_course");
@@ -132,6 +135,33 @@ void navi_sim::update_gps_()
     return;
 }
 
+void navi_sim::update_obstacle_()
+{
+    ros::Rate rate(velodyne_rate_);
+    while(ros::ok())
+    {
+        mtx_.lock();
+        if(field_map_ && current_pose_)
+        {
+            boost::optional<jsk_recognition_msgs::BoundingBoxArray> obstacles = get_obstacles_();
+            if(obstacles)
+            {
+                obstacles_pub_.publish(*obstacles);
+            }
+            else
+            {
+                jsk_recognition_msgs::BoundingBoxArray empty_bbox;
+                empty_bbox.header.frame_id = velodyne_frame_;
+                empty_bbox.header.stamp = ros::Time::now();
+                obstacles_pub_.publish(empty_bbox);
+            }
+        }
+        mtx_.unlock();
+        rate.sleep();
+    }
+    return;
+}
+
 void navi_sim::update_pose_()
 {
     ros::Rate rate(update_rate_);
@@ -155,10 +185,6 @@ void navi_sim::update_pose_()
             true_pose_pub_.publish(pose3d);
             current_pose_ = new_pose;
         }
-        if(field_map_)
-        {
-            jsk_recognition_msgs::BoundingBoxArray obstacles = get_obstacles_();
-        }
         mtx_.unlock();
         rate.sleep();
     }
@@ -169,11 +195,102 @@ void navi_sim::run()
 {
     boost::thread update_pose_thread_(&navi_sim::update_pose_,this);
     boost::thread update_gps_thread_(&navi_sim::update_gps_,this);
+    boost::thread update_velodyne_thread_(&navi_sim::update_obstacle_,this);
     return;
 }
 
-jsk_recognition_msgs::BoundingBoxArray navi_sim::get_obstacles_()
+boost::optional<jsk_recognition_msgs::BoundingBoxArray> navi_sim::get_obstacles_()
 {
     jsk_recognition_msgs::BoundingBoxArray obstacles;
+    if(!current_pose_)
+    {
+        return boost::none;
+    }
+    obstacles.header.frame_id = velodyne_frame_;
+    obstacles.header.stamp = ros::Time::now();
+
+    geometry_msgs::TransformStamped transform_stamped;
+    try
+    {
+        transform_stamped = tf_buffer_.lookupTransform(velodyne_frame_, field_map_->header.frame_id, ros::Time(0));
+    }
+    catch (tf2::TransformException &ex)
+    {
+        ROS_WARN("%s",ex.what());
+        return boost::none;
+    }
+    ros::Time now = ros::Time::now();
+    for(auto buoy_itr = field_map_->red_buoys.begin(); buoy_itr != field_map_->red_buoys.end(); buoy_itr++)
+    {
+        geometry_msgs::PointStamped map_point;
+        map_point.header = field_map_->header;
+        map_point.point = *buoy_itr;
+        geometry_msgs::PointStamped transformed_point;
+        tf2::doTransform(map_point,transformed_point,transform_stamped);
+        double distance = std::sqrt(std::pow(transformed_point.point.x,2)+std::pow(transformed_point.point.y,2));
+        if(detection_range_ > distance)
+        {
+            jsk_recognition_msgs::BoundingBox bbox;
+            bbox.header.frame_id = velodyne_frame_;
+            bbox.header.stamp = now;
+            bbox.pose.position = transformed_point.point;
+            bbox.pose.orientation.x = 0;
+            bbox.pose.orientation.y = 0;
+            bbox.pose.orientation.z = 0;
+            bbox.pose.orientation.w = 1;
+            bbox.dimensions.x = buoy_bbox_size_;
+            bbox.dimensions.y = buoy_bbox_size_;
+            bbox.dimensions.z = buoy_bbox_size_;
+            obstacles.boxes.push_back(bbox);
+        }
+    }
+    for(auto buoy_itr = field_map_->green_buoys.begin(); buoy_itr != field_map_->green_buoys.end(); buoy_itr++)
+    {
+        geometry_msgs::PointStamped map_point;
+        map_point.header = field_map_->header;
+        map_point.point = *buoy_itr;
+        geometry_msgs::PointStamped transformed_point;
+        tf2::doTransform(map_point,transformed_point,transform_stamped);
+        double distance = std::sqrt(std::pow(transformed_point.point.x,2)+std::pow(transformed_point.point.y,2));
+        if(detection_range_ > distance)
+        {
+            jsk_recognition_msgs::BoundingBox bbox;
+            bbox.header.frame_id = velodyne_frame_;
+            bbox.header.stamp = now;
+            bbox.pose.position = transformed_point.point;
+            bbox.pose.orientation.x = 0;
+            bbox.pose.orientation.y = 0;
+            bbox.pose.orientation.z = 0;
+            bbox.pose.orientation.w = 1;
+            bbox.dimensions.x = buoy_bbox_size_;
+            bbox.dimensions.y = buoy_bbox_size_;
+            bbox.dimensions.z = buoy_bbox_size_;
+            obstacles.boxes.push_back(bbox);
+        }
+    }
+    for(auto buoy_itr = field_map_->white_buoys.begin(); buoy_itr != field_map_->white_buoys.end(); buoy_itr++)
+    {
+        geometry_msgs::PointStamped map_point;
+        map_point.header = field_map_->header;
+        map_point.point = *buoy_itr;
+        geometry_msgs::PointStamped transformed_point;
+        tf2::doTransform(map_point,transformed_point,transform_stamped);
+        double distance = std::sqrt(std::pow(transformed_point.point.x,2)+std::pow(transformed_point.point.y,2));
+        if(detection_range_ > distance)
+        {
+            jsk_recognition_msgs::BoundingBox bbox;
+            bbox.header.frame_id = velodyne_frame_;
+            bbox.header.stamp = now;
+            bbox.pose.position = transformed_point.point;
+            bbox.pose.orientation.x = 0;
+            bbox.pose.orientation.y = 0;
+            bbox.pose.orientation.z = 0;
+            bbox.pose.orientation.w = 1;
+            bbox.dimensions.x = buoy_bbox_size_;
+            bbox.dimensions.y = buoy_bbox_size_;
+            bbox.dimensions.z = buoy_bbox_size_;
+            obstacles.boxes.push_back(bbox);
+        }
+    }
     return obstacles;
 }

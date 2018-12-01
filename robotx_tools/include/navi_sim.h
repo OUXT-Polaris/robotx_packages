@@ -52,6 +52,7 @@ private:
     std::string gps_frame_;
     std::string world_frame_;
     std::string robot_frame_;
+    std::string velodyne_frame_;
     std::string fix_topic_;
     std::string gps_twist_topic_;
     std::string true_course_topic_;
@@ -59,13 +60,16 @@ private:
     int utm_zone_;
     double update_rate_;
     double gps_update_rate_;
+    double velodyne_rate_;
     double detection_range_;
+    double buoy_bbox_size_;
+    void update_obstacle_();
     void update_pose_();
     void update_gps_();
     void cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg);
     void field_map_callback_(const robotx_msgs::FieldMap::ConstPtr msg);
     void init_pose_callback_(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr msg);
-    jsk_recognition_msgs::BoundingBoxArray get_obstacles_();
+    boost::optional<jsk_recognition_msgs::BoundingBoxArray> get_obstacles_();
     tf2_ros::Buffer tf_buffer_;
     tf2_ros::TransformListener tf_listener_;
 };
