@@ -112,11 +112,14 @@ target_link_libraries(waypoint_clicker_node ${catkin_LIBRARIES})
 add_executable(state_visualizer_node src/state_visualizer.cpp src/state_visualizer_node.cpp)
 target_link_libraries(state_visualizer_node ${catkin_LIBRARIES})
 
+add_executable(cmd_vel_visualizer_node src/cmd_vel_visualizer_node.cpp src/cmd_vel_visualizer)
+target_link_libraries(cmd_vel_visualizer_node ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node field_map_clicker_node
+install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node field_map_clicker_node cmd_vel_visualizer_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
