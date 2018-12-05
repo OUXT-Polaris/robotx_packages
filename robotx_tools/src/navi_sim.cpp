@@ -5,12 +5,14 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     nh_ = ros::NodeHandle();
     pnh_ = ros::NodeHandle("~");
     pnh_.param<int>("utm_zone", utm_zone_, 0);
+    pnh_.param<double>("imu_update_rate", imu_update_rate_, 100);
     pnh_.param<double>("update_rate", update_rate_, 10);
     pnh_.param<double>("gps_update_rate", gps_update_rate_, 1);
     pnh_.param<double>("velodyne_rate", velodyne_rate_, 10.0);
     pnh_.param<double>("detection_range", detection_range_, 10.0);
     pnh_.param<double>("buoy_bbox_size", buoy_bbox_size_, 1.0);
     pnh_.param<bool>("southhemi", southhemi_, false);
+    pnh_.param<std::string>("imu_frame", imu_frame_, "imu");
     pnh_.param<std::string>("gps_frame", gps_frame_, "gps");
     pnh_.param<std::string>("world_frame", world_frame_, "world");
     pnh_.param<std::string>("robot_frame", robot_frame_, "base_link");
@@ -24,6 +26,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     true_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose/truth",1);
     navigation_trigger_event_pub_ = nh_.advertise<robotx_msgs::Event>("/robotx_state_machine_node/navigation_state_machine/trigger_event",1);
     obstacles_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>("/euclidean_clustering_node/bbox",1);
+    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data",1);
     twist_cmd_sub_ = nh_.subscribe("/cmd_vel",1,&navi_sim::cmd_vel_callback,this);
     init_pose_sub_ = nh_.subscribe("/initialpose",1,&navi_sim::init_pose_callback_,this);
     field_map_sub_ = nh_.subscribe("/field_map",1,&navi_sim::field_map_callback_,this);
@@ -88,6 +91,40 @@ void navi_sim::init_pose_callback_(const geometry_msgs::PoseWithCovarianceStampe
     navigation_trigger_event_pub_.publish(event_msg);
     mtx_.unlock();
     return;
+}
+
+void navi_sim::update_imu_()
+{
+    ros::Rate rate(imu_update_rate_);
+    boost::circular_buffer<geometry_msgs::Pose2D> pose_buf_(2);
+    boost::circular_buffer<geometry_msgs::Twist> twist_buf_(2);
+    while(ros::ok())
+    {
+        mtx_.lock();
+        sensor_msgs::Imu imu_msg;
+        if(current_pose_)
+        {
+            pose_buf_.push_back(*current_pose_);
+            if(pose_buf_.size() == 2)
+            {
+                geometry_msgs::Twist twist;
+                twist.angular.z = get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta)/imu_update_rate_;
+                double range = std::sqrt(std::pow(pose_buf_[0].x-pose_buf_[1].x,2)+std::pow(pose_buf_[0].y-pose_buf_[1].y,2));
+                twist.linear.x = range*std::cos(get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta))/imu_update_rate_;
+                twist.linear.y = range*std::sin(get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta))/imu_update_rate_;
+                twist_buf_.push_back(twist);
+            }
+            if(pose_buf_.size() == 2 && twist_buf_.size() == 2)
+            {
+                imu_msg.linear_acceleration.x = (twist_buf_[1].linear.x-twist_buf_[0].linear.x)/imu_update_rate_;
+                imu_msg.linear_acceleration.y = (twist_buf_[1].linear.y-twist_buf_[0].linear.y)/imu_update_rate_;
+                imu_msg.angular_velocity.z = twist_buf_[1].angular.z;
+                imu_pub_.publish(imu_msg);
+            }
+        }
+        mtx_.unlock();
+        rate.sleep();
+    }
 }
 
 void navi_sim::update_gps_()
@@ -195,6 +232,7 @@ void navi_sim::run()
 {
     boost::thread update_pose_thread_(&navi_sim::update_pose_,this);
     boost::thread update_gps_thread_(&navi_sim::update_gps_,this);
+    boost::thread update_imu_thread_(&navi_sim::update_imu_,this);
     boost::thread update_velodyne_thread_(&navi_sim::update_obstacle_,this);
     return;
 }
@@ -293,4 +331,25 @@ boost::optional<jsk_recognition_msgs::BoundingBoxArray> navi_sim::get_obstacles_
         }
     }
     return obstacles;
+}
+
+double navi_sim::get_diff_angle_(double from,double to)
+{
+    if(from == to)
+    {
+        return 0;
+    }
+    double ans = 0;
+    double inner_prod = std::cos(from)*std::cos(to)+std::sin(from)*std::sin(to);
+    double theta = std::acos(inner_prod);
+    double outer_prod = std::cos(from)*std::sin(to)-std::sin(from)*std::cos(to);
+    if(outer_prod > 0)
+    {
+        ans = theta;
+    }
+    else
+    {
+        ans = -1 * theta;
+    }
+    return ans;
 }
