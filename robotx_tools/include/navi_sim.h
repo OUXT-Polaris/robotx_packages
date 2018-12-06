@@ -20,6 +20,7 @@
 
 //headers in STL
 #include <mutex>
+#include <random>
 
 //headers in boost
 #include <boost/circular_buffer.hpp>

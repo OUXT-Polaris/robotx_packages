@@ -98,6 +98,9 @@ void navi_sim::update_imu_()
     ros::Rate rate(imu_update_rate_);
     boost::circular_buffer<geometry_msgs::Pose2D> pose_buf_(2);
     boost::circular_buffer<geometry_msgs::Twist> twist_buf_(2);
+    std::normal_distribution<> dist(0.0, 0.02);
+    std::random_device seed_gen;
+    std::default_random_engine engine(seed_gen());
     while(ros::ok())
     {
         mtx_.lock();
@@ -110,12 +113,18 @@ void navi_sim::update_imu_()
                 geometry_msgs::Twist twist;
                 twist.angular.z = get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta)/imu_update_rate_;
                 double range = std::sqrt(std::pow(pose_buf_[0].x-pose_buf_[1].x,2)+std::pow(pose_buf_[0].y-pose_buf_[1].y,2));
-                twist.linear.x = range*std::cos(get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta))/imu_update_rate_;
-                twist.linear.y = range*std::sin(get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta))/imu_update_rate_;
+                twist.linear.x = range*std::cos(get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta))/imu_update_rate_+dist(engine);;
+                twist.linear.y = range*std::sin(get_diff_angle_(pose_buf_[0].theta,pose_buf_[1].theta))/imu_update_rate_+dist(engine);;
+                twist.linear.z = dist(engine);
+                twist.angular.x = dist(engine);
+                twist.angular.y = dist(engine);
+                twist.angular.z = dist(engine);
                 twist_buf_.push_back(twist);
             }
             if(pose_buf_.size() == 2 && twist_buf_.size() == 2)
             {
+                imu_msg.header.frame_id = imu_frame_;
+                imu_msg.header.stamp = ros::Time::now();
                 imu_msg.linear_acceleration.x = (twist_buf_[1].linear.x-twist_buf_[0].linear.x)/imu_update_rate_;
                 imu_msg.linear_acceleration.y = (twist_buf_[1].linear.y-twist_buf_[0].linear.y)/imu_update_rate_;
                 imu_msg.angular_velocity.z = twist_buf_[1].angular.z;
@@ -130,6 +139,9 @@ void navi_sim::update_imu_()
 void navi_sim::update_gps_()
 {
     ros::Rate rate(gps_update_rate_);
+    std::normal_distribution<> dist(0.0, 0.1);
+    std::random_device seed_gen;
+    std::default_random_engine engine(seed_gen());
     while(ros::ok())
     {
         mtx_.lock();
@@ -140,8 +152,8 @@ void navi_sim::update_gps_()
             double x = current_pose_->x;
             double y = current_pose_->y;
             geodesy::UTMPoint utm_point;
-            utm_point.northing = current_pose_->y;
-            utm_point.easting = current_pose_->x;
+            utm_point.northing = current_pose_->y  + dist(engine);
+            utm_point.easting = current_pose_->x + dist(engine);
             utm_point.altitude = 0;
             utm_point.zone = utm_zone_;
             utm_point.band = 'Q';
