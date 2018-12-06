@@ -4,5 +4,8 @@
   <include file="$(find robotx_recognition)/launch/recognition.launch"/>
   <include file="$(find robotx_tools)/launch/visualization.launch"/>
   <include file="$(find robotx_driver)/launch/simulation.launch"/>
-  <include file="$(find robotx_navigation)/launch/navigation.launch"/>
+  <!--<include file="$(find robotx_navigation)/launch/navigation.launch"/>-->
+  <group ns="wam_v">
+      <node name="image_proc" pkg="image_proc" type="image_proc" output="screen" ns="front_camera" respawn="true" respawn_delay="0"/>
+  </group>
 </launch>
