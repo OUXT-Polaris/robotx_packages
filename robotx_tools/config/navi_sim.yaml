@@ -7,7 +7,9 @@ gps_frame : base_link
 world_frame : world
 robot_frame : base_link
 velodyne_frame : velodyne
+imu_frame : base_link
 buoy_bbox_size : 2
 update_rate: 10
 gps_update_rate : 1
 detection_range : 10
+imu_update_rate : 100

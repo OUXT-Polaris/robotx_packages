@@ -11,6 +11,7 @@
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <geometry_msgs/QuaternionStamped.h>
 #include <sensor_msgs/NavSatFix.h>
+#include <sensor_msgs/Imu.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf/tf.h>
@@ -19,8 +20,10 @@
 
 //headers in STL
 #include <mutex>
+#include <random>
 
 //headers in boost
+#include <boost/circular_buffer.hpp>
 #include <boost/optional.hpp>
 
 //headers in robotx_msgs
@@ -46,9 +49,11 @@ private:
     ros::Publisher navigation_trigger_event_pub_;
     ros::Publisher true_pose_pub_;
     ros::Publisher obstacles_pub_;
+    ros::Publisher imu_pub_;
     boost::optional<geometry_msgs::Pose2D> current_pose_;
     boost::optional<robotx_msgs::FieldMap> field_map_;
     geometry_msgs::Twist current_twist_;
+    std::string imu_frame_;
     std::string gps_frame_;
     std::string world_frame_;
     std::string robot_frame_;
@@ -58,6 +63,7 @@ private:
     std::string true_course_topic_;
     bool southhemi_;
     int utm_zone_;
+    double imu_update_rate_;
     double update_rate_;
     double gps_update_rate_;
     double velodyne_rate_;
@@ -66,11 +72,13 @@ private:
     void update_obstacle_();
     void update_pose_();
     void update_gps_();
+    void update_imu_();
     void cmd_vel_callback(const geometry_msgs::Twist::ConstPtr msg);
     void field_map_callback_(const robotx_msgs::FieldMap::ConstPtr msg);
     void init_pose_callback_(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr msg);
     boost::optional<jsk_recognition_msgs::BoundingBoxArray> get_obstacles_();
     tf2_ros::Buffer tf_buffer_;
     tf2_ros::TransformListener tf_listener_;
+    double get_diff_angle_(double from,double to);
 };
 #endif  //NAVI_SIM_H_INCLUDED
