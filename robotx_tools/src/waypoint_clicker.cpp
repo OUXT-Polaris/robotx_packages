@@ -107,11 +107,13 @@ void waypoint_clicker::goal_pose_callback_(const geometry_msgs::PoseStamped::Con
     std::ofstream csv_file;
     std::string filename = ros::package::getPath("robotx_navigation") +"/data/clicked_waypoints.csv";
     csv_file.open(filename, std::ios::trunc);
+    int i = 0;
     for(auto pose_2d_itr = target_poses_2d_.begin(); pose_2d_itr != target_poses_2d_.end(); pose_2d_itr++)
     {
-        std::string line_str = waypoint_frame_ + "," + std::to_string(pose_2d_itr->x) + "," 
-            + std::to_string(pose_2d_itr->y) + "," + std::to_string(pose_2d_itr->theta);
+        std::string line_str = std::to_string(i) + "," + waypoint_frame_ + "," + std::to_string(pose_2d_itr->x) + "," 
+            + std::to_string(pose_2d_itr->y) + "," + std::to_string(pose_2d_itr->theta) + ",None";
         csv_file << line_str << std::endl;
+        i++;
     }
     csv_file.close();
     return;
