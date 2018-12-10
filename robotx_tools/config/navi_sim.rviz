@@ -7,6 +7,8 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1
+        - /OverlayText1
+        - /NextWaypoint1
       Splitter Ratio: 0.5
     Tree Height: 749
   - Class: rviz/Selection
@@ -54,11 +56,7 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
-          Value: true
         map:
-          Value: true
-        velodyne:
           Value: true
         world:
           Value: true
@@ -69,9 +67,6 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          base_link:
-            velodyne:
-              {}
           map:
             {}
       Update Interval: 0
@@ -81,7 +76,8 @@ Visualization Manager:
       Marker Topic: /waypoint_clicker_node/marker
       Name: ClickedWaypoints
       Namespaces:
-        {}
+        id: true
+        waypoint: true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -123,17 +119,17 @@ Visualization Manager:
       Foreground Alpha: 0.800000012
       Foreground Color: 25; 255; 240
       Name: OverlayText
-      Overtake Color Properties: false
-      Overtake Position Properties: false
+      Overtake Color Properties: true
+      Overtake Position Properties: true
       Topic: /state_visualizer_node/text
       Value: true
       font: DejaVu Sans Mono
-      height: 128
+      height: 64
       left: 0
       line width: 2
       text size: 12
       top: 0
-      width: 128
+      width: 500
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -221,7 +217,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 9.5595274
+      Scale: 7.62312651
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: -5.70384598

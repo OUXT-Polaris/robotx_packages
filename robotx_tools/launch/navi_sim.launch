@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="baselink_to_velodyne" args="1 0 0 0 0 0 1 base_link velodyne" />
+    <!--<node pkg="tf2_ros" type="static_transform_publisher" name="baselink_to_velodyne" args="1 0 0 0 0 0 1 base_link velodyne" />-->
 
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/navi_sim.rviz" respawn="false" />
 

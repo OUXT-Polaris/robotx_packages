@@ -31,10 +31,13 @@ private:
     ros::Publisher marker_pub_;
     void publish_marker_();
     void goal_pose_callback_(const geometry_msgs::PoseStamped::ConstPtr msg);
+    void add_goal_pose_(const geometry_msgs::PoseStamped::ConstPtr msg);
     tf2_ros::Buffer tf_buffer_;
     tf2_ros::TransformListener tf_listener_;
     std::vector<geometry_msgs::PoseStamped> target_poses_;
     std::vector<geometry_msgs::Pose2D> target_poses_2d_;
+    bool initial_pose_received_;
+    geometry_msgs::PoseStamped::ConstPtr initial_pose_;
 };
 
 #endif  //WAYPOINT_CLICERK_H_INCLUDED

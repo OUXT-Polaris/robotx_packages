@@ -6,7 +6,7 @@ southhemi : false
 gps_frame : base_link
 world_frame : world
 robot_frame : base_link
-velodyne_frame : velodyne
+velodyne_frame : base_link
 imu_frame : base_link
 buoy_bbox_size : 2
 update_rate: 10
