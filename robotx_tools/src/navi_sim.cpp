@@ -342,6 +342,30 @@ boost::optional<jsk_recognition_msgs::BoundingBoxArray> navi_sim::get_obstacles_
             obstacles.boxes.push_back(bbox);
         }
     }
+    for(auto obstacle_itr = field_map_->obstacles.begin(); obstacle_itr != field_map_->obstacles.end(); obstacle_itr++)
+    {
+        geometry_msgs::PointStamped map_point;
+        map_point.header = field_map_->header;
+        map_point.point = *obstacle_itr;
+        geometry_msgs::PointStamped transformed_point;
+        tf2::doTransform(map_point,transformed_point,transform_stamped);
+        double distance = std::sqrt(std::pow(transformed_point.point.x,2)+std::pow(transformed_point.point.y,2));
+        if(detection_range_ > distance)
+        {
+            jsk_recognition_msgs::BoundingBox bbox;
+            bbox.header.frame_id = velodyne_frame_;
+            bbox.header.stamp = now;
+            bbox.pose.position = transformed_point.point;
+            bbox.pose.orientation.x = 0;
+            bbox.pose.orientation.y = 0;
+            bbox.pose.orientation.z = 0;
+            bbox.pose.orientation.w = 1;
+            bbox.dimensions.x = buoy_bbox_size_;
+            bbox.dimensions.y = buoy_bbox_size_;
+            bbox.dimensions.z = buoy_bbox_size_;
+            obstacles.boxes.push_back(bbox);
+        }
+    }
     return obstacles;
 }
 
