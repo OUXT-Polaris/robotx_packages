@@ -34,6 +34,9 @@ private:
     ros::Subscriber white_buoy_sub_;
     void white_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg);
     std::vector<geometry_msgs::Point> white_buoy_positions_;
+    ros::Subscriber obstacle_sub_;
+    void obstacle_callback_(const geometry_msgs::PointStamped::ConstPtr msg);
+    std::vector<geometry_msgs::Point> obstacle_positions_;
     void save_();
     robotx_msgs::FieldMap field_map_;
 };
