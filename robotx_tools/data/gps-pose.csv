@@ -1,4 +1,7 @@
-right_end,21,18,39,N,157,53,20,W,180.0
-gate_front,21,18,38,N,157,53,19,W,180
-avoid_obstacle_right_end,21,18,36,N,157,53,19,W,172.4
-avoid_obstacle_left_end,21,18,34,N,157,53,18,W,160.3
+B-right_end,21,18,39,N,157,53,20,W,180.0
+B-gate_front,21,18,38,N,157,53,19,W,180
+B-avoid_obstacle_right_end,21,18,36,N,157,53,19,W,172.4
+B-avoid_obstacle_left_end,21,18,34,N,157,53,18,W,160.3
+C-right_end,21,18,34,N,157,53,18,W,166.5
+C-gate_front,21,18,33,N,157,53,17,W,164.6
+C-left_end,21,18,30,N,157,53,16,W,162.9
