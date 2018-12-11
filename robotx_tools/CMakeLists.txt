@@ -136,7 +136,10 @@ install(DIRECTORY include/
 )
 
 # Python scripts
-set(PYTHON_SCRIPTS scripts/gps_plotter.py scripts/kml_plotter.py scripts/map_downloader.py scripts/objects_2d_viewer.py scripts/plot_characteristic_curve.py)
+set(PYTHON_SCRIPTS 
+  scripts/gps_plotter.py scripts/kml_plotter.py scripts/map_downloader.py 
+  scripts/objects_2d_viewer.py scripts/plot_characteristic_curve.py
+  scripts/field_map_builder.py)
 foreach(scripts ${PYTHON_SCRIPTS})
   catkin_install_python(PROGRAMS ${scripts}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
