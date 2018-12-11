@@ -1,8 +1,24 @@
 <?xml version="1.0"?>
 <launch>
     <node pkg="rosbag" type="record" name="rosbag_recorder_node" 
-        args="/wam_v/front_camera/front_image_raw /imu /fix /velodyne_points /velodyne2_points 
-        /joint_states /vel
+        args="/wam_v/front_camera/image_rect/compressed /imu/data_raw /imu/mag /imu/temperature /fix 
+        /ai_pilot_velodyne/velodyne_points /front_velodyne/velodyne_points 
+        /cnn_prediction_node/object_roi /joy /cmd_vel
+        /robotx_state_machine_node/control_state_machine/current_state
+        /robotx_state_machine_node/control_state_machine/state_changed
+        /robotx_state_machine_node/control_state_machine/trigger_event
+        /robotx_state_machine_node/mission_state_machine/current_state
+        /robotx_state_machine_node/mission_state_machine/state_changed
+        /robotx_state_machine_node/mission_state_machine/trigger_event
+        /robotx_state_machine_node/navigation_state_machine/current_state
+        /robotx_state_machine_node/navigation_state_machine/state_changed
+        /robotx_state_machine_node/navigation_state_machine/trigger_event
+        /left_engine_position_controller/command
+        /left_thrust_cmd
+        /right_engine_position_controller/command
+        /right_thrust_cmd
+        /obstacle_avoid_node/cmd_vel
+        /carrot_planner_node/cmd_vel
         -o $(find robotx_tools)/rosbag/">
     </node>
 </launch>
