@@ -18,7 +18,11 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   geodesy
   jsk_recognition_msgs
+  dynamic_reconfigure
 )
+
+generate_dynamic_reconfigure_options(
+  cfg/field_frame_publisher.cfg)
 
 find_package(PythonLibs)
 
@@ -95,6 +99,11 @@ add_dependencies(field_map_clicker_node robotx_msgs_generate_messages_cpp ${catk
 target_link_libraries(field_map_clicker_node ${catkin_LIBRARIES})
 clang_format(field_map_clicker_node)
 
+add_executable(field_frame_publisher_node src/field_frame_publisher_node.cpp src/field_frame_publisher.cpp)
+add_dependencies(field_frame_publisher_node robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES} robotx_tools_gencfg)
+target_link_libraries(field_frame_publisher_node ${catkin_LIBRARIES})
+clang_format(field_frame_publisher_node)
+
 add_library(map_editor_plugin
   src/plant_green_buoy.cpp include/plant_green_buoy.h
   src/plant_red_buoy.cpp include/plant_red_buoy.h
@@ -116,7 +125,7 @@ target_link_libraries(state_visualizer_node ${catkin_LIBRARIES})
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node field_map_clicker_node
+install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node field_map_clicker_node field_frame_publisher_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

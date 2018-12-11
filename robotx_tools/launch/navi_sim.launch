@@ -6,6 +6,8 @@
         <rosparam file="$(find robotx_tools)/config/gps_pose_plotter.yaml" command="load"/>
     </node>
 
+    <node name="field_frame_publisher_node" pkg="robotx_tools" type="field_frame_publisher_node" args="" respawn="false" />
+
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/navi_sim.rviz" respawn="false" />
 
     <node name="navi_sim_node" pkg="robotx_tools" type="navi_sim_node" args="" output="screen" respawn="false">
