@@ -3,12 +3,14 @@
 
 //headers in ROS
 #include <ros/ros.h>
+#include <ros/package.h>
 #include <tf2_ros/transform_listener.h>
 
 #include <robotx_msgs/ObjectRegionOfInterestArray.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <vector>
 #include <map>
+#include <fstream>
 
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 

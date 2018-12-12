@@ -7,7 +7,16 @@ field_object_plotter::field_object_plotter() : tf_listener_(tf_buffer_)
 
 field_object_plotter::~field_object_plotter()
 {
-
+    std::ofstream csv_file;
+    std::string path = ros::package::getPath("robotx_tools") +"/data/tmp/field_objects.csv";
+    csv_file.open(path, std::ios::trunc);
+    for(auto object_itr = objects_.begin(); object_itr != objects_.end(); object_itr++)
+    {
+        std::string line_str = object_itr->first + ",map," + std::to_string(object_itr->second.pose.position.x) + ","
+            + std::to_string(object_itr->second.pose.position.y);
+        csv_file << line_str << std::endl;
+    }
+    csv_file.close();
 }
 
 void field_object_plotter::roi_callback_(const robotx_msgs::ObjectRegionOfInterestArray::ConstPtr msg)
@@ -57,10 +66,3 @@ void field_object_plotter::roi_callback_(const robotx_msgs::ObjectRegionOfIntere
     }
     return;
 }
-
-/*
-void field_object_plotter::pose_callback_(const geometry_msgs::PoseStamped::ConstPtr msg)
-{
-
-}
-*/
