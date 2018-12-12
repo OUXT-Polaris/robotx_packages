@@ -121,11 +121,17 @@ target_link_libraries(waypoint_clicker_node ${catkin_LIBRARIES})
 add_executable(state_visualizer_node src/state_visualizer.cpp src/state_visualizer_node.cpp)
 target_link_libraries(state_visualizer_node ${catkin_LIBRARIES})
 
+add_executable(field_object_plotter_node src/field_object_plotter_node.cpp src/field_object_plotter.cpp)
+add_dependencies(field_object_plotter_node robotx_msgs_generate_messages_cpp ${catkin_EXPORTED_LIBRARIES} robotx_tools_gencfg)
+target_link_libraries(field_object_plotter_node ${catkin_LIBRARIES})
+clang_format(field_object_plotter_node)
+
 #############
 ## Install ##
 #############
 # CPP plugin
-install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node field_map_clicker_node field_frame_publisher_node
+install(TARGETS cnn_result_visualizer_node map_editor_plugin navi_sim_node waypoint_clicker_node state_visualizer_node 
+field_object_plotter_node field_map_clicker_node field_frame_publisher_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
