@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="joy" type="joy_node" name="joy_node">
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/ground_station.rviz"/>
+
+    <node name="state_visualizer_node" pkg="robotx_tools" type="state_visualizer_node" args="" output="screen" respawn="false">
+    </node>
+</launch>
