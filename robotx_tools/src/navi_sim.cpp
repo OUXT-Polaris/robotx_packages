@@ -26,7 +26,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     true_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose/truth",1);
     navigation_trigger_event_pub_ = nh_.advertise<robotx_msgs::Event>("/robotx_state_machine_node/navigation_state_machine/trigger_event",1);
     obstacles_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>("/euclidean_clustering_node/bbox",1);
-    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data",1);
+    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data_raw",1);
     twist_cmd_sub_ = nh_.subscribe("/cmd_vel",1,&navi_sim::cmd_vel_callback,this);
     init_pose_sub_ = nh_.subscribe("/initialpose",1,&navi_sim::init_pose_callback_,this);
     field_map_sub_ = nh_.subscribe("/field_map",1,&navi_sim::field_map_callback_,this);

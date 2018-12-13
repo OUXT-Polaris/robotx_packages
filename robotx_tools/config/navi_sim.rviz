@@ -55,6 +55,8 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_link:
+          Value: true
         field:
           Value: true
         map:
@@ -68,6 +70,8 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
+          base_link:
+            {}
           map:
             field:
               {}
@@ -90,13 +94,14 @@ Visualization Manager:
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
-      Enabled: false
+      Enabled: true
       Marker Topic: /waypoint_server_node/marker
       Name: Waypoint
       Namespaces:
-        {}
+        id: true
+        waypoint: true
       Queue Size: 100
-      Value: false
+      Value: true
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
@@ -226,7 +231,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 1.39055443
+      Scale: 2.79053664
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 130.364441
