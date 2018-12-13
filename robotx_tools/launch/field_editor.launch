@@ -1,0 +1,4 @@
+<launch>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotx_tools)/config/field_map_editor.rviz" respawn="false"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world_publisher" args="0 0 0 0 0 0 1 map field"/>
+</launch>

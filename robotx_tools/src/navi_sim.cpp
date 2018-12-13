@@ -26,7 +26,7 @@ navi_sim::navi_sim() : tf_listener_(tf_buffer_)
     true_pose_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/robot_pose/truth",1);
     navigation_trigger_event_pub_ = nh_.advertise<robotx_msgs::Event>("/robotx_state_machine_node/navigation_state_machine/trigger_event",1);
     obstacles_pub_ = nh_.advertise<jsk_recognition_msgs::BoundingBoxArray>("/euclidean_clustering_node/bbox",1);
-    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data",1);
+    imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/imu/data_raw",1);
     twist_cmd_sub_ = nh_.subscribe("/cmd_vel",1,&navi_sim::cmd_vel_callback,this);
     init_pose_sub_ = nh_.subscribe("/initialpose",1,&navi_sim::init_pose_callback_,this);
     field_map_sub_ = nh_.subscribe("/field_map",1,&navi_sim::field_map_callback_,this);
@@ -323,6 +323,30 @@ boost::optional<jsk_recognition_msgs::BoundingBoxArray> navi_sim::get_obstacles_
         geometry_msgs::PointStamped map_point;
         map_point.header = field_map_->header;
         map_point.point = *buoy_itr;
+        geometry_msgs::PointStamped transformed_point;
+        tf2::doTransform(map_point,transformed_point,transform_stamped);
+        double distance = std::sqrt(std::pow(transformed_point.point.x,2)+std::pow(transformed_point.point.y,2));
+        if(detection_range_ > distance)
+        {
+            jsk_recognition_msgs::BoundingBox bbox;
+            bbox.header.frame_id = velodyne_frame_;
+            bbox.header.stamp = now;
+            bbox.pose.position = transformed_point.point;
+            bbox.pose.orientation.x = 0;
+            bbox.pose.orientation.y = 0;
+            bbox.pose.orientation.z = 0;
+            bbox.pose.orientation.w = 1;
+            bbox.dimensions.x = buoy_bbox_size_;
+            bbox.dimensions.y = buoy_bbox_size_;
+            bbox.dimensions.z = buoy_bbox_size_;
+            obstacles.boxes.push_back(bbox);
+        }
+    }
+    for(auto obstacle_itr = field_map_->obstacles.begin(); obstacle_itr != field_map_->obstacles.end(); obstacle_itr++)
+    {
+        geometry_msgs::PointStamped map_point;
+        map_point.header = field_map_->header;
+        map_point.point = *obstacle_itr;
         geometry_msgs::PointStamped transformed_point;
         tf2::doTransform(map_point,transformed_point,transform_stamped);
         double distance = std::sqrt(std::pow(transformed_point.point.x,2)+std::pow(transformed_point.point.y,2));

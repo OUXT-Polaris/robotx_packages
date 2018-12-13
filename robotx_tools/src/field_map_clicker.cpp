@@ -9,11 +9,39 @@ field_map_clicker::field_map_clicker(ros::NodeHandle nh,ros::NodeHandle pnh) : t
     green_buoy_sub_ = nh_.subscribe("/green_buoy/plant/point",10,&field_map_clicker::green_buoy_callback_,this);
     red_buoy_sub_ = nh_.subscribe("/red_buoy/plant/point",10,&field_map_clicker::red_buoy_callback_,this);
     white_buoy_sub_ = nh_.subscribe("/white_buoy/plant/point",10,&field_map_clicker::white_buoy_callback_,this);
+    obstacle_sub_ = nh_.subscribe("/obstacle/plant/point",10,&field_map_clicker::white_buoy_callback_,this);
 }
 
 field_map_clicker::~field_map_clicker()
 {
 
+}
+
+void field_map_clicker::obstacle_callback_(const geometry_msgs::PointStamped::ConstPtr msg)
+{
+    field_map_.header.stamp = msg->header.stamp;
+    geometry_msgs::PointStamped transformed_point;
+    geometry_msgs::TransformStamped transform_stamped;
+    if(msg->header.frame_id != map_frame_)
+    {
+        try
+        {
+            transform_stamped = tf_buffer_.lookupTransform(map_frame_, msg->header.frame_id, ros::Time(0));
+        }
+        catch (tf2::TransformException &ex)
+        {
+            ROS_WARN("%s",ex.what());
+            return;
+        }
+        tf2::doTransform(*msg,transformed_point,transform_stamped);
+    }
+    else
+    {
+        transformed_point = *msg;
+    }
+    field_map_.obstacles.push_back(transformed_point.point);
+    save_();
+    return;
 }
 
 void field_map_clicker::green_buoy_callback_(const geometry_msgs::PointStamped::ConstPtr msg)
@@ -127,5 +155,14 @@ void field_map_clicker::save_()
     }
     csv_file.close();
     ROS_INFO_STREAM("save file to : " << white_buoy_csv);
+    std::string obstacle_csv = ros::package::getPath("robotx_navigation") +"/data/tmp/obstacles.csv";
+    csv_file.open(obstacle_csv, std::ios::trunc);
+    for(auto buoy_itr = field_map_.obstacles.begin(); buoy_itr != field_map_.obstacles.end(); buoy_itr++)
+    {
+        std::string line_str = std::to_string(buoy_itr->x) + "," + std::to_string(buoy_itr->y) + "," + std::to_string(buoy_itr->z);
+        csv_file << line_str << std::endl;
+    }
+    csv_file.close();
+    ROS_INFO_STREAM("save file to : " << obstacle_csv);
     return;
 }
