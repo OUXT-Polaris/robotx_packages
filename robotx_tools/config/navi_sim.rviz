@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /TF1
         - /Pose1
+        - /BoundingBoxArray1
       Splitter Ratio: 0.5
     Tree Height: 749
   - Class: rviz/Selection
@@ -55,8 +56,6 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
-          Value: true
         field:
           Value: true
         map:
@@ -69,12 +68,11 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          base_link:
+        map:
+          field:
             {}
-          map:
-            field:
-              {}
+          world:
+            {}
       Update Interval: 0
       Value: true
     - Class: rviz/MarkerArray
@@ -82,7 +80,8 @@ Visualization Manager:
       Marker Topic: /waypoint_clicker_node/marker
       Name: ClickedWaypoints
       Namespaces:
-        {}
+        id: true
+        waypoint: true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -151,13 +150,15 @@ Visualization Manager:
       Unreliable: false
       Value: false
     - Class: rviz/MarkerArray
-      Enabled: false
+      Enabled: true
       Marker Topic: /field_map/marker
       Name: FielaMap
       Namespaces:
-        {}
+        green_buoy: true
+        red_buoy: true
+        white_buoy: true
       Queue Size: 100
-      Value: false
+      Value: true
     - Class: jsk_rviz_plugin/BoundingBoxArray
       Enabled: true
       Name: BoundingBoxArray
@@ -221,7 +222,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0
+      Angle: -0.0249999426
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
@@ -231,11 +232,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 2.79053664
+      Scale: 2.1194849
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 130.364441
-      Y: 22.6883411
+      X: 117.309143
+      Y: -41.4070969
     Saved: ~
 Window Geometry:
   Displays:
