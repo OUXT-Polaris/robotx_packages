@@ -2,6 +2,7 @@
 
 waypoint_clicker::waypoint_clicker(ros::NodeHandle nh, ros::NodeHandle pnh) : tf_listener_(tf_buffer_)
 {
+    initial_pose_received_ = false;
     nh_ = nh;
     pnh_ = pnh;
     pnh_.param<std::string>("waypoint_frame", waypoint_frame_, "map");
@@ -11,7 +12,10 @@ waypoint_clicker::waypoint_clicker(ros::NodeHandle nh, ros::NodeHandle pnh) : tf
 
 waypoint_clicker::~waypoint_clicker()
 {
-
+    if(initial_pose_received_)
+    {
+        add_goal_pose_(initial_pose_);
+    }
 }
 
 void waypoint_clicker::run()
@@ -73,7 +77,7 @@ void waypoint_clicker::publish_marker_()
     return;
 }
 
-void waypoint_clicker::goal_pose_callback_(const geometry_msgs::PoseStamped::ConstPtr msg)
+void waypoint_clicker::add_goal_pose_(const geometry_msgs::PoseStamped::ConstPtr msg)
 {
     geometry_msgs::PoseStamped transformed_pose;
     if(msg->header.frame_id != waypoint_frame_)
@@ -107,12 +111,25 @@ void waypoint_clicker::goal_pose_callback_(const geometry_msgs::PoseStamped::Con
     std::ofstream csv_file;
     std::string filename = ros::package::getPath("robotx_navigation") +"/data/clicked_waypoints.csv";
     csv_file.open(filename, std::ios::trunc);
+    int i = 0;
     for(auto pose_2d_itr = target_poses_2d_.begin(); pose_2d_itr != target_poses_2d_.end(); pose_2d_itr++)
     {
-        std::string line_str = waypoint_frame_ + "," + std::to_string(pose_2d_itr->x) + "," 
-            + std::to_string(pose_2d_itr->y) + "," + std::to_string(pose_2d_itr->theta);
+        std::string line_str = std::to_string(i) + "," + waypoint_frame_ + "," + std::to_string(pose_2d_itr->x) + "," 
+            + std::to_string(pose_2d_itr->y) + "," + std::to_string(pose_2d_itr->theta) + ",None";
         csv_file << line_str << std::endl;
+        i++;
     }
     csv_file.close();
+    return;
+}
+
+void waypoint_clicker::goal_pose_callback_(const geometry_msgs::PoseStamped::ConstPtr msg)
+{
+    if(!initial_pose_received_)
+    {
+        initial_pose_received_ = true;
+        initial_pose_ = msg;
+    }
+    add_goal_pose_(msg);
     return;
 }

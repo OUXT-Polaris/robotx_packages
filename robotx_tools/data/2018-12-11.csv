@@ -1,0 +1,4 @@
+right_end,21,18,39,N,157,53,20,W,323.1
+gate_front,21,18,38,N,157,53,19,W,232.5
+avoid_obstacle_right_end,21,18,36,N,157,53,19,W,172.4
+avoid_obstacle_left_end,21,18,34,N,157,53,18,W,160.3

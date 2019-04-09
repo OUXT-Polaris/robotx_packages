@@ -17,6 +17,12 @@
     </description>
   </class>
 
+  <class name="robotx_tools/PlantObstacleTool" type="robotx_tools::PlantObstacleTool" base_class_type="rviz::Tool">
+    <description>
+      Tool for plant obstacle
+    </description>
+  </class>
+
   <class name="robotx_tools/LatLonRulerPanel" type="robotx_tools::LatLonRulerPanel" base_class_type="rviz::Panel">
     <description>
       Lat Lon Ruler Panel

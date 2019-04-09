@@ -2,3 +2,11 @@
     local-name: robotx_core
     uri: https://github.com/OUXT-Polaris/robotx_core.git
     version: develop
+- git:
+    local-name: nmea_navsat_driver
+    uri: https://github.com/OUXT-Polaris/nmea_navsat_driver.git
+    version:  master
+- git :
+    local-name : rt_usb_9axisimu_driver
+    uri : https://github.com/rt-net/rt_usb_9axisimu_driver.git
+    version : master

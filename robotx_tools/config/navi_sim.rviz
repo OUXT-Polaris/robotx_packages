@@ -7,6 +7,8 @@ Panels:
         - /Global Options1
         - /Status1
         - /TF1
+        - /Pose1
+        - /BoundingBoxArray1
       Splitter Ratio: 0.5
     Tree Height: 749
   - Class: rviz/Selection
@@ -54,11 +56,9 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
+        field:
           Value: true
         map:
-          Value: true
-        velodyne:
           Value: true
         world:
           Value: true
@@ -68,11 +68,10 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        world:
-          base_link:
-            velodyne:
-              {}
-          map:
+        map:
+          field:
+            {}
+          world:
             {}
       Update Interval: 0
       Value: true
@@ -81,7 +80,8 @@ Visualization Manager:
       Marker Topic: /waypoint_clicker_node/marker
       Name: ClickedWaypoints
       Namespaces:
-        {}
+        id: true
+        waypoint: true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -108,9 +108,9 @@ Visualization Manager:
       Color: 255; 25; 0
       Enabled: true
       Head Length: 5
-      Head Radius: 10
+      Head Radius: 3
       Name: Pose
-      Shaft Length: 10
+      Shaft Length: 5
       Shaft Radius: 1
       Shape: Arrow
       Topic: /robot_pose/truth
@@ -123,23 +123,23 @@ Visualization Manager:
       Foreground Alpha: 0.800000012
       Foreground Color: 25; 255; 240
       Name: OverlayText
-      Overtake Color Properties: false
-      Overtake Position Properties: false
+      Overtake Color Properties: true
+      Overtake Position Properties: true
       Topic: /state_visualizer_node/text
       Value: true
       font: DejaVu Sans Mono
-      height: 128
+      height: 64
       left: 0
       line width: 2
       text size: 12
       top: 0
-      width: 128
+      width: 500
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.100000001
       Class: rviz/Pose
       Color: 255; 170; 0
-      Enabled: true
+      Enabled: false
       Head Length: 3
       Head Radius: 5
       Name: NextWaypoint
@@ -148,7 +148,7 @@ Visualization Manager:
       Shape: Arrow
       Topic: /waypoint_server_node/next_waypoint
       Unreliable: false
-      Value: true
+      Value: false
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /field_map/marker
@@ -181,11 +181,20 @@ Visualization Manager:
       Unreliable: false
       Use Timestamp: false
       Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /gps_pose_marker
+      Name: MarkerArray
+      Namespaces:
+        description: true
+        pose: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: field
     Frame Rate: 30
   Name: root
   Tools:
@@ -202,16 +211,18 @@ Visualization Manager:
     - Class: rviz/PublishPoint
       Single click: true
       Topic: /clicked_point
+    - Class: robotx_tools/PlantGreenBuoyTool
+      Flags: ~
+    - Class: robotx_tools/PlantObstacleTool
+      Flags: ~
     - Class: robotx_tools/PlantRedBuoyTool
       Flags: ~
     - Class: robotx_tools/PlantWhiteBuoyTool
       Flags: ~
-    - Class: robotx_tools/PlantGreenBuoyTool
-      Flags: ~
   Value: true
   Views:
     Current:
-      Angle: 0
+      Angle: -0.0249999426
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
@@ -221,11 +232,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 9.5595274
+      Scale: 2.1194849
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: -5.70384598
-      Y: 99.7837448
+      X: 117.309143
+      Y: -41.4070969
     Saved: ~
 Window Geometry:
   Displays:
